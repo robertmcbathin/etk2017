@@ -10,7 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('index');
+Route::group(['middleware' => 'web'], function () {
+    Route::get('/', [
+	    'uses' => 'SiteController@getIndexPage',
+	    'as' => 'index'
+	]);
+	Route::get('/about',[
+		'uses' => 'SiteController@getAboutPage',
+	    'as' => 'about'
+		]);
 });
+

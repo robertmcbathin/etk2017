@@ -1,3 +1,81 @@
 .navbar .navbar-brand {
 	padding-top: 5px; 
 }
+#landing-title{
+	color: #fff;
+}
+#landing-content{
+	color: #fff;
+}
+/**
+ * GRADIENT
+ */
+#landing-gradient{
+background: linear-gradient(90deg, #413a92, #8dd8f8);
+background-size: 400% 400%;
+
+-webkit-animation: Gradient 30s ease infinite;
+-moz-animation: Gradient 30s ease infinite;
+-o-animation: Gradient 30s ease infinite;
+animation: Gradient 30s ease infinite;
+
+}
+@-webkit-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes Gradient { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+#about-gradient{
+background: linear-gradient(90deg, #413a92, #2d2e2e);
+background-size: 400% 400%;
+
+-webkit-animation: Gradient 30s ease infinite;
+-moz-animation: Gradient 30s ease infinite;
+-o-animation: Gradient 30s ease infinite;
+animation: Gradient 30s ease infinite;
+
+}
+@-webkit-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes Gradient {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes Gradient { 
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+/**
+ * 
+ */
+.page-header .container {
+	padding-top: 30vh;
+}
+#card-xs-img img{
+ width: 60%;
+}

@@ -8,121 +8,76 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
         		</button>
-        		<a class="navbar-brand" href=""><img src="/images/logo.png" height="45px" alt=""></a>
+        		<a class="navbar-brand" href="{{ route('index') }}"><img src="/images/logo.png" height="45px" alt=""></a>
         	</div>
 
         	<div class="collapse navbar-collapse" id="navigation-example">
         		<ul class="nav navbar-nav navbar-right">
     				<li>
-						<a href="index.html">
-							<i class="material-icons">apps</i> Components
+						<a href="{{ route('about') }}">
+							 О компании
 						</a>
 					</li>
 
 					<li class="dropdown">
 						<a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="material-icons">view_day</i> Sections
+							<i class="material-icons">credit_card</i> Карты
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
 								<a href="sections.html#headers">
-									<i class="material-icons">dns</i> Headers
+									<i class="material-icons">account_balance_wallet</i> Электронный кошелек
 								</a>
 							</li>
 							<li>
 								<a href="sections.html#features">
-									<i class="material-icons">build</i> Features
+									<i class="material-icons">local_atm</i> Банковская карта
 								</a>
 							</li>
 							<li>
+								<a href="sections.html#features">
+									<i class="material-icons">directions_bus</i> Проездные
+								</a>
+							</li>
+							<hr>
+							<li>
 								<a href="sections.html#blogs">
-									<i class="material-icons">list</i> Blogs
+									<i class="material-icons">map</i> Где купить?
 								</a>
 							</li>
 							<li>
 								<a href="sections.html#teams">
-									<i class="material-icons">people</i> Teams
+									<i class="material-icons">streetview</i> Пункты пополнения
 								</a>
 							</li>
 							<li>
 								<a href="sections.html#projects">
-									<i class="material-icons">assignment</i> Projects
+									<i class="material-icons">local_library</i> Как пополнить?
 								</a>
 							</li>
-							<li>
-								<a href="sections.html#pricing">
-									<i class="material-icons">monetization_on</i> Pricing
-								</a>
-							</li>
-							<li>
-								<a href="sections.html#testimonials">
-									<i class="material-icons">chat</i> Testimonials
-								</a>
-							</li>
-							<li>
-								<a href="sections.html#contactus">
-									<i class="material-icons">call</i> Contacts
-								</a>
-							</li>
-
 						</ul>
 					</li>
 
 					<li class="dropdown">
 						<a href="index.html#" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="material-icons">view_carousel</i> Examples
+							<i class="material-icons">contact_mail</i> Свяжитесь с нами
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
 								<a href="examples/about-us.html">
-									<i class="material-icons">account_balance</i> About Us
+									<i class="material-icons">insert_comment</i> Вопросы и ответы
 								</a>
 							</li>
 							<li>
 								<a href="examples/blog-post.html">
-									<i class="material-icons">art_track</i> Blog Post
+									<i class="material-icons">create</i> Задать вопрос
 								</a>
 							</li>
 							<li>
 								<a href="examples/blog-posts.html">
-									<i class="material-icons">view_quilt</i> Blog Posts
-								</a>
-							</li>
-							<li>
-								<a href="examples/contact-us.html">
-									<i class="material-icons">location_on</i> Contact Us
-								</a>
-							</li>
-							<li>
-								<a href="examples/landing-page.html">
-									<i class="material-icons">view_day</i> Landing Page
-								</a>
-							</li>
-							<li>
-								<a href="examples/login-page.html">
-									<i class="material-icons">fingerprint</i> Login Page
-								</a>
-							</li>
-							<li>
-								<a href="examples/pricing.html">
-									<i class="material-icons">attach_money</i> Pricing Page
-								</a>
-							</li>
-							<li>
-								<a href="examples/product-page.html">
-									<i class="material-icons">beach_access</i> Product Page
-								</a>
-							</li>
-							<li>
-								<a href="examples/profile-page.html">
-									<i class="material-icons">account_circle</i> Profile Page
-								</a>
-							</li>
-							<li>
-								<a href="examples/signup-page.html">
-									<i class="material-icons">person_add</i> Signup Page
+									<i class="material-icons">place</i> Контакты
 								</a>
 							</li>
 						</ul>
