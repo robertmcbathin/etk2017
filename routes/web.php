@@ -19,5 +19,13 @@ Route::group(['middleware' => 'web'], function () {
 		'uses' => 'SiteController@getAboutPage',
 	    'as' => 'about'
 		]);
+	Route::get('/news', [
+        'uses' => 'SiteController@getNewsPage',
+        'as' => 'news'
+        ]);
+    Route::get('/news/{id}', [
+        'uses' => 'SiteController@getArticle',
+        'as' => 'article'
+        ]);
 });
 

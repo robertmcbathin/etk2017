@@ -54,7 +54,7 @@
 	<script src="/js/jasny-bootstrap.min.js"></script>
 
 	<!-- Plugin For Google Maps -->
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> -->
 
 	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 	<script src="/js/material-kit.js" type="text/javascript"></script>

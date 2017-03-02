@@ -82,3 +82,23 @@ animation: Gradient 30s ease infinite;
 #about-mifare img{
   height: 137px;
 }
+.partner-logo{
+   -webkit-filter: grayscale(100%);  
+}
+.partner-logo:hover{
+   -webkit-filter: grayscale(0%);  
+}
+.partners-block{
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+#map{
+	height: 600px;
+	width: 100%;
+}
+.simple-page-bg{
+	height: 50vh !important;
+}
+.article-page-bg{
+	height: 37vh !important;
+}

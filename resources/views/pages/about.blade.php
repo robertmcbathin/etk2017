@@ -8,7 +8,7 @@
 О компании
 @endsection
 @section('content')
-<div class="page-header header-filter" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_about.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
+<div class="page-header header-filter simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_about.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -36,10 +36,6 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="info">
-                                <div class="icon icon-info">
-                                    <i class="material-icons">airline_seat_recline_normal</i>
-                                </div>
-                                <h4 class="info-title">Это удобно</h4>
                                 <p>Больше не нужно каждый раз искать нужную сумму в куче мелочи в кармане</p>
                             </div>
                         </div>

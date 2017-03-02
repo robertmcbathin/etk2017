@@ -48,9 +48,13 @@
     <div class="main main-raised">
         <div class="section section-basic">
             <div class="container">
-                <div class="title">
-                    <h2>Последние новости</h2>
+               <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2 class="title">Последние новости</h2>
+                    <h5 class="description"><a href="{{ route('news') }}">смотреть все новости</a></h5>
+                    <div class="section-space"></div>
                 </div>
+            </div>
 
                 <div class="space-50"></div>
                 <div class="row">
@@ -68,6 +72,7 @@
                                     </h4>
                                     <small>{{$article->description}}</small>
                                     <div class="footer">
+                                    <small style="float:left;"><a href="{{route('article',['id' => $article->id])}}">ПОДРОБНЕЕ</a></small>
                                      <div class="stats">
                                         <i class="material-icons">schedule</i>{{ $article->created_at }}
                                     </div>
@@ -259,6 +264,123 @@
                 </div>
 
             </div>
+            <!-- partners -->
+                        <div class="row">
+                <div class="features-1">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <h3 class="title">Партнеры</h3>
+                        </div>
+                    </div>
+                    <div class="row partners-block">
+                        <div class="col-md-4">
+                            <div class="info">
+                                <img src="/pictures/partners/sberbank2010.png" alt="Сбербанк России" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="info">
+                               <img src="/pictures/partners/umarsh.png" alt="Удобный маршрут" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="info">
+                               <img src="/pictures/partners/steelbank.png" alt="Стальбанк" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row partners-block">
+                        <div class="col-md-4">
+                            <div class="info">
+                                <img src="/pictures/partners/get.png" alt="Горэлектротранс" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="info">
+                               <img src="/pictures/partners/pochta.png" alt="Почта России" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="info">
+                              <img src="/pictures/partners/chat.png" alt="Чувашавтотранс" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end partners -->
+                   <!-- map block -->
+                   <div class="container-fluid up-a-little hidden-xs" id="map">
+  <script type="text/javascript">
+    function initMap() {
+
+        var myLatLng = {lat: 56.141757, lng: 47.199441};
+          var styleArray = [
+          {
+            featureType: 'all',
+            stylers: [
+              { saturation: -80 }
+            ]
+          },{
+            featureType: 'road.arterial',
+            elementType: 'geometry',
+            stylers: [
+              { hue: '#00ffee' },
+              { saturation: 50 }
+            ]
+          },{
+            featureType: 'poi.business',
+            elementType: 'labels',
+            stylers: [
+              { visibility: 'off' }
+            ]
+          }
+        ];
+        // Create a map object and specify the DOM element for display.
+        mapBlock = document.getElementById('map');
+        var map = new google.maps.Map(mapBlock, {
+          center: myLatLng,
+          scrollwheel: false,
+          styles: styleArray,
+          zoom: 16
+        });
+        var marker = new google.maps.Marker({
+              position: {lat: 56.140717, lng: 47.199408},
+              map: map
+            });
+        var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h2 id="firstHeading" class="firstHeading">Московский проспект, д.41/1, помещение 1</h2>'+
+      '<i>Остановка <strong>улица Кривова</strong></i>' +
+      '<div id="bodyContent">'+
+      '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+      '<p>Электронная почта: Uluru, <a href="mailto:transkarta@bk.ru">'+
+      'transkarta@bk.ru</a> </p>'+
+      '<p>Режим работы:<strong> с 6 по 19</strong> число каждого месяца:<br> Пн-Пт <strong>c 8:00 до 17:00</strong>, обед с 12 до 13</p>'+
+       '<p><strong> с 20 по 5</strong> число:<br> Пн-Пт <strong>c 8:00 до 17:30</strong>, без обеда. Сб: <strong>с 9:00 до 15:00</strong></p>'+
+      '</div>'+
+      '</div>';
+
+      var infowindow = new google.maps.InfoWindow({
+        position: {lat: 56.140717, lng: 47.199408},
+        content: contentString
+      });
+      infowindow.open(map,marker);
+             marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  }); 
+      }
+      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsfO8qFpSStho6O8-HQwpZEkaOv1ynK5A&callback=initMap"
+        async defer></script>
+</div>
+                   <!-- end map block -->
 
 
         </div>
