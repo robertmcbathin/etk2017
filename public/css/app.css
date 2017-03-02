@@ -79,3 +79,6 @@ animation: Gradient 30s ease infinite;
 #card-xs-img img{
  width: 60%;
 }
+#about-mifare img{
+  height: 137px;
+}
