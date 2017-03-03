@@ -27,5 +27,9 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getArticle',
         'as' => 'article'
         ]);
+    Route::get('/deposit-points', [
+        'uses' => 'SiteController@getDepositPointsPage',
+        'as' => 'deposit-points'
+        ]);
 });
 

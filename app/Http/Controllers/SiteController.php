@@ -60,4 +60,7 @@ class SiteController extends Controller
     		'article' => $article
     		]);
     }
+    public function getDepositPointsPage(){
+        return view('pages.deposit-points');
+    }
 }
