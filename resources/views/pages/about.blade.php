@@ -3,7 +3,9 @@
 @section('description')
 ООО "Единая транспортная карта" - оператор безналичной оплаты проезда в общественном транспорте города Чебоксары 
 @endsection
-
+@section('keywords')
+ЕТК Чебоксары
+@endsection
 @section('title')
 О компании
 @endsection

@@ -3,12 +3,12 @@
 @section('description')
 {{ $article->description }}
 @endsection
-
+{{ $article->title }}
 @section('title')
 {{ $article->title }}
 @endsection
 @section('content')
-<div class="page-header article-page-bg" data-parallax="active" style="background-image: url(&quot;{{$article->image}}&quot;); transform: translate3d(0px, 0px, 0px); -webkit-filter: blur(15px); filter: blur(15px);">
+<div class="page-header article-page-bg" data-parallax="active" style="background-image: url(&quot;{{$article->image}}&quot;); transform: translate3d(0px, 0px, 0px); -webkit-filter: blur(15px); filter: blur(15px); -moz-filter: blur(15px); -o-filter: blur(15px);">
 
 </div>
 <div class="main main-raised">

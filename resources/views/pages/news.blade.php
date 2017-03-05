@@ -3,7 +3,9 @@
 @section('description')
 Новости ООО "ЕТК" 
 @endsection
+@section('keywords')
 
+@endsection
 @section('title')
 Новости
 @endsection

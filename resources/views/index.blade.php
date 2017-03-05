@@ -3,12 +3,14 @@
 @section('description')
 ООО "Единая транспортная карта" - оператор безналичной оплаты проезда в общественном транспорте города Чебоксары 
 @endsection
-
+@section('keywords')
+етк чебоксары официальный сайт, етк чебоксары, единая транспортная карта чебоксары
+@endsection
 @section('title')
 Единая транспортная карта
 @endsection
 @section('content')
-<div class="page-header " id="landing-gradient" data-parallax="active">
+<div class="page-header header-filter"  data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -29,11 +31,11 @@
                             </div>
                             <div class="col-md-7">
                                 <div class="content">
-                                    <h4 class="card-title" id="landing-title">Электронный кошелек</h4>
+                                    <h3 class="card-title" id="landing-title">Электронный кошелек</h3>
 
-                                    <p class="card-description" id="landing-content">
+                                    <h5 class="card-description" id="landing-content">
                                      Оплачивайте проезд в общественном транспорте со скидкой!
-                                 </p>
+                                 </h5>
 
                                  <div class="footer text-right">
                                     <a href="sections.html#pablo" class="btn btn-primary landing-link">Подробнее...</a>

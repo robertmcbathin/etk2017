@@ -10,6 +10,7 @@
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	<meta name="description" content="@yield('description')"/>
+	<meta name="keywords" content="@yield('keywords')"/>
 	<!--     Fonts and icons     -->
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
@@ -18,10 +19,6 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/material-kit.css" rel="stylesheet"/>
     <link href="/css/app.css" rel="stylesheet"/>
-
-	<!-- CSS Just for demo purpose, don't include it in your project -->
-	<!--<link href="assets/assets-for-demo/vertical-nav.css" rel="stylesheet" />-->
-	<!--<link href="assets/assets-for-demo/demo.css" rel="stylesheet" /> -->
 
 
 </head>
@@ -38,52 +35,32 @@
 	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="/js/material.min.js"></script>
 
-	<!--	Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-	<script src="/js/nouislider.min.js" type="text/javascript"></script>
-
-	<!--	Plugin for the Datepicker, full documentation here: http://www.eyecon.ro/bootstrap-datepicker/ -->
-	<script src="/js/bootstrap-datepicker.js" type="text/javascript"></script>
-
-	<!--	Plugin for Select Form control, full documentation here: https://github.com/FezVrasta/dropdown.js -->
-	<script src="/js/jquery.dropdown.js" type="text/javascript"></script>
-
-	<!--	Plugin for Tags, full documentation here: http://xoxco.com/projects/code/tagsinput/  -->
-	<script src="/js/jquery.tagsinput.js"></script>
-
-	<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-	<script src="/js/jasny-bootstrap.min.js"></script>
-
-	<!-- Plugin For Google Maps -->
-	<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> -->
-
 	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 	<script src="/js/material-kit.js" type="text/javascript"></script>
-
-	<!-- Fixed Sidebar Nav - JS For Demo Purpose, Don't Include it in your project -->
-	<script src="/assets/assets-for-demo/modernizr.js" type="text/javascript"></script>
-	<script src="/assets/assets-for-demo/vertical-nav.js" type="text/javascript"></script>
-
 	<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter42928324 = new Ya.Metrika({
+                    id:42928324,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true
+                });
+            } catch(e) { }
+        });
 
-		$().ready(function(){
-			$('#sliderRegular').noUiSlider({
-	            start: 40,
-	            connect: "lower",
-	            range: {
-	                min: 0,
-	                max: 100
-	            }
-	        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
 
-	        $('#sliderDouble').noUiSlider({
-	            start: [20, 60] ,
-	            connect: true,
-	            range: {
-	                min: 0,
-	                max: 100
-	            }
-	        });
-
-		});
-	</script>
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/42928324" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </html>

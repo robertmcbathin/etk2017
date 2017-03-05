@@ -93,7 +93,7 @@ animation: Gradient 30s ease infinite;
 	margin-bottom: 2em;
 }
 #map{
-	height: 722px;
+	height: 500px;
 	width: 100%;
 }
 .simple-page-bg{
@@ -102,12 +102,27 @@ animation: Gradient 30s ease infinite;
 .article-page-bg{
 	height: 37vh !important;
 }
+.card-page-bg{
+	height: 37vh !important;
+}
+.contactus-2{
+	height: 500px;
+}
+
+
+
+
 @media (max-width: 991px){
 .page-header {
     height: auto;
-    min-height: 54vh;}
+    min-height: 54vh;
+}
 .presentation-page .page-header, .index-page .page-header {
     height: 105vh;
-    overflow: hidden;
+    overflow: hidden;   
+}
+.footer-map {
+    background-color: #FFFFFF;
+    margin-top: 340px;
 }
 }
