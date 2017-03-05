@@ -38,7 +38,7 @@
                                  </h5>
 
                                  <div class="footer text-right">
-                                    <a href="sections.html#pablo" class="btn btn-primary landing-link">Подробнее...</a>
+                                    <a href="{{route('cards.ewallet')}}" class="btn btn-primary landing-link">Подробнее...</a>
                                 </div>
                             </div>
                         </div>
