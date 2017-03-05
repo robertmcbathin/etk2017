@@ -3,7 +3,9 @@
 @section('description')
 {{ $article->description }}
 @endsection
+@section('keywords')
 {{ $article->title }}
+@endsection
 @section('title')
 {{ $article->title }}
 @endsection
