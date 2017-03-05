@@ -70,7 +70,7 @@
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href="index.html#pablo">{{ $article->title }}</a>
+                                        <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
                                     </h4>
                                     <small>{{$article->description}}</small>
                                     <div class="footer">
@@ -100,12 +100,12 @@
 
                 <div class="col-md-5 col-md-offset-1">
                     <div class="card card-background" style="background-image: url('/images/e-wallet.jpg')">
-                        <a href="#pablo">
+                        <a href="{{route('cards.ewallet')}}">
 
                         </a>
                         <div class="content">
                             <label class="label label-rose">На предъявителя</label>
-                            <a href="#pablo">
+                            <a href="{{route('cards.ewallet')}}">
                                 <h3 class="card-title">Электронный кошелек</h3>
                             </a>
                             <p class="card-description">
@@ -194,11 +194,11 @@
 
                 <div class="col-md-5">
                     <div class="card card-background" style="background-image: url('/images/tickets.jpg')">
-                        <a href="#pablo">
+                        <a href="{{route('cards.travel_cards')}}">
                         </a>
                         <div class="content">
                             <label class="label label-rose">Именные</label>
-                            <a href="#pablo">
+                            <a href="{{route('cards.travel_cards')}}">
                                 <h2 class="card-title">Проездные</h2>
                             </a>
                             <p class="card-description">
@@ -214,12 +214,12 @@
 
                 <div class="col-md-5 col-md-offset-1">
                     <div class="card card-background" style="background-image: url('/images/sber.jpg')">
-                        <a href="#pablo">
+                        <a href="{{route('cards.sbercard')}}"">
 
                         </a>
                         <div class="content">
                             <label class="label label-rose">Именная</label>
-                            <a href="#pablo">
+                            <a href="{{route('cards.sbercard')}}">
                                 <h3 class="card-title">Банковская транспортная карта</h3>
                             </a>
                             <p class="card-description">
