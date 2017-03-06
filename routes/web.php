@@ -107,4 +107,61 @@ Route::group(['middleware' => 'web'], function () {
         'as' => 'ask.add.post'
         ]);
 });
+Route::group(['prefix' => 'sudo'], function () {
+    Route::get('login', function ()    {
+        return view('sudo.login');
+    })->name('sudo.login');
+    Route::post('login', [
+        'uses' => 'UserController@postLogin',
+        'as' => 'sudo.login.post' 
+        ]);
+});
+Route::group(['middleware' => 'auth'], function()
+{
+Route::group(['prefix' => 'sudo'], function () {
+    Route::get('dashboard', [
+        'uses' => 'SudoController@getDashboard',
+        'as' => 'sudo.pages.dashboard'
+        ]);
+    Route::get('articles', [
+        'uses' => 'SudoController@getArticlesPage',
+        'as' => 'sudo.pages.articles'
+        ]);
+    Route::get('logout', [
+        'uses' => 'UserController@postLogout',
+        'as' => 'sudo.logout.post' 
+        ]);
+    Route::get('/articles/add',[
+        'uses' => 'SudoController@getAddArticle',
+        'as' => 'sudo.articles.add.get'
+        ]);
+    Route::post('/articles/add',[
+        'uses' => 'SudoController@postAddArticle',
+        'as' => 'sudo.articles.add.post'
+        ]);
+
+    Route::get('/articles/edit/{id}',[
+        'uses' => 'SudoController@getEditArticle',
+        'as' => 'sudo.articles.edit.get'
+        ]);
+    Route::post('/articles/edit',[
+        'uses' => 'SudoController@postEditArticle',
+        'as' => 'sudo.articles.edit.post'
+        ]);
+    Route::post('/articles/delete/{id}',[
+        'uses' => 'SudoController@postDeleteArticle',
+        'as' => 'sudo.articles.delete'
+        ]);
+    /**
+     * QUESTIONS    
+     */
+    Route::get('questions', [
+        'uses' => 'SudoController@getQuestionsPage',
+        'as' => 'sudo.pages.questions'
+        ]);
+    /**
+     * 
+     */
+});
+});
 
