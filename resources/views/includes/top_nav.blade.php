@@ -81,7 +81,11 @@
 							</li>
 						</ul>
 					</li>
-
+					<li>
+						<a href="{{route('balance')}}"  class="btn btn-rose btn-round">
+							<i class="material-icons">account_balance_wallet</i> Проверка баланса
+						<div class="ripple-container"></div></a>
+					</li>
         		</ul>
         	</div>
     	</div>

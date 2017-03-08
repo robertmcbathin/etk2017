@@ -106,6 +106,10 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@postQuestion',
         'as' => 'ask.add.post'
         ]);
+    Route::get('/balance', [
+        'uses' => 'PaymentController@getBalancePage',
+        'as' => 'balance'
+        ]);    
 });
 Route::group(['prefix' => 'sudo'], function () {
     Route::get('login', function ()    {
