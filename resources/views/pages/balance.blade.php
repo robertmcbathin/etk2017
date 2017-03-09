@@ -1,3 +1,4 @@
+<?php dd($request); ?>
 @extends('layouts.master')
 
 @section('description')
