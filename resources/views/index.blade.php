@@ -123,7 +123,7 @@
                         <div class="description">
                             <h4 class="info-title">Стоимость</h4>
                             <p class="description">
-                               70 рублей
+                               100 рублей
                             </p>
                         </div>
                     </div>
