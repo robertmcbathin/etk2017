@@ -64,6 +64,17 @@
 							<b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
+						    <li>
+								<a href="{{route('news')}}">
+									<i class="material-icons">dashboard</i> Новости
+								</a>
+							</li>
+							<li>
+								<a href="{{route('static_articles')}}">
+									<i class="material-icons">speaker_notes</i> Статьи
+								</a>
+							</li>
+							<hr>
 							<li>
 								<a href="{{route('faq')}}">
 									<i class="material-icons">insert_comment</i> Вопросы и ответы

@@ -23,6 +23,10 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getNewsPage',
         'as' => 'news'
         ]);
+    Route::get('/static_articles', [
+        'uses' => 'SiteController@getStaticArticlesPage',
+        'as' => 'static_articles'
+        ]);
     Route::get('/news/{id}', [
         'uses' => 'SiteController@getArticle',
         'as' => 'article'
@@ -109,7 +113,16 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/balance', [
         'uses' => 'PaymentController@getBalancePage',
         'as' => 'balance'
-        ]);    
+        ]);
+        /**
+         * STATIC ARTICLES
+         */
+    Route::get('/static_articles/is-it-safely', function(){
+        return view('pages.static_articles.is-it-safely');
+    });
+        /**
+         * 
+         */
 });
 Route::group(['prefix' => 'sudo'], function () {
     Route::get('login', function ()    {

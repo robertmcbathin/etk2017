@@ -32,6 +32,9 @@ class SiteController extends Controller
 public function getLawPage(){
     return view('pages.law');
 }
+public function getStaticArticlesPage(){
+    return view('pages.static_articles.static_articles');
+}
 public function getNewsPage(){
    $articles = DB::table('articles')
    ->where('published', '=', 1)

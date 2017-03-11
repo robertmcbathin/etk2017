@@ -52,6 +52,16 @@
 	            					<div class="col-md-2">
 	            						<h5>Связь с нами</h5>
 	            						<ul class="links-vertical">
+	            						    <li>
+	            								<a href="{{route('news')}}">
+	            								   Новости
+	            								</a>
+	            							</li>
+	            							<li>
+	            								<a href="{{route('static_articles')}}">
+	            									Статьи
+	            								</a>
+	            							</li>
 	            							<li>
 	            								<a href="{{route('faq')}}">
 	            								   Вопросы и ответы
