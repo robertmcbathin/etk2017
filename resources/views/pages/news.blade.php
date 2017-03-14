@@ -32,7 +32,7 @@
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href="index.html#pablo">{{ $article->title }}</a>
+                                        <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
                                     </h4>
                                     <small>{{$article->description}}</small>
                                     <div class="footer">
