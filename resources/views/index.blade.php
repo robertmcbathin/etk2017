@@ -11,7 +11,7 @@
 @endsection
 @section('content')
 <div class="page-header header-filter"  data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
-    <div class="container">
+<!--     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="card card-profile card-plain">
@@ -39,6 +39,51 @@
 
                                  <div class="footer text-right">
                                     <a href="{{route('cards.ewallet')}}" class="btn btn-primary landing-link">Подробнее...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+            <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="card card-profile card-plain">
+                    <div class="col-md-5 hidden-xs">
+                        <div >
+                            <a href="">
+                                <img src="/images/travel-card-action.png">
+                            </a>
+                            <div class="ripple-container"></div></div>
+                        </div>
+                        <div class="col-md-5 visible-xs" id="card-xs-img">
+                            <div >
+                                <a href="">
+                                    <img src="/images/travel-card-action.png">
+                                </a>
+                                <div class="ripple-container"></div></div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="content">
+                                    <h3 class="card-title" id="landing-title">Акция!</h3>
+
+                                    <h5 class="card-description" id="landing-content">
+                                     До 5 апреля 2017 года Вы можете приобрести электронный проездной на троллейбус прямо у кондуктора! <br>
+                                     <strong>Платить за саму карту не Вам не придется! </strong>
+                                     <hr>
+                                     <i>Осталось дней: </i>
+                                     <script>
+                                         var currentDate = new Date();
+                                         var endDate = new Date(2017,3,5);
+                                         remainDays = endDate - currentDate;
+                                         console.log(endDate + '-' + currentDate)
+                                         document.write(Math.round(remainDays/1000/60/60/24));
+                                     </script>
+                                 </h5>
+
+                                 <div class="footer text-right">
+                                    <a href="/news/7" class="btn btn-primary landing-link">Подробнее...</a>
                                 </div>
                             </div>
                         </div>
