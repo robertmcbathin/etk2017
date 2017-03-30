@@ -55,6 +55,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                      <a href="{{route('deposit-points-list')}}" style="float:right;">Смотреть весь список</a>
+                    </div>
                 </div>
 
             </form>

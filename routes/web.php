@@ -39,6 +39,14 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getSellPointsPage',
         'as' => 'sell-points'
         ]);
+    Route::get('/deposit-points-list', [
+        'uses' => 'SiteController@getDepositPointsListPage',
+        'as' => 'deposit-points-list'
+        ]);
+    Route::get('/sell-points-list', [
+        'uses' => 'SiteController@getSellPointsListPage',
+        'as' => 'sell-points-list'
+        ]);
     Route::get('/how-to-refill', [
         'uses' => 'SiteController@getHowToRefillPage',
         'as' => 'how-to-refill'

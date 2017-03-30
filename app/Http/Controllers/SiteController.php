@@ -75,6 +75,12 @@ public function getNewsPage(){
    public function getSellPointsPage(){
        return view('pages.sale-points');
    }
+   public function getDepositPointsListPage(){
+    return view('pages.deposit-points-list');
+   }
+   public function getSellPointsListPage(){
+       return view('pages.sale-points-list');
+   }
    public function getHowToRefillPage(){
        return view('pages.how_to_refill');
    }
