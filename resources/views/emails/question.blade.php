@@ -11,9 +11,9 @@
        <!--[if gte mso 9]>
 <table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0"><tr><td>
 <![endif]-->
-<table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0; " width="100%" bgcolor="#05cc70">
+<table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0; " width="100%" bgcolor="#ffffff">
   <tr>
-    <td align="center">
+    <td align="left">
         <!--[if gte mso 9]>
         <table border="0" cellpadding="0" cellspacing="0">
         <tr><td align="center">
@@ -97,9 +97,9 @@
        <!--[if gte mso 9]>
 <table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0"><tr><td>
 <![endif]-->
-<table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0;" width="100%" bgcolor="#05cc70">
+<table border="0" cellpadding="0" cellspacing="0" style="margin:0; padding:0;" width="100%" bgcolor="#ffffff">
   <tr>
-    <td align="center">
+    <td align="right">
         <!--[if gte mso 9]>
         <table border="0" cellpadding="0" cellspacing="0">
         <tr><td align="center">
