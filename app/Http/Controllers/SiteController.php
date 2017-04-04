@@ -61,12 +61,16 @@ public function getNewsPage(){
        ->where('id', $id)
        ->where('published', '1')
        ->first();
+       $links = DB::table('ETK_article_links')
+                  ->where('article_id', '=', $id)
+                  ->get();
        Carbon::setLocale('ru');
        $non_formatted_date = new Carbon($article->created_at);
        $date = $non_formatted_date->format('j/m/Y');
        $article->created_at = $date;
        return view('pages.article',[
-          'article' => $article
+          'article' => $article,
+          'links' => $links
           ]);
    }
    public function getDepositPointsPage(){
