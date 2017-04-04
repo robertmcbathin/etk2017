@@ -126,10 +126,10 @@ animation: Gradient 30s ease infinite;
     margin-top: 340px;
 }
 }
-/* header-filter orange */
+/* header-filter orange 
 .presentation-page .header-filter:after, .index-page .header-filter:after {
     background: rgba(132, 13, 121, 0.88);
     background: linear-gradient(45deg, rgba(239, 165, 57, 0.88) 0%, rgba(208, 44, 180, 0.31) 100%);
     background: -moz-linear-gradient(135deg, rgba(239, 165, 57, 0.88) 0%, rgba(208, 44, 180, 0.31) 100%);
     background: -webkit-linear-gradient(135deg, rgba(239, 165, 57, 0.88) 0%, rgba(208, 44, 180, 0.31) 100%);
-}
+}*/
