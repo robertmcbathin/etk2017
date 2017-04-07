@@ -69,11 +69,11 @@
                                     <div class="form-group label-floating is-empty">
                                         <label class="control-label">Сообщение</label>
                                         <textarea name="content" class="form-control" id="content" rows="6" minlength="1" maxlength="4096"></textarea>
+                                        {!! app('captcha')->display(); !!}
                                         <span class="material-input"></span></div>
                                         <div class="submit text-center">
                                             <input type="submit" class="btn btn-primary btn-raised btn-round" value="Отправить">
                                         </div>
-                                        {!! app('captcha')->display(); !!}
                                         {{csrf_field()}}
                                     </form>
                                 </div>
