@@ -156,7 +156,8 @@ public function getNewsPage(){
         $this->validate($request,[
             'name' => 'required|min:1|max:100',
             'email' => 'required|min:1|max:100',
-            'content' => 'required|min:1'
+            'content' => 'required|min:1',
+            'g-recaptcha-response' => 'required|captcha'
             ]);
         $name = $request['name'];
         $email = $request['email'];

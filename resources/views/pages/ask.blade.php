@@ -73,6 +73,7 @@
                                         <div class="submit text-center">
                                             <input type="submit" class="btn btn-primary btn-raised btn-round" value="Отправить">
                                         </div>
+                                        {!! app('captcha')->display(); !!}
                                         {{csrf_field()}}
                                     </form>
                                 </div>
