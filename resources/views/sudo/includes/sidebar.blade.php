@@ -8,7 +8,7 @@ $username = Auth::user()->name;
         Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
             <div class="logo">
-                <a href="#" class="simple-text">
+                <a href="/" target="_blank" class="simple-text">
                     <img src="/admin/img/logo.png" height="50px" alt="">
                 </a>
             </div>
@@ -29,9 +29,6 @@ $username = Auth::user()->name;
                         </a>
                         <div class="collapse" id="collapseExample">
                             <ul class="nav">
-                                <li>
-                                    <a href="dashboard.html#">Настройки</a>
-                                </li>
                                 <li>
                                     <a href="{{route('sudo.logout.post')}}">Выйти</a>
                                 </li>
@@ -61,20 +58,42 @@ $username = Auth::user()->name;
                                 <li>
                                     <a href="{{ route('sudo.pages.questions') }}">Вопросы</a>
                                 </li>
-                                <li>
-                                    <a href="pages/login.html">Пункты продаж</a>
+                             <!--   <li>
+                                    <a href="#">Пункты продаж</a>
                                 </li>
                                 <li>
-                                    <a href="pages/register.html">Пункты пополнения</a>
+                                    <a href="#">Пункты пополнения</a>
                                 </li>
                                 <li>
-                                    <a href="pages/lock.html">Карты</a>
+                                    <a href="#">Карты</a>
                                 </li>
                                 <li>
-                                    <a href="pages/user.html">Пользователи</a>
-                                </li>
+                                    <a href="#">Пользователи</a>
+                                </li>-->
                             </ul>
                         </div>
+
+                    </li>
+                    <li>
+                        <a data-toggle="collapse" href="dashboard.html#service">
+                            <i class="material-icons">contacts</i>
+                            <p>Сервис
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <div class="collapse" id="service">
+                            <ul class="nav">
+                                <li>
+                                    <a href="">Пополнение</a>
+                                </li>
+                                @can('show-import', App\User::class)
+                                <li>
+                                    <a href="">Импорт</a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </div>
+                       
                     </li>
                     <li>
                         <a href="charts.html">

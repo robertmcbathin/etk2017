@@ -18,7 +18,7 @@
 
 </head>
 <body class="login-page">
-        <div class="page-header header-filter" id="gradient">
+        <div class="page-header header-filter" style="background-image: url(&quot;/admin/img/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px); ">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
