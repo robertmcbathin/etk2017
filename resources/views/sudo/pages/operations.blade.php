@@ -41,7 +41,6 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center">#</th>
                                                     <th>Номер карты</th>
                                                     <th>Транзакция</th>
                                                     <th>Терминал</th>
@@ -49,15 +48,8 @@
                                                     <th class="text-right">Дата</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-center">1</td>
-                                                    <td>Moleskine Agenda</td>
-                                                    <td>Office</td>
-                                                    <td>25</td>
-                                                    <td class="text-right">€ 49</td>
-                                                    <td class="text-right">€ 1,225</td>
-                                                </tr>
+                                            <tbody id="operations-results">
+                                                
                                             </tbody>
                                         </table>
                                     </div>
