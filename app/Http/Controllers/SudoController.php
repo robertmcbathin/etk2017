@@ -127,4 +127,20 @@ class SudoController extends Controller
             'questions' => $questions
             ]);
     }
+    public function getOperationsPage(){
+        return view('sudo.pages.operations');
+    }
+
+    public function ajaxCheckCardOperations(Request $request){
+      $num   = $request['num'];
+
+      $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+                ->where('card_number', 'like',  $num)
+                ->get();
+      if ($operations == NULL)
+        return response()->json(['message' => 'error'],200);
+      if ($operations !== NULL)
+        return response()->json(['message' => 'success', 'data' => $operations],200);
+
+    }
 }

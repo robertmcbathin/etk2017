@@ -177,6 +177,11 @@ Route::group(['prefix' => 'sudo'], function () {
         'uses' => 'SudoController@postDeleteArticle',
         'as' => 'sudo.articles.delete'
         ]);
+
+    Route::get('/operations',[
+        'uses' => 'SudoController@getOperationsPage',
+        'as' => 'sudo.pages.operations'
+        ]);
     /**
      * QUESTIONS    
      */
@@ -187,6 +192,10 @@ Route::group(['prefix' => 'sudo'], function () {
     /**
      * 
      */
+        Route::post('/sudo/ajax/check_card_operations', [ 'uses' =>
+        'SudoController@ajaxCheckCardOperations',
+        'as' => 'ajax.check_card_operations'
+        ]);
 });
 });
 

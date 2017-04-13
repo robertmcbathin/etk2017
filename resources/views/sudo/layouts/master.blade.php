@@ -80,4 +80,26 @@
         demo.initVectorMap();
     });
 </script>
+<script>
+      $('#card_number').on('keyup', function(){
+        if ($('#card_number').val().length > 5) {
+        $.ajax({
+          method: 'POST',
+          url: url,
+          data: { 
+            num: $('#card_number').val(), 
+            _token: token}
+        })
+        .done(function(msg){
+          console.log(JSON.stringify(msg));
+          if ((msg['message']) == 'error'){
+          };
+          if ((msg['message']) == 'success'){
+          };
+        });
+        } else {
+            console.log('Oops...');
+        }
+      });
+    </script>
 </html>

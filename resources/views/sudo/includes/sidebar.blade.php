@@ -84,7 +84,7 @@ $username = Auth::user()->name;
                         <div class="collapse" id="service">
                             <ul class="nav">
                                 <li>
-                                    <a href="">Пополнение</a>
+                                    <a href="{{ route('sudo.pages.operations') }}">Операции по картам</a>
                                 </li>
                                 @can('show-import', App\User::class)
                                 <li>
