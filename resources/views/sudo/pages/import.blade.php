@@ -39,6 +39,17 @@
                                     </div>
                      </div>
          @endif
+                         @if (Session::has('add-transactions-fail'))
+                     <div class="row">
+                         <div class="alert alert-success">
+                                        <button type="button" aria-hidden="true" class="close">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                        <span>
+                                            Залупа</span>
+                                    </div>
+                     </div>
+         @endif
             </div>
         </div>
         <footer class="footer">

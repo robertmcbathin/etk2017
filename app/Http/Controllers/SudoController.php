@@ -134,21 +134,23 @@ class SudoController extends Controller
         return view('sudo.pages.import');
     }
     public function postImportTransactions(Request $request){
-        $this->validate($request,[
-            'sb-transaction' => 'required'
-        ]);
+      //  $this->validate($request,[
+      //      'sb-transaction' => 'required'
+      //  ]);
 
         $transactions = $request->file('sb-transaction');
+        dd($request->file('sb-transaction'));
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
         $content = "";
-        if ($transactions){
+        if (File::exists($transactions)){
             Storage::disk('public')->put($transaction_name, File::get($transaction));
             $reader = CsvReader::open($transactions);
             while (($line = $reader->readLine()) !== false) {
-              print_r($line);
+              $content .= $line;
             }
-          }
             Session::flash('add-transactions-ok', $content);
+            $reader->close();
+          } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
     }
 
@@ -157,7 +159,7 @@ class SudoController extends Controller
 
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
                 ->where('card_number', 'like',  $num)
-                ->orderBy('transaction_date', 'ASC')
+                ->orderBy('transaction_date', 'DESC')
                 ->get();
       if ($operations == NULL)
         return response()->json(['message' => 'error'],200);
