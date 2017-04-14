@@ -88,7 +88,7 @@ $username = Auth::user()->name;
                                 </li>
                                 @can('show-import', App\User::class)
                                 <li>
-                                    <a href="">Импорт</a>
+                                    <a href="{{ route('sudo.pages.import') }}">Импорт</a>
                                 </li>
                                 @endcan
                             </ul>

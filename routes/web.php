@@ -182,6 +182,14 @@ Route::group(['prefix' => 'sudo'], function () {
         'uses' => 'SudoController@getOperationsPage',
         'as' => 'sudo.pages.operations'
         ]);
+    Route::get('/import',[
+        'uses' => 'SudoController@getImportPage',
+        'as' => 'sudo.pages.import'
+        ]);
+    Route::post('/import/transactions',[
+        'uses' => 'SudoController@postImportTransactions',
+        'as' => 'sudo.import.transactions.post'
+        ]);
     /**
      * QUESTIONS    
      */
@@ -192,7 +200,7 @@ Route::group(['prefix' => 'sudo'], function () {
     /**
      * 
      */
-        Route::post('/sudo/ajax/check_card_operations', [ 'uses' =>
+    Route::post('/sudo/ajax/check_card_operations', [ 'uses' =>
         'SudoController@ajaxCheckCardOperations',
         'as' => 'ajax.check_card_operations'
         ]);

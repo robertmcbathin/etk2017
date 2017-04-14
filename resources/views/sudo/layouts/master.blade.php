@@ -92,20 +92,17 @@
         })
         .done(function(msg){
           console.log(JSON.stringify(msg));
-          console.log(typeof msg);
           if ((msg['message']) == 'error'){
 
           };
           if ((msg['message']) == 'success'){
-            html = '<tbody>';
-            for (var key in msg){
-                console.log(key + ' ' + msg[key]);
-            }
+            html = '<tbody id=\"operations-results\">';
             for (var i = 0; i <= msg['data'].length - 1; i++) {
-                html += "<tr><td>" + msg.data.card_number + "</td><td>Office</td><td>25</td><td class=\"text-right\">€ 49</td><td class=\"text-right\">€ 1,225</td></tr>";
+                html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
             }
             html += '</tbody>';
             $('#operations-results').replaceWith(html);
+            html = '';
           };
         });
         } else {
