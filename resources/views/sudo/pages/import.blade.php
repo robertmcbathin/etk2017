@@ -18,10 +18,10 @@
                     <div class="card-content">
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3">
-                              <form action="{{ route('sudo.import.transactions.post')}}" method="POST">
-                                  <input type="file" name="sb-transaction" />
+                              <form action="{{ route('sudo.import.transactions.post')}}" method="POST" enctype="multipart/form-data">
+                                  <input type="file" name="sb-transaction">
                                   {{csrf_field()}}
-                                  <input type="submit" class="btn btn-fill btn-rose" value="Загрузить">
+                                  <button type="submit" class="btn btn-fill btn-rose">Обработать</button>
                               </form>
                             </div>
                         </div>

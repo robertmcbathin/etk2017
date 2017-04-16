@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use Session;
+use CsvReader;
 use \App\Article;
 use \App\Question;
 use Illuminate\Support\Facades\File;
@@ -137,19 +138,29 @@ class SudoController extends Controller
       //  $this->validate($request,[
       //      'sb-transaction' => 'required'
       //  ]);
-
+     //   dd($request->file('sb-transaction'));
         $transactions = $request->file('sb-transaction');
-        dd($request->file('sb-transaction'));
+     //   dd($request->file('sb-transaction'));
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
         $content = "";
-        if (File::exists($transactions)){
-            Storage::disk('public')->put($transaction_name, File::get($transaction));
+        if ($request->file('sb-transaction')->isValid()){
+         //   Storage::disk('public')->put($transaction_name, File::get($transaction));
             $reader = CsvReader::open($transactions);
             while (($line = $reader->readLine()) !== false) {
-              $content .= $line;
-            }
-            Session::flash('add-transactions-ok', $content);
-            $reader->close();
+              try {
+                DB::table('SB_DEPOSIT_TRANSACTIONS')
+                    ->insert(['transaction_number' => $line[0],
+                             'transaction_date' => $line[1],
+                             'terminal_number' => $line[2],
+                             'value' => $line[3],
+                             'card_number' => $line[4]
+                      ]);
+              } catch (Exception $e) {
+                Session::flash('add-transactions-fail', $e->getMessage());
+              }
+           }
+            Session::flash('add-transactions-ok', "Ипорт данных прошел успешно");
+          //  $reader->close();
           } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
     }
