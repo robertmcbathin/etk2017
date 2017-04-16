@@ -148,9 +148,10 @@ class SudoController extends Controller
             $reader = CsvReader::open($transactions);
             while (($line = $reader->readLine()) !== false) {
               try {
+                $transaction_date = date_create_from_format('j.n.Y H:i:s', $line[1]);
                 DB::table('SB_DEPOSIT_TRANSACTIONS')
                     ->insert(['transaction_number' => $line[0],
-                             'transaction_date' => $line[1],
+                             'transaction_date' => $transaction_date,
                              'terminal_number' => $line[2],
                              'value' => $line[3],
                              'card_number' => $line[4]
