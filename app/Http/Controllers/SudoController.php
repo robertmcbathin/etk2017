@@ -160,8 +160,8 @@ class SudoController extends Controller
                 Session::flash('add-transactions-fail', $e->getMessage());
               }
            }
-            Session::flash('add-transactions-ok', "Ипорт данных прошел успешно");
-          //  $reader->close();
+           $reader->close();
+           Session::flash('add-transactions-ok', "Ипорт данных прошел успешно");
           } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
     }
