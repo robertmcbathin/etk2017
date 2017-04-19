@@ -135,16 +135,11 @@ class SudoController extends Controller
         return view('sudo.pages.import');
     }
     public function postImportTransactions(Request $request){
-      //  $this->validate($request,[
-      //      'sb-transaction' => 'required'
-      //  ]);
-     //   dd($request->file('sb-transaction'));
         $transactions = $request->file('sb-transaction');
-     //   dd($request->file('sb-transaction'));
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
         $content = "";
         if ($request->file('sb-transaction')->isValid()){
-         //   Storage::disk('public')->put($transaction_name, File::get($transaction));
+            Storage::disk('public')->put($transaction_name, File::get($transaction));
             $reader = CsvReader::open($transactions);
             while (($line = $reader->readLine()) !== false) {
               try {
@@ -161,7 +156,7 @@ class SudoController extends Controller
               }
            }
            $reader->close();
-           Session::flash('add-transactions-ok', "Ипорт данных прошел успешно");
+           Session::flash('add-transactions-ok', "Импорт данных прошел успешно");
           } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
     }

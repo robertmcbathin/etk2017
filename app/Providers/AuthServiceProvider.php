@@ -28,6 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('show-import', function($user){
             return $user->role_id <= 2;
         });
+        Gate::define('show-pages', function($user){
+            return $user->role_id < 2;
+        });
 
     }
     public function before($user, $ability)

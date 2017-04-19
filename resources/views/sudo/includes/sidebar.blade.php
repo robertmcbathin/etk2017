@@ -50,6 +50,7 @@ $username = Auth::user()->name;
                                 <b class="caret"></b>
                             </p>
                         </a>
+                        @can('show-import', App\User::class)
                         <div class="collapse" id="pagesExamples">
                             <ul class="nav">
                                 <li>
@@ -72,6 +73,7 @@ $username = Auth::user()->name;
                                 </li>-->
                             </ul>
                         </div>
+                        @endcan
 
                     </li>
                     <li>
