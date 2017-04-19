@@ -322,7 +322,7 @@
                 </div>
             </div>
             <!-- end partners -->
-                   <!-- map block -->
+                   <!-- map block 
                    <div class="container-fluid up-a-little hidden-xs" id="map">
   <script type="text/javascript">
     function initMap() {
@@ -389,7 +389,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsfO8qFpSStho6O8-HQwpZEkaOv1ynK5A&callback=initMap"
         async defer></script>
 </div>
-                   <!-- end map block -->
+                    end map block -->
 
 
         </div>
