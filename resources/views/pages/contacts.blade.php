@@ -35,8 +35,7 @@
             </div>
             <div class="description">
               <h4 class="info-title">Режим работы</h4>
-              <p><strong>с 6 по 19</strong> число каждого месяца: Пн-Пт <strong>c 8:00 до 17:00</strong>, обед с 12 до 13</p>
-              <p><strong>с 20 по 5</strong> число: Пн-Пт <strong>c 8:00 до 17:30</strong>, без обеда. Сб.: <strong>c 9:00 до 15:00</strong></p>
+              <p> Пн-Пт <strong>c 9:00 до 18:00</strong>, обед с 13 до 14</p>
             </div>
           </div>
         </div>
@@ -74,31 +73,77 @@
           center: myLatLng,
           scrollwheel: false,
           styles: styleArray,
-          zoom: 16
+          zoom: 11
         });
-        var marker = new google.maps.Marker({
-          position: {lat: 56.140717, lng: 47.199408},
+        //First Marker
+        var markerOne = new google.maps.Marker({
+          position: {lat: 56.145881, lng: 47.185274},
           map: map
         });
-        var contentString = '<div id="content">'+
+        var contentStringOne = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h3 id="firstHeading" class="firstHeading">Московский проспект, д.41/1, помещение 1</h3>'+
-        '<i>Остановка <strong>улица Кривова</strong></i>' +
+        '<h4 id="firstHeading" class="firstHeading">улица Гузовского, 17 (отделение Сбербанка)</h4>'+
         '<div id="bodyContent">'+
         '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
-        '<p>Электронная почта: Uluru, <a href="mailto:transkarta@bk.ru">'+
         'transkarta@bk.ru</a> </p>'+
         '</div>'+
         '</div>';
 
-        var infowindow = new google.maps.InfoWindow({
+        var infowindowOne = new google.maps.InfoWindow({
           position: {lat: 56.140717, lng: 47.199408},
-          content: contentString
+          content: contentStringOne
         });
-        infowindow.open(map,marker);
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
+        infowindowOne.open(map,markerOne);
+        markerOne.addListener('click', function() {
+          infowindowOne.open(map, markerOne);
+        }); 
+        //Second Marker
+        var markerTwo = new google.maps.Marker({
+          position: {lat: 56.143257, lng: 47.250454},
+          map: map
+        });
+        var contentStringTwo = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h4 id="firstHeading" class="firstHeading">улица Карла Маркса, 22 (отделение Сбербанка)</h4>'+
+        '<div id="bodyContent">'+
+        '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+        'transkarta@bk.ru</a> </p>'+
+        '</div>'+
+        '</div>';
+
+        var infowindowTwo = new google.maps.InfoWindow({
+          position: {lat: 56.140717, lng: 47.199408},
+          content: contentStringTwo
+        });
+        infowindowTwo.open(map,markerTwo);
+        markerTwo.addListener('click', function() {
+          infowindowTwo.open(map, markerTwo);
+        }); 
+        //Third Marker
+        var markerThird = new google.maps.Marker({
+          position: {lat: 56.096485, lng: 47.295166},
+          map: map
+        });
+        var contentStringThird = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h4 id="firstHeading" class="firstHeading">проспект Тракторостроителей, 6б</h4>'+
+        '<h5 id="firstHeading" class="firstHeading"><strong>(только для юридических лиц)</strong></h5>'+
+        '<div id="bodyContent">'+
+        '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+        'transkarta@bk.ru</a> </p>'+
+        '</div>'+
+        '</div>';
+
+        var infowindowThird = new google.maps.InfoWindow({
+          position: {lat: 56.140717, lng: 47.199408},
+          content: contentStringThird
+        });
+        infowindowThird.open(map,markerThird);
+        markerThird.addListener('click', function() {
+          infowindowThird.open(map, markerThird);
         }); 
       }
       
