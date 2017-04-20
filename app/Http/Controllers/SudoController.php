@@ -129,12 +129,20 @@ class SudoController extends Controller
             ]);
     }
     public function getOperationsPage(){
-        return view('sudo.pages.operations');
+      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first(); 
+        return view('sudo.pages.operations', [
+          'last_import' => $last_import
+         ]);
     }
     public function getImportPage(){
-    /*  DB::table('SB_DEPOSIT_IMPORTS')
-        ->orderBy('transaction_date', ) */
-        return view('sudo.pages.import');
+      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first(); 
+        return view('sudo.pages.import', [
+          'last_import' => $last_import
+         ]);
     }
     public function postImportTransactions(Request $request){
         $transactions = $request->file('sb-transaction');
