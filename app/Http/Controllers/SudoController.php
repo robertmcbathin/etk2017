@@ -147,7 +147,7 @@ class SudoController extends Controller
             while (($line = $reader->readLine()) !== false) {
               try {
                 $transaction_date = date_create_from_format('d.m.Y', $line[1]);
-                DB::table('SB_DEPOSIT_TRANSACTIONS_TEST')
+                DB::table('SB_DEPOSIT_TRANSACTIONS')
                     ->insert(['transaction_number' => $line[0],
                              'transaction_date' => $transaction_date,
                              'terminal_number' => $line[2],
