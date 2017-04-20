@@ -46,7 +46,7 @@
                                             <i class="material-icons">close</i>
                                         </button>
                                         <span>
-                                            Залупа</span>
+                                            Что-то пошло не так...</span>
                                     </div>
                      </div>
          @endif

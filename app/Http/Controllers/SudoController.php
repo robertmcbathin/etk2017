@@ -132,6 +132,8 @@ class SudoController extends Controller
         return view('sudo.pages.operations');
     }
     public function getImportPage(){
+    /*  DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('transaction_date', ) */
         return view('sudo.pages.import');
     }
     public function postImportTransactions(Request $request){
@@ -139,24 +141,30 @@ class SudoController extends Controller
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
         $content = "";
         if ($request->file('sb-transaction')->isValid()){
-            Storage::disk('public')->put($transaction_name, File::get($transaction));
+            Storage::disk('public')->put($transaction_name, File::get($transactions));
             $reader = CsvReader::open($transactions);
+            $counter = 0;
             while (($line = $reader->readLine()) !== false) {
               try {
-                $transaction_date = date_create_from_format('j.n.Y H:i:s', $line[1]);
-                DB::table('SB_DEPOSIT_TRANSACTIONS')
+                $transaction_date = date_create_from_format('d.m.Y', $line[1]);
+                DB::table('SB_DEPOSIT_TRANSACTIONS_TEST')
                     ->insert(['transaction_number' => $line[0],
                              'transaction_date' => $transaction_date,
                              'terminal_number' => $line[2],
                              'value' => $line[3],
                              'card_number' => $line[4]
                       ]);
+                $counter++;
               } catch (Exception $e) {
                 Session::flash('add-transactions-fail', $e->getMessage());
               }
            }
+           DB::table('SB_DEPOSIT_IMPORTS')
+              ->insert(['filename' => $transaction_name,
+                        'created_by' => Auth::user()->id
+                      ]);
            $reader->close();
-           Session::flash('add-transactions-ok', "Импорт данных прошел успешно");
+           Session::flash('add-transactions-ok', "Импорт данных прошел успешно, загружено " . $counter . " записей");
           } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
     }
