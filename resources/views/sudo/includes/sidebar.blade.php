@@ -38,7 +38,7 @@ $username = Auth::user()->name;
                 </div>
                 <ul class="nav">
                     <li class="active">
-                        <a href="dashboard.html">
+                        <a href="{{ route('sudo.pages.dashboard') }}">
                             <i class="material-icons">dashboard</i>
                             <p>Панель управления</p>
                         </a>
@@ -98,7 +98,7 @@ $username = Auth::user()->name;
                        
                     </li>
                     <li>
-                        <a href="charts.html">
+                        <a href="#">
                             <i class="material-icons">timeline</i>
                             <p>Статистика</p>
                         </a>

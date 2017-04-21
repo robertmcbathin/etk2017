@@ -7,8 +7,10 @@ use DB;
 use Auth;
 use Session;
 use CsvReader;
+use \App\Log;
 use \App\Article;
 use \App\Question;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -132,17 +134,29 @@ class SudoController extends Controller
       $last_import = DB::table('SB_DEPOSIT_IMPORTS')
         ->orderBy('created_at', 'DESC')
         ->first(); 
+      Carbon::setLocale('ru');
+      $non_formatted_date = new Carbon($last_import->created_at);
+      $human_date = $non_formatted_date->diffForHumans();
+      $last_import->created_at = new \DateTime($last_import->created_at);
+      $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
         return view('sudo.pages.operations', [
-          'last_import' => $last_import
+          'last_import' => $last_import,
+          'human_date' => $human_date
          ]);
     }
     public function getImportPage(){
       $last_import = DB::table('SB_DEPOSIT_IMPORTS')
         ->orderBy('created_at', 'DESC')
         ->first(); 
-        return view('sudo.pages.import', [
-          'last_import' => $last_import
-         ]);
+      Carbon::setLocale('ru');
+      $non_formatted_date = new Carbon($last_import->created_at);
+      $human_date = $non_formatted_date->diffForHumans();
+       $last_import->created_at = new \DateTime($last_import->created_at);
+      $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
+      return view('sudo.pages.import', [
+        'last_import' => $last_import,
+        'human_date' => $human_date
+       ]);
     }
     public function postImportTransactions(Request $request){
         $transactions = $request->file('sb-transaction');
@@ -167,10 +181,24 @@ class SudoController extends Controller
                 Session::flash('add-transactions-fail', $e->getMessage());
               }
            }
+           /**
+            * SAVE IMPORT FILENAME
+            */
            DB::table('SB_DEPOSIT_IMPORTS')
               ->insert(['filename' => $transaction_name,
                         'created_by' => Auth::user()->id
                       ]);
+           /*
+           * LOGGING THE IMPORT
+           * 
+            */
+           $log = new \App\Log;
+           $logout_log->action_type = 3;
+           $logout_log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции Сбербанка";
+           $logout_log->save();
+          /**
+           * 
+           */
            $reader->close();
            Session::flash('add-transactions-ok', "Импорт данных прошел успешно, загружено " . $counter . " записей");
           } else Session::flash('add-transactions-fail', $content);
