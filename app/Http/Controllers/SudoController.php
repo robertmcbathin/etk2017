@@ -193,9 +193,9 @@ class SudoController extends Controller
            * 
             */
            $log = new \App\Log;
-           $logout_log->action_type = 3;
-           $logout_log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции Сбербанка";
-           $logout_log->save();
+           $log->action_type = 3;
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции Сбербанка";
+           $log->save();
           /**
            * 
            */
