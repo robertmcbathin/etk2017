@@ -207,3 +207,7 @@ Route::group(['prefix' => 'sudo'], function () {
 });
 });
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
