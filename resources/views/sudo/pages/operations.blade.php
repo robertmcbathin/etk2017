@@ -51,6 +51,7 @@
                                             <tbody id="operations-results">
                                                 
                                             </tbody>
+                                            <h3 id="operations-results-none"></h3>
                                         </table>
                                     </div>
                                 </div>

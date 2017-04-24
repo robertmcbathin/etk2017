@@ -207,7 +207,6 @@ class SudoController extends Controller
 
     public function ajaxCheckCardOperations(Request $request){
       $num   = $request['num'];
-
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
                 ->where('card_number', 'like',  $num)
                 ->orderBy('transaction_date', 'DESC')
