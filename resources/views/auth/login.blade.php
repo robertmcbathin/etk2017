@@ -1,7 +1,7 @@
-@extends('layouts.master')
+@extends('layouts.login')
 
 @section('content')
-<div class="page-header header-filter login-page-header" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_about.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
+<div class="page-header header-filter login-page-header" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -10,15 +10,15 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('card_number') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Номер карты</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="card_number" type="text" class="form-control white-control" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000">
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('card_number'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('card_number') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -28,7 +28,7 @@
                             <label for="password" class="col-md-4 control-label">Пароль</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control white-controlphp" name="password" required>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -65,6 +65,7 @@
             </div>
         </div>
     </div>
+    @include('includes.login-footer')
 </div>
 @endsection
 

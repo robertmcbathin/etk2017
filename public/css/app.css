@@ -135,3 +135,7 @@ animation: Gradient 30s ease infinite;
     background: -moz-linear-gradient(135deg, rgba(31, 201, 228, 0.88) 0%, rgba(208, 44, 180, 0.31) 100%);
     background: -webkit-linear-gradient(135deg, rgba(31, 201, 228, 0.88) 0%, rgba(208, 44, 180, 0.31) 100%);
 }
+
+.white-control{
+    color: white;
+}

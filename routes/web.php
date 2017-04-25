@@ -210,4 +210,5 @@ Route::group(['prefix' => 'sudo'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/profile', 'UserController@showProfile');
+Route::get('/logout', 'Auth\LoginController@logout');
