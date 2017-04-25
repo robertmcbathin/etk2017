@@ -110,7 +110,9 @@ animation: Gradient 30s ease infinite;
 }
 
 
-
+.login-page-header {
+    padding-top: 12vh !important;
+}
 
 @media (max-width: 991px){
 .page-header {

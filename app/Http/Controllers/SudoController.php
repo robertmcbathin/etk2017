@@ -7,6 +7,7 @@ use DB;
 use Auth;
 use Session;
 use CsvReader;
+use \DateTime;
 use \App\Log;
 use \App\Article;
 use \App\Question;
@@ -211,6 +212,10 @@ class SudoController extends Controller
                 ->where('card_number', 'like',  $num)
                 ->orderBy('transaction_date', 'DESC')
                 ->get();
+      foreach ($operations as $operation) {
+        $format_date = new \DateTime($operation->transaction_date);
+        $operation->transaction_date = $format_date->format('d.m.Y');
+      }
       if ($operations == NULL)
         return response()->json(['message' => 'error'],200);
       if ($operations !== NULL)
