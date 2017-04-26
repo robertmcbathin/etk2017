@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use DB;
+use \DateTime;
 use \App\Log;
 use Illuminate\Http\Request;
 
@@ -31,4 +33,32 @@ class UserController extends Controller
     	Auth::logout();
     	return redirect()->route('sudo.login');
     }
+    /**
+     * [getHomePage redirects to profile page]
+     * @return [type] [description]
+     */
+    public function getHomePage(){
+        return redirect()->route('profile');
+    }
+    /**
+     * SHOW PROFILE
+     * @return [type] [description]
+     */
+    public function showProfile(){
+      $num   = substr(Auth::user()->card_number, 3, 6);
+      $num = 333096;
+      $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+                ->where('card_number', 'like',  $num)
+                ->orderBy('transaction_date', 'DESC')
+                ->get();
+      foreach ($operations as $operation) {
+        $format_date = new \DateTime($operation->transaction_date);
+        $operation->transaction_date = $format_date->format('d.m.Y');
+      }
+        return view('pages.profile',[
+            'operations' => $operations
+            ]);
+    }
+
+
 }

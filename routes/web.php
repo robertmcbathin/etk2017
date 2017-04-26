@@ -143,6 +143,10 @@ Route::group(['prefix' => 'sudo'], function () {
 });
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::get('/profile', [
+    'uses' => 'UserController@showProfile',
+    'as' => 'profile'
+    ]);
 Route::group(['prefix' => 'sudo'], function () {
     Route::get('dashboard', [
         'uses' => 'SudoController@getDashboard',
@@ -209,6 +213,5 @@ Route::group(['prefix' => 'sudo'], function () {
 
 
 Auth::routes();
-
-Route::get('/profile', 'UserController@showProfile');
 Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('/home', 'UserController@getHomePage');

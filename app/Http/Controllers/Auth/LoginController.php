@@ -48,7 +48,7 @@ class LoginController extends Controller
 
         if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
             // Authentication passed...
-            return redirect()->route('index');
+            return redirect()->route('profile');
         }
     }
     public function logout(Request $request)

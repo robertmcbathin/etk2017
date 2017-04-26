@@ -135,28 +135,20 @@ class SudoController extends Controller
       $last_import = DB::table('SB_DEPOSIT_IMPORTS')
         ->orderBy('created_at', 'DESC')
         ->first(); 
-      Carbon::setLocale('ru');
-      $non_formatted_date = new Carbon($last_import->created_at);
-      $human_date = $non_formatted_date->diffForHumans();
       $last_import->created_at = new \DateTime($last_import->created_at);
       $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
         return view('sudo.pages.operations', [
-          'last_import' => $last_import,
-          'human_date' => $human_date
+          'last_import' => $last_import
          ]);
     }
     public function getImportPage(){
       $last_import = DB::table('SB_DEPOSIT_IMPORTS')
         ->orderBy('created_at', 'DESC')
         ->first(); 
-      Carbon::setLocale('ru');
-      $non_formatted_date = new Carbon($last_import->created_at);
-      $human_date = $non_formatted_date->diffForHumans();
        $last_import->created_at = new \DateTime($last_import->created_at);
       $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
       return view('sudo.pages.import', [
-        'last_import' => $last_import,
-        'human_date' => $human_date
+        'last_import' => $last_import
        ]);
     }
     public function postImportTransactions(Request $request){

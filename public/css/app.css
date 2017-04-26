@@ -139,3 +139,6 @@ animation: Gradient 30s ease infinite;
 .white-control{
     color: white;
 }
+.profile-card-title{
+    margin: 40px 0 10px;
+}

@@ -13,7 +13,7 @@
                         <i class="material-icons">archive</i>
                     </div>                
                     <h4 class="card-title">Импорт выгрузок Сбербанка -
-                        <small class="category">Загрузить файл выгрузок (.csv). Последняя выгрузка: {{$last_import->created_at}} ({{$human_date}})</small>
+                        <small class="category">Загрузить файл выгрузок (.csv). Последняя выгрузка: {{$last_import->created_at}} </small>
                     </h4>
                     <div class="card-content">
                         <div class="row">

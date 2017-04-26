@@ -25,7 +25,7 @@
                                     <span class="material-input">Последние 6 цифр</span></div>
                                 </div>
                                 <label class="col-sm-3 label-on-right">
-                                    <code>Последняя выгрузка: {{$last_import->created_at}} ({{$human_date}})</code>
+                                    <code>Последняя выгрузка: {{$last_import->created_at}}</code>
                                 </label>
                             </div>
                         </div>
