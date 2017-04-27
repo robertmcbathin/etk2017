@@ -57,10 +57,21 @@ public function getNewsPage(){
     		]);
     }
     public function getArticle($id){
+      /**
+       * GET ARTICLE
+       * @var [type]
+       */
     	$article = DB::table('articles')
        ->where('id', $id)
        ->where('published', '1')
        ->first();
+             /**
+       * INCREASE VIEWS COUNT
+       * @var [type]
+       */
+      DB::table('articles')
+        ->where('id',$id)
+        ->update(['views' => $article->views++]);
        $links = DB::table('ETK_article_links')
                   ->where('article_id', '=', $id)
                   ->get();

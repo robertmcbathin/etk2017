@@ -31,7 +31,7 @@
 
                         <blockquote>
                             <p>
-                                {{$article->created_at}}
+                                {{$article->created_at}} <br> Просмотров: {{$article->views}}
                             </p>
                         </blockquote>
                         @if ($links)
