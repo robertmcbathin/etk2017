@@ -140,7 +140,7 @@
                                         <div class="col-md-6 col-md-offset-4">
                                             <div class="checkbox">
                                                 <label>
-                                                  <input type="checkbox" name="acception" value="0">
+                                                  <input type="checkbox" name="acception" checked value="1">
                                                   Я ознакомлен(а) с <a href="#something">политикой конфиденциальности</a> и даю свое <a href="">согласие на обработку персональных данных</a>.
                                               </label>
                                           </div>

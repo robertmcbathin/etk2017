@@ -21,22 +21,22 @@
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    Для активации личного кабинета перейдите по ссылке ниже
+                    Добро пожаловать в личный кабинет держателя карты ЕТК!
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block">
-                    We may need to send you critical information about our service and it is important that we have an accurate email address.
+                    Вы активировали личный кабинет держателя карты №{{ $card_number }}. Для активации Вашего аккаунта пройдите по ссылке ниже. Ваш пароль: {{ $password }}. Это письмо было сгенерировано автоматически, на него не нужно отвечать.
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
-                    <a href="http://www.mailgun.com" class="btn-primary" itemprop="url">Confirm email address</a>
+                    <a href="http://etk21.ru/confirm-account/{{$register_token}}" class="btn-primary" itemprop="url">Подтвердить email-адрес</a>
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block">
-                    &mdash; The Mailgunners
+                    &mdash; ООО "ЕТК"
                   </td>
                 </tr>
               </table>
@@ -46,7 +46,7 @@
         <div class="footer">
           <table width="100%">
             <tr>
-              <td class="aligncenter content-block">Follow <a href="http://twitter.com/mail_gun">@Mail_Gun</a> on Twitter.</td>
+              <td class="aligncenter content-block">- <a href="http://etk21.ru">Единая Транспортная Карта</a> -</td>
             </tr>
           </table>
         </div></div>

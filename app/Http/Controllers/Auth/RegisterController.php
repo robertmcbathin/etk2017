@@ -109,16 +109,17 @@ class RegisterController extends Controller
                $user->username = $card_number;
                $user->name = $card_number;
                $user->email = $email;
+               $user->role_id = 31;
                $user->register_token = $register_token;
                $user->password = bcrypt($password);
                if ($user->save()){
                  Mail::send('emails.registration',
-                   ['name' => $name,
-                   'email' => $email,
-                   'content' => $content],
-                 function ($m){
-                   $m->from('activation@etk-club.ru', 'ETK21.RU');
-                   $m->to('questions@etk21.ru')->subject('Новый вопрос с сайта');
+                   ['card_number' => $card_number,
+                    'password' => $password,
+                    'register_token' => $register_token],
+                 function ($m) use ($email){
+                   $m->from('no-reply@etk21.ru', 'Единая транспортная карта');
+                   $m->to($email)->subject('Добро пожаловать в личный кабинет держателя карты ЕТК!');
                });
                }
              } else {
