@@ -142,3 +142,6 @@ animation: Gradient 30s ease infinite;
 .profile-card-title{
     margin: 40px 0 10px;
 }
+.register-alert{
+    padding-top: 0px !important;
+}
