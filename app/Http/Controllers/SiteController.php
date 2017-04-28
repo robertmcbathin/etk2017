@@ -71,7 +71,7 @@ public function getNewsPage(){
        */
       DB::table('articles')
         ->where('id',$id)
-        ->update(['views' => $article->views++]);
+        ->update(['views' => ++$article->views]);
        $links = DB::table('ETK_article_links')
                   ->where('article_id', '=', $id)
                   ->get();
@@ -188,7 +188,7 @@ public function getNewsPage(){
               'email' => $email,
               'content' => $content],
               function ($m){
-                $m->from('activation@etk-club.ru', 'ETK21.RU');
+                $m->from('no-reply@etk21.ru', 'ETK21.RU');
                 $m->to('questions@etk21.ru')->subject('Новый вопрос с сайта');
             });
             Session::flash('ok', 'Ваше сообщение отправлено');

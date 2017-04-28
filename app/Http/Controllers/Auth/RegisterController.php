@@ -93,6 +93,7 @@ class RegisterController extends Controller
         $password        = $request['password'];
         $password_repeat = $request['password_repeat'];
         $acception       = $request['acception'];
+        $register_token  = $request['_token'];
         /**
          * CHECK PASSWORDS AND INSERT DATA
          */
@@ -108,6 +109,7 @@ class RegisterController extends Controller
                $user->username = $card_number;
                $user->name = $card_number;
                $user->email = $email;
+               $user->register_token = $register_token;
                $user->password = bcrypt($password);
                if ($user->save()){
                  Mail::send('emails.registration',
