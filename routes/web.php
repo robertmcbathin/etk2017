@@ -215,3 +215,13 @@ Route::group(['prefix' => 'sudo'], function () {
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'UserController@getHomePage');
+/**
+ * AJAX ROUTES
+ */
+Route::post('/ajax/load_card_thumbnail', [ 'uses' =>
+        'UserController@ajaxLoadCardThumbnail',
+        'as' => 'ajax.load_card_thumbnail'
+        ]);
+/**
+ * 
+ */

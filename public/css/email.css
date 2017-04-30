@@ -1,25 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @robertmcbathin
- Sign out
- Watch 249
-  Star 5,366
-  Fork 700 mailgun/transactional-email-templates
- Code  Issues 6  Pull requests 1  Projects 0  Wiki  Pulse  Graphs
-Branch: master Find file Copy pathtransactional-email-templates/templates/styles.css
-b92dc85  on Jun 2, 2015
-@siliconforks siliconforks Remove unused CSS selector: .footer unsubscribe
-3 contributors @leemunroe @siliconforks @lembitk
-RawBlameHistory    
-283 lines (244 sloc)  5.1 KB
-/* -------------------------------------
-    GLOBAL
-    A very basic CSS reset
-------------------------------------- */
 * {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -296,7 +274,3 @@ a {
     width: 100% !important;
   }
 }
-
-/*# sourceMappingURL=styles.css.map */
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc. Terms Privacy Security Status Help

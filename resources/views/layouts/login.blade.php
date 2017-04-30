@@ -24,19 +24,42 @@
 </head>
 
 <body class="login-page">
-   @include('includes.top_nav')
-   @yield('content')
+ @include('includes.top_nav')
+ @yield('content')
 
 
 </body>
-	<!--   Core JS Files   -->
-	<script src="/js/jquery.min.js" type="text/javascript"></script>
-	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="/js/material.min.js"></script>
+<!--   Core JS Files   -->
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/material.min.js"></script>
 
-	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
-	<script src="/js/material-kit.js" type="text/javascript"></script>
-	<script type="text/javascript">
+<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
+<script src="/js/material-kit.js" type="text/javascript"></script>
+<script>
+  $('#card_number').on('keyup', function(){
+    html = '';
+    if ($('#card_number').val().length >= 3) {
+        serie = $('#card_number').val().toString().substring(0,3);
+        switch(serie){
+            case '023':
+              serie = '023';
+              break;
+            default :
+              serie = '999';
+              break; 
+        }
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/'
+              + serie.toString() + '_32.png\"></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+    } else {
+        html = '<span class="material-input" id="reg-card-thumbnail">Номер карты</span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+    }
+});
+</script>
+<script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -50,8 +73,8 @@
         });
 
         var n = d.getElementsByTagName("script")[0],
-            s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
         s.type = "text/javascript";
         s.async = true;
         s.src = "https://mc.yandex.ru/metrika/watch.js";

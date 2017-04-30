@@ -145,3 +145,7 @@ animation: Gradient 30s ease infinite;
 .register-alert{
     padding-top: 0px !important;
 }
+.reg-thumbnail{
+    height: 25px !important;
+    width: 40px !important;
+}

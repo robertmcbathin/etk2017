@@ -59,6 +59,15 @@ class UserController extends Controller
             'operations' => $operations
             ]);
     }
-
+    public function loadCardThumbnail(Request $request){
+      $serie = $request['serie'];
+      $data = DB::table('ETK_CARD_SERIE')
+                ->where('serie',$serie)
+                ->first();
+      if ($data == NULL)
+        return response()->json(['message' => 'error'],200);
+      if ($data !== NULL)
+        return response()->json(['message' => 'success', 'data' => $data],200);
+    }
 
 }
