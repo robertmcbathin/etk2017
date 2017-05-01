@@ -57,6 +57,73 @@
         html = '<span class="material-input" id="reg-card-thumbnail">Номер карты</span>';
         $('#reg-card-thumbnail').replaceWith(html);
     }
+    /**
+     * CHECK CARD ON EXIST
+     * @param  {[type]} $('#card_number').val().length >             5 [description]
+     * @return {[type]}                                [description]
+     */
+    if ($('#card_number').val().length == 9) {
+        $.ajax({
+          method: 'POST',
+          url: urlCardNumberVerify,
+          data: { 
+            num: $('#card_number').val(), 
+            _token: token}
+        })
+        .done(function(msg){
+          if ((msg['message']) == 'error'){
+            html = '<span class="help-block" id="card-error-span"></span>';
+            $('#card-error-span').replaceWith(html);
+          };
+          if ((msg['message']) == 'success'){
+            html = '<span class="help-block rose" id="card-error-span"><strong>Такая карта уже зарегистрирована!</strong></span>';
+            $('#card-error-span').replaceWith(html);
+          };
+        });
+        } else {
+            console.log('Oops...');
+        }
+});
+</script>
+<script>
+    /**
+     * CHECK EMAIL ON EXIST
+     * @param  {[type]} $('#email').val().length >             5 [description]
+     * @return {[type]}                                [description]
+     */
+  $('#email').on('keyup', function(){
+    if ($('#email').val().length > 0) {
+        $.ajax({
+          method: 'POST',
+          url: urlEmailVerify,
+          data: { 
+            email: $('#email').val(), 
+            _token: token}
+        })
+        .done(function(msg){
+          if ((msg['message']) == 'error'){
+            html = '<span class="help-block" id="email-error-span"></span>';
+            $('#email-error-span').replaceWith(html);
+          };
+          if ((msg['message']) == 'success'){
+            html = '<span class="help-block" id="email-error-span"><strong>Этот email уже используется!</strong></span>';
+            $('#email-error-span').replaceWith(html);
+          };
+        });
+        } else {
+            console.log('Oops...');
+        }
+});
+</script>
+<script>
+  $('#password_repeat').on('keyup', function(){
+    if ($('#password_repeat').val() !== $('#password').val()){
+            html = '<span class="help-block" id="password-repeat-error-span"><strong>Пароли не совпадают!</strong></span>';
+            $('#password-repeat-error-span').replaceWith(html);
+    } else {
+       html = '<span class="help-block" id="password-repeat-error-span"></span>';
+            $('#password-repeat-error-span').replaceWith(html); 
+    }
 });
 </script>
 <script type="text/javascript">

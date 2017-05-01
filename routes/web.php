@@ -218,9 +218,13 @@ Route::get('/home', 'UserController@getHomePage');
 /**
  * AJAX ROUTES
  */
-Route::post('/ajax/load_card_thumbnail', [ 'uses' =>
-        'UserController@ajaxLoadCardThumbnail',
-        'as' => 'ajax.load_card_thumbnail'
+Route::post('/ajax/check_card_on_exist', [ 'uses' =>
+        'UserController@ajaxCheckCardOnExist',
+        'as' => 'ajax.check_card_on_exist'
+        ]);
+Route::post('/ajax/check_email_on_exist', [ 'uses' =>
+        'UserController@ajaxCheckEmailExist',
+        'as' => 'ajax.check_email_on_exist'
         ]);
 /**
  * 

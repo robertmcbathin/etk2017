@@ -19,6 +19,32 @@
                 <div class="card card-signup">
                     <h2 class="card-title text-center">Регистрация карты</h2>
                     <div class="row">
+                        @if (Session::has('card-number-verify-fail'))
+                        <div class="alert alert-warning">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('card-number-verify-fail')}}</strong>
+                            </div>
+                        </div>
+                        @endif
+                        @if (Session::has('email-verify-fail'))
+                        <div class="alert alert-warning">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('email-verify-fail')}}</strong>
+                            </div>
+                        </div>
+                        @endif
                         @if (Session::has('acception-fail'))
                         <div class="alert alert-warning">
                             <div class="container register-alert">
@@ -85,8 +111,10 @@
                                         </label>
                                         <div class="col-md-6">
                                             <input id="card_number" type="text" class="form-control" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
+                                            <span class="help-block" id="card-error-span">
+                                            </span>
                                             @if ($errors->has('card_number'))
-                                            <span class="help-block">
+                                            <span class="help-block" id="card-error-span">
                                                 <strong>{{ $errors->first('card_number') }}</strong>
                                             </span>
                                             @endif
@@ -101,6 +129,8 @@
                                         <div class="col-md-6">
                                             <input id="email" type="email" class="form-control" name="email" required placeholder='example@mail.com' value="{{ old('email') }}">
                                             <p class="text-muted">На адрес электронной почты будет отправлено письмо с инструкцией по активации личного кабинета</p>
+                                            <span class="help-block" id="email-error-span">
+                                            </span>
                                             @if ($errors->has('email'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('email') }}</strong>
@@ -128,7 +158,8 @@
 
                                         <div class="col-md-6">
                                             <input id="password_repeat" type="password" class="form-control" name="password_repeat" required minlength="6" maxlength="40">
-
+                                            <span class="help-block" id="password-repeat-error-span">
+                                            </span>
                                             @if ($errors->has('password_repeat'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('password_repeat') }}</strong>
@@ -171,6 +202,11 @@
 </div>
 @include('includes.login-footer')
 </div>
+<script>
+  var token = '{{ Session::token() }}';
+  var urlCardNumberVerify = '{{ route('ajax.check_card_on_exist') }}';
+  var urlEmailVerify = '{{ route('ajax.check_email_on_exist') }}';
+</script>
 @endsection
 
 

@@ -59,15 +59,25 @@ class UserController extends Controller
             'operations' => $operations
             ]);
     }
-    public function loadCardThumbnail(Request $request){
-      $serie = $request['serie'];
-      $data = DB::table('ETK_CARD_SERIE')
-                ->where('serie',$serie)
+    public function ajaxCheckCardOnExist(Request $request){
+      $card = DB::table('users')
+                ->where('card_number', $request->num)
                 ->first();
-      if ($data == NULL)
+
+      if ($card == NULL)
         return response()->json(['message' => 'error'],200);
-      if ($data !== NULL)
-        return response()->json(['message' => 'success', 'data' => $data],200);
+      if ($card !== NULL)
+        return response()->json(['message' => 'success', 'data' => $card],200);
+    }
+    public function ajaxCheckEmailExist(Request $request){
+      $email = DB::table('users')
+                ->where('email', $request->email)
+                ->first();
+
+      if ($email == NULL)
+        return response()->json(['message' => 'error'],200);
+      if ($email !== NULL)
+        return response()->json(['message' => 'success', 'data' => $email],200);
     }
 
 }
