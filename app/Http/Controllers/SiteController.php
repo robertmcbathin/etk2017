@@ -12,7 +12,7 @@ use App\Question;
 class SiteController extends Controller
 {
     public function getIndexPage(){
-    	$articles = DB::table('articles')
+    	$articles = DB::table('ETK_ARTICLES')
        ->orderBy('created_at', 'desc')
        ->take(3)
        ->get();
@@ -36,7 +36,7 @@ public function getStaticArticlesPage(){
     return view('pages.static_articles.static_articles');
 }
 public function getNewsPage(){
-   $articles = DB::table('articles')
+   $articles = DB::table('ETK_ARTICLES')
    ->where('published', '=', 1)
    ->orderBy('created_at', 'desc')
    ->paginate(9);
@@ -61,7 +61,7 @@ public function getNewsPage(){
        * GET ARTICLE
        * @var [type]
        */
-    	$article = DB::table('articles')
+    	$article = DB::table('ETK_ARTICLES')
        ->where('id', $id)
        ->where('published', '1')
        ->first();
@@ -69,7 +69,7 @@ public function getNewsPage(){
        * INCREASE VIEWS COUNT
        * @var [type]
        */
-      DB::table('articles')
+      DB::table('ETK_ARTICLES')
         ->where('id',$id)
         ->update(['views' => ++$article->views]);
        $links = DB::table('ETK_article_links')
@@ -106,7 +106,7 @@ public function getNewsPage(){
      * CARDS
      */
     public function getEwalletPage(){
-        $cards = DB::table('cards')
+        $cards = DB::table('ETK_CARD_TYPES')
         ->where('type',1)
         ->get();
         return view('pages.ewallet',[
@@ -114,7 +114,7 @@ public function getNewsPage(){
             ]);
     }
     public function getTravelCardsPage(){
-        $cards = DB::table('cards')
+        $cards = DB::table('ETK_CARD_TYPES')
         ->where('type',2)
         ->get();
         return view('pages.travel_cards',[
@@ -122,7 +122,7 @@ public function getNewsPage(){
             ]);
     }
     public function getSbercardPage(){
-        $cards = DB::table('cards')
+        $cards = DB::table('ETK_CARD_TYPES')
         ->where('type',3)
         ->get();
         return view('pages.sbercard',[
@@ -130,7 +130,7 @@ public function getNewsPage(){
             ]);
     }
     public function getCard($id){
-        $card = DB::table('cards')
+        $card = DB::table('ETK_CARD_TYPES')
         ->where('id', $id)
         ->first();
         return view('pages.card',[
@@ -138,7 +138,7 @@ public function getNewsPage(){
             ]);
     }
     public function getCardsPage(){
-        $cards = DB::table('cards')
+        $cards = DB::table('ETK_CARD_TYPES')
         ->get();
         return view('pages.cards',[
             'cards' => $cards
@@ -152,7 +152,7 @@ public function getNewsPage(){
     }
 
     public function getFaqPage(){
-        $questions = DB::table('questions')
+        $questions = DB::table('ETK_QUESTIONS')
         ->where('answer', '!=', '')
         ->orderBy('updated_at')
         ->get();

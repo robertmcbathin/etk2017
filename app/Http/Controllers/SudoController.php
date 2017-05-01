@@ -25,9 +25,9 @@ class SudoController extends Controller
     		]);
     }
     public function getArticlesPage(){
-    	$articles = DB::table('articles')
-                      ->join('users','users.id','=','articles.user')
-                      ->select('articles.*','users.name as author')
+    	$articles = DB::table('ETK_ARTICLES')
+                      ->join('users','users.id','=','ETK_ARTICLES.user')
+                      ->select('ETK_ARTICLES.*','users.name as author')
                       ->orderBy('id','desc')  
     				  ->paginate(10);	
     	return view('sudo.pages.articles',[
@@ -124,7 +124,7 @@ class SudoController extends Controller
      * QUESTIONS
      */
     public function getQuestionsPage(){
-        $questions = DB::table('questions')
+        $questions = DB::table('ETK_QUESTIONS')
                       ->orderBy('created_at','desc')  
                       ->paginate(10);   
         return view('sudo.pages.questions',[
