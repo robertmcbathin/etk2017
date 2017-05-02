@@ -24,7 +24,7 @@
 </head>
 
 <body class="profile-page">
-   @include('includes.top_nav')
+   @include('includes.login_top_nav')
    @yield('content')
    @include('includes.footer')
 
