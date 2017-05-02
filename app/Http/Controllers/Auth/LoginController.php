@@ -45,11 +45,19 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-
-        if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
+        $user_isset = DB::table('users')
+                         ->where('card_number',$request->card_number)
+                         ->first();   
+        if ($user_isset->is_active == 1){
+            if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
             // Authentication passed...
             return redirect()->route('profile');
+            }
+        } else {
+            Session::flash('account-is-not-activated', 'Данный аккаунт не активирован! Проверьте почту, указанную при регистрации.');
+            return redirect()->route('login');
         }
+
     }
     public function logout(Request $request)
     {

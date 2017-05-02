@@ -66,12 +66,12 @@
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href=>В центральном офисе ЕТК</a>
+                                        <a href=>В офисах ЕТК</a>
                                     </h4>
-                                    <small>Осуществляется при помощи оператора либо через терминал оплаты</small>
+                                    <small>Осуществляется при помощи оператора</small>
                                     <div class="footer">
                                             <div>
-                                                <a href="{{route('contacts')}}">Адрес и режим работы</a>
+                                                <a href="{{route('contacts')}}">Адрес и режим работы офисов</a>
                                             </div>
                                         </div>
                             </div>

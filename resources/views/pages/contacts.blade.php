@@ -145,6 +145,29 @@
         markerThird.addListener('click', function() {
           infowindowThird.open(map, markerThird);
         }); 
+        //4th Marker
+        var marker4th = new google.maps.Marker({
+          position: {lat: 56.109684, lng: 47.480350},
+          map: map
+        });
+        var contentString4th = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h4 id="firstHeading" class="firstHeading">город Новочебоксарск, улица Винокурова, 51</h4>'+
+        '<div id="bodyContent">'+
+        '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+        'transkarta@bk.ru</a> </p>'+
+        '</div>'+
+        '</div>';
+
+        var infowindow4th = new google.maps.InfoWindow({
+          position: {lat: 56.140717, lng: 47.199408},
+          content: contentString4th
+        });
+        infowindow4th.open(map,marker4th);
+        marker4th.addListener('click', function() {
+          infowindow4th.open(map, marker4th);
+        }); 
       }
       
     </script>

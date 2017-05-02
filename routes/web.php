@@ -215,6 +215,10 @@ Route::group(['prefix' => 'sudo'], function () {
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/home', 'UserController@getHomePage');
+Route::get('/confirm-account/{register_token}',[
+    'uses' => 'Auth\RegisterController@confirmAccount',
+    'as' => 'confirm-account'
+]);
 /**
  * AJAX ROUTES
  */

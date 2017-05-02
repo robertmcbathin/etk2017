@@ -19,8 +19,48 @@
                 <div class="card card-signup">
                     <h2 class="card-title text-center">Вход в личный кабинет</h2>
                     <div class="row">
-                    <div class="col-md-12">
-
+                        <div class="col-md-12">
+                            <div class="row">
+                                @if (Session::has('activation-failed'))
+                                <div class="alert alert-warning">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">warning</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('activation-failed')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                                @if (Session::has('activation-success'))
+                                <div class="alert alert-success">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">success</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('activation-success')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                                @if (Session::has('account-is-not-activated'))
+                                <div class="alert alert-warning">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">warning</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('account-is-not-activated')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">

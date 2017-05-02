@@ -161,4 +161,23 @@ class RegisterController extends Controller
          */
         
     }
+/**
+ * CONFIRM ACCOUNT
+ * @param  [type] $register_token [description]
+ * @return [type]                 [description]
+ */
+    public function confirmAccount($register_token){
+        $account = DB::table('users')
+                        ->where('token',$token)
+                        ->first();
+        if ($account == NULL){
+            Session::flash('activation-failed', 'Хмм.. Активировать аккаунт не удалось. Позвоните нам или напишите для решения проблемы');
+            return redirect()->route('login');
+        } else {
+            DB::table('users')
+                ->update(['is_active' => 1, 'register_token' => NULL]);
+            Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
+            return redirect()->route('login');
+        }
+}
 }
