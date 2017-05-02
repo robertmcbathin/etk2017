@@ -46,7 +46,6 @@ class UserController extends Controller
      */
     public function showProfile(){
       $num   = substr(Auth::user()->card_number, 3, 6);
-      $num = 333096;
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
                 ->where('card_number', 'like',  $num)
                 ->orderBy('transaction_date', 'DESC')

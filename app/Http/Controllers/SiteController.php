@@ -72,7 +72,7 @@ public function getNewsPage(){
       DB::table('ETK_ARTICLES')
         ->where('id',$id)
         ->update(['views' => ++$article->views]);
-       $links = DB::table('ETK_article_links')
+       $links = DB::table('ETK_ФARTICLE_INNER_LINKS')
                   ->where('article_id', '=', $id)
                   ->get();
        Carbon::setLocale('ru');

@@ -91,11 +91,11 @@
                             <div class="col-md-2 col-md-offset-1 stats">
                                 <h4 class="title">Баланс</h4>
                                 <ul class="list-unstyled">
-                                    <li><b>205.00</b> </li>
+                                    <li><b>Пока недоступно</b> </li>
                                 </ul>
                                 <hr>
-                                <h4 class="title">About his Work</h4>
-                                <p class="description">French luxury footwear and fashion. The footwear has incorporated shiny, red-lacquered soles that have become his signature.</p>
+                                <h4 class="title">История платежей</h4>
+                                <p class="description">Пока недоступно</p>
                                 <hr>
                             </div>
                         </div>
