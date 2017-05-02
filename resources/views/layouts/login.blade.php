@@ -37,6 +37,20 @@
 <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 <script src="/js/material-kit.js" type="text/javascript"></script>
 <script>
+  $('#e-wallet-card-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/023_32.png"></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('023');
+  });
+    $('#e-wallet-sbercard-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_60.png"></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('023');
+  });
+</script>
+<script>
   $('#card_number').on('keyup', function(){
     html = '';
     if ($('#card_number').val().length >= 3) {

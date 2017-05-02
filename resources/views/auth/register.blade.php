@@ -110,7 +110,7 @@
                                       </label>
                                       <div class="col-md-6">
                                           <span class="material-input" id="e-wallet-card-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/023_32.png"></span>
-                                          <span class="material-input"><img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_60.png"></span>
+                                          <span class="material-input" id="e-wallet-sbercard-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_60.png"></span>
                                       </div>
                                     </div>  
                                     <div class="form-group{{ $errors->has('card_number') ? ' has-error' : '' }}">
