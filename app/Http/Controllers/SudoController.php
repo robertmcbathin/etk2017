@@ -71,7 +71,7 @@ class SudoController extends Controller
         return redirect()->back();
     }
     public function getEditArticle($id){
-        $article = DB::table('articles')
+        $article = DB::table('ETK_ARTICLES')
                      ->where('id',$id)
                      ->first();
         return view('sudo.pages.edit_article',[
