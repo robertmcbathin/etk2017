@@ -168,7 +168,7 @@ class RegisterController extends Controller
  */
     public function confirmAccount($register_token){
         $account = DB::table('users')
-                        ->where('token',$token)
+                        ->where('register_token',$register_token)
                         ->first();
         if ($account == NULL){
             Session::flash('activation-failed', 'Хмм.. Активировать аккаунт не удалось. Позвоните нам или напишите для решения проблемы');
