@@ -39,21 +39,73 @@
 <script>
   $('#e-wallet-card-thumbnail').on('click', function(){
         html = '<span class="material-input" id="reg-card-thumbnail">'
-             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/023_32.png"></span>';
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/023_80.png"><p>Электронный кошелек</p></span>';
         $('#reg-card-thumbnail').replaceWith(html);
         $('#card_number').val('023');
+        $('#card_type').val('1');
+        $('#card_number').focus();
   });
     $('#e-wallet-sbercard-thumbnail').on('click', function(){
         html = '<span class="material-input" id="reg-card-thumbnail">'
-             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_60.png"></span>';
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_80.png"><p>Электронный кошелек к юбилею Сбербанка</p></span>';
         $('#reg-card-thumbnail').replaceWith(html);
         $('#card_number').val('023');
+        $('#card_type').val('11');
+        $('#card_number').focus();
+  });
+        $('#e-wallet-oldcard-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/old023_80.png"><p>Электронный кошелек с бонусным приложением CityCard</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('023');
+        $('#card_type').val('2');
+        $('#card_number').focus();
+  });
+    $('#chtu-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/chtu021_80.png"><p>Месячный проездной на троллейбус (Чебоксары)</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('021');
+        $('#card_type').val('7');
+        $('#card_number').focus();
+  });
+    $('#nmuptt-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/nmuptt026_80.png"><p>Месячный проездной на троллейбус (Новочебоксарск)</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('026');
+        $('#card_type').val('8');
+        $('#card_number').focus();
+  });
+  $('#travel-card-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/travel-card025_80.png"><p>Месячный проездной на автобус/троллейбус (Чебоксары)</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('025');
+        $('#card_type').val('5');
+        $('#card_number').focus();
+  });
+    $('#school-card-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/schoolcard033_80.png"><p>Месячный проездной учащегося</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('033');
+        $('#card_type').val('9');
+        $('#card_number').focus();
+  });
+      $('#student-card-thumbnail').on('click', function(){
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/student-card034_80.png"><p>Месячный проездной студента</p></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+        $('#card_number').val('034');
+        $('#card_type').val('10');
+        $('#card_number').focus();
   });
 </script>
 <script>
   $('#card_number').on('keyup', function(){
     html = '';
-    if ($('#card_number').val().length >= 3) {
+   /** if ($('#card_number').val().length >= 3) {
         serie = $('#card_number').val().toString().substring(0,3);
         switch(serie){
             case '023':
