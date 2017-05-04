@@ -24,6 +24,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="green">
+                                    <i class="material-icons">query_builder</i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Ожидают активации</p>
+                                    <h3 class="card-title">{{$waiting_for_activation}}</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="green">
+                                    <i class="material-icons">account_box</i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Всегопользователей</p>
+                                    <h3 class="card-title">{{$users_count}}</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

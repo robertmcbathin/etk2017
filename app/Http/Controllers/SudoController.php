@@ -20,8 +20,15 @@ class SudoController extends Controller
     public function getDashboard(){
     	$questions = new Question;
     	$questions_count = $questions->count();
+      $waiting_for_activation = DB::table('users')
+                                  ->where('register_token','!==',NULL)
+                                  ->count();
+      $users_count = DB::table('users')
+                        ->count();
     	return view('sudo.pages.dashboard',[
-    		'questions_count' => $questions_count
+    		'questions_count' => $questions_count,
+        'waiting_for_activation' => $waiting_for_activation,
+        'users_count' => $users_count
     		]);
     }
     public function getArticlesPage(){
