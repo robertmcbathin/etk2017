@@ -21,7 +21,7 @@ class SudoController extends Controller
     	$questions = new Question;
     	$questions_count = $questions->count();
       $waiting_for_activation = DB::table('users')
-                                  ->where('register_token','!==',NULL)
+                                  ->where('register_token','!=',NULL)
                                   ->count();
       $users_count = DB::table('users')
                         ->count();
