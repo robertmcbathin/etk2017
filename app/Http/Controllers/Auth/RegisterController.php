@@ -138,7 +138,7 @@ class RegisterController extends Controller
              $user->name = $card_number;
              $user->email = $email;
              $user->role_id = 31;
-             $user->card_type = $card_type;
+             $user->card_image = $card_type;
              $user->register_token = $register_token;
              $user->password = bcrypt($password);
              if ($user->save()){
