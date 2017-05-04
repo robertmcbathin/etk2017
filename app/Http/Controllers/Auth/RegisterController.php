@@ -95,6 +95,7 @@ class RegisterController extends Controller
         $password_repeat = $request['password_repeat'];
         $acception       = $request['acception'];
         $register_token  = $request['_token'];
+        $card_type       = $request['card_type'];
         /**
          * CHECK CARD NUMBER ON EXISTING
          * @var [type]
@@ -137,6 +138,7 @@ class RegisterController extends Controller
              $user->name = $card_number;
              $user->email = $email;
              $user->role_id = 31;
+             $user->card_type = $card_type;
              $user->register_token = $register_token;
              $user->password = bcrypt($password);
              if ($user->save()){

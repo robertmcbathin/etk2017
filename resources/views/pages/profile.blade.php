@@ -18,7 +18,7 @@
                     <div class="col-xs-6 col-xs-offset-3">
                        <div class="profile">
                             <div class="avatar">
-                                <img src="/pictures/cards/e-wallet-new.png" alt="" class="img-responsive img-raised">
+                                <img src="/pictures/cards/thumbnails/160/{{Auth::user()->card_image}}.png" alt="" class="img-responsive img-raised">
                             </div>
                             <div class="name">
                                 <h3 class="title profile-card-title">{{ Auth::user()->card_number }}</h3>
