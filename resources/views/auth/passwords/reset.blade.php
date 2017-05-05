@@ -15,7 +15,7 @@
                             <div class="row">
                              @if (session('status'))
                              <div class="alert alert-success">
-                                {{ session('status') }}
+                                Пароль успешно сброшен!
                             </div>
                             @endif
                         </div>
