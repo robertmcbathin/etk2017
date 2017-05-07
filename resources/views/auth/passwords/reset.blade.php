@@ -24,8 +24,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('password.request') }}">
-                        {{csrf_field()}}
-                        <input type="hidden" value="{{ $token or old('token') }}" name="_token">
+                        <input type="hidden" name="_token" value="{{ $token or old('token') }}">
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
