@@ -12,14 +12,14 @@
 */
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', [
-	    'uses' => 'SiteController@getIndexPage',
-	    'as' => 'index'
-	]);
-	Route::get('/about',[
-		'uses' => 'SiteController@getAboutPage',
-	    'as' => 'about'
-		]);
-	Route::get('/news', [
+       'uses' => 'SiteController@getIndexPage',
+       'as' => 'index'
+       ]);
+    Route::get('/about',[
+      'uses' => 'SiteController@getAboutPage',
+      'as' => 'about'
+      ]);
+    Route::get('/news', [
         'uses' => 'SiteController@getNewsPage',
         'as' => 'news'
         ]);
@@ -55,7 +55,7 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getHowToRefillSberbankPage',
         'as' => 'how-to-refill-sberbank'
         ]);
-     Route::get('/faq', [
+    Route::get('/faq', [
         'uses' => 'SiteController@getFaqPage',
         'as' => 'faq'
         ]);
@@ -125,13 +125,13 @@ Route::group(['middleware' => 'web'], function () {
         /**
          * STATIC ARTICLES
          */
-    Route::get('/static_articles/is-it-safely', function(){
-        return view('pages.static_articles.is-it-safely');
-    });
+        Route::get('/static_articles/is-it-safely', function(){
+            return view('pages.static_articles.is-it-safely');
+        });
         /**
          * 
          */
-});
+    });
 Route::group(['prefix' => 'sudo'], function () {
     Route::get('login', function ()    {
         return view('sudo.login');
@@ -143,57 +143,67 @@ Route::group(['prefix' => 'sudo'], function () {
 });
 Route::group(['middleware' => 'auth'], function()
 {
+    /**
+     * PROFILER ROUTES
+     */
     Route::get('/profile', [
-    'uses' => 'UserController@showProfile',
-    'as' => 'profile'
-    ]);
-Route::group(['prefix' => 'sudo'], function () {
-    Route::get('dashboard', [
-        'uses' => 'SudoController@getDashboard',
-        'as' => 'sudo.pages.dashboard'
+        'uses' => 'UserController@showProfile',
+        'as' => 'profile'
         ]);
-    Route::get('articles', [
-        'uses' => 'SudoController@getArticlesPage',
-        'as' => 'sudo.pages.articles'
+    Route::post('/profile/change_name',[
+        'uses' => 'UserController@postChangeName',
+        'as' => 'profile.change_name.post'
         ]);
-    Route::get('logout', [
-        'uses' => 'UserController@postLogout',
-        'as' => 'sudo.logout.post' 
-        ]);
-    Route::get('/articles/add',[
-        'uses' => 'SudoController@getAddArticle',
-        'as' => 'sudo.articles.add.get'
-        ]);
-    Route::post('/articles/add',[
-        'uses' => 'SudoController@postAddArticle',
-        'as' => 'sudo.articles.add.post'
-        ]);
+    /**
+     * END OF PROFILE ROUTES
+     */
+    Route::group(['prefix' => 'sudo'], function () {
+        Route::get('dashboard', [
+            'uses' => 'SudoController@getDashboard',
+            'as' => 'sudo.pages.dashboard'
+            ]);
+        Route::get('articles', [
+            'uses' => 'SudoController@getArticlesPage',
+            'as' => 'sudo.pages.articles'
+            ]);
+        Route::get('logout', [
+            'uses' => 'UserController@postLogout',
+            'as' => 'sudo.logout.post' 
+            ]);
+        Route::get('/articles/add',[
+            'uses' => 'SudoController@getAddArticle',
+            'as' => 'sudo.articles.add.get'
+            ]);
+        Route::post('/articles/add',[
+            'uses' => 'SudoController@postAddArticle',
+            'as' => 'sudo.articles.add.post'
+            ]);
 
-    Route::get('/articles/edit/{id}',[
-        'uses' => 'SudoController@getEditArticle',
-        'as' => 'sudo.articles.edit.get'
-        ]);
-    Route::post('/articles/edit',[
-        'uses' => 'SudoController@postEditArticle',
-        'as' => 'sudo.articles.edit.post'
-        ]);
-    Route::post('/articles/delete/{id}',[
-        'uses' => 'SudoController@postDeleteArticle',
-        'as' => 'sudo.articles.delete'
-        ]);
+        Route::get('/articles/edit/{id}',[
+            'uses' => 'SudoController@getEditArticle',
+            'as' => 'sudo.articles.edit.get'
+            ]);
+        Route::post('/articles/edit',[
+            'uses' => 'SudoController@postEditArticle',
+            'as' => 'sudo.articles.edit.post'
+            ]);
+        Route::post('/articles/delete/{id}',[
+            'uses' => 'SudoController@postDeleteArticle',
+            'as' => 'sudo.articles.delete'
+            ]);
 
-    Route::get('/operations',[
-        'uses' => 'SudoController@getOperationsPage',
-        'as' => 'sudo.pages.operations'
-        ]);
-    Route::get('/import',[
-        'uses' => 'SudoController@getImportPage',
-        'as' => 'sudo.pages.import'
-        ]);
-    Route::post('/import/transactions',[
-        'uses' => 'SudoController@postImportTransactions',
-        'as' => 'sudo.import.transactions.post'
-        ]);
+        Route::get('/operations',[
+            'uses' => 'SudoController@getOperationsPage',
+            'as' => 'sudo.pages.operations'
+            ]);
+        Route::get('/import',[
+            'uses' => 'SudoController@getImportPage',
+            'as' => 'sudo.pages.import'
+            ]);
+        Route::post('/import/transactions',[
+            'uses' => 'SudoController@postImportTransactions',
+            'as' => 'sudo.import.transactions.post'
+            ]);
     /**
      * QUESTIONS    
      */
@@ -218,18 +228,18 @@ Route::get('/home', 'UserController@getHomePage');
 Route::get('/confirm-account/{register_token}',[
     'uses' => 'Auth\RegisterController@confirmAccount',
     'as' => 'confirm-account'
-]);
+    ]);
 /**
  * AJAX ROUTES
  */
 Route::post('/ajax/check_card_on_exist', [ 'uses' =>
-        'UserController@ajaxCheckCardOnExist',
-        'as' => 'ajax.check_card_on_exist'
-        ]);
+    'UserController@ajaxCheckCardOnExist',
+    'as' => 'ajax.check_card_on_exist'
+    ]);
 Route::post('/ajax/check_email_on_exist', [ 'uses' =>
-        'UserController@ajaxCheckEmailExist',
-        'as' => 'ajax.check_email_on_exist'
-        ]);
+    'UserController@ajaxCheckEmailExist',
+    'as' => 'ajax.check_email_on_exist'
+    ]);
 /**
  * 
  */

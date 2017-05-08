@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Auth;
 use DB;
+use Session;
 use \DateTime;
 use Carbon\Carbon;
 use \App\Log;
@@ -73,6 +74,24 @@ class UserController extends Controller
             'operations' => $operations,
             'last_import' => $last_import
             ]);
+    }
+    /**
+     * NAME CHANGING
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postChangeName(Request $request){
+      $new_name = $request['name'];
+      $user_id = $request['user_id'];
+      $user = \App\User::find($user_id);
+      $user->name = $new_name;
+      if ($user->save()){
+        Session::flash('name-changed-successfully', 'Имя успешно изменено');
+        return redirect()->back();
+      } else {
+         Session::flash('name-changed-unsuccessfully', 'Изменить имя не удалось');
+         return redirect()->back();
+      }
     }
     public function ajaxCheckCardOnExist(Request $request){
       $card = DB::table('users')
