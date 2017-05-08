@@ -22,7 +22,6 @@
                             </div>
                             <div class="name">
                                 <h3 class="title profile-card-title">{{ Auth::user()->card_number }}</h3>
-                                <h6>Электронный кошелек</h6>
                             </div>
                         </div>
                     </div>
@@ -39,7 +38,7 @@
                                         <div class="nav-tabs-wrapper">
                                             <ul class="nav nav-tabs" data-tabs="tabs">
                                                 <li class="active"><a href="#deposit" data-toggle="tab">Пополнение (Сбербанк)</a></li>
-                                                <li><a href="#updates" data-toggle="tab">Updates<div class="ripple-container"></div></a></li>
+                                                <li><a href="#details" data-toggle="tab">Детализация поездок<div class="ripple-container"></div></a></li>
                                                 <li><a href="#history" data-toggle="tab">History</a></li>
                                             </ul>
                                         </div>
@@ -70,15 +69,17 @@
                                                 <td class="text-right">{{$operation->transaction_date}}</td>
                                               </tr>
                                               @endforeach
+                                              <small>Последнее обновление базы данных: <strong>{{ $last_import }}</strong></small>
                                             @else
-                                            <h3>Нет данных</h3>
+                                            <h3>Здесь будет выводиться история транзакций пополнения карты через терминалы Сбербанка</h3>
+                                            <small>Последнее обновление базы данных: <strong>{{ $last_import }}</strong></small>
                                             @endif
                                             </tbody>
                                             
                                         </table>
                                     </div>
                                         </div>
-                                        <div class="tab-pane" id="updates">
+                                        <div class="tab-pane" id="details">
                                             <p> I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at. </p>
                                         </div>
                                         <div class="tab-pane" id="history">

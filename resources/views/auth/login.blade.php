@@ -60,6 +60,19 @@
                                     </div>
                                 </div>
                                 @endif
+                                @if (Session::has('account-is-not-exist'))
+                                <div class="alert alert-warning">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">warning</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('account-is-not-exist')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-body">

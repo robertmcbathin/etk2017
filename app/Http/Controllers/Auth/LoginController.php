@@ -48,17 +48,22 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $user_isset = DB::table('users')
-                         ->where('card_number',$request->card_number)
-                         ->first();   
-        if ($user_isset->is_active == 1){
-            if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
+        ->where('card_number',$request->card_number)
+        ->first();   
+        if ($user_isset !== NULL){
+            if ($user_isset->is_active == 1){
+                if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
             // Authentication passed...
-            return redirect()->route('profile');
+                    return redirect()->route('profile');
+                }
+            } else {
+                Session::flash('account-is-not-activated', 'Данный аккаунт не активирован! Проверьте почту, указанную при регистрации.');
+                return redirect()->route('login');
             }
         } else {
-            Session::flash('account-is-not-activated', 'Данный аккаунт не активирован! Проверьте почту, указанную при регистрации.');
+            Session::flash('account-is-not-exist', 'Данный аккаунт не существует или был удален');
             return redirect()->route('login');
-        }
+        }                 
 
     }
     public function logout(Request $request)
@@ -79,11 +84,11 @@ class LoginController extends Controller
      *
      * @return Response
      */
-    public function authenticate()
-    {
-        if (Auth::attempt(['card_number' => $card_number, 'password' => $password])) {
+        public function authenticate()
+        {
+            if (Auth::attempt(['card_number' => $card_number, 'password' => $password])) {
             // Authentication passed...
-            return redirect()->intended('profile');
+                return redirect()->intended('profile');
+            }
         }
     }
-}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Auth;
 use DB;
 use \DateTime;
+use Carbon\Carbon;
 use \App\Log;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,20 @@ class UserController extends Controller
      */
     public function showProfile(){
       $num   = substr(Auth::user()->card_number, 3, 6);
+      /**
+       * SHOW LAST IMPORT DIFF
+       * @var [type]
+       */
+      Carbon::setLocale('ru');
+      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first();
+      $non_formatted_date = new Carbon($last_import->created_at);
+      $last_import = $non_formatted_date->diffForHumans();
+      /**
+       * GET TRANSACTIONS
+       * @var [type]
+       */
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
                 ->where('card_number', 'like',  $num)
                 ->orderBy('transaction_date', 'DESC')
@@ -55,7 +70,8 @@ class UserController extends Controller
         $operation->transaction_date = $format_date->format('d.m.Y');
       }
         return view('pages.profile',[
-            'operations' => $operations
+            'operations' => $operations,
+            'last_import' => $last_import
             ]);
     }
     public function ajaxCheckCardOnExist(Request $request){
