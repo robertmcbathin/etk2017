@@ -5,6 +5,7 @@ use Auth;
 use DB;
 use Session;
 use \DateTime;
+use Hash;
 use Carbon\Carbon;
 use \App\Log;
 use Illuminate\Http\Request;
@@ -93,6 +94,58 @@ class UserController extends Controller
          return redirect()->back();
       }
     }
+    /**
+     * CHANGE PASSWORD
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postChangePassword(Request $request){
+      $old_password    = $request['old_password'];
+      $new_password    = $request['new_password'];
+      $password_repeat = $request['password_repeat'];
+      $user_id         = $request['user_id'];
+      $user = \App\User::find($user_id);
+      if (Hash::check($old_password, $user->password)){
+        if ($new_password == $password_repeat){
+          $user->password = bcrypt($new_password);
+          if ($user->save()){
+            Session::flash('password-changed-successfully', 'Пароль успешно изменен');
+            return redirect()->back();
+          } else {
+            Session::flash('password-changed-unsuccessfully', 'Упс... Пароль изменить не удалось');
+            return redirect()->back();
+          }
+        } else {
+          Session::flash('wrong-repeat', 'Неправильный повторный ввод пароля');
+         return redirect()->back();
+        }
+      } else {
+        Session::flash('wrong-password', 'Указан неправильный пароль');
+         return redirect()->back();
+      }
+    }
+      /**
+     * CHANGE PASSWORD
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postDeleteAccount(Request $request){
+      $user_id         = $request['user_id'];
+      $user = \App\User::find($user_id);
+      if ($user->delete()){
+         Session::flush();
+         Session::flash('account-deleted', 'Аккаунт удален');
+         return redirect()->route('register');
+      } else {
+        Session::flash('account-not-deleted', 'Удалить аккаунт не удалось');
+        return redirect()->route('register');
+      }
+    }
+    /**
+     * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function ajaxCheckCardOnExist(Request $request){
       $card = DB::table('users')
                 ->where('card_number', $request->num)

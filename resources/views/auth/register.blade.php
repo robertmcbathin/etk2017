@@ -19,6 +19,32 @@
                 <div class="card card-signup mobile-padding">
                     <h2 class="card-title text-center">Регистрация карты</h2>
                     <div class="row">
+                        @if (Session::has('account-deleted'))
+                        <div class="alert alert-info">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">check</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('account-deleted')}}</strong>
+                            </div>
+                        </div>
+                        @endif
+                        @if (Session::has('account-not-deleted'))
+                        <div class="alert alert-warning">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('account-not-deleted')}}</strong>
+                            </div>
+                        </div>
+                        @endif
                         @if (Session::has('card-number-verify-fail'))
                         <div class="alert alert-warning">
                             <div class="container register-alert">

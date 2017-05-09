@@ -154,6 +154,14 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeName',
         'as' => 'profile.change_name.post'
         ]);
+    Route::post('/profile/change_password',[
+        'uses' => 'UserController@postChangePassword',
+        'as' => 'profile.change_password.post'
+        ]);
+    Route::post('/profile/delete_account',[
+        'uses' => 'UserController@postDeleteAccount',
+        'as' => 'profile.delete_account.post'
+        ]);
     /**
      * END OF PROFILE ROUTES
      */
