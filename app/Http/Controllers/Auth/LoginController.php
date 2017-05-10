@@ -53,7 +53,10 @@ class LoginController extends Controller
         if ($user_isset !== NULL){
             if ($user_isset->is_active == 1){
                 if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
-            // Authentication passed...
+                    $log = new \App\Log;
+                    $log->action_type = 1;
+                    $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вошел в систему";
+                    $log->save();
                     return redirect()->route('profile');
                 }
             } else {
@@ -68,6 +71,10 @@ class LoginController extends Controller
     }
     public function logout(Request $request)
     {
+        $logout_log = new \App\Log;
+        $logout_log->action_type = 2;
+        $logout_log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вышел из системы";
+        $logout_log->save();
         Auth::logout();
         return redirect()->route('index');
     }

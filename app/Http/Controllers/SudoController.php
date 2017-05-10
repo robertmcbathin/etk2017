@@ -7,6 +7,7 @@ use DB;
 use Auth;
 use Session;
 use CsvReader;
+use \App\Online;
 use \DateTime;
 use \App\Log;
 use \App\Article;

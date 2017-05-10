@@ -194,6 +194,8 @@ class UserController extends Controller
                      $m->from('no-reply@etk21.ru', 'Служба поддержки ЕТК');
                      $m->to($email)->subject('Восстановление доступа к личному кабинету');
                  });
+               Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
+               return redirect()->back();
            } else {
            Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее'); 
            return redirect()->back()->withInput();
@@ -213,6 +215,7 @@ class UserController extends Controller
             return redirect()->route('login');
         } else {
             DB::table('users')
+                ->where('id', $account->id)
                 ->update(['password' => $password, 'confirmation_token' => NULL]);
             Session::flash('confirmation-success', 'Ваш пароль успешно изменен');
             return redirect()->route('login');

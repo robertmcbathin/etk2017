@@ -25,6 +25,11 @@
                                 {{ Session::pull('saving-fail') }}
                             </div>
                             @endif
+                            @if (Session::has('link-sent'))
+                             <div class="alert alert-danger">
+                                {{ Session::pull('link-sent') }}
+                            </div>
+                            @endif
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-body">
