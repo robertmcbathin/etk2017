@@ -17,13 +17,18 @@
                             <div class="row">
                              @if (session('status'))
                              <div class="alert alert-success">
-                                Вам была отправлена ссылка для сброса пароля
+                                Вам было отправлено письмо с новым паролем
+                            </div>
+                            @endif
+                            @if (Session::has('saving-fail'))
+                             <div class="alert alert-danger">
+                                {{ Session::pull('saving-fail') }}
                             </div>
                             @endif
                         </div>
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <form class="form-horizontal" role="form" method="POST" action="{{ route('password.email') }}">
+                                <form class="form-horizontal" role="form" method="POST" action="{{ route('password.send-new-password') }}">
                                     {{ csrf_field() }}
                                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                         <label for="email" class="col-md-4 control-label">E-Mail </label>
@@ -42,7 +47,7 @@
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-4">
                                             <button type="submit" class="btn btn-primary">
-                                                Отправить ссылку для восстановления
+                                                Отправить новый пароль
                                             </button>
                                         </div>
                                     </div>
