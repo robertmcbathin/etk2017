@@ -6,12 +6,33 @@ use DB;
 use Session;
 use \DateTime;
 use Hash;
+use Mail;
 use Carbon\Carbon;
 use \App\Log;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+  /**
+   * [generatePassword description]
+   * @param  integer $length [description]
+   * @return [type]          [description]
+   */
+    public function generatePassword($length = 8)
+    {
+      $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+      $numChars = strlen($chars);
+      $string = '';
+      for ($i = 0; $i < $length; $i++) {
+        $string .= substr($chars, rand(1, $numChars) - 1, 1);
+      }
+      return $string;
+    }
+    /**
+     * [postLogin description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function postLogin(Request $request){
     	$this->validate($request,[
             'username' => 'required',
@@ -141,6 +162,62 @@ class UserController extends Controller
         return redirect()->route('register');
       }
     }
+    /**
+     * [sendNewPassword description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function sendNewPassword(Request $request){
+      $this->validate($request,[
+            'email' => 'required|email|max:255'
+            ]);
+      /**
+       * INITIALIZE VARIABLES
+       */
+      $password_to_send = $this->generatePassword();
+      $email = $request['email'];
+      $confirmation_token = $request['_token'];
+      $password = bcrypt($password_to_send);
+      /**
+       * FIND AND SAVE CONFIRMATION TOKEN
+       * @var [type]
+       */
+      $user = \App\User::where('email',$email)->first();
+      $user->confirmation_token = $confirmation_token;
+      if ($user->save()){
+               Mail::send('emails.send_new_password',
+                 [
+                 'password_to_send' => $password_to_send,
+                 'password' => $password,
+                 'confirmation_token' => $confirmation_token],
+                 function ($m) use ($email){
+                     $m->from('no-reply@etk21.ru', 'Служба поддержки ЕТК');
+                     $m->to($email)->subject('Восстановление доступа к личному кабинету');
+                 });
+           } else {
+           Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее'); 
+           return redirect()->back()->withInput();
+       }
+    }
+    /**
+ * CONFIRM PASSWORD CHANGING
+ * @param  [type] $register_token [description]
+ * @return [type]                 [description]
+ */
+    public function confirmNewPassword($confirmation_token,$password){
+        $account = DB::table('users')
+                        ->where('confirmation_token',$confirmation_token)
+                        ->first();
+        if ($account == NULL){
+            Session::flash('confirmation-failed', 'Хмм.. Вашей заявки восстановления доступа не обнаружено');
+            return redirect()->route('login');
+        } else {
+            DB::table('users')
+                ->update(['password' => $password, 'confirmation_token' => NULL]);
+            Session::flash('confirmation-success', 'Ваш пароль успешно изменен');
+            return redirect()->route('login');
+        }
+}
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED
      * @param  Request $request [description]

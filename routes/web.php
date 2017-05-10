@@ -237,6 +237,14 @@ Route::get('/confirm-account/{register_token}',[
     'uses' => 'Auth\RegisterController@confirmAccount',
     'as' => 'confirm-account'
     ]);
+Route::post('/password/send_new_password',[
+    'uses' => 'UserController@sendNewPassword',
+    'as' => 'password.send-new-password'
+    ]);
+Route::get('/confirm-new-password/{confirmation_token}/{password}',[
+    'uses' => 'UserController@confirmNewPassword',
+    'as' => 'confirm-new-password'
+    ]);
 /**
  * AJAX ROUTES
  */

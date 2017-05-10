@@ -21,6 +21,32 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
+                                @if (Session::has('confirmation-failed'))
+                                <div class="alert alert-warning">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">warning</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('confirmation-failed')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
+                                @if (Session::has('confirmation-success'))
+                                <div class="alert alert-success">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
+                                            <i class="material-icons">success</i>
+                                        </div>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                        </button>
+                                        <strong>{{Session::pull('confirmation-success')}}</strong>
+                                    </div>
+                                </div>
+                                @endif
                                 @if (Session::has('activation-failed'))
                                 <div class="alert alert-warning">
                                     <div class="container register-alert">
@@ -124,7 +150,7 @@
                                                 </button>
 
                                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                    Забыли пароль?
+                                                    Я забыл(а) пароль
                                                 </a>
                                             </div>
                                         </div>
