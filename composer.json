@@ -9,6 +9,7 @@
         "anhskohbo/no-captcha": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "sentry/sentry-laravel": "^0.7.0",
         "wilgucki/csv": "^0.6.2"
     },
     "require-dev": {

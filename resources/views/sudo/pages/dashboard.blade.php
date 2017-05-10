@@ -45,7 +45,7 @@
                                     <i class="material-icons">account_box</i>
                                 </div>
                                 <div class="card-content">
-                                    <p class="category">Всегопользователей</p>
+                                    <p class="category">Всего пользователей</p>
                                     <h3 class="card-title">{{$users_count}}</h3>
                                 </div>
                                 <div class="card-footer">
