@@ -173,63 +173,63 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('dashboard', [
             'uses' => 'SudoController@getDashboard',
             'as' => 'sudo.pages.dashboard'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::get('articles', [
             'uses' => 'SudoController@getArticlesPage',
             'as' => 'sudo.pages.articles'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::get('logout', [
             'uses' => 'UserController@postLogout',
             'as' => 'sudo.logout.post' 
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/articles/add',[
             'uses' => 'SudoController@getAddArticle',
             'as' => 'sudo.articles.add.get'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/articles/add',[
             'uses' => 'SudoController@postAddArticle',
             'as' => 'sudo.articles.add.post'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
 
         Route::get('/articles/edit/{id}',[
             'uses' => 'SudoController@getEditArticle',
             'as' => 'sudo.articles.edit.get'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/articles/edit',[
             'uses' => 'SudoController@postEditArticle',
             'as' => 'sudo.articles.edit.post'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/articles/delete/{id}',[
             'uses' => 'SudoController@postDeleteArticle',
             'as' => 'sudo.articles.delete'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
 
         Route::get('/operations',[
             'uses' => 'SudoController@getOperationsPage',
             'as' => 'sudo.pages.operations'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/import',[
             'uses' => 'SudoController@getImportPage',
             'as' => 'sudo.pages.import'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/import/transactions',[
             'uses' => 'SudoController@postImportTransactions',
             'as' => 'sudo.import.transactions.post'
-            ]);
+            ])->middleware('can:show-sudo,App\User');
     /**
      * QUESTIONS    
      */
     Route::get('questions', [
         'uses' => 'SudoController@getQuestionsPage',
         'as' => 'sudo.pages.questions'
-        ]);
+        ])->middleware('can:show-sudo,App\User');
     /**
      * 
      */
     Route::post('/sudo/ajax/check_card_operations', [ 'uses' =>
         'SudoController@ajaxCheckCardOperations',
         'as' => 'ajax.check_card_operations'
-        ]);
+        ])->middleware('can:show-sudo,App\User');
 });
 });
 
