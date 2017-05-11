@@ -34,9 +34,10 @@
 	<script src="/js/jquery.min.js" type="text/javascript"></script>
 	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="/js/material.min.js"></script>
-
 	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 	<script src="/js/material-kit.js" type="text/javascript"></script>
+            <!--    Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker   -->
+    <script src="/js/bootstrap-datepicker.js" type="text/javascript"></script>
 	<script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {

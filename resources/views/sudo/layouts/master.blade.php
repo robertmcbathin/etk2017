@@ -81,8 +81,8 @@
     });
 </script>
 <script>
-      $('#card_number').on('keyup', function(){
-        if ($('#card_number').val().length > 5) {
+  $('#card_number').on('keyup', function(){
+    if ($('#card_number').val().length > 5) {
         $.ajax({
           method: 'POST',
           url: url,
@@ -106,17 +106,21 @@
                 html = '<tbody id=\"operations-results\">';
                 htmlNull = '<h3 id=\"operations-results-none\"></h3>';
                 for (var i = 0; i <= msg['data'].length - 1; i++) {
-                html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";}
+                    if (msg.data[i].terminal_number == 'SELLING'){
+                        html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td><span class='material-icons'>shopping_cart</span> Продажа</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+                    } else 
+                    html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+                }
                 html += '</tbody>';
                 $('#operations-results-none').replaceWith(htmlNull);
                 $('#operations-results').replaceWith(html);
             }
             html = '<tbody id=\"operations-results\"></tbody>';
-          };
-        });
-        } else {
-            console.log('Oops...');
-        }
-      });
-    </script>
+        };
+    });
+    } else {
+        console.log('Oops...');
+    }
+});
+</script>
 </html>

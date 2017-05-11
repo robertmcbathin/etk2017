@@ -42,7 +42,7 @@ class SudoController extends Controller
     		'articles' => $articles
     		]);
     }
-    public function togglePublishedChackbox(Request $request){
+    public function togglePublishedCheckbox(Request $request){
         return response()->json(['message' => $request['checkbox']]);
     }
     public function getAddArticle(){

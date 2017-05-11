@@ -162,6 +162,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postDeleteAccount',
         'as' => 'profile.delete_account.post'
         ]);
+    Route::post('/profile/request_details',[
+        'uses' => 'UserController@postRequestDetails',
+        'as' => 'profile.request_details.post'
+        ]);
     /**
      * END OF PROFILE ROUTES
      */
