@@ -156,6 +156,10 @@ class UserController extends Controller
       if ($user->delete()){
          Session::flush();
          Session::flash('account-deleted', 'Аккаунт удален');
+         $log = new \App\Log;
+         $log->action_type = 5;
+         $log->message = date('Y-m-d H:i:s') . " | Пользователь с номером карты " . $user->card_number . ' удалил аккаунт';
+         $log->save();
          return redirect()->route('register');
       } else {
         Session::flash('account-not-deleted', 'Удалить аккаунт не удалось');
