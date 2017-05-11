@@ -166,6 +166,24 @@ class UserController extends Controller
         return redirect()->route('register');
       }
     }
+
+
+    public function postRequestDetails(Request $request){
+      $this->validate($request,[
+            'date_start' => 'required',
+            'date_end' => 'required'
+       ]);
+
+      $date_start = $request['date_start'];
+      $date_end   = $request['date_end'];
+      
+      $date_start = new \Datetime($date_start);
+      $date_end = new \Datetime($date_end);
+
+      $min_date = ($date_start - 1209600);
+      $max_date = $date_end;
+    }
+
     /**
      * [sendNewPassword description]
      * @param  Request $request [description]
