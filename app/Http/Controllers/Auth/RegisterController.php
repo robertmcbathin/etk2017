@@ -179,6 +179,10 @@ class RegisterController extends Controller
             DB::table('users')
                 ->update(['is_active' => 1, 'register_token' => NULL]);
             Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
+            $log = new \App\Log;
+            $log->action_type = 4;
+            $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->card_number;
+            $log->save();
             return redirect()->route('login');
         }
 }
