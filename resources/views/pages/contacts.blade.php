@@ -28,14 +28,40 @@
   <div class="contact-content">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-4 col-md-offset-2">
           <div class="info info-horizontal">
             <div class="icon icon-primary">
               <i class="material-icons">pin_drop</i>
             </div>
+            <h4 class="info-title">Пункты обслуживания физических лиц</h4>
+            <p>
+              Мини-офис СЗР <strong>г. Чебоксары, ул. Гузовского, 17</strong>
+            </p>
+            <p>
+              Мини-офис Центр <strong>г. Чебоксары, ул. Карла Маркса, 22</strong>
+            </p>
+            <p>
+              Мини-офис НЮР <strong>г. Чебоксары, пр-кт Тракторостроителей, 35а</strong>
+            </p>
+            <p>
+              Мини-офис Нчк <strong>г. Новочебоксарск, ул. Винокурова, 51</strong>
+            </p>
+            <h4 class="info-title">Пункты обслуживания юридических лиц</h4>
+            <p>
+              Центральный офис <strong>г. Чебоксары, пр-кт Тракторостроителей, 6б</strong>
+            </p>
+            <p><i class="material-icons">call</i> (8352) 36-03-30, 36-33-30</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="info info-horizontal">
+            <div class="icon icon-primary">
+            <i class="material-icons">query_builder</i>
+            </div>
             <div class="description">
               <h4 class="info-title">Режим работы</h4>
-              <p> Пн-Пт <strong>c 9:00 до 18:00</strong>, обед с 13 до 14</p>
+              <p>Мини-офисы: Пн-Пт <strong>c 9:00 до 18:00</strong>, обед с 13 до 14</p>
+              <p>Офис по обслуживанию юридических лиц: Пн-Пт <strong>c 8:00 до 17:00</strong>, обед с 12 до 13</p>
             </div>
           </div>
         </div>
@@ -167,6 +193,29 @@
         infowindow4th.open(map,marker4th);
         marker4th.addListener('click', function() {
           infowindow4th.open(map, marker4th);
+        }); 
+        //5th Marker
+        var marker5th = new google.maps.Marker({
+          position: {lat: 56.101350, lng: 47.301017},
+          map: map
+        });
+        var contentString5th = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h4 id="firstHeading" class="firstHeading">проспект Тракторостроителей, 35а</h4>'+
+        '<div id="bodyContent">'+
+        '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+        'info@etk21.ru</a> </p>'+
+        '</div>'+
+        '</div>';
+
+        var infowindow5th = new google.maps.InfoWindow({
+          position: {lat: 56.140717, lng: 47.199408},
+          content: contentString5th
+        });
+        infowindow5th.open(map,marker5th);
+        marker5th.addListener('click', function() {
+          infowindow5th.open(map, marker5th);
         }); 
       }
       

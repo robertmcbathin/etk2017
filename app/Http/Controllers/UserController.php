@@ -158,7 +158,7 @@ class UserController extends Controller
          Session::flash('account-deleted', 'Аккаунт удален');
          $log = new \App\Log;
          $log->action_type = 5;
-         $log->message = date('Y-m-d H:i:s') . " | Пользователь с номером карты " . $user->card_number . ' удалил аккаунт';
+         $log->message = date('Y-m-d H:i:s') . " | Удален аккаунт пользвателя с номером карты " . $user->card_number;
          $log->save();
          return redirect()->route('register');
       } else {
