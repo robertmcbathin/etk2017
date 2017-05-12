@@ -208,6 +208,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getOperationsPage',
             'as' => 'sudo.pages.operations'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/detailing-requests',[
+            'uses' => 'SudoController@getDetailingRequestsPage',
+            'as' => 'sudo.pages.detailing-requests'
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/import',[
             'uses' => 'SudoController@getImportPage',
             'as' => 'sudo.pages.import'
