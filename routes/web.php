@@ -220,6 +220,15 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postImportTransactions',
             'as' => 'sudo.import.transactions.post'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/detailing-requests/accept',[
+            'uses' => 'SudoController@postAcceptDetailingRequest',
+            'as' => 'sudo.pages.detailing-requests.accept'
+            ])->middleware('can:show-sudo,App\User');
+        Route::post('/detailing-requests/attach_file',[
+            'uses' => 'SudoController@postAttachFileForDetailingRequest',
+            'as' => 'sudo.pages.detailing-requests.attach_file'
+            ])->middleware('can:show-sudo,App\User');
+
     /**
      * QUESTIONS    
      */

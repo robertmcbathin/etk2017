@@ -105,19 +105,35 @@
 <script>
   $('#card_number').on('keyup', function(){
     html = '';
-   /** if ($('#card_number').val().length >= 3) {
+    if ($('#card_number').val().length >= 3) {
         serie = $('#card_number').val().toString().substring(0,3);
         switch(serie){
             case '023':
               serie = '023';
               break;
+            case '021':
+              serie = '021';
+              break;
+            case '025':
+              serie = '025';
+              break;
+            case '026':
+              serie = '026';
+              break;
+            case '033':
+              serie = '033';
+              break;
+            case '034':
+              serie = '034';
+              break;
+            
             default :
               serie = '999';
               break; 
         }
         html = '<span class="material-input" id="reg-card-thumbnail">'
              + '<img class="reg-thumbnail" src="/images/cards_thumbnails/'
-              + serie.toString() + '_32.png\"></span>';
+              + serie.toString() + '_80.png\"></span>';
         $('#reg-card-thumbnail').replaceWith(html);
     } else {
         html = '<span class="material-input" id="reg-card-thumbnail">Номер карты</span>';

@@ -217,7 +217,45 @@ public function postAddArticle(Request $request){
         } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
       }
+      /**
+       * ACCEPT DETALIZATION REQUEST
+       * @param  Request $request [description]
+       * @return [type]           [description]
+       */
+      public function postAcceptDetailingRequest(Request $request){
+        $request_id  = $request['request_id'];
+        $executed_by = $request['executed_by'];
 
+        $accept = DB::table('ETK_DETAILING_REQUEST')
+                    ->where('id', $request_id)
+                    ->update([
+                      'executed_by' => $executed_by,
+                      'status' => 2
+                      ]);
+        $log = new \App\Log;
+        $log->action_type = 6;
+        $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " принял к обработке запрос на детализацию №" . $request_id;
+        $log->save();
+        Session::flash('request_accepted', 'Запрос принят к обработке');
+        return redirect()->back();              
+      }
+
+      public function postAttachFileForDetailingRequest(Request $request){
+        $request_id  = $request['request_id'];
+        $report = $request->file('report');
+        $reportname = '/docs/reports/detalization/' . date('Ymd-His') . '_' . $request_id;
+        if ($report){
+          Storage::disk('public')->put($reportname, File::get($report));
+          $report_query = DB::table('ETK_DETAILING_REQUEST')
+                    ->where('id', $request_id)
+                    ->update([
+                      'filepath' => $reportname,
+                      'status' => 3
+                      ]);
+          Session::flash('add-report-ok', 'Отчет добавлен');
+        } else Session::flash('add-report-error', 'Произошла ошибка');
+        return redirect()->back();
+      }
       public function ajaxCheckCardOperations(Request $request){
         $num   = $request['num'];
         $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
