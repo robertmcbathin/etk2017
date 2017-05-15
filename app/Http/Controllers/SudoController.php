@@ -7,6 +7,7 @@ use DB;
 use Auth;
 use Session;
 use CsvReader;
+use Mail;
 use \App\Online;
 use \DateTime;
 use \App\Log;
@@ -142,58 +143,58 @@ public function postAddArticle(Request $request){
       /**
      * DETAILING REQUESTS
      */
-    public function getDetailingRequestsPage(){
-      $requests = DB::table('ETK_DETAILING_REQUEST')
-       ->orderBy('created_at')
-       ->paginate(10);
-      return view('sudo.pages.detailing_requests',[
-        'requests' => $requests
-        ]); 
-    }
-    public function getOperationsPage(){
-      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
-      ->orderBy('created_at', 'DESC')
-      ->first(); 
-      $last_import->created_at = new \DateTime($last_import->created_at);
-      $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
-      return view('sudo.pages.operations', [
-        'last_import' => $last_import
-        ]);
-    }
+      public function getDetailingRequestsPage(){
+        $requests = DB::table('ETK_DETAILING_REQUEST')
+        ->orderBy('created_at')
+        ->paginate(10);
+        return view('sudo.pages.detailing_requests',[
+          'requests' => $requests
+          ]); 
+      }
+      public function getOperationsPage(){
+        $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first(); 
+        $last_import->created_at = new \DateTime($last_import->created_at);
+        $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
+        return view('sudo.pages.operations', [
+          'last_import' => $last_import
+          ]);
+      }
 
-    public function getImportPage(){
-      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
-      ->orderBy('created_at', 'DESC')
-      ->first(); 
-      $last_import->created_at = new \DateTime($last_import->created_at);
-      $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
-      return view('sudo.pages.import', [
-        'last_import' => $last_import
-        ]);
-    }
-    public function postImportTransactions(Request $request){
-      $transactions = $request->file('sb-transaction');
-      $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
-      $content = "";
-      if ($request->file('sb-transaction')->isValid()){
-        Storage::disk('public')->put($transaction_name, File::get($transactions));
-        $reader = CsvReader::open($transactions);
-        $counter = 0;
-        while (($line = $reader->readLine()) !== false) {
-          try {
-            $transaction_date = date_create_from_format('d.m.Y', $line[1]);
-            DB::table('SB_DEPOSIT_TRANSACTIONS')
-            ->insert(['transaction_number' => $line[0],
-             'transaction_date' => $transaction_date,
-             'terminal_number' => $line[2],
-             'value' => $line[3],
-             'card_number' => $line[4]
-             ]);
-            $counter++;
-          } catch (Exception $e) {
-            Session::flash('add-transactions-fail', $e->getMessage());
+      public function getImportPage(){
+        $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first(); 
+        $last_import->created_at = new \DateTime($last_import->created_at);
+        $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
+        return view('sudo.pages.import', [
+          'last_import' => $last_import
+          ]);
+      }
+      public function postImportTransactions(Request $request){
+        $transactions = $request->file('sb-transaction');
+        $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
+        $content = "";
+        if ($request->file('sb-transaction')->isValid()){
+          Storage::disk('public')->put($transaction_name, File::get($transactions));
+          $reader = CsvReader::open($transactions);
+          $counter = 0;
+          while (($line = $reader->readLine()) !== false) {
+            try {
+              $transaction_date = date_create_from_format('d.m.Y', $line[1]);
+              DB::table('SB_DEPOSIT_TRANSACTIONS')
+              ->insert(['transaction_number' => $line[0],
+               'transaction_date' => $transaction_date,
+               'terminal_number' => $line[2],
+               'value' => $line[3],
+               'card_number' => $line[4]
+               ]);
+              $counter++;
+            } catch (Exception $e) {
+              Session::flash('add-transactions-fail', $e->getMessage());
+            }
           }
-        }
            /**
             * SAVE IMPORT FILENAME
             */
@@ -227,11 +228,11 @@ public function postAddArticle(Request $request){
         $executed_by = $request['executed_by'];
 
         $accept = DB::table('ETK_DETAILING_REQUEST')
-                    ->where('id', $request_id)
-                    ->update([
-                      'executed_by' => $executed_by,
-                      'status' => 2
-                      ]);
+        ->where('id', $request_id)
+        ->update([
+          'executed_by' => $executed_by,
+          'status' => 2
+          ]);
         $log = new \App\Log;
         $log->action_type = 6;
         $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " принял к обработке запрос на детализацию №" . $request_id;
@@ -239,37 +240,51 @@ public function postAddArticle(Request $request){
         Session::flash('request_accepted', 'Запрос принят к обработке');
         return redirect()->back();              
       }
-
+      /**
+       * ATTACH FILE AND SEND EMAIL
+       * @param  Request $request [description]
+       * @return [type]           [description]
+       */
       public function postAttachFileForDetailingRequest(Request $request){
         $request_id  = $request['request_id'];
+        $user_id     = $request['user_id'];
+        $user = \App\User::find($request['user_id']);
+        $email = $user->email;
         $report = $request->file('report');
         $reportname = '/docs/reports/detalization/' . date('Ymd-His') . '_' . $request_id;
         if ($report){
           Storage::disk('public')->put($reportname, File::get($report));
-          $report_query = DB::table('ETK_DETAILING_REQUEST')
-                    ->where('id', $request_id)
-                    ->update([
-                      'filepath' => $reportname,
-                      'status' => 3
-                      ]);
-          Session::flash('add-report-ok', 'Отчет добавлен');
-        } else Session::flash('add-report-error', 'Произошла ошибка');
-        return redirect()->back();
-      }
-      public function ajaxCheckCardOperations(Request $request){
-        $num   = $request['num'];
-        $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-        ->where('card_number', 'like',  $num)
-        ->orderBy('transaction_date', 'DESC')
-        ->get();
-        foreach ($operations as $operation) {
-          $format_date = new \DateTime($operation->transaction_date);
-          $operation->transaction_date = $format_date->format('d.m.Y');
-        }
-        if ($operations == NULL)
-          return response()->json(['message' => 'error'],200);
-        if ($operations !== NULL)
-          return response()->json(['message' => 'success', 'data' => $operations],200);
-
-      }
+          if ($report_query = DB::table('ETK_DETAILING_REQUEST')
+            ->where('id', $request_id)
+            ->update([
+              'filepath' => $reportname,
+              'status' => 3
+              ])){
+            Mail::send('emails.send_report_notification',
+             [],
+             function ($m) use ($email){
+               $m->from('no-reply@etk21.ru', 'Служба поддержки ЕТК');
+               $m->to($email)->subject('Ваш отчет готов!');
+             });
+         Session::flash('add-report-ok', 'Отчет добавлен');
+       }
+     } else Session::flash('add-report-error', 'Произошла ошибка');
+     return redirect()->back();
+   }
+   public function ajaxCheckCardOperations(Request $request){
+    $num   = $request['num'];
+    $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+    ->where('card_number', 'like',  $num)
+    ->orderBy('transaction_date', 'DESC')
+    ->get();
+    foreach ($operations as $operation) {
+      $format_date = new \DateTime($operation->transaction_date);
+      $operation->transaction_date = $format_date->format('d.m.Y');
     }
+    if ($operations == NULL)
+      return response()->json(['message' => 'error'],200);
+    if ($operations !== NULL)
+      return response()->json(['message' => 'success', 'data' => $operations],200);
+
+  }
+}

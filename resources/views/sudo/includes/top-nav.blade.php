@@ -30,12 +30,14 @@
                                         Уведомления
                                         <b class="caret"></b>
                                     </p>
-                                    <span class="notification">0</span>
+                                    <span class="notification">{{$new_detailing_requests_count}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
+                                @foreach ($new_detailing_requests as $new_detailing_request)
                                     <li>
-                                        <a href="dashboard.html#">Текст оповещения</a>
+                                        <a href="{{ route('sudo.pages.detailing-requests') }}">Новый запрос отчета по карте <strong>{{$new_detailing_request->card_number}}</strong></a>
                                     </li>
+                                @endforeach
                                 </ul>
                             </li>
                             <li class="separator hidden-lg hidden-md"></li>

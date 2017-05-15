@@ -228,7 +228,7 @@ class UserController extends Controller
                       'user_id'  => $user_id,
                       'status' => 1
                       ])){
-        Session::flash('request-sent-ok', 'Ваш запрос отправлен, мы рассмотрим его в течение 5-х рабочих дней');
+        Session::flash('request-sent-ok', 'Ваш запрос отправлен, мы рассмотрим его в течение 5 рабочих дней');
         return redirect()->back();
       } else {
         Session::flash('request-sent-fail', 'Отправить запрос не удалось, повторите попытку позднее');
