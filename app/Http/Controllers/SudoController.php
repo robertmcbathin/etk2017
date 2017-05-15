@@ -252,7 +252,7 @@ public function postAddArticle(Request $request){
         $email = $user->email;
         $report = $request->file('report');
         $file_extension = File::extension($report);
-        $reportname = '/docs/reports/detalization/' . date('Ymd-His') . '_' . $request_id . '.' . $extension;
+        $reportname = '/docs/reports/detalization/' . date('Ymd-His') . '_' . $request_id . '.' . $file_extension;
         if ($report){
           Storage::disk('public')->put($reportname, File::get($report));
           if ($report_query = DB::table('ETK_DETAILING_REQUEST')
