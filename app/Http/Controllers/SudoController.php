@@ -251,7 +251,7 @@ public function postAddArticle(Request $request){
         $user = \App\User::find($request['user_id']);
         $email = $user->email;
         $report = $request->file('report');
-        $file_extension = File::extension($report);
+        $file_extension = $request->file('report')->getClientOriginalExtension();
         $reportname = '/docs/reports/detalization/' . date('Ymd-His') . '_' . $request_id . '.' . $file_extension;
         if ($report){
           Storage::disk('public')->put($reportname, File::get($report));
