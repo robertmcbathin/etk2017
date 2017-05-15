@@ -8,75 +8,75 @@
     <div class="content">
         <div class="container-fluid">
             <div class="col-md-12">
-                     @if (Session::has('add-article-ok'))
-                     <div class="row">
-                         <div class="alert alert-success">
-                                        <button type="button" aria-hidden="true" class="close">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                        <span>
-                                            <b> Готово - </b> Изменения сохранены</span>
-                                    </div>
-                     </div>
-         @endif
-         @if (Session::has('add-article-error'))
-         <div class="row">
-                         <div class="alert alert-danger">
-                                        <button type="button" aria-hidden="true" class="close">
-                                            <i class="material-icons">close</i>
-                                        </button>
-                                        <span>
-                                            <b> Ошибка - </b> Сохранить изменения не удалось</span>
-                                    </div>
-         </div>
-         @endif
+               @if (Session::has('add-article-ok'))
+               <div class="row">
+                   <div class="alert alert-success">
+                    <button type="button" aria-hidden="true" class="close">
+                        <i class="material-icons">close</i>
+                    </button>
+                    <span>
+                        <b> Готово - </b> Изменения сохранены</span>
+                    </div>
+                </div>
+                @endif
+                @if (Session::has('add-article-error'))
+                <div class="row">
+                   <div class="alert alert-danger">
+                    <button type="button" aria-hidden="true" class="close">
+                        <i class="material-icons">close</i>
+                    </button>
+                    <span>
+                        <b> Ошибка - </b> Сохранить изменения не удалось</span>
+                    </div>
+                </div>
+                @endif
                 <div class="card">
-                                <div class="card-header card-header-icon" data-background-color="rose">
-                                    <i class="material-icons">book</i>
+                    <div class="card-header card-header-icon" data-background-color="rose">
+                        <i class="material-icons">book</i>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="card-title">Изменение новости</h4>
+                        <form method="POST" action="{{route('sudo.articles.edit.post')}}" enctype="multipart/form-data">
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Заголовок</label>
+                                <input type="text" class="form-control" minlength="1" maxlength="100" name="title" value="{{ $article->title }}">
+                                <span class="material-input"></span>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Краткое описание</label>
+                                <input type="text" class="form-control" minlength="1" maxlength="255" name="description" value="{{ $article->description }}">
+                                <span class="material-input"></span>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label">Полное описание</label>
+                                <input type="text" class="form-control" minlength="1" maxlength="4096" name="content" value="{{ $article->content }}">
+                                <span class="material-input"></span>
+                            </div>
+                            <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail">
+                                    <img src="http://placehold.it/470x365" alt="">
                                 </div>
-                                <div class="card-content">
-                                    <h4 class="card-title">Изменение новости</h4>
-                                    <form method="POST" action="{{route('sudo.articles.edit.post')}}" enctype="multipart/form-data">
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label">Заголовок</label>
-                                            <input type="text" class="form-control" minlength="1" maxlength="100" name="title" value="{{ $article->title }}">
-                                        <span class="material-input"></span>
-                                        </div>
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label">Краткое описание</label>
-                                            <input type="text" class="form-control" minlength="1" maxlength="255" name="description" value="{{ $article->description }}">
-                                        <span class="material-input"></span>
-                                        </div>
-                                        <div class="form-group label-floating is-empty">
-                                            <label class="control-label">Полное описание</label>
-                                            <input type="text" class="form-control" minlength="1" maxlength="4096" name="content" value="{{ $article->content }}">
-                                        <span class="material-input"></span>
-                                        </div>
-                                        <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                                                <div class="fileinput-new thumbnail">
-                                                    <img src="http://placehold.it/470x365" alt="">
-                                                </div>
-                                                <div class="fileinput-preview fileinput-exists thumbnail"></div>
-                                                <div>
-                                                    <span class="btn btn-rose btn-round btn-file">
-                                                        <span class="fileinput-new">Выбрать изображение</span>
-                                                        <span class="fileinput-exists">Изменить</span>
-                                                        <input type="file" name="image" id="image">
-                                                    </span>
-                                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
-                                                </div>
-                                            </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" name="published" value="1" checked value="{{ $article->published }}"> Опубликовать
-                                            </label>
-                                        </div>
-                                        <input type="hidden" value="{{ $article->id }}" name="id">
-                                        <button type="submit" class="btn btn-fill btn-rose">Сохранить изменения</button>
-                                        {{csrf_field()}}
-                                    </form>
+                                <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                <div>
+                                    <span class="btn btn-rose btn-round btn-file">
+                                        <span class="fileinput-new">Выбрать изображение</span>
+                                        <span class="fileinput-exists">Изменить</span>
+                                        <input type="file" name="image" id="image">
+                                    </span>
+                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
                                 </div>
                             </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="published" value="1" checked value="{{ $article->published }}"> Опубликовать
+                                </label>
+                            </div>
+                            <input type="hidden" value="{{ $article->id }}" name="id">
+                            <button type="submit" class="btn btn-fill btn-rose">Сохранить изменения</button>
+                            {{csrf_field()}}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

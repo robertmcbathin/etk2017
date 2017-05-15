@@ -129,22 +129,7 @@
                         <div class="col-md-7">
                             <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                                 {{ csrf_field() }}
-                                <div class="card-content">
-                                    <div class="form-group">
-                                      <label for="choose_card" class="col-md-4 control-label">
-                                        Выберите Вашу карту
-                                      </label>
-                                      <div class="col-md-6">
-                                          <span class="material-input card-thumbnail" id="e-wallet-card-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/023_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="e-wallet-sbercard-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/sber023_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="e-wallet-oldcard-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/old023_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="chtu-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/chtu021_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="nmuptt-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/nmuptt026_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="travel-card-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/travel-card025_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="school-card-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/schoolcard033_80.png"></span>
-                                          <span class="material-input card-thumbnail" id="student-card-thumbnail"><img class="reg-thumbnail" src="/images/cards_thumbnails/student-card034_80.png"></span>
-                                      </div>
-                                    </div>  
+                                <div class="card-content"> 
                                     <div class="form-group">
                                         <input type="hidden" value="0" name="card_type" id="card_type">
                                     </div>

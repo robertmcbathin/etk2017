@@ -25,7 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('show-sudo', function($user){
+            return $user->role_id <= 10;
+        });
         Gate::define('show-import', function($user){
+            return $user->role_id <= 2;
+        });
+        Gate::define('show-reports', function($user){
             return $user->role_id <= 2;
         });
         Gate::define('show-pages', function($user){

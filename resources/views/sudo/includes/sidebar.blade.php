@@ -93,6 +93,11 @@ $username = Auth::user()->name;
                                     <a href="{{ route('sudo.pages.import') }}">Импорт</a>
                                 </li>
                                 @endcan
+                                @can('show-reports', App\User::class)
+                                <li>
+                                    <a href="{{ route('sudo.pages.detailing-requests') }}">Детализация поездок</a>
+                                </li>
+                                @endcan
                             </ul>
                         </div>
                        
