@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-    protected $table = 'ETK_CARD_TYPES';
+    protected $table = 'ETK_CARDS';
 }

@@ -131,6 +131,7 @@
               serie = '999';
               break; 
         }
+        $('#card_type').val(serie);
         html = '<span class="material-input" id="reg-card-thumbnail">'
              + '<img class="reg-thumbnail" src="/images/cards_thumbnails/'
               + serie.toString() + '_80.png\"></span>';

@@ -70,7 +70,7 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showProfile(){
-      $num   = substr(Auth::user()->card_number, 3, 6);
+      $num   = substr(Auth::user()->primary_card, 3, 6);
       /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
