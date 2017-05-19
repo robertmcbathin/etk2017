@@ -82,6 +82,7 @@ class RegisterController extends Controller
     {
         $this->validate($request,[
             'card_number' => 'required|min:9|max:9',
+            'name' => 'required|min:1|max:255',
             'email' => 'required|max:255',
             'password' => 'required|min:6|max:150',
             'password_repeat' => 'required|min:6|max:150'
@@ -90,6 +91,7 @@ class RegisterController extends Controller
          * INITIALIZE VARIABLES
          */
         $card_number     = $request['card_number'];
+        $name           = $request['name'];
         $email           = $request['email'];
         $password        = $request['password'];
         $password_repeat = $request['password_repeat'];
@@ -135,7 +137,7 @@ class RegisterController extends Controller
              $user = new \App\User;
              $user->card_number = $card_number;
              $user->username = $card_number;
-             $user->name = $card_number;
+             $user->name = $name;
              $user->email = $email;
              $user->role_id = 31;
              $user->card_image = $card_type;
@@ -144,6 +146,7 @@ class RegisterController extends Controller
              if ($user->save()){
                Mail::send('emails.registration',
                  ['card_number' => $card_number,
+                 'name' => $name,
                  'password' => $password,
                  'register_token' => $register_token],
                  function ($m) use ($email){
