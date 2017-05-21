@@ -141,7 +141,7 @@ class RegisterController extends Controller
                $user->name = $name;
                $user->email = $email;
                $user->role_id = 31;
-               $user->profile_image = '/images/account_circle';
+               $user->profile_image = '/images/account_circle.png';
                $user->register_token = $register_token;
                $user->password = bcrypt($password);
                if ($user->save()){

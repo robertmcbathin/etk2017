@@ -10,6 +10,8 @@ use Hash;
 use Mail;
 use Carbon\Carbon;
 use \App\Log;
+use Storage;
+use File;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -115,6 +117,90 @@ class UserController extends Controller
         ]);
     }
     /**
+     * [showDepositPage description]
+     * @return [type] [description]
+     */
+    public function showDepositPage(){
+      return view('pages.profile.deposit');
+    }
+    /**
+     * [showDepositHistory description]
+     * @return [type] [description]
+     */
+    public function showDepositHistory(){
+      $num   = substr(Auth::user()->primary_card, 3, 6);
+      /**
+       * SHOW LAST IMPORT DIFF
+       * @var [type]
+       */
+      Carbon::setLocale('ru');
+      $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+      ->orderBy('created_at', 'DESC')
+      ->first();
+      $non_formatted_date = new Carbon($last_import->created_at);
+      $last_import = $non_formatted_date->diffForHumans();
+            /**
+       * GET TRANSACTIONS
+       * @var [type]
+       */
+
+            $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+            ->where('card_number', 'like',  $num)
+            ->orderBy('transaction_date', 'DESC')
+            ->get();
+            foreach ($operations as $operation) {
+              $format_date = new \DateTime($operation->transaction_date);
+              $operation->transaction_date = $format_date->format('d.m.Y');
+            }
+            return view('pages.profile.deposit_history',
+              ['operations' => $operations,
+              'last_import' => $last_import]);
+          }
+    /**
+     * [showDetailsRequestForm description]
+     * @return [type] [description]
+     */
+    public function showDetailsRequestForm(){
+      return view('pages.profile.details_request');
+    }
+/**
+ * [showDetailsHistory description]
+ * @return [type] [description]
+ */
+public function showDetailsHistory(){
+      /**
+       * GET DETAILING REQUESTS
+       * @var [type]
+       */
+      $requests = DB::table('ETK_DETAILING_REQUEST')
+      ->where('user_id',Auth::user()->id)
+      ->orderBy('created_at')
+      ->get();
+
+      foreach ($requests as $request) {
+        $format_date = new \DateTime($request->date_start);
+        $request->date_start = $format_date->format('d.m.Y');
+        $format_date = new \DateTime($request->date_end);
+        $request->date_end = $format_date->format('d.m.Y');
+      }
+      return view('pages.profile.details_history',
+        ['requests' => $requests]);
+    }
+/**
+ * [showSettings description]
+ * @return [type] [description]
+ */
+public function showSettings(){
+  $cards = DB::table('ETK_CARDS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARDS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARDS.user_id', Auth::user()->id)
+              ->select('ETK_CARDS.*', 'ETK_CARD_TYPES.name as name')
+              ->get();
+  return view('pages.profile.settings',[
+    'cards' => $cards
+    ]);
+}
+    /**
      * NAME CHANGING
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -162,6 +248,82 @@ class UserController extends Controller
         return redirect()->back();
       }
     }
+          /**
+     * DELETE CARD
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+      public function postDeleteCard(Request $request){
+        $user_id              = $request['user_id'];
+        $primary_card         = $request['primary_card'];
+        $current_card         = $request['current_card'];
+        if ($current_card == $primary_card){
+          Session::flash('delete_card_fail', 'Нельзя удалить основную карту');
+          return redirect()->back();
+        } else {
+          DB::table('ETK_CARDS')
+            ->where('number', $current_card)
+            ->delete();
+          Session::flash('delete_card_success', 'Карта успешно удалена');
+          return redirect()->back();
+        }
+      }
+                /**
+     * ADD CARD
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+      public function postAddCard(Request $request){
+        $this->validate($request,[
+          'card_number' => 'required|min:9|max:9'
+          ]);
+        $card_type   = $request['card_type'];
+        $user_id     = $request['user_id'];
+        $card_number = $request['card_number'];
+        if (!is_numeric($card_number)){
+          Session::flash('card_is_not_numeric', 'Введенный номер не является числом. Проверьте и попробуйте еще раз');
+          return redirect()->back();
+        }else {
+          $num   = substr($card_number, 0, 3);
+          $card = new \App\Card;
+          $card->number = $card_number;
+          $card->serie  = $num;
+                             switch ($card_type) {
+                      case '023':
+                      $card_type = 1;
+                      break;
+                      case '021':
+                      $card_type = 7;
+                      break;
+                      case '025':
+                      $card_type = 5;
+                      break;
+                      case '026':
+                      $card_type = 8;
+                      break;
+                      case '033':
+                      $card_type = 9;
+                      break;
+                      case '034':
+                      $card_type = 10;
+                      break;
+                   
+                      default:
+                                        # code...
+                      break;
+                   }
+          $card->card_image_type   = $card_type;
+          $card->is_blocked = 0;
+          $card->user_id = $user_id;
+          if ($card->save()){
+                      Session::flash('add_card_success', 'Карта успешно добавлена!');
+          return redirect()->back();
+          } else {
+          Session::flash('add_card_fail', 'При добавлении карты произошла ошибка. Попробуйте повторить операцию позднее');
+          return redirect()->back();
+          }
+        }
+      }
       /**
      * CHANGE PASSWORD
      * @param  Request $request [description]
@@ -219,22 +381,22 @@ class UserController extends Controller
       $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
       
       if ($request = DB::table('ETK_DETAILING_REQUEST')
-                    ->insert([
-                      'card_number' => $card_number,
-                      'date_start' => $date_start,
-                      'date_end' => $date_end,
-                      'reason' => $reason,
-                      'estimated' => $estimated_date,
-                      'user_id'  => $user_id,
-                      'status' => 1
-                      ])){
+        ->insert([
+          'card_number' => $card_number,
+          'date_start' => $date_start,
+          'date_end' => $date_end,
+          'reason' => $reason,
+          'estimated' => $estimated_date,
+          'user_id'  => $user_id,
+          'status' => 1
+          ])){
         Session::flash('request-sent-ok', 'Ваш запрос отправлен, мы рассмотрим его в течение 5 рабочих дней');
-        return redirect()->back();
-      } else {
-        Session::flash('request-sent-fail', 'Отправить запрос не удалось, повторите попытку позднее');
-        return redirect()->back();
-      }
+      return redirect()->back();
+    } else {
+      Session::flash('request-sent-fail', 'Отправить запрос не удалось, повторите попытку позднее');
+      return redirect()->back();
     }
+  }
 
     /**
      * [sendNewPassword description]
@@ -295,6 +457,24 @@ class UserController extends Controller
         return redirect()->route('login');
       }
     }
+
+    public function postChangeAvatar(Request $request){
+      $this->validate($request,[
+        'avatar' => 'required|Image|size:100'
+        ]);
+      $user_id = $request['user_id'];
+      $avatar = $request->file('avatar');
+      $file_extension = $request->file('avatar')->getClientOriginalExtension();
+      $imagename = '/pictures/avatars/' . Auth::user()->id . '.' . $file_extension;
+      if ($avatar){
+        $user = \App\User::find($user_id);
+        Storage::disk('public')->put($imagename, File::get($avatar));
+        $user->profile_image = $imagename;
+        $user->save();
+        Session::flash('change-avatar-ok', 'Изображение профиля изменено');
+      } else Session::flash('change-avatar-error', 'При загрузке изображения произошла ошибка');
+      return redirect()->back();
+   }
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED
      * @param  Request $request [description]

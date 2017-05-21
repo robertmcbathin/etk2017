@@ -14,19 +14,6 @@
   <div class="profile-content">
     <div class="container">
 
-      <div class="row">
-        <div class="col-xs-6 col-xs-offset-3">
-         <div class="profile">
-          <div class="avatar">
-            <img src="{{Auth::user()->profile_image}}.png" alt="" class="img-responsive img-raised img-rounded">
-          </div>
-          <div class="name">
-            <h3 class="title profile-card-title">{{ Auth::user()->card_number }}</h3>
-            <h6>{{ Auth::user()->name }}</h6>
-          </div>
-        </div>
-      </div>
-    </div>
     @if (Session::has('min-date-error'))
     <div class="row">
       <div class="container">

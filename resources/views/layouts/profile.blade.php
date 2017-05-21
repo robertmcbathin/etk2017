@@ -24,9 +24,9 @@
 </head>
 
 <body class="profile-page">
-   @include('includes.login_top_nav')
+   @include('includes.profile_login_top_nav')
    @yield('content')
-   @include('includes.footer')
+   @include('includes.login-footer')
 
 
 </body>
@@ -34,10 +34,52 @@
 	<script src="/js/jquery.min.js" type="text/javascript"></script>
 	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="/js/material.min.js"></script>
+        <!--    Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+    <script src="/js/jasny-bootstrap.min.js"></script>
 	<!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 	<script src="/js/material-kit.js" type="text/javascript"></script>
             <!--    Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker   -->
     <script src="/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script>
+      $('#card_number').on('keyup', function(){
+    html = '';
+    if ($('#card_number').val().length >= 3) {
+        serie = $('#card_number').val().toString().substring(0,3);
+        switch(serie){
+            case '023':
+              serie = '023';
+              break;
+            case '021':
+              serie = '021';
+              break;
+            case '025':
+              serie = '025';
+              break;
+            case '026':
+              serie = '026';
+              break;
+            case '033':
+              serie = '033';
+              break;
+            case '034':
+              serie = '034';
+              break;
+            
+            default :
+              serie = '999';
+              break; 
+        }
+        $('#card_type').val(serie);
+        html = '<span class="material-input" id="reg-card-thumbnail">'
+             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/'
+              + serie.toString() + '_80.png\"></span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+    } else {
+        html = '<span class="material-input" id="reg-card-thumbnail">Номер карты</span>';
+        $('#reg-card-thumbnail').replaceWith(html);
+    }
+});
+    </script>
 	<script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {

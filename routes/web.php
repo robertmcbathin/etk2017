@@ -150,6 +150,26 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showProfile',
         'as' => 'profile'
         ]);
+    Route::get('/profile/deposit', [
+        'uses' => 'UserController@showDepositPage',
+        'as' => 'profile.deposit'
+        ]);
+    Route::get('/profile/deposit-history', [
+        'uses' => 'UserController@showDepositHistory',
+        'as' => 'profile.deposit_history'
+        ]);
+    Route::get('/profile/details_request', [
+        'uses' => 'UserController@showDetailsRequestForm',
+        'as' => 'profile.details_request'
+        ]);
+    Route::get('/profile/details-history', [
+        'uses' => 'UserController@showDetailsHistory',
+        'as' => 'profile.details_history'
+        ]);
+    Route::get('/profile/settings', [
+        'uses' => 'UserController@showSettings',
+        'as' => 'profile.settings'
+        ]);
     Route::post('/profile/change_name',[
         'uses' => 'UserController@postChangeName',
         'as' => 'profile.change_name.post'
@@ -165,6 +185,18 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/profile/request_details',[
         'uses' => 'UserController@postRequestDetails',
         'as' => 'profile.request_details.post'
+        ]);
+    Route::post('/profile/change_avatar',[
+        'uses' => 'UserController@postChangeAvatar',
+        'as' => 'profile.change_avatar.post'
+        ]);
+    Route::post('/profile/delete_card',[
+        'uses' => 'UserController@postDeleteCard',
+        'as' => 'profile.delete_card.post'
+        ]);
+    Route::post('/profile/card_card',[
+        'uses' => 'UserController@postAddCard',
+        'as' => 'profile.add_card.post'
         ]);
     /**
      * END OF PROFILE ROUTES

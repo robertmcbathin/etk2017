@@ -48,11 +48,11 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $user_isset = DB::table('users')
-        ->where('card_number',$request->card_number)
+        ->where('primary_card',$request->card_number)
         ->first();   
         if ($user_isset !== NULL){
             if ($user_isset->is_active == 1){
-                if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
+                if (Auth::attempt(['primary_card' => $request->card_number, 'password' => $request->password])) {
                     $log = new \App\Log;
                     $log->action_type = 1;
                     $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вошел в систему";
