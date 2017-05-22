@@ -14,7 +14,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <h3 class="title">Создать запрос на детализацию</h3>
+          <h4 class="title">Создать запрос на детализацию</h4>
         </div>
       </div>
       <div class="row">
@@ -104,7 +104,7 @@
           <form action="{{ route('profile.request_details.post') }}" method="POST">
             <div class="col-md-12">
               <div class="title">
-                <h3>Укажите период</h3>
+                <h4>Укажите период</h4>
               </div>
             </div>
             <div class="col-md-6">
@@ -121,7 +121,7 @@
               </div>
               <div class="col-md-12">
                 <div class="title">
-                  <h3>Укажите причину</h3>
+                  <h4>Укажите причину</h4>
                 </div>
                 <div class="form-group label-floating is-empty">
                   <label class="control-label"> Введите текст здесь</label>

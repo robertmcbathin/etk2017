@@ -15,7 +15,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <h3 class="title">Пополнение баланса карты</h3>
+          <h4 class="title">Пополнение баланса карты</h4>
         </div>
       </div>
       <div class="row">

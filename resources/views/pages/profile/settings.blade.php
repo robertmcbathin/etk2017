@@ -14,7 +14,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <h3 class="title">Настройки</h3>
+          <h4 class="title">Настройки</h4>
         </div>
       </div>
       @if (Session::has('name-changed-successfully'))
@@ -241,7 +241,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <hr>
-          <h4>Имя и фамилия</h4>
+          <h5>Имя и фамилия</h5>
           <div class="row">
             <div class="col-md-6 col-md-offset-3">
               <div class="form-group is-empty">
@@ -256,7 +256,7 @@
             </div>
           </div>
           <hr>
-          <h4>Изображение профиля</h4>
+          <h5>Изображение профиля</h5>
           <div class="row">
             <div class="alert alert-info">
               <div class="container">
@@ -295,7 +295,7 @@
                 </div>
               </div></div>
               <hr>
-              <h4>Мои карты</h4>
+              <h5>Мои карты</h5>
               <div class="row">
                 @foreach ($cards as $card)
                 <div class="col-md-4">
@@ -329,7 +329,7 @@
                 </div>
               </div>
               <hr>
-              <h4>Пароль</h4>
+              <h5>Пароль</h5>
               <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                   <form action="{{ route('profile.change_password.post') }}" method="POST">
@@ -351,7 +351,7 @@
                  </form>
                </div></div>
                <hr>
-               <h4>Удаление аккаунта</h4>
+               <h5>Удаление аккаунта</h5>
                <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                   <form action="{{ route('profile.delete_account.post') }}" method="POST">

@@ -73,6 +73,11 @@ class UserController extends Controller
      */
     public function showProfile(){
       $num   = substr(Auth::user()->primary_card, 3, 6);
+        $cards = DB::table('ETK_CARD_USERS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+              ->get();
       /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
@@ -113,7 +118,8 @@ class UserController extends Controller
       return view('pages.profile',[
         'operations' => $operations,
         'last_import' => $last_import,
-        'requests' => $requests
+        'requests' => $requests,
+        'cards' => $cards
         ]);
     }
     /**
@@ -191,10 +197,10 @@ public function showDetailsHistory(){
  * @return [type] [description]
  */
 public function showSettings(){
-  $cards = DB::table('ETK_CARDS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARDS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARDS.user_id', Auth::user()->id)
-              ->select('ETK_CARDS.*', 'ETK_CARD_TYPES.name as name')
+  $cards = DB::table('ETK_CARD_USERS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
               ->get();
   return view('pages.profile.settings',[
     'cards' => $cards
@@ -261,7 +267,7 @@ public function showSettings(){
           Session::flash('delete_card_fail', 'Нельзя удалить основную карту');
           return redirect()->back();
         } else {
-          DB::table('ETK_CARDS')
+          DB::table('ETK_CARD_USERS')
             ->where('number', $current_card)
             ->delete();
           Session::flash('delete_card_success', 'Карта успешно удалена');
@@ -285,7 +291,7 @@ public function showSettings(){
           return redirect()->back();
         }else {
           $num   = substr($card_number, 0, 3);
-          $card = new \App\Card;
+          $card = new \App\Usercard;
           $card->number = $card_number;
           $card->serie  = $num;
                              switch ($card_type) {
@@ -313,7 +319,6 @@ public function showSettings(){
                       break;
                    }
           $card->card_image_type   = $card_type;
-          $card->is_blocked = 0;
           $card->user_id = $user_id;
           if ($card->save()){
                       Session::flash('add_card_success', 'Карта успешно добавлена!');

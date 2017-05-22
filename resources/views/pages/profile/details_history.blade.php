@@ -14,7 +14,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
-          <h3 class="title">История запросов на детализацию</h3>
+          <h4 class="title">История запросов на детализацию</h4>
         </div>
       </div>
       <div class="row">
@@ -56,7 +56,7 @@
                     </tr>
                     @endforeach
                     @else
-                    <h3>Запросов детализации не поступало</h3>
+                    <h4>Запросов детализации не поступало</h4>
                     @endif
                   </tbody>
 

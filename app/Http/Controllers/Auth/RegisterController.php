@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Card;
+use App\Usercard;
 use Session;
 use DB;
 use Mail;
@@ -103,7 +103,7 @@ class RegisterController extends Controller
          * CHECK CARD NUMBER ON EXISTING
          * @var [type]
          */
-        $card_check = DB::table('ETK_CARDS')
+        $card_check = DB::table('ETK_CARD_USERS')
         ->where('number',$card_number)
         ->first();
         if ($card_check !== NULL){
@@ -145,8 +145,8 @@ class RegisterController extends Controller
                $user->register_token = $register_token;
                $user->password = bcrypt($password);
                if ($user->save()){
-                   $card = new \App\Card;
-                   $card->serie = substr($card)number, 0, 3);
+                   $card = new \App\Usercard;
+                   $card->serie = substr($card->number, 0, 3);
                    $card->number = $card_number;
                    switch ($card_type) {
                       case '023':
@@ -173,7 +173,6 @@ class RegisterController extends Controller
                       break;
                    }
                    $card->card_image_type = $card_type;
-                   $card->is_blocked = 0;
                    $card->user_id = 
                    Mail::send('emails.registration',
                       ['card_number' => $card_number,
