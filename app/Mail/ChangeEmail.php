@@ -21,7 +21,7 @@ class ChangeEmail extends Mailable
     public function __construct(User $user, $token)
     {
         $this->user = $user;
-        $this->url = 'etk21.ru/confirm_email_changing/' . $token;
+        $this->url = 'http://etk21.ru/confirm_email_changing/' . $token;
     }
 
     /**
