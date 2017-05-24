@@ -202,6 +202,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeEmail',
         'as' => 'profile.change_email.post'
         ]);
+    Route::get('/profile/confirm_email_changing/{token}',[
+        'uses' => 'UserController@getConfirmEmailChanging',
+        'as' => 'profile.confirm_email_changing.post'
+        ]);
     Route::post('/profile/change_phone',[
         'uses' => 'UserController@postChangePhone',
         'as' => 'profile.change_phone.post'

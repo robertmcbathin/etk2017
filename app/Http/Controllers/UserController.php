@@ -379,6 +379,24 @@ public function showSettings(){
            return redirect()->back();
         }              
     }
+    public function getConfirmEmailChanging($token){
+      if ($temp = DB::table('ETK_TEMP_EMAILS')
+                  ->where('token', $token)
+                  ->first()){
+        $user = \App\User::find($temp->user_id);
+        $user->email = $temp->email;
+        if ($user->save()){
+           Session::flash('new_email_accepted', 'Адрес электронной почты был успешкно изменен');
+           DB::table('ETK_TEMP_EMAILS')
+             ->where('token', $token)
+             ->delete();
+           return redirect()->route('login');
+        } else {
+           Session::flash('new_email_denied', 'Подтвердить новый адрес не удалось');
+           return redirect()->route('login');
+        }
+      }
+    }
 
     public function postRequestDetails(Request $request){
       $this->validate($request,[
