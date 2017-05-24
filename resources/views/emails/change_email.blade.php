@@ -2,7 +2,7 @@
 Здравствуйте, {{ $username }}. Мы получили от Вас запрос на изменение адреса электронной почты.
 Для подтверждения нового адреса перейдите по ссылке ниже
 
-@component('mail::button', ['url' => 'http://etk21.ru/profile/change_password/{{$token}}'])
+@component('mail::button', ['url' => $url])
 Подтвердить изменение адреса
 @endcomponent
 

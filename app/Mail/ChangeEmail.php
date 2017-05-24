@@ -34,7 +34,7 @@ class ChangeEmail extends Mailable
         return $this->markdown('emails.change_email')
                     ->with([
                         'username' => $this->user->name,
-                        'token'    => $this->token
+                        'url'    => $this->url
                         ]);
     }
 }
