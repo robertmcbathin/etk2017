@@ -12,7 +12,7 @@ class ChangeEmail extends Mailable
 {
     use Queueable, SerializesModels;
     protected $user;
-    protected $token;
+    protected $url;
     /**
      * Create a new message instance.
      *
@@ -21,7 +21,7 @@ class ChangeEmail extends Mailable
     public function __construct(User $user, $token)
     {
         $this->user = $user;
-        $this->url = 'etk21.ru/confirm_email_changing/' $token;
+        $this->url = 'etk21.ru/confirm_email_changing/' . $token;
     }
 
     /**
