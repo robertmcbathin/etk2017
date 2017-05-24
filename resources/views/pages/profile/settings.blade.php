@@ -238,6 +238,57 @@
         </div>
       </div>
       @endif
+      @if (Session::has('acception_email_send'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-success">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">check</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('acception_email_send')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
+      @if (Session::has('acception_email_fail'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-danger">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">error_outline</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('acception_email_fail')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
+      @if (Session::has('user_with_this_email_exists'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-danger">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">error_outline</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('user_with_this_email_exists')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
       <div class="row">
         <div class="card card-nav-tabs">
           <div class="header header-danger">
@@ -246,9 +297,9 @@
               <div class="nav-tabs-wrapper">
                 <ul class="nav nav-tabs" data-tabs="tabs">
                   <li class="active">
-                    <a href="#name" data-toggle="tab" aria-expanded="false">
+                    <a href="#personal" data-toggle="tab" aria-expanded="false">
                       <i class="material-icons">chat</i>
-                      ФИО
+                      Личные данные
                       <div class="ripple-container"></div></a>
                     </li>
                     <li class="">
@@ -284,7 +335,7 @@
                     </div>
                     <div class="card-content">
                       <div class="tab-content ">
-                        <div class="tab-pane active" id="name">
+                        <div class="tab-pane active" id="personal">
                           <div class="row">
                             <div class="col-md-6 col-md-offset-3">
                               <div class="form-group is-empty">
@@ -294,6 +345,36 @@
                                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                   {{ csrf_field()}}
                                   <button type="submit" class="btn btn-danger">Сменить имя</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                              <div class="form-group is-empty">
+                                <form action="{{ route('profile.change_email.post') }}" method="POST">
+                                  <input type="email" value="{{ Auth::user()->email }}" placeholder="example@mail.com" class="form-control" name="email">
+                                  <span class="material-input"></span>
+                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                  <small>На новый адрес электронной почты придет письмо со ссылкой на подтверждение нового адреса</small>
+                                  {{ csrf_field()}}
+                                  <button type="submit" class="btn btn-danger">Сменить Email</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                              <div class="form-group is-empty">
+                                <form action="{{ route('profile.change_name.post') }}" method="POST">
+                                  <input type="text" value="{{ Auth::user()->phone}}" placeholder="+7(000)0000000" class="form-control" name="phone">
+                                  <span class="material-input"></span>
+                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                  <small>Номер телефона будет использоваться для срочной связи с Вами</small>
+                                  {{ csrf_field()}}
+                                  <button type="submit" class="btn btn-danger">Сменить номер телефона</button>
                                 </form>
                               </div>
                             </div>
