@@ -82,7 +82,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validate($request,[
-            'card_number' => 'required|min:9|max:9',
             'name' => 'required|min:1|max:255',
             'email' => 'required|max:255',
             'password' => 'required|min:6|max:150',
@@ -91,27 +90,12 @@ class RegisterController extends Controller
         /**
          * INITIALIZE VARIABLES
          */
-        $card_number     = $request['card_number'];
         $name            = $request['name'];
         $email           = $request['email'];
         $password        = $request['password'];
         $password_repeat = $request['password_repeat'];
         $acception       = $request['acception'];
         $register_token  = $request['_token'];
-        $card_type       = $request['card_type'];
-        /**
-         * CHECK CARD NUMBER ON EXISTING
-         * @var [type]
-         */
-        $card_check = DB::table('ETK_CARD_USERS')
-        ->where('number',$card_number)
-        ->first();
-        if ($card_check !== NULL){
-            if ($card_check->card_number == $card_number){
-                Session::flash('card-number-verify-fail', 'Хмм... Такая карта уже зарегистрирована!'); 
-                return redirect()->back()->withInput();
-            } 
-        } 
         /**
          * CHECK EMAIL ON EXISTING
          * @var [type]
@@ -136,8 +120,7 @@ class RegisterController extends Controller
             if ($acception == 1)
             {
                $user = new \App\User;
-               $user->primary_card = $card_number;
-               $user->username = $card_number;
+               $user->username = $emailr;
                $user->name = $name;
                $user->email = $email;
                $user->role_id = 31;
@@ -145,37 +128,8 @@ class RegisterController extends Controller
                $user->register_token = $register_token;
                $user->password = bcrypt($password);
                if ($user->save()){
-                   $card = new \App\Usercard;
-                   $card->serie = substr($card->number, 0, 3);
-                   $card->number = $card_number;
-                   switch ($card_type) {
-                      case '023':
-                      $card_type = 1;
-                      break;
-                      case '021':
-                      $card_type = 7;
-                      break;
-                      case '025':
-                      $card_type = 5;
-                      break;
-                      case '026':
-                      $card_type = 8;
-                      break;
-                      case '033':
-                      $card_type = 9;
-                      break;
-                      case '034':
-                      $card_type = 10;
-                      break;
-                   
-                      default:
-                                        # code...
-                      break;
-                   }
-                   $card->card_image_type = $card_type;
-                   $card->user_id = 
                    Mail::send('emails.registration',
-                      ['card_number' => $card_number,
+                      [
                       'name' => $name,
                       'password' => $password,
                       'register_token' => $register_token],

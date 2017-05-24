@@ -17,7 +17,7 @@
             <div class="col-md-10 col-md-offset-1">
 
                 <div class="card card-signup mobile-padding">
-                    <h2 class="card-title text-center">Регистрация карты</h2>
+                    <h2 class="card-title text-center">Регистрация</h2>
                     <div class="row">
                         @if (Session::has('account-deleted'))
                         <div class="alert alert-info">
@@ -130,26 +130,6 @@
                             <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                                 {{ csrf_field() }}
                                 <div class="card-content"> 
-                                    <div class="form-group">
-                                        <input type="hidden" value="0" name="card_type" id="card_type">
-                                    </div>
-                                    <div class="form-group{{ $errors->has('card_number') ? ' has-error' : '' }}">
-                                        <label for="card_number" class="col-md-4 control-label">
-                                        <span class = "material-input" id="reg-card-thumbnail">Номер карты</span>
-                                        </label>
-                                        <div class="col-md-6">
-                                            <input id="card_number" type="text" class="form-control" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
-                                            <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
-                                            <span class="help-block" id="card-error-span">
-                                            </span>
-                                            @if ($errors->has('card_number'))
-                                            <span class="help-block" id="card-error-span">
-                                                <strong>{{ $errors->first('card_number') }}</strong>
-                                            </span>
-                                            @endif
-                                            
-                                        </div>
-                                    </div>
                                     
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                         <label for="password" class="col-md-4 control-label">Как Вас зовут?</label>
@@ -247,7 +227,6 @@
 </div>
 <script>
   var token = '{{ Session::token() }}';
-  var urlCardNumberVerify = '{{ route('ajax.check_card_on_exist') }}';
   var urlEmailVerify = '{{ route('ajax.check_email_on_exist') }}';
 </script>
 @endsection
