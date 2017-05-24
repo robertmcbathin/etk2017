@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Usercard;
 use Session;
 use DB;
 use Mail;
@@ -81,7 +82,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validate($request,[
-            'card_number' => 'required|min:9|max:9',
             'name' => 'required|min:1|max:255',
             'email' => 'required|max:255',
             'password' => 'required|min:6|max:150',
@@ -90,27 +90,12 @@ class RegisterController extends Controller
         /**
          * INITIALIZE VARIABLES
          */
-        $card_number     = $request['card_number'];
-        $name           = $request['name'];
+        $name            = $request['name'];
         $email           = $request['email'];
         $password        = $request['password'];
         $password_repeat = $request['password_repeat'];
         $acception       = $request['acception'];
         $register_token  = $request['_token'];
-        $card_type       = $request['card_type'];
-        /**
-         * CHECK CARD NUMBER ON EXISTING
-         * @var [type]
-         */
-        $card_check = DB::table('users')
-        ->where('card_number',$card_number)
-        ->first();
-        if ($card_check !== NULL){
-            if ($card_check->card_number == $card_number){
-                Session::flash('card-number-verify-fail', 'Хмм... Такая карта уже зарегистрирована!'); 
-                return redirect()->back()->withInput();
-            } 
-        } 
         /**
          * CHECK EMAIL ON EXISTING
          * @var [type]
@@ -134,59 +119,58 @@ class RegisterController extends Controller
              */
             if ($acception == 1)
             {
-             $user = new \App\User;
-             $user->card_number = $card_number;
-             $user->username = $card_number;
-             $user->name = $name;
-             $user->email = $email;
-             $user->role_id = 31;
-             $user->card_image = $card_type;
-             $user->register_token = $register_token;
-             $user->password = bcrypt($password);
-             if ($user->save()){
-               Mail::send('emails.registration',
-                 ['card_number' => $card_number,
-                 'name' => $name,
-                 'password' => $password,
-                 'register_token' => $register_token],
-                 function ($m) use ($email){
-                     $m->from('no-reply@etk21.ru', 'Единая транспортная карта');
-                     $m->to($email)->subject('Добро пожаловать в личный кабинет держателя карты ЕТК!');
-                 });
-           }
-       } else {
-           Session::flash('acception-fail', 'Для активации карты необходимо принять условия политики конфиденциальности и обработки персональных данных'); 
-           return redirect()->back()->withInput();
-       };
-       Session::flash('register-ok', 'Спасибо за активацию аккаунта!');
-   } else Session::flash('register-fail', 'Пароли не совпадают, попробуйте снова');
-   return redirect()->back();
-        /**
-         * SENT MAIL
-         */
-        
+               $user = new \App\User;
+               $user->username = $emailr;
+               $user->name = $name;
+               $user->email = $email;
+               $user->role_id = 31;
+               $user->profile_image = '/images/account_circle.png';
+               $user->register_token = $register_token;
+               $user->password = bcrypt($password);
+               if ($user->save()){
+                   Mail::send('emails.registration',
+                      [
+                      'name' => $name,
+                      'password' => $password,
+                      'register_token' => $register_token],
+                      function ($m) use ($email){
+                          $m->from('no-reply@etk21.ru', 'Единая транспортная карта');
+                          $m->to($email)->subject('Добро пожаловать в личный кабинет держателя карты ЕТК!');
+                      });
+                   }
+                   } else {
+                    Session::flash('acception-fail', 'Для активации карты необходимо принять условия политики конфиденциальности и обработки персональных данных'); 
+                    return redirect()->back()->withInput();
+                   };
+                   Session::flash('register-ok', 'Спасибо за активацию аккаунта!');
+                   } else Session::flash('register-fail', 'Пароли не совпадают, попробуйте снова');
+                   return redirect()->back();
+                           /**
+                            * SENT MAIL
+                            */
+                           
     }
 /**
  * CONFIRM ACCOUNT
  * @param  [type] $register_token [description]
  * @return [type]                 [description]
  */
-    public function confirmAccount($register_token){
-        $account = DB::table('users')
-                        ->where('register_token',$register_token)
-                        ->first();
-        if ($account == NULL){
-            Session::flash('activation-failed', 'Хмм.. Активировать аккаунт не удалось. Позвоните нам или напишите для решения проблемы');
-            return redirect()->route('login');
-        } else {
-            DB::table('users')
-                ->update(['is_active' => 1, 'register_token' => NULL]);
-            Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
-            $log = new \App\Log;
-            $log->action_type = 4;
-            $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->card_number;
-            $log->save();
-            return redirect()->route('login');
-        }
+public function confirmAccount($register_token){
+    $account = DB::table('users')
+    ->where('register_token',$register_token)
+    ->first();
+    if ($account == NULL){
+        Session::flash('activation-failed', 'Хмм.. Активировать аккаунт не удалось. Позвоните нам или напишите для решения проблемы');
+        return redirect()->route('login');
+    } else {
+        DB::table('users')
+        ->update(['is_active' => 1, 'register_token' => NULL]);
+        Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
+        $log = new \App\Log;
+        $log->action_type = 4;
+        $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->card_number;
+        $log->save();
+        return redirect()->route('login');
+    }
 }
 }

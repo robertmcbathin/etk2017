@@ -106,14 +106,14 @@
                                         {{ csrf_field() }}
 
                                         <div class="form-group{{ $errors->has('card_number') ? ' has-error' : '' }}">
-                                            <label for="card_number" class="col-md-4 control-label">Номер карты</label>
+                                            <label for="email" class="col-md-4 control-label">E-mail</label>
 
                                             <div class="col-md-6">
-                                                <input id="card_number" type="text" class="form-control" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
+                                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus placeholder="example@mail.com">
 
-                                                @if ($errors->has('card_number'))
+                                                @if ($errors->has('email'))
                                                 <span class="help-block">
-                                                    <strong>{{ $errors->first('card_number') }}</strong>
+                                                    <strong>{{ $errors->first('email') }}</strong>
                                                 </span>
                                                 @endif
                                             </div>

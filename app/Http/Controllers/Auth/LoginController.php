@@ -48,11 +48,11 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $user_isset = DB::table('users')
-        ->where('card_number',$request->card_number)
+        ->where('email',$request->email)
         ->first();   
         if ($user_isset !== NULL){
             if ($user_isset->is_active == 1){
-                if (Auth::attempt(['card_number' => $request->card_number, 'password' => $request->password])) {
+                if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                     $log = new \App\Log;
                     $log->action_type = 1;
                     $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вошел в систему";
@@ -93,7 +93,7 @@ class LoginController extends Controller
      */
         public function authenticate()
         {
-            if (Auth::attempt(['card_number' => $card_number, 'password' => $password])) {
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
             // Authentication passed...
                 return redirect()->intended('profile');
             }
