@@ -8,6 +8,7 @@ use \DateTime;
 use \DateInterval;
 use Hash;
 use Mail;
+use App\Mail\ChangeEmail;
 use Carbon\Carbon;
 use \App\Log;
 use Storage;
@@ -274,7 +275,7 @@ public function showSettings(){
           return redirect()->back();
         }
       }
-                /**
+      /**
      * ADD CARD
      * @param  Request $request [description]
      * @return [type]           [description]
@@ -330,7 +331,7 @@ public function showSettings(){
         }
       }
       /**
-     * CHANGE PASSWORD
+     * DELETE ACCOUNT
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -350,7 +351,34 @@ public function showSettings(){
         return redirect()->route('register');
       }
     }
-
+     /**
+     * CHANGE EMAIL
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+      public function postChangeEmail(Request $request){
+        $user_id   = $request['user_id'];
+        $new_email = $request['email'];  
+        $token     = $request['_token'];
+        if ($user = \App\User::find($new_email)){
+            Session::flash('user_with_this_email_exists', 'Пользователь с таким адресом уже зарегистрирован!');
+           return redirect()->back();
+        }
+        $user      = \App\User::find($user_id);
+        $temp_email = DB::table('ETK_TEMP_EMAILS')
+                        ->insert([
+                          'user_id' => $user_id,
+                          'email'   => $new_email,
+                          'token'   => $token
+                          ]);
+        if (Mail::to($request->email)->send(new ChangeEmail($user,$token))){
+           Session::flash('acception_email_send', 'На новый адрес электронной почты было отправлено письмо с подтверждением. Для смены адреса пройдите по ссылке в нем.');
+           return redirect()->back();
+        } else {
+           Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
+           return redirect()->back();
+        }              
+    }
 
     public function postRequestDetails(Request $request){
       $this->validate($request,[

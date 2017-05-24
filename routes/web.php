@@ -198,6 +198,14 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postAddCard',
         'as' => 'profile.add_card.post'
         ]);
+    Route::post('/profile/change_email',[
+        'uses' => 'UserController@postChangeEmail',
+        'as' => 'profile.change_email.post'
+        ]);
+    Route::post('/profile/change_phone',[
+        'uses' => 'UserController@postChangePhone',
+        'as' => 'profile.change_phone.post'
+        ]);
     /**
      * END OF PROFILE ROUTES
      */
