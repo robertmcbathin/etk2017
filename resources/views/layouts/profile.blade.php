@@ -48,35 +48,41 @@
         switch(serie){
             case '023':
               serie = '023';
+              type = 'Электронный кошелек';
               break;
             case '021':
               serie = '021';
+              type = 'Месячный проездной на троллейбус Чебоксары';
               break;
             case '025':
               serie = '025';
+              type = 'Месячный единый проездной';
               break;
             case '026':
               serie = '026';
+              type = 'Месячный проездной на троллейбус Новочебоксарск';
               break;
             case '033':
               serie = '033';
+              type = 'Карта учащегося';
               break;
             case '034':
               serie = '034';
+              type = 'Карта студента';
               break;
             
             default :
               serie = '999';
+              type = 'Неизвестный тип карты';
               break; 
         }
         $('#card_type').val(serie);
-        html = '<span class="material-input" id="reg-card-thumbnail">'
-             + '<img class="reg-thumbnail" src="/images/cards_thumbnails/'
-              + serie.toString() + '_80.png\"></span>';
-        $('#reg-card-thumbnail').replaceWith(html);
+        html = '<span class="material-input" id="card_preview">'
+              + type + '</span>';
+        $('#card_preview').replaceWith(html);
     } else {
-        html = '<span class="material-input" id="reg-card-thumbnail">Номер карты</span>';
-        $('#reg-card-thumbnail').replaceWith(html);
+        html = '<span class="material-input" id="card_preview">Тип карты</span>';
+        $('#card_preview').replaceWith(html);
     }
 });
     </script>

@@ -345,6 +345,31 @@ public function showSettings(){
         return redirect()->route('register');
       }
     }
+      /**
+     * CHANGE PHONE
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+      public function postChangePhone(Request $request){
+        $this->validate($request, [
+          'phone' => 'regex:/^[0-9\-\+]{9,15}$/'
+          ]);
+        $user_id   = $request['user_id'];
+        $new_phone = $request['phone'];  
+        if ($user = \App\User::find($new_phone)){
+            Session::flash('user_with_this_phone_exists', 'Пользователь с таким номером телефона уже зарегистрирован!');
+           return redirect()->back();
+        }
+        $user = \App\User::find($user_id);
+        $user->phone = $new_phone;
+        if ($user->save()){
+           Session::flash('phone_number_saved', 'Номер телефона успешно изменен');
+           return redirect()->back();
+        } else {
+           Session::flash('phone_number_failed', 'Сохранить номер не удалось');
+           return redirect()->back();
+        }              
+    }
      /**
      * CHANGE EMAIL
      * @param  Request $request [description]
