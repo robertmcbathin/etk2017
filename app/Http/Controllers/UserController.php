@@ -262,18 +262,12 @@ public function showSettings(){
      */
       public function postDeleteCard(Request $request){
         $user_id              = $request['user_id'];
-        $primary_card         = $request['primary_card'];
         $current_card         = $request['current_card'];
-        if ($current_card == $primary_card){
-          Session::flash('delete_card_fail', 'Нельзя удалить основную карту');
-          return redirect()->back();
-        } else {
           DB::table('ETK_CARD_USERS')
             ->where('number', $current_card)
             ->delete();
           Session::flash('delete_card_success', 'Карта успешно удалена');
           return redirect()->back();
-        }
       }
       /**
      * ADD CARD
@@ -510,9 +504,9 @@ public function showSettings(){
     }
 
     public function postChangeAvatar(Request $request){
-      $this->validate($request,[
-        'avatar' => 'required|Image|size:100'
-        ]);
+      $this->validate($request, [
+        'avatar' => 'required|mimes:jpg,jpeg,png'
+      ]);
       $user_id = $request['user_id'];
       $avatar = $request->file('avatar');
       $file_extension = $request->file('avatar')->getClientOriginalExtension();
