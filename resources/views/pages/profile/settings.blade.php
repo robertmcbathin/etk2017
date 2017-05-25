@@ -416,6 +416,11 @@
                                     <br>
                                     <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
                                   </div>
+                                @if ($errors->has('avatar'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('avatar') }}</strong>
+                                </span>
+                                @endif
                                 </div>
                               </div>
                             </div>
@@ -437,7 +442,6 @@
                                       </div>
                                       <div class="footer">
                                         <form action="{{ route('profile.delete_card.post') }}" method="POST">
-                                          <input type="hidden" name="primary_card" value="{{ Auth::user()->primary_card }}">
                                           <input type="hidden" name="current_card" value="{{ $card->number }}">
                                           <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                           {{ csrf_field()}}
@@ -463,7 +467,7 @@
                                      </div>
                                      <span class="material-input"></span>
                                      <div class="form-group is-empty">
-                                       <input type="password" placeholder="Новый пароль" class="form-control" name="new_password" maxlength="6">
+                                       <input type="password" placeholder="Новый пароль" class="form-control" name="new_password" minlength="6">
                                      </div>
                                      <span class="material-input"></span>
                                      <div class="form-group is-empty">
