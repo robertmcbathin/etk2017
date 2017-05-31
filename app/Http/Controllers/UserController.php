@@ -73,8 +73,7 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showProfile(){
-      $num   = substr(Auth::user()->primary_card, 3, 6);
-        $cards = DB::table('ETK_CARD_USERS')
+      $cards = DB::table('ETK_CARD_USERS')
               ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
               ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
               ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
@@ -94,7 +93,7 @@ class UserController extends Controller
        * @var [type]
        */
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-      ->where('card_number', 'like',  $num)
+      ->where('card_number', 'like',  '023333092')
       ->orderBy('transaction_date', 'DESC')
       ->get();
       foreach ($operations as $operation) {
@@ -116,11 +115,20 @@ class UserController extends Controller
         $format_date = new \DateTime($request->date_end);
         $request->date_end = $format_date->format('d.m.Y');
       }
+       /**
+       * GET CARD COUNT
+       * @var [type]
+       */
+      $requests = DB::table('ETK_DETAILING_REQUEST')
+      ->where('user_id',Auth::user()->id)
+      ->orderBy('created_at')
+      ->get();
       return view('pages.profile',[
         'operations' => $operations,
         'last_import' => $last_import,
         'requests' => $requests,
-        'cards' => $cards
+        'cards' => $cards,
+     //   'card_count' => $card_count
         ]);
     }
     /**
@@ -168,7 +176,14 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showDetailsRequestForm(){
-      return view('pages.profile.details_request');
+        $cards = DB::table('ETK_CARD_USERS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+              ->get();
+      return view('pages.profile.details_request', [
+        'cards' => $cards
+        ]);
     }
 /**
  * [showDetailsHistory description]
@@ -190,8 +205,15 @@ public function showDetailsHistory(){
         $format_date = new \DateTime($request->date_end);
         $request->date_end = $format_date->format('d.m.Y');
       }
+
+      $cards = DB::table('ETK_CARD_USERS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+              ->get();
       return view('pages.profile.details_history',
-        ['requests' => $requests]);
+        ['requests' => $requests,
+        'cards' => $cards]);
     }
 /**
  * [showSettings description]
@@ -397,6 +419,22 @@ public function showSettings(){
            Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
            return redirect()->back();
         }              
+    }
+     /**
+     * SET CURRENT CARD
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+      public function setCurrentCard($current_card,$user_id){
+        $card = DB::table('ETK_CARD_USERS')
+              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+              ->where('ETK_CARD_USERS.number', $current_card)
+              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+              ->first();
+        Session::put('current_card_number', $current_card);
+        Session::put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
+        return redirect()->intended('profile');         
     }
     public function getConfirmEmailChanging($token){
       if ($temp = DB::table('ETK_TEMP_EMAILS')

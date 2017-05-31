@@ -12,74 +12,106 @@
 
 		<div class="collapse navbar-collapse" id="navigation-example">
 			<ul class="nav navbar-nav navbar-right">
-
 				<li class="dropdown">
-					<a href="" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="material-icons">payment</i> Пополнение
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu dropdown-with-icons">
-						<li>
-							<a href="{{route('profile.deposit')}}">
-								<i class="material-icons">account_balance_wallet</i> Пополнить счет
-							</a>
-						</li>
-						<li>
-							<a href="{{route('profile.deposit_history')}}">
-								<i class="material-icons">list</i> История пополнения
-							</a>
-						</li>
-					</ul>
-				</li>
-
-				<li class="dropdown">
-					<a href="" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="material-icons">contact_mail</i> Детализация
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu dropdown-with-icons">
-						<li>
-							<a href="{{route('profile.details_request')}}">
-								<i class="material-icons">insert_comment</i> Создать запрос
-							</a>
-						</li>
-						<li>
-							<a href="{{route('profile.details_history')}}">
-								<i class="material-icons">library_books</i> История запросов
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="dropdown">
-
 					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
-							<img src="{{ Auth::user()->profile_image }}" alt="Circle Image" class="img-rounded img-responsive">
+							@if (Session::has('current_card_image_type'))
+							<img class="img-responsive" src="{{ Session::pull('current_card_image_type') }}" width="40px">
+							@else
+							<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
+							@endif
 						</div>
-
-						<div class="ripple-container"><div class="ripple ripple-on" style="left: 23px; top: 23.7031px; background-color: rgb(255, 255, 255); transform: scale(5);"></div></div></a>
-						<ul class="dropdown-menu">
-							<li class="dropdown-header">
-								{{ Auth::user()->name }}
-							</li>
+						<b class="caret"></b>
+						<div class="ripple-container"></div></a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li class="dropdown-header">Выберите основную карту</li>
+							@foreach ($cards as $card)
 							<li>
-								<a href="{{ route('profile') }}">Моя страница</a>
+								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}">
+									<div class="media">
+										<div class="profile-photo-small">
+											@if (Session::has('current_card'))
+											<img class="img-responsive" src="{{ Session::pull('current_card') }}" width="40px">
+											@else
+											<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
+											@endif
+										</div>
+										<div class="media-body">
+											<h4 class="media-heading"><small>{{ $card->number }}</small></h4>
+										</div>
+									</div>
+								</a>
 							</li>
-							<li>
-								<a href="{{ route('profile.settings') }}">Настройки</a>
-							</li>
-							<li class="divider"></li>
-							<li>						<a href="{{ route('logout') }}" target="_blank" class="btn btn-danger">
-								<i class="material-icons">account_box</i> Выйти
-								<div class="ripple-container"></div></a></li>
-							</ul>
-						</li>
-						<li>
-						<a href="">
-						Баланс
-						</a>
+							@endforeach
+						</ul>
 					</li>
-					</ul>
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="material-icons">payment</i> Пополнение
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu dropdown-with-icons">
+							<li>
+								<a href="{{route('profile.deposit')}}">
+									<i class="material-icons">account_balance_wallet</i> Пополнить счет
+								</a>
+							</li>
+							<li>
+								<a href="{{route('profile.deposit_history')}}">
+									<i class="material-icons">list</i> История пополнения
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="material-icons">contact_mail</i> Детализация
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu dropdown-with-icons">
+							<li>
+								<a href="{{route('profile.details_request')}}">
+									<i class="material-icons">insert_comment</i> Создать запрос
+								</a>
+							</li>
+							<li>
+								<a href="{{route('profile.details_history')}}">
+									<i class="material-icons">library_books</i> История запросов
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown">
+
+						<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+							<div class="profile-photo-small">
+								<img src="{{ Auth::user()->profile_image }}" alt="Circle Image" class="img-rounded img-responsive">
+							</div>
+
+							<div class="ripple-container"><div class="ripple ripple-on" style="left: 23px; top: 23.7031px; background-color: rgb(255, 255, 255); transform: scale(5);"></div></div></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">
+									{{ Auth::user()->name }}
+								</li>
+								<li>
+									<a href="{{ route('profile') }}">Моя страница</a>
+								</li>
+								<li>
+									<a href="{{ route('profile.settings') }}">Настройки</a>
+								</li>
+								<li class="divider"></li>
+								<li>						<a href="{{ route('logout') }}" target="_blank" class="btn btn-danger">
+									<i class="material-icons">account_box</i> Выйти
+									<div class="ripple-container"></div></a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="">
+									Баланс
+								</a>
+							</li>
+						</ul>
+					</div>
 				</div>
-			</div>
-		</nav>
+			</nav>

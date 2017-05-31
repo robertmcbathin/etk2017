@@ -210,6 +210,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangePhone',
         'as' => 'profile.change_phone.post'
         ]);
+    Route::get('/profile/set_current_card/{current_card}/{user_id}',[
+        'uses' => 'UserController@setCurrentCard',
+        'as' => 'profile.set_current_card.set'
+        ]);
     /**
      * END OF PROFILE ROUTES
      */

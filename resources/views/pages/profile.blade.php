@@ -49,7 +49,7 @@
             </div>
           </div>
           <div class="col-md-2 col-md-offset-1 stats">
-            <h4 class="title">Stats</h4>
+            <h4 class="title">Статистика</h4>
             <ul class="list-unstyled">
               <li><b>60</b> Products</li>
               <li><b>4</b> Collections</li>
