@@ -499,7 +499,7 @@ public function showSettings(){
         $user = \App\User::find($temp->user_id);
       $user->email = $temp->email;
       if ($user->save()){
-       Session::flash('new_email_accepted', 'Адрес электронной почты был успешкно изменен');
+       Session::flash('new_email_accepted', 'Адрес электронной почты был успешно изменен');
        DB::table('ETK_TEMP_EMAILS')
        ->where('token', $token)
        ->delete();
