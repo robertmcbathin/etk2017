@@ -73,11 +73,17 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showProfile(){
+      dd(session()->all());
       $cards = DB::table('ETK_CARD_USERS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-              ->get();
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
       /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
@@ -93,7 +99,7 @@ class UserController extends Controller
        * @var [type]
        */
       $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-      ->where('card_number', 'like',  '023333092')
+      ->where('card_number', 'like',  '')
       ->orderBy('transaction_date', 'DESC')
       ->get();
       foreach ($operations as $operation) {
@@ -119,15 +125,17 @@ class UserController extends Controller
        * GET CARD COUNT
        * @var [type]
        */
-      $requests = DB::table('ETK_DETAILING_REQUEST')
-      ->where('user_id',Auth::user()->id)
-      ->orderBy('created_at')
-      ->get();
+       $requests = DB::table('ETK_DETAILING_REQUEST')
+       ->where('user_id',Auth::user()->id)
+       ->orderBy('created_at')
+       ->get();
+      
       return view('pages.profile',[
         'operations' => $operations,
         'last_import' => $last_import,
         'requests' => $requests,
         'cards' => $cards,
+        'current_card' => $current_card
      //   'card_count' => $card_count
         ]);
     }
@@ -136,14 +144,26 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showDepositPage(){
-      return view('pages.profile.deposit');
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      return view('pages.profile.deposit',[
+                'cards' => $cards,
+        'current_card' => $current_card]);
     }
     /**
      * [showDepositHistory description]
      * @return [type] [description]
      */
     public function showDepositHistory(){
-      $num   = substr(Auth::user()->primary_card, 3, 6);
+      $num   = substr(Session::pull('current_card_number'),3,6);
       /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
@@ -159,30 +179,51 @@ class UserController extends Controller
        * @var [type]
        */
 
-            $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-            ->where('card_number', 'like',  $num)
-            ->orderBy('transaction_date', 'DESC')
-            ->get();
-            foreach ($operations as $operation) {
-              $format_date = new \DateTime($operation->transaction_date);
-              $operation->transaction_date = $format_date->format('d.m.Y');
-            }
-            return view('pages.profile.deposit_history',
-              ['operations' => $operations,
-              'last_import' => $last_import]);
-          }
+      $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+        ->where('card_number', 'like',  $num)
+        ->orderBy('transaction_date', 'DESC')
+        ->get();
+        foreach ($operations as $operation) {
+          $format_date = new \DateTime($operation->transaction_date);
+          $operation->transaction_date = $format_date->format('d.m.Y');
+        }
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      $data = Session::all();
+      dd($data);
+              return view('pages.profile.deposit_history',
+          ['operations' => $operations,
+          'last_import' => $last_import,
+          'cards' => $cards,
+          'current_card' => $current_card
+          ]);
+      }
     /**
      * [showDetailsRequestForm description]
      * @return [type] [description]
      */
     public function showDetailsRequestForm(){
-        $cards = DB::table('ETK_CARD_USERS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-              ->get();
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
       return view('pages.profile.details_request', [
-        'cards' => $cards
+        'cards' => $cards,
+        'current_card' => $current_card
         ]);
     }
 /**
@@ -190,12 +231,14 @@ class UserController extends Controller
  * @return [type] [description]
  */
 public function showDetailsHistory(){
+      dd(session()->all());
       /**
        * GET DETAILING REQUESTS
        * @var [type]
        */
       $requests = DB::table('ETK_DETAILING_REQUEST')
       ->where('user_id',Auth::user()->id)
+      ->where('card_number', Session::pull('current_card_number'))
       ->orderBy('created_at')
       ->get();
 
@@ -207,13 +250,20 @@ public function showDetailsHistory(){
       }
 
       $cards = DB::table('ETK_CARD_USERS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-              ->get();
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
       return view('pages.profile.details_history',
         ['requests' => $requests,
-        'cards' => $cards]);
+        'cards' => $cards,
+        'current_card' => $current_card
+        ]);
     }
 /**
  * [showSettings description]
@@ -221,12 +271,18 @@ public function showDetailsHistory(){
  */
 public function showSettings(){
   $cards = DB::table('ETK_CARD_USERS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-              ->get();
+  ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+  ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+  ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+  ->get();
+  $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
   return view('pages.profile.settings',[
-    'cards' => $cards
+    'cards' => $cards,
+    'current_card' => $current_card
     ]);
 }
     /**
@@ -282,15 +338,15 @@ public function showSettings(){
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-      public function postDeleteCard(Request $request){
-        $user_id              = $request['user_id'];
-        $current_card         = $request['current_card'];
-          DB::table('ETK_CARD_USERS')
+    public function postDeleteCard(Request $request){
+            $user_id              = $request['user_id'];
+            $current_card         = $request['current_card'];
+            DB::table('ETK_CARD_USERS')
             ->where('number', $current_card)
             ->delete();
-          Session::flash('delete_card_success', 'Карта успешно удалена');
-          return redirect()->back();
-      }
+            Session::flash('delete_card_success', 'Карта успешно удалена');
+            return redirect()->back();
+    }
       /**
      * ADD CARD
      * @param  Request $request [description]
@@ -311,38 +367,38 @@ public function showSettings(){
           $card = new \App\Usercard;
           $card->number = $card_number;
           $card->serie  = $num;
-                             switch ($card_type) {
-                      case '023':
-                      $card_type = 1;
-                      break;
-                      case '021':
-                      $card_type = 7;
-                      break;
-                      case '025':
-                      $card_type = 5;
-                      break;
-                      case '026':
-                      $card_type = 8;
-                      break;
-                      case '033':
-                      $card_type = 9;
-                      break;
-                      case '034':
-                      $card_type = 10;
-                      break;
-                   
-                      default:
+          switch ($card_type) {
+            case '023':
+            $card_type = 1;
+            break;
+            case '021':
+            $card_type = 7;
+            break;
+            case '025':
+            $card_type = 5;
+            break;
+            case '026':
+            $card_type = 8;
+            break;
+            case '033':
+            $card_type = 9;
+            break;
+            case '034':
+            $card_type = 10;
+            break;
+
+            default:
                                         # code...
-                      break;
-                   }
+            break;
+          }
           $card->card_image_type   = $card_type;
           $card->user_id = $user_id;
           if ($card->save()){
-                      Session::flash('add_card_success', 'Карта успешно добавлена!');
-          return redirect()->back();
+            Session::flash('add_card_success', 'Карта успешно добавлена!');
+            return redirect()->back();
           } else {
-          Session::flash('add_card_fail', 'При добавлении карты произошла ошибка. Попробуйте повторить операцию позднее');
-          return redirect()->back();
+            Session::flash('add_card_fail', 'При добавлении карты произошла ошибка. Попробуйте повторить операцию позднее');
+            return redirect()->back();
           }
         }
       }
@@ -379,132 +435,132 @@ public function showSettings(){
         $user_id   = $request['user_id'];
         $new_phone = $request['phone'];  
         if ($user = \App\User::find($new_phone)){
-            Session::flash('user_with_this_phone_exists', 'Пользователь с таким номером телефона уже зарегистрирован!');
-           return redirect()->back();
+          Session::flash('user_with_this_phone_exists', 'Пользователь с таким номером телефона уже зарегистрирован!');
+          return redirect()->back();
         }
         $user = \App\User::find($user_id);
         $user->phone = $new_phone;
         if ($user->save()){
-           Session::flash('phone_number_saved', 'Номер телефона успешно изменен');
-           return redirect()->back();
-        } else {
-           Session::flash('phone_number_failed', 'Сохранить номер не удалось');
-           return redirect()->back();
-        }              
-    }
+         Session::flash('phone_number_saved', 'Номер телефона успешно изменен');
+         return redirect()->back();
+       } else {
+         Session::flash('phone_number_failed', 'Сохранить номер не удалось');
+         return redirect()->back();
+       }              
+     }
      /**
      * CHANGE EMAIL
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-      public function postChangeEmail(Request $request){
-        $user_id   = $request['user_id'];
-        $new_email = $request['email'];  
-        $token     = $request['_token'];
-        if ($user = \App\User::find($new_email)){
-            Session::flash('user_with_this_email_exists', 'Пользователь с таким адресом уже зарегистрирован!');
-           return redirect()->back();
-        }
-        $user      = \App\User::find($user_id);
-        $temp_email = DB::table('ETK_TEMP_EMAILS')
-                        ->insert([
-                          'user_id' => $user_id,
-                          'email'   => $new_email,
-                          'token'   => $token
-                          ]);
-        if (Mail::to($request->email)->send(new ChangeEmail($user,$token))){
-           Session::flash('acception_email_send', 'На новый адрес электронной почты было отправлено письмо с подтверждением. Для смены адреса пройдите по ссылке в нем.');
-           return redirect()->back();
-        } else {
-           Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
-           return redirect()->back();
-        }              
-    }
+     public function postChangeEmail(Request $request){
+      $user_id   = $request['user_id'];
+      $new_email = $request['email'];  
+      $token     = $request['_token'];
+      if ($user = \App\User::find($new_email)){
+        Session::flash('user_with_this_email_exists', 'Пользователь с таким адресом уже зарегистрирован!');
+        return redirect()->back();
+      }
+      $user      = \App\User::find($user_id);
+      $temp_email = DB::table('ETK_TEMP_EMAILS')
+      ->insert([
+        'user_id' => $user_id,
+        'email'   => $new_email,
+        'token'   => $token
+        ]);
+      if (Mail::to($request->email)->send(new ChangeEmail($user,$token))){
+       Session::flash('acception_email_send', 'На новый адрес электронной почты было отправлено письмо с подтверждением. Для смены адреса пройдите по ссылке в нем.');
+       return redirect()->back();
+     } else {
+       Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
+       return redirect()->back();
+     }              
+   }
      /**
      * SET CURRENT CARD
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-      public function setCurrentCard($current_card,$user_id){
-        $card = DB::table('ETK_CARD_USERS')
-              ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-              ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-              ->where('ETK_CARD_USERS.number', $current_card)
-              ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-              ->first();
-        Session::put('current_card_number', $current_card);
-        Session::put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
-        return redirect()->intended('profile');         
+     public function setCurrentCard($current_card,$user_id){
+      $card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->where('ETK_CARD_USERS.number', $current_card)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      session()->put('current_card_number', $current_card);
+      session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
+      return redirect()->back();         
     }
     public function getConfirmEmailChanging($token){
       if ($temp = DB::table('ETK_TEMP_EMAILS')
-                  ->where('token', $token)
-                  ->first()){
+        ->where('token', $token)
+        ->first()){
         $user = \App\User::find($temp->user_id);
-        $user->email = $temp->email;
-        if ($user->save()){
-           Session::flash('new_email_accepted', 'Адрес электронной почты был успешкно изменен');
-           DB::table('ETK_TEMP_EMAILS')
-             ->where('token', $token)
-             ->delete();
-           return redirect()->route('login');
-        } else {
-           Session::flash('new_email_denied', 'Подтвердить новый адрес не удалось');
-           return redirect()->route('login');
-        }
-      }
-    }
+      $user->email = $temp->email;
+      if ($user->save()){
+       Session::flash('new_email_accepted', 'Адрес электронной почты был успешкно изменен');
+       DB::table('ETK_TEMP_EMAILS')
+       ->where('token', $token)
+       ->delete();
+       return redirect()->route('login');
+     } else {
+       Session::flash('new_email_denied', 'Подтвердить новый адрес не удалось');
+       return redirect()->route('login');
+     }
+   }
+ }
 
-    public function postRequestDetails(Request $request){
-      $this->validate($request,[
-        'date_start' => 'required',
-        'date_end' => 'required'
-        ]);
+ public function postRequestDetails(Request $request){
+  $this->validate($request,[
+    'date_start' => 'required',
+    'date_end' => 'required'
+    ]);
 
-      $date_start  = $request['date_start'];
-      $date_end    = $request['date_end'];
-      $reason      = $request['reason'];
-      $card_number = $request['card_number'];
-      $user_id     = $request['user_id'];
-      
-      $date_start = new \Datetime($date_start);
-      $date_end = new \Datetime($date_end);
+  $date_start  = $request['date_start'];
+  $date_end    = $request['date_end'];
+  $reason      = $request['reason'];
+  $card_number = $request['card_number'];
+  $user_id     = $request['user_id'];
 
-      $min_date = new \DateTime();
-      $max_date = new \DateTime();
-      $estimated_date = new \DateTime();
-      $current_date = new \DateTime();
+  $date_start = new \Datetime($date_start);
+  $date_end = new \Datetime($date_end);
 
-      $min_date->sub(new \DateInterval('P15D'));
-      $max_date->sub(new \DateInterval('P1D'));
+  $min_date = new \DateTime();
+  $max_date = new \DateTime();
+  $estimated_date = new \DateTime();
+  $current_date = new \DateTime();
 
-      if ($date_start < $min_date){
-        Session::flash('min-date-error', 'Можно заказать детализацию не более чем за 2 недели до текущей даты');
-        return redirect()->back();
-      } elseif ($date_end >= $max_date) {
-        Session::flash('max-date-error', 'Можно заказать детализацию не менее чем за 1 день до текущей даты');
-        return redirect()->back();
-      }
+  $min_date->sub(new \DateInterval('P15D'));
+  $max_date->sub(new \DateInterval('P1D'));
 
-      $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
-      
-      if ($request = DB::table('ETK_DETAILING_REQUEST')
-        ->insert([
-          'card_number' => $card_number,
-          'date_start' => $date_start,
-          'date_end' => $date_end,
-          'reason' => $reason,
-          'estimated' => $estimated_date,
-          'user_id'  => $user_id,
-          'status' => 1
-          ])){
-        Session::flash('request-sent-ok', 'Ваш запрос отправлен, мы рассмотрим его в течение 5 рабочих дней');
-      return redirect()->back();
-    } else {
-      Session::flash('request-sent-fail', 'Отправить запрос не удалось, повторите попытку позднее');
-      return redirect()->back();
-    }
+  if ($date_start < $min_date){
+    Session::flash('min-date-error', 'Можно заказать детализацию не более чем за 2 недели до текущей даты');
+    return redirect()->back();
+  } elseif ($date_end >= $max_date) {
+    Session::flash('max-date-error', 'Можно заказать детализацию не менее чем за 1 день до текущей даты');
+    return redirect()->back();
   }
+
+  $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
+
+  if ($request = DB::table('ETK_DETAILING_REQUEST')
+    ->insert([
+      'card_number' => $card_number,
+      'date_start' => $date_start,
+      'date_end' => $date_end,
+      'reason' => $reason,
+      'estimated' => $estimated_date,
+      'user_id'  => $user_id,
+      'status' => 1
+      ])){
+    Session::flash('request-sent-ok', 'Ваш запрос отправлен, мы рассмотрим его в течение 5 рабочих дней');
+  return redirect()->back();
+} else {
+  Session::flash('request-sent-fail', 'Отправить запрос не удалось, повторите попытку позднее');
+  return redirect()->back();
+}
+}
 
     /**
      * [sendNewPassword description]
@@ -569,7 +625,7 @@ public function showSettings(){
     public function postChangeAvatar(Request $request){
       $this->validate($request, [
         'avatar' => 'required|mimes:jpg,jpeg,png'
-      ]);
+        ]);
       $user_id = $request['user_id'];
       $avatar = $request->file('avatar');
       $file_extension = $request->file('avatar')->getClientOriginalExtension();
@@ -582,7 +638,7 @@ public function showSettings(){
         Session::flash('change-avatar-ok', 'Изображение профиля изменено');
       } else Session::flash('change-avatar-error', 'При загрузке изображения произошла ошибка');
       return redirect()->back();
-   }
+    }
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED
      * @param  Request $request [description]

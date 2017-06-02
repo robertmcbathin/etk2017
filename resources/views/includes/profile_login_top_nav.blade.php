@@ -15,10 +15,10 @@
 				<li class="dropdown">
 					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
-							@if (Session::has('current_card_image_type'))
-							<img class="img-responsive" src="{{ Session::pull('current_card_image_type') }}" width="40px">
+							@if (session()->has('current_card_image_type'))
+							<img class="img-responsive" src="{{ session()->pull('current_card_image_type') }}" width="40px">
 							@else
-							<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
+							<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$current_card->card_image_type}}.png" width="40px">
 							@endif
 						</div>
 						<b class="caret"></b>
@@ -30,11 +30,7 @@
 								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}">
 									<div class="media">
 										<div class="profile-photo-small">
-											@if (Session::has('current_card'))
-											<img class="img-responsive" src="{{ Session::pull('current_card') }}" width="40px">
-											@else
 											<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
-											@endif
 										</div>
 										<div class="media-body">
 											<h4 class="media-heading"><small>{{ $card->number }}</small></h4>
