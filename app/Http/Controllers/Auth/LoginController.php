@@ -57,6 +57,13 @@ class LoginController extends Controller
                     $log->action_type = 1;
                     $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вошел в систему";
                     $log->save();
+                    $primary_card = DB::table('ETK_CARD_USERS')
+                      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+                      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+                      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+                      ->first();
+                    $request->session()->put('current_card_number', $primary_card->number);
+                    $request->session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $primary_card->card_image_type . '.png');
                     return redirect()->route('profile');
                 }
             } else {

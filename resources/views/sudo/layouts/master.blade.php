@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="/admin/img/apple-icon.png" />
-    <link rel="icon" type="image/png" href="/admin/img/favicon.png" />
+    <link rel="icon" type="image/png" href="/admin/img/reverse-favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>@yield('title')</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -13,9 +13,9 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <!-- Schema.org markup for Google+ -->
-    <meta itemprop="name" content="Material Dashboard PRO by Creative Tim | Premium Bootstrap Admin Template">
-    <meta itemprop="description" content="Material Dashboard PRO is a Premium Material Bootstrap Admin with a fresh, new design inspired by Google's Material Design.">
-    <meta itemprop="image" content="http://s3.amazonaws.com/creativetim_bucket/products/51/opt_mdp_thumbnail.jpg">
+    <meta itemprop="name" content="">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="">
     <!-- Bootstrap core CSS     -->
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->

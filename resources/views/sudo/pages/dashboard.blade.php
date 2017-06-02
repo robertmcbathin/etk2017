@@ -41,8 +41,8 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="card card-stats">
-                                <div class="card-header" data-background-color="green">
-                                    <i class="material-icons">account_box</i>
+                                <div class="card-header" data-background-color="blue">
+                                    <i class="material-icons">contact_mail</i>
                                 </div>
                                 <div class="card-content">
                                     <p class="category">Всего пользователей</p>
@@ -54,6 +54,40 @@
                                 </div>
                             </div>
                         </div>
+                         @if ($new_detailing_requests_count > 0)
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="orange">
+                                    <i class="material-icons">account_box</i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Новые запросы на детализацию</p>
+                                    <h3 class="card-title">{{$new_detailing_requests_count}}</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @if ($new_detailing_requests_count == 0)
+                        <div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card card-stats">
+                                <div class="card-header" data-background-color="green">
+                                    <i class="material-icons">account_box</i>
+                                </div>
+                                <div class="card-content">
+                                    <p class="category">Новые запросы на детализацию</p>
+                                    <h3 class="card-title">{{$new_detailing_requests_count}}</h3>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
