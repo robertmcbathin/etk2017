@@ -15,11 +15,7 @@
 				<li class="dropdown">
 					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
-							@if (session()->has('current_card_image_type'))
-							<img class="img-responsive" src="{{ session()->pull('current_card_image_type') }}" width="40px">
-							@else
-							<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$current_card->card_image_type}}.png" width="40px">
-							@endif
+							<img class="img-responsive" src="{{ session()->get('current_card_image_type', '/pictures/cards/thumbnails/160/999.png') }}" width="40px">
 						</div>
 						<b class="caret"></b>
 						<div class="ripple-container"></div></a>

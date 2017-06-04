@@ -73,7 +73,6 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showProfile(){
-      dd(session()->all());
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -163,7 +162,7 @@ class UserController extends Controller
      * @return [type] [description]
      */
     public function showDepositHistory(){
-      $num   = substr(Session::pull('current_card_number'),3,6);
+      $num   = substr(Session::get('current_card_number'),3,6);
       /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
@@ -197,8 +196,6 @@ class UserController extends Controller
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
-      $data = Session::all();
-      dd($data);
               return view('pages.profile.deposit_history',
           ['operations' => $operations,
           'last_import' => $last_import,
@@ -231,14 +228,13 @@ class UserController extends Controller
  * @return [type] [description]
  */
 public function showDetailsHistory(){
-      dd(session()->all());
       /**
        * GET DETAILING REQUESTS
        * @var [type]
        */
       $requests = DB::table('ETK_DETAILING_REQUEST')
       ->where('user_id',Auth::user()->id)
-      ->where('card_number', Session::pull('current_card_number'))
+      ->where('card_number', Session::get('current_card_number'))
       ->orderBy('created_at')
       ->get();
 
@@ -488,8 +484,11 @@ public function showSettings(){
       ->where('ETK_CARD_USERS.number', $current_card)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
+      session()->forget('current_card_number');
+      session()->forget('current_card_image_type');
+            session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
+      session()->put('fuck', 'fuck');
       session()->put('current_card_number', $current_card);
-      session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
       return redirect()->back();         
     }
     public function getConfirmEmailChanging($token){
