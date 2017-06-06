@@ -97,6 +97,19 @@
                             </div>
                         </div>
                         @endif
+                        @if (Session::has('saving-fail'))
+                        <div class="alert alert-warning">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('saving-fail')}}</strong>
+                            </div>
+                        </div>
+                        @endif
                         @if (Session::has('register-ok'))
                         <div class="alert alert-success">
                             <div class="container register-alert">
@@ -196,7 +209,7 @@
                                             <div class="checkbox">
                                                 <label>
                                                   <input type="checkbox" name="acception" checked value="1">
-                                                  Я ознакомлен(а) с <a href="#something">политикой конфиденциальности</a> и даю свое <a href="">согласие на обработку персональных данных</a>.
+                                                  Я ознакомлен(а) с <a href="{{ route('privacy') }}">политикой конфиденциальности</a> и даю свое <a href="{{ route('eula') }}">согласие на обработку персональных данных</a>.
                                               </label>
                                           </div>
                                       </div>
@@ -205,7 +218,7 @@
 
                                   <div class="form-group">
                                     <div class="col-md-8 col-md-offset-4">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-profile">
                                             Зарегистрировать карту
                                         </button>
                                     </div>

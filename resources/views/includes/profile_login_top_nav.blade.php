@@ -23,7 +23,7 @@
 							<li class="dropdown-header">Выберите основную карту</li>
 							@foreach ($cards as $card)
 							<li>
-								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}">
+								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" class="link-profile">
 									<div class="media">
 										<div class="profile-photo-small">
 											<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
@@ -44,12 +44,12 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.deposit')}}">
+								<a href="{{route('profile.deposit')}}" class="link-menu">
 									<i class="material-icons">account_balance_wallet</i> Пополнить счет
 								</a>
 							</li>
 							<li>
-								<a href="{{route('profile.deposit_history')}}">
+								<a href="{{route('profile.deposit_history')}}" class="link-menu">
 									<i class="material-icons">list</i> История пополнения
 								</a>
 							</li>
@@ -63,12 +63,12 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.details_request')}}">
+								<a href="{{route('profile.details_request')}}" class="link-menu">
 									<i class="material-icons">insert_comment</i> Создать запрос
 								</a>
 							</li>
 							<li>
-								<a href="{{route('profile.details_history')}}">
+								<a href="{{route('profile.details_history')}}" class="link-menu">
 									<i class="material-icons">library_books</i> История запросов
 								</a>
 							</li>
@@ -87,10 +87,10 @@
 									{{ Auth::user()->name }}
 								</li>
 								<li>
-									<a href="{{ route('profile') }}">Моя страница</a>
+									<a href="{{ route('profile') }}" class="link-menu">Моя страница</a>
 								</li>
 								<li>
-									<a href="{{ route('profile.settings') }}">Настройки</a>
+									<a href="{{ route('profile.settings') }}" class="link-menu">Настройки</a>
 								</li>
 								<li class="divider"></li>
 								<li>						<a href="{{ route('logout') }}" target="_blank" class="btn btn-danger">

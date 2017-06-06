@@ -17,20 +17,6 @@
           <h4 class="title">Создать запрос на детализацию</h4>
         </div>
       </div>
-      <div class="row">
-        <div class="alert alert-info">
-          <div class="container">
-            <div class="alert-icon">
-              <i class="material-icons">info_outline</i>
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true"><i class="material-icons">clear</i></span>
-            </button>
-
-            <b>Внимание:</b> Минимальная дата начала - не более 15 дней раньше текущей даты. Максимальная - не менее 1 дня до текущей даты.
-          </div>
-        </div>
-      </div>
       @if (Session::has('min-date-error'))
       <div class="row">
         <div class="container">
@@ -101,6 +87,9 @@
       @endif
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
+          <p class="description">
+            <b>Внимание:</b> Минимальная дата начала - не более 15 дней раньше текущей даты. Максимальная - не менее 1 дня до текущей даты.
+          </p>
           <form action="{{ route('profile.request_details.post') }}" method="POST">
             <div class="col-md-12">
               <div class="title">
@@ -131,7 +120,7 @@
                 <input type="hidden" value="{{ Auth::user()->card_number }}" name="card_number">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                 {{ csrf_field() }}
-                <button type="submit" class="btn btn-primary">Запросить детализацию</button>
+                <button type="submit" class="btn btn-profile">Запросить детализацию</button>
               </form>
             </div>
           </div>

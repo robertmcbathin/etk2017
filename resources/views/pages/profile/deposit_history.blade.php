@@ -18,21 +18,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="alert alert-info">
-          <div class="container">
-            <div class="alert-icon">
-              <i class="material-icons">info_outline</i>
-            </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true"><i class="material-icons">clear</i></span>
-            </button>
-
-            <b>Внимание:</b> Отображается история пополнения через терминалы Сбербанка (информация доступна на следующий рабочий день после 10:00).
-          </div>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-md-8 col-md-offset-2">
+        <p class="description"><b>Внимание:</b> Отображается история пополнения через терминалы Сбербанка (информация доступна на следующий рабочий день после 10:00).</p>
           <div class="table-responsive">
             <h3 id="operations-results-none"></h3><table class="table table-striped">
             <tbody>
