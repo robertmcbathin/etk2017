@@ -76,7 +76,7 @@ class LoginController extends Controller
                     return redirect()->route('profile');
                 } else {
                   Session::flash('wrong-credentials', 'Неверный логин или пароль');
-                  return redirect()->back();
+                  return redirect()->route('login');
                 }
             } else {
                 Session::flash('account-is-not-activated', 'Данный аккаунт не активирован! Проверьте почту, указанную при регистрации.');

@@ -9,6 +9,7 @@ use \DateInterval;
 use Hash;
 use Mail;
 use App\Mail\ChangeEmail;
+use App\Mail\SendNewPassword;
 use Carbon\Carbon;
 use \App\Log;
 use Storage;

@@ -87,6 +87,8 @@
                                 </div>
                                 @endif
                                 @if (Session::has('account-is-not-exist'))
+                                <div class="row">
+                                <div class="container">
                                 <div class="alert alert-warning">
                                     <div class="container register-alert">
                                         <div class="alert-icon">
@@ -97,6 +99,8 @@
                                         </button>
                                         <strong>{{Session::pull('account-is-not-exist')}}</strong>
                                     </div>
+                                </div>
+                                </div>
                                 </div>
                                 @endif
                                 @if (Session::has('new_email_accepted'))
