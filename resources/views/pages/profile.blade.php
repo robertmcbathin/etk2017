@@ -18,6 +18,7 @@
           <div class="col-md-7 col-md-offset-1">
             <h4 class="title">Мои карты</h4>
             <div class="row collections">
+            @if (count($cards) !== 0)
              @foreach ($cards as $card)
              <div class="col-md-4">
 
@@ -46,6 +47,9 @@
                 </div>
               </div>
               @endforeach
+            @else 
+            <p class="description">Нет добавленных карт. Добавить карты Вы можете в разделе <a href="{{ route('profile.settings') }}">настройки</a>.</p>
+            @endif
             </div>
           </div>
           <div class="col-md-2 col-md-offset-1 stats">

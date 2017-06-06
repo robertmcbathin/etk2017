@@ -166,7 +166,7 @@ public function confirmAccount($register_token){
         Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
         $log = new \App\Log;
         $log->action_type = 4;
-        $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->card_number;
+        $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->email;
         $log->save();
         return redirect()->route('login');
     }
