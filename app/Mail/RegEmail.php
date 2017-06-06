@@ -35,6 +35,7 @@ class RegEmail extends Mailable
     public function build()
     {
         return $this->markdown('emails.registration')
+                    ->subject('Регистрация личного кабинета')
                     ->with([
                         'email' => $this->email,
                         'password' => $this->password,

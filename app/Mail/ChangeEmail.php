@@ -32,6 +32,7 @@ class ChangeEmail extends Mailable
     public function build()
     {
         return $this->markdown('emails.change_email')
+                    ->subject('Смена пароля')
                     ->with([
                         'username' => $this->user->name,
                         'url'    => $this->url

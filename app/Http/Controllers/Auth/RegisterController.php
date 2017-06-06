@@ -131,6 +131,7 @@ class RegisterController extends Controller
              if ($user->save()){
                 if (Mail::to($request->email)->send(new RegEmail($email, $password, $register_token))){
                        Session::flash('register-ok', 'Спасибо за активацию аккаунта! Вам на электронную почту было отправлено письмо. Пройдите по ссылке для подтверждения регистрации.');
+                       dd(session()->all());
                        return redirect()->back();
                 } else {
                        Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
@@ -144,7 +145,6 @@ class RegisterController extends Controller
                 Session::flash('acception-fail', 'Для активации карты необходимо принять условия политики конфиденциальности и обработки персональных данных'); 
                 return redirect()->back()->withInput();
                       }
-            Session::flash('register-ok', 'Спасибо за активацию аккаунта!');
             } else Session::flash('register-fail', 'Пароли не совпадают, попробуйте снова');
             return redirect()->back();
     }
