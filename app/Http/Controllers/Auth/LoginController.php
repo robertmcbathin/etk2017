@@ -74,6 +74,9 @@ class LoginController extends Controller
                         session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/999.png');
                     }
                     return redirect()->route('profile');
+                } else {
+                  Session::flash('wrong-credentials', 'Неверный логин или пароль');
+                  return redirect()->back();
                 }
             } else {
                 Session::flash('account-is-not-activated', 'Данный аккаунт не активирован! Проверьте почту, указанную при регистрации.');

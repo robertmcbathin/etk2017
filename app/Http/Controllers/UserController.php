@@ -584,6 +584,17 @@ public function showSettings(){
       $user = \App\User::where('email',$email)->first();
       $user->confirmation_token = $confirmation_token;
       if ($user->save()){
+
+
+            if (Mail::to($email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token))){
+                       Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
+                       dd(session()->all());
+                       return redirect()->back();
+                } else {
+                       Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
+                       return redirect()->back()->withInput();
+                       }  
+
        Mail::send('emails.send_new_password',
          [
          'password_to_send' => $password_to_send,
