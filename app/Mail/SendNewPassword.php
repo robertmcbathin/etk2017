@@ -38,7 +38,7 @@ class SendNewPassword extends Mailable
         return $this->markdown('emails.send_new_account_password')                    
                     ->subject('Новый пароль от аккаунта')
                     ->with([
-                        'email' => $this->email,
+                        'password_to_send' => $this->password_to_send,
                         'password' => $this->password,
                         'url'    => $this->url
                         ]);;;
