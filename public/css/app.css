@@ -158,3 +158,19 @@ animation: Gradient 30s ease infinite;
 .mobile-padding{
     padding:  5px;
 }
+.card .header-danger, .card .content-danger {
+    background: linear-gradient(60deg, #403a91, #9650c1);
+}
+.btn-profile{
+    background-color: #403a91;
+}
+.btn-profile:hover{
+    background-color: #9650c1;
+}
+.link-profile:hover{
+    background-color: #d6c3e2 !important;
+    color:#fff !important;
+}
+.link-menu:hover{
+    background-color: #403a91 !important;
+}

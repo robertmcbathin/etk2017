@@ -7,6 +7,7 @@ use App\Usercard;
 use Session;
 use DB;
 use Mail;
+use App\Mail\RegEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -119,36 +120,33 @@ class RegisterController extends Controller
              */
             if ($acception == 1)
             {
-               $user = new \App\User;
-               $user->username = $emailr;
-               $user->name = $name;
-               $user->email = $email;
-               $user->role_id = 31;
-               $user->profile_image = '/images/account_circle.png';
-               $user->register_token = $register_token;
-               $user->password = bcrypt($password);
-               if ($user->save()){
-                   Mail::send('emails.registration',
-                      [
-                      'name' => $name,
-                      'password' => $password,
-                      'register_token' => $register_token],
-                      function ($m) use ($email){
-                          $m->from('no-reply@etk21.ru', 'Единая транспортная карта');
-                          $m->to($email)->subject('Добро пожаловать в личный кабинет держателя карты ЕТК!');
-                      });
-                   }
-                   } else {
-                    Session::flash('acception-fail', 'Для активации карты необходимо принять условия политики конфиденциальности и обработки персональных данных'); 
-                    return redirect()->back()->withInput();
-                   };
-                   Session::flash('register-ok', 'Спасибо за активацию аккаунта!');
-                   } else Session::flash('register-fail', 'Пароли не совпадают, попробуйте снова');
-                   return redirect()->back();
-                           /**
-                            * SENT MAIL
-                            */
-                           
+             $user = new \App\User;
+             $user->username = $email;
+             $user->name = $name;
+             $user->email = $email;
+             $user->role_id = 31;
+             $user->profile_image = '/images/account_circle.png';
+             $user->register_token = $register_token;
+             $user->password = bcrypt($password);
+             if ($user->save()){
+                if (Mail::to($request->email)->send(new RegEmail($email, $password, $register_token))){
+                       Session::flash('register-ok', 'Спасибо за активацию аккаунта! Вам на электронную почту было отправлено письмо. Пройдите по ссылке для подтверждения регистрации.');
+                       return redirect()->back();
+                } else {
+                       Session::flash('acception_email_failed', 'Не удалось отправить письмо с подтверждением на новый адрес. Повторите попытку позже');
+                       return redirect()->back();
+                       }  
+             } else {
+                Session::flash('saving-fail', 'При обработке данных произошла ошибка, повторите попытку позднее'); 
+                return redirect()->back()->withInput();
+            }
+            } else {
+                Session::flash('acception-fail', 'Для активации карты необходимо принять условия политики конфиденциальности и обработки персональных данных'); 
+                return redirect()->back()->withInput();
+                      }
+            Session::flash('register-ok', 'Спасибо за активацию аккаунта!');
+            } else Session::flash('register-fail', 'Пароли не совпадают, попробуйте снова');
+            return redirect()->back();
     }
 /**
  * CONFIRM ACCOUNT

@@ -122,10 +122,18 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'PaymentController@getBalancePage',
         'as' => 'balance'
         ]);
+    Route::get('/privacy', [
+        'uses' => 'SiteController@getPrivacyPage',
+        'as' => 'privacy'
+        ]);
+    Route::get('/eula', [
+        'uses' => 'SiteController@getEulaPage',
+        'as' => 'eula'
+        ]);
         /**
          * STATIC ARTICLES
          */
-        Route::get('/static_articles/is-it-safely', function(){
+    Route::get('/static_articles/is-it-safely', function(){
             return view('pages.static_articles.is-it-safely');
         });
         /**

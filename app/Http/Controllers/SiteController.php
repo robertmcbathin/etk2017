@@ -163,6 +163,12 @@ public function getNewsPage(){
     public function getAskPage(){
         return view('pages.ask');
     }
+    public function getPrivacyPage(){
+      return view('pages.privacy');
+    }
+    public function getEulaPage(){
+      return view('pages.eula');
+    }
     public function postQuestion(Request $request){
         $this->validate($request,[
             'name' => 'required|min:1|max:100',

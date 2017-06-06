@@ -395,7 +395,7 @@
                                   <span class="material-input"></span>
                                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                   {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-danger">Сменить имя</button>
+                                  <button type="submit" class="btn btn-profile">Сменить имя</button>
                                 </form>
                               </div>
                             </div>
@@ -410,7 +410,7 @@
                                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                   <small>На новый адрес электронной почты придет письмо со ссылкой на подтверждение нового адреса</small>
                                   {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-danger">Сменить Email</button>
+                                  <button type="submit" class="btn btn-profile">Сменить Email</button>
                                 </form>
                               </div>
                             </div>
@@ -425,27 +425,16 @@
                                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                   <small>Номер телефона будет использоваться для срочной связи с Вами</small>
                                   {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-danger">Сменить номер телефона</button>
+                                  <button type="submit" class="btn btn-profile">Сменить номер телефона</button>
                                 </form>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="tab-pane" id="image">
-                          <div class="row">
-                            <div class="alert alert-info">
-                              <div class="container">
-                                <div class="alert-icon">
-                                  <i class="material-icons">info_outline</i>
-                                </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                  <span aria-hidden="true"><i class="material-icons">clear</i></span>
-                                </button>
-
-                                <b>Внимание:</b> Размер изображения должен составлять не более 100КБ
-                              </div>
-                            </div>
-                          </div>
+                          <p class="description">
+                            <b>Внимание:</b> Размер изображения должен составлять не более 100КБ
+                          </p>
                           <div class="row">
                             <div class="col-md-6 col-md-offset-3">
                               <div class="fileinput fileinput-new text-center" data-provides="fileinput">
@@ -462,7 +451,7 @@
                                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                       <input type="file" name="avatar"></span>
                                       {{ csrf_field() }}
-                                      <button type="submit" class="btn btn-danger">Сохранить изменения</button>
+                                      <button type="submit" class="btn btn-profile">Сохранить изменения</button>
                                     </form>
                                     <br>
                                     <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
@@ -496,7 +485,7 @@
                                         <input type="hidden" name="current_card" value="{{ $card->number }}">
                                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                         {{ csrf_field()}}
-                                        <button type="submit" class="btn btn-danger"><i class="material-icons">delete_sweep</i> Удалить карту</button>
+                                        <button type="submit" class="btn btn-profile"><i class="material-icons">delete_sweep</i> Удалить карту</button>
                                       </form>
                                     </div>
                                   </div>  
@@ -505,7 +494,7 @@
                               </div>
                               <div class="row">
                                <div class="col-md-6 col-md-offset-3">
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#add-card-modal"><i class="material-icons">add</i> Добавить карту</button>
+                                <button class="btn btn-profile" data-toggle="modal" data-target="#add-card-modal"><i class="material-icons">add</i> Добавить карту</button>
                               </div>
                             </div>
                           </div>
@@ -527,14 +516,14 @@
                                  <span class="material-input"></span>
                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                  {{ csrf_field()}}
-                                 <button type="submit" class="btn btn-danger">Сменить пароль</button>
+                                 <button type="submit" class="btn btn-profile">Сменить пароль</button>
                                </form>
                              </div></div>
                            </div>
                            <div class="tab-pane" id="delete-account">
                              <div class="row">
                               <div class="col-md-6 col-md-offset-3">
-                                   <button class="btn btn-danger" data-toggle="modal" data-target="#delete-account-modal">Удалить аккаунт</button>
+                                   <button class="btn btn-profile" data-toggle="modal" data-target="#delete-account-modal">Удалить аккаунт</button>
                                    <p class="text-muted">При удалении аккаунта все Ваши карты будут удалены!</p>
                              </div></div>
                            </div>
@@ -565,12 +554,12 @@
                      <span class="material-input" id="card_preview">Тип карты</span>
                      <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
                      {{ csrf_field()}}
-                     <button type="submit" class="btn btn-danger">Добавить карту</button>
+                     <button type="submit" class="btn btn-profile">Добавить карту</button>
                    </div>
                  </form>
                </div>
                <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Закрыть</button>
               </div>
             </div>
           </div>
@@ -590,12 +579,12 @@
                   <div class="form-group is-empty">
                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                    {{ csrf_field()}}
-                   <button type="submit" class="btn btn-danger" >Да, я хочу удалить аккаунт</button>
+                   <button type="submit" class="btn btn-profile" >Да, я хочу удалить аккаунт</button>
                  </div>
                </form>
              </div>
              <div class="modal-footer">
-              <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Отмена</button>
+              <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
             </div>
           </div>
         </div>
