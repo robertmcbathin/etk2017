@@ -621,7 +621,7 @@ public function showSettings(){
         Session::flash('confirmation-failed', 'Хмм.. Вашей заявки восстановления доступа не обнаружено');
         return redirect()->route('login');
       } else {
-        DB::transaction(function() use ($user_id,$account,){
+        DB::transaction(function() use ($user_id,$account){
           $new_password = DB::table('ETK_TEMP_PASSWORDS')
               ->where('user_id',$user_id)
               ->first();
