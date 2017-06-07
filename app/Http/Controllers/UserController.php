@@ -578,7 +578,8 @@ public function showSettings(){
       $email = $request['email'];
       $confirmation_token = $request['_token'];
       $password = bcrypt($password_to_send);
-      $user_id = Auth::user()->id;
+      $user = \App\User::where('email',$email)->first();
+      $user_id = $user->id;
       /**
        * FIND AND SAVE CONFIRMATION TOKEN
        * @var [type]
@@ -588,7 +589,7 @@ public function showSettings(){
               ->where('email',$email)
               ->update(['confirmation_token' => $confirmation_token]);
             DB::table('ETK_TEMP_PASSWORDS')
-              ->insert(['user_id' => Auth::user()->id, 
+              ->insert(['user_id' => $user_id, 
                         'password' => $password
             ]);  
       })){
