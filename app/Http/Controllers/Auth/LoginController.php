@@ -70,7 +70,7 @@ class LoginController extends Controller
                         session()->put('current_card_number', $primary_card->number);
                         session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $primary_card->card_image_type . '.png');
                     } else {
-                        session()->put('current_card_number', '999999999');
+                        session()->put('current_card_number', null);
                         session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/999.png');
                     }
                     return redirect()->route('profile');

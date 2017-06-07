@@ -13,6 +13,7 @@ class SendNewPassword extends Mailable
     protected $password_to_send;
     protected $confirmation_token;
     protected $password;
+    protected $user_id;
     protected $url;
 
     /**
@@ -20,12 +21,12 @@ class SendNewPassword extends Mailable
      *
      * @return void
      */
-    public function __construct($password_to_send,$password,$confirmation_token)
+    public function __construct($password_to_send,$password,$confirmation_token,$user_id)
     {
         $this->password_to_send = $password_to_send;
         $this->password = $password;
         $this->confirmation_token = $confirmation_token;
-        $this->url = 'http://etk21.ru/confirm-new-password/'. $confirmation_token . '/' . $password;
+        $this->url = 'http://etk21.ru/confirm-new-password/'. $confirmation_token . '/' . $user_id;
     }
 
     /**

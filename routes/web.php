@@ -314,7 +314,7 @@ Route::post('/password/send_new_password',[
     'uses' => 'UserController@sendNewPassword',
     'as' => 'password.send-new-password'
     ]);
-Route::get('/confirm-new-password/{confirmation_token}/{password}',[
+Route::get('/confirm-new-password/{confirmation_token}/{user_id}',[
     'uses' => 'UserController@confirmNewPassword',
     'as' => 'confirm-new-password'
     ]);

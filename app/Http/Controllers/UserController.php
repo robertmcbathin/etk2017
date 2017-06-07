@@ -129,8 +129,8 @@ class UserController extends Controller
        ->where('user_id',Auth::user()->id)
        ->orderBy('created_at')
        ->get();
-      
-      return view('pages.profile',[
+
+       return view('pages.profile',[
         'operations' => $operations,
         'last_import' => $last_import,
         'requests' => $requests,
@@ -138,7 +138,7 @@ class UserController extends Controller
         'current_card' => $current_card
      //   'card_count' => $card_count
         ]);
-    }
+     }
     /**
      * [showDepositPage description]
      * @return [type] [description]
@@ -155,7 +155,7 @@ class UserController extends Controller
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
       return view('pages.profile.deposit',[
-                'cards' => $cards,
+        'cards' => $cards,
         'current_card' => $current_card]);
     }
     /**
@@ -179,31 +179,31 @@ class UserController extends Controller
        * @var [type]
        */
 
-      $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-        ->where('card_number', 'like',  $num)
-        ->orderBy('transaction_date', 'DESC')
-        ->get();
-        foreach ($operations as $operation) {
-          $format_date = new \DateTime($operation->transaction_date);
-          $operation->transaction_date = $format_date->format('d.m.Y');
-        }
-      $cards = DB::table('ETK_CARD_USERS')
-      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-      ->get();
-      $current_card = DB::table('ETK_CARD_USERS')
-      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-      ->first();
-              return view('pages.profile.deposit_history',
-          ['operations' => $operations,
-          'last_import' => $last_import,
-          'cards' => $cards,
-          'current_card' => $current_card
-          ]);
-      }
+            $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+            ->where('card_number', 'like',  $num)
+            ->orderBy('transaction_date', 'DESC')
+            ->get();
+            foreach ($operations as $operation) {
+              $format_date = new \DateTime($operation->transaction_date);
+              $operation->transaction_date = $format_date->format('d.m.Y');
+            }
+            $cards = DB::table('ETK_CARD_USERS')
+            ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+            ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+            ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+            ->get();
+            $current_card = DB::table('ETK_CARD_USERS')
+            ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+            ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+            ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+            ->first();
+            return view('pages.profile.deposit_history',
+              ['operations' => $operations,
+              'last_import' => $last_import,
+              'cards' => $cards,
+              'current_card' => $current_card
+              ]);
+          }
     /**
      * [showDetailsRequestForm description]
      * @return [type] [description]
@@ -273,10 +273,10 @@ public function showSettings(){
   ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
   ->get();
   $current_card = DB::table('ETK_CARD_USERS')
-      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-      ->first();
+  ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+  ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+  ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+  ->first();
   return view('pages.profile.settings',[
     'cards' => $cards,
     'current_card' => $current_card
@@ -335,7 +335,7 @@ public function showSettings(){
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function postDeleteCard(Request $request){
+          public function postDeleteCard(Request $request){
             $user_id              = $request['user_id'];
             $current_card         = $request['current_card'];
             DB::table('ETK_CARD_USERS')
@@ -343,7 +343,7 @@ public function showSettings(){
             ->delete();
             Session::flash('delete_card_success', 'Карта успешно удалена');
             return redirect()->back();
-    }
+          }
       /**
      * ADD CARD
      * @param  Request $request [description]
@@ -487,7 +487,7 @@ public function showSettings(){
       ->first();
       session()->forget('current_card_number');
       session()->forget('current_card_image_type');
-            session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
+      session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
       session()->put('fuck', 'fuck');
       session()->put('current_card_number', $current_card);
       return redirect()->back();         
@@ -578,33 +578,28 @@ public function showSettings(){
       $email = $request['email'];
       $confirmation_token = $request['_token'];
       $password = bcrypt($password_to_send);
+      $user_id = Auth::user()->id;
       /**
        * FIND AND SAVE CONFIRMATION TOKEN
        * @var [type]
        */
-      $user = \App\User::where('email',$email)->first();
-      $user->confirmation_token = $confirmation_token;
-      if ($user->save()){
-
-
-            if (Mail::to($email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token))){
-                       Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
-                       dd(session()->all());
-                       return redirect()->back();
-                } else {
-                       Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
-                       return redirect()->back()->withInput();
-                       }  
-
-       Mail::send('emails.send_new_password',
-         [
-         'password_to_send' => $password_to_send,
-         'password' => $password,
-         'confirmation_token' => $confirmation_token],
-         function ($m) use ($email){
-           $m->from('no-reply@etk21.ru', 'Служба поддержки ЕТК');
-           $m->to($email)->subject('Восстановление доступа к личному кабинету');
-         });
+      if (DB::transaction(function(){
+            DB::table('users')
+              ->where('email',$email)
+              ->update(['confirmation_token' => $confirmation_token]);
+            DB::table('ETK_TEMP_PASSWORDS')
+              ->insert(['user_id' => Auth::user()->id, 
+                        'password' => $password
+            ]);  
+      })){
+        if (Mail::to($email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
+         Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
+         dd(session()->all());
+         return redirect()->back();
+       } else {
+         Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
+         return redirect()->back()->withInput();
+       }  
        Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
        return redirect()->back();
      } else {
@@ -617,17 +612,25 @@ public function showSettings(){
  * @param  [type] $register_token [description]
  * @return [type]                 [description]
  */
-    public function confirmNewPassword($confirmation_token,$password){
+    public function confirmNewPassword($confirmation_token,$user_id){
       $account = DB::table('users')
-      ->where('confirmation_token',$confirmation_token)
-      ->first();
+                    ->where('confirmation_token',$confirmation_token)
+                    ->first();
       if ($account == NULL){
         Session::flash('confirmation-failed', 'Хмм.. Вашей заявки восстановления доступа не обнаружено');
         return redirect()->route('login');
       } else {
-        DB::table('users')
-        ->where('id', $account->id)
-        ->update(['password' => $password, 'confirmation_token' => NULL]);
+        DB::transaction(function(){
+          $new_password = DB::table('ETK_TEMP_PASSWORDS')
+              ->where('user_id',$user_id)
+              ->first();
+          DB::table('users')
+            ->where('id', $account->id)
+            ->update(['password' => $new_password->password, 'confirmation_token' => NULL]);
+          DB::table('ETK_TEMP_PASSWORDS')
+             ->where('user_id',$user_id)
+             ->delete();
+        });
         Session::flash('confirmation-success', 'Ваш пароль успешно изменен');
         return redirect()->route('login');
       }
