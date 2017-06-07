@@ -584,7 +584,7 @@ public function showSettings(){
        * FIND AND SAVE CONFIRMATION TOKEN
        * @var [type]
        */
-      if (DB::transaction(function(){
+      if (DB::transaction(function() use ($email,$confirmation_token,$user_id, $password){
             DB::table('users')
               ->where('email',$email)
               ->update(['confirmation_token' => $confirmation_token]);
@@ -621,7 +621,7 @@ public function showSettings(){
         Session::flash('confirmation-failed', 'Хмм.. Вашей заявки восстановления доступа не обнаружено');
         return redirect()->route('login');
       } else {
-        DB::transaction(function(){
+        DB::transaction(function() use ($user_id,$account,){
           $new_password = DB::table('ETK_TEMP_PASSWORDS')
               ->where('user_id',$user_id)
               ->first();
