@@ -584,7 +584,7 @@ public function showSettings(){
        * FIND AND SAVE CONFIRMATION TOKEN
        * @var [type]
        */
-      if (DB::transaction(function() use ($email,$confirmation_token,$user_id, $password){
+      DB::transaction(function() use ($email,$confirmation_token,$user_id, $password){
             DB::table('users')
               ->where('email',$email)
               ->update(['confirmation_token' => $confirmation_token]);
@@ -592,7 +592,7 @@ public function showSettings(){
               ->insert(['user_id' => $user_id, 
                         'password' => $password
             ]);  
-      })){
+      });
         if (Mail::to($email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
          Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
          return redirect()->back();
@@ -602,10 +602,6 @@ public function showSettings(){
        }  
        Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
        return redirect()->back();
-     } else {
-       Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее'); 
-       return redirect()->back()->withInput();
-     }
    }
     /**
  * CONFIRM PASSWORD CHANGING
