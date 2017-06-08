@@ -25,9 +25,9 @@
                                 {{ Session::pull('saving-fail') }}
                             </div>
                             @endif
-                            @if (Session::has('link-sent'))
+                            @if (Session::has('reset-link-sent'))
                              <div class="alert alert-danger">
-                                {{ Session::pull('link-sent') }}
+                                {{ Session::pull('reset-link-sent') }}
                             </div>
                             @endif
                         </div>
