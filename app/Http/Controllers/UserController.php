@@ -593,7 +593,7 @@ public function showSettings(){
                         'password' => $password
             ]);  
       });
-        if (Mail::to($email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
+        if (Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
          Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
          return redirect()->back();
        } else {

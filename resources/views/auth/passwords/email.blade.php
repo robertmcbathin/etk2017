@@ -15,18 +15,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                             @if (session('status'))
-                             <div class="alert alert-success">
-                                Вам было отправлено письмо с новым паролем
-                            </div>
-                            @endif
                             @if (Session::has('saving-fail'))
                              <div class="alert alert-danger">
                                 {{ Session::pull('saving-fail') }}
                             </div>
                             @endif
                             @if (Session::has('reset-link-sent'))
-                             <div class="alert alert-danger">
+                             <div class="alert alert-success">
                                 {{ Session::pull('reset-link-sent') }}
                             </div>
                             @endif
