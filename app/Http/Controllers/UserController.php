@@ -277,26 +277,29 @@ public function showDetailsHistory(){
         'current_card' => $current_card
         ]);
     }
-/**
- * [showSettings description]
- * @return [type] [description]
- */
-public function showSettings(){
-  $cards = DB::table('ETK_CARD_USERS')
-  ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-  ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-  ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-  ->get();
-  $current_card = DB::table('ETK_CARD_USERS')
-  ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
-  ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
-  ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
-  ->first();
-  return view('pages.profile.settings',[
-    'cards' => $cards,
-    'current_card' => $current_card
-    ]);
-}
+    /**
+     * [showSettings description]
+     * @return [type] [description]
+     */
+    public function showSettings(){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name', 'ETK_CARD_TYPES.category as category')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      $card_types = DB::table('ETK_CARD_TYPES')
+                      ->get();
+      return view('pages.profile.settings',[
+        'cards' => $cards,
+        'current_card' => $current_card,
+        'card_types' => $card_types
+        ]);
+    }
     /**
      * NAME CHANGING
      * @param  Request $request [description]
@@ -727,6 +730,26 @@ public function showSettings(){
         Session::flash('change-avatar-ok', 'Изображение профиля изменено');
       } else Session::flash('change-avatar-error', 'При загрузке изображения произошла ошибка');
       return redirect()->back();
+    }
+    /**
+     * [postChangeCardImage description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postChangeCardImage(Request $request){
+      $card_image_type = $request['card_image_type'];
+      $card_number     = $request['card_number'];
+      $user_id         = $request['user_id'];
+      if (DB::table('ETK_CARD_USERS')
+            ->where('user_id', $user_id)
+            ->where('number',$card_number)
+            ->update(['card_image_type' => $card_image_type])){
+        Session::flash('change_card_image_ok', 'Изображение карты успешно изменено');
+        return redirect()->back();
+      } else {
+        Session::flash('change_card_image_fail', 'Упс... Изображение карты изменить не удалось');
+        return redirect()->back();
+      }
     }
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED

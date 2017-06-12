@@ -152,7 +152,7 @@ Route::group(['prefix' => 'sudo'], function () {
 Route::group(['middleware' => 'auth'], function()
 {
     /**
-     * PROFILER ROUTES
+     * PROFILE ROUTES
      */
     Route::get('/profile', [
         'uses' => 'UserController@showProfile',
@@ -221,6 +221,10 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/profile/set_current_card/{current_card}/{user_id}',[
         'uses' => 'UserController@setCurrentCard',
         'as' => 'profile.set_current_card.set'
+        ]);
+    Route::post('/profile/change_card_image',[
+        'uses' => 'UserController@postChangeCardImage',
+        'as' => 'profile.change_card_image'
         ]);
     /**
      * END OF PROFILE ROUTES

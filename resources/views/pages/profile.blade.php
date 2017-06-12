@@ -54,32 +54,28 @@
              <h4 class="title">Последние новости</h4>
              <div class="row">
                @foreach ($articles as $article)
-               <div class="col-md-4">
-                 <div class="card card-plain card-blog">
-                  <div class="card-image">
-                    <a href="">
+
+              <div class="card card-plain card-blog">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="card-image">
                       <img class="img img-raised" src="{{$article->image}}">
-                    </a>
-                    <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></    div></div>
-
-                    <div class="card-content">
-                      <h4 class="card-title">
-                        <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
-                      </h4>
-                      <p class="card-description">
-                        {{$article->description}}<a     href="{{route('article',['id' => $article->id])}}"> Подробнее </a>
-                      </p>
-                      <div class="footer">
-                        <div class="stats">
-                          <i class="material-icons">schedule</i>{{ $article->created_at }}
-                        </div>
-                      </div>
-                    </div>
+                    <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                   </div>
-                  
+                  <div class="col-md-8">
+                    <h6 class="card-title">
+                      <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
+                    </h6>
+                    <p class="card-description">
+                      {{ $article->description }}<a href="{{route('article',['id' => $article->id])}}"> Подробнее </a>
+                    </p>
+                    <p class="author">
+                      <i class="material-icons">schedule</i>{{ $article->created_at }}
+                    
+                  </p></div>
                 </div>
-
               </div>
+
               @endforeach
             </div>
             </div>
