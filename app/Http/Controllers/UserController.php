@@ -85,6 +85,20 @@ class UserController extends Controller
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
       /**
+       * GET ARTICLES
+       * @var [type]
+       */
+      $articles = DB::table('ETK_ARTICLES')
+       ->orderBy('created_at', 'desc')
+       ->take(3)
+       ->get();
+       Carbon::setLocale('ru');
+       foreach ($articles as $article) {
+          $non_formatted_date = new Carbon($article->created_at);
+          $date = $non_formatted_date->diffForHumans();
+          $article->created_at = $date;
+      }
+      /**
        * SHOW LAST IMPORT DIFF
        * @var [type]
        */
@@ -135,7 +149,8 @@ class UserController extends Controller
         'last_import' => $last_import,
         'requests' => $requests,
         'cards' => $cards,
-        'current_card' => $current_card
+        'current_card' => $current_card,
+        'articles' => $articles
      //   'card_count' => $card_count
         ]);
      }
@@ -479,17 +494,81 @@ public function showSettings(){
      * @return [type]           [description]
      */
      public function setCurrentCard($current_card,$user_id){
+      /**
+       * FORGET OLD VARIABLES
+       */
+      session()->forget('current_card_number');
+      session()->forget('current_card_image_type');
+      session()->forget('current_balance');
+      session()->forget('current_card_last_transaction');
+      session()->forget('current_card_kind');
+      session()->forget('current_card_state');
       $card = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->where('ETK_CARD_USERS.number', $current_card)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
-      session()->forget('current_card_number');
-      session()->forget('current_card_image_type');
-      session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
-      session()->put('fuck', 'fuck');
+      /**
+       * SET CARD NUMBER
+       */
       session()->put('current_card_number', $current_card);
+      /**
+       * get database card number
+       * @var [type]
+       */
+      $card_num_part1 = '01';
+      $card_num_part2 = substr(Session::get('current_card_number'),1,2);
+      $card_num_part3  = substr(Session::get('current_card_number'),3,6);
+      if ($card_info = DB::table('ETK_CARDS')
+                    ->where('num', $card_num_part1 . $card_num_part2 . $card_num_part3 )
+                    ->first()){
+        session()->put('current_card_balance', $card_info->ep_balance_fact);
+        $non_formatted_date = new \DateTime($card_info->date_of_travel_doc_kind_last);
+        $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
+        session()->put('current_card_last_transaction', $last_transaction);
+        /**
+         * CARD KIND : персональная или на предъявителя
+         */
+        switch ($card_info->kind) {
+          case 1:
+            session()->put('current_card_kind', 'Персональная');
+            break;
+          case 2:
+            session()->put('current_card_kind', 'На предъявителя');
+            break;
+          default:
+            session()->put('current_card_kind', 'Не определен');
+            break;
+        }
+        /**
+         * CARD STATE : Состояние карты(1-в обращении, 2-в блок списке, 3-заблокирована, 4-в деблок списке, 5-изъята, 6-чужая в блок, 7-чужая из блок, 8-Заблокирована по списку терминалов)
+         */
+        switch ($card_info->state) {
+          case 1:
+            session()->put('current_card_state', 'В обращении');
+            break;
+          case 2:
+            session()->put('current_card_state', 'В блокировочном списке');
+            break;
+          case 3:
+            session()->put('current_card_state', 'Заблокирована');
+            break;
+          case 4:
+            session()->put('current_card_state', 'В деблокировочном списке');
+            break;
+          case 5:
+            session()->put('current_card_state', 'Изъята');
+            break; 
+          default:
+            session()->put('current_card_state', 'Не определено');
+            break;
+        }
+      } else {
+        session()->put('current_card_balance', '0');
+        session()->put('current_card_last_transaction', 'Информация о последней транзакции отсутствует');
+      }
+      session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
       return redirect()->back();         
     }
     public function getConfirmEmailChanging($token){

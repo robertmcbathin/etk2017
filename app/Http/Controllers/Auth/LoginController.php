@@ -68,7 +68,59 @@ class LoginController extends Controller
                       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
                       ->first()){
                         session()->put('current_card_number', $primary_card->number);
+                       /**
+                        * get database card number
+                        * @var [type]
+                        */
+                       $card_num_part1 = '01';
+                       $card_num_part2 = substr(Session::get('current_card_number'),1,2);
+                       $card_num_part3  = substr(Session::get('current_card_number'),3,6);
+                       if ($card_info = DB::table('ETK_CARDS')
+                                     ->where('num', $card_num_part1 . $card_num_part2 . $card_num_part3 )
+                                     ->first()){
+                         session()->put('current_card_balance', $card_info->ep_balance_fact);
+                         $non_formatted_date = new \DateTime($card_info->date_of_travel_doc_kind_last);
+                         $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
+                         session()->put('current_card_last_transaction', $last_transaction);
+                        /**
+                          * CARD KIND : персональная или на предъявителя
+                          */
+                         switch ($card_info->kind) {
+                           case 1:
+                             session()->put('current_card_kind', 'Персональная');
+                             break;
+                           case 2:
+                             session()->put('current_card_kind', 'На предъявителя');
+                             break;
+                           default:
+                             session()->put('current_card_kind', 'Не определен');
+                             break;
+                         }
+                         /**
+                          * CARD STATE : Состояние карты(1-в обращении, 2-в блок списке, 3-заблокирована, 4-в деблок списке, 5-изъята, 6-чужая в блок, 7-чужая из блок, 8-Заблокирована по                  списку терминалов)
+                          */
+                         switch ($card_info->state) {
+                           case 1:
+                             session()->put('current_card_state', 'В обращении');
+                             break;
+                           case 2:
+                             session()->put('current_card_state', 'В блокировочном списке');
+                             break;
+                           case 3:
+                             session()->put('current_card_state', 'Заблокирована');
+                             break;
+                           case 4:
+                             session()->put('current_card_state', 'В деблокировочном списке');
+                             break;
+                           case 5:
+                             session()->put('current_card_state', 'Изъята');
+                             break; 
+                           default:
+                             session()->put('current_card_state', 'Не определено');
+                             break;
+                         }
                         session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $primary_card->card_image_type . '.png');
+                      }
                     } else {
                         session()->put('current_card_number', null);
                         session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/999.png');

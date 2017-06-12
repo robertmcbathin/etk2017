@@ -468,28 +468,38 @@
                           <div class="tab-pane" id="my-cards">
                             <div class="row">
                               @foreach ($cards as $card)
-                              <div class="col-md-3">
-                                <div class="card card-profile">
-                                  <div class="card-image">
-                                    <a href="">
-                                      <img class="img" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
-                                    </a>
-                                    <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-profile1.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
-
-                                    <div class="card-content">
-                                      <h4 class="card-title">{{ $card->number }}</h4>
-                                      <h6 class="category text-gray">{{ $card->name}}</h6>
+                                <div class="col-md-6 col-md-offset-3">
+                                <div class="card card-plain card-blog">
+                                  <div class="row">
+                                    <div class="col-md-4">
+                                      <div class="card-image">
+                                        <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
+                                      <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                                     </div>
-                                    <div class="footer">
+                                    <div class="col-md-8">
+                                      <h6 class="category text-info">{{ $card->name}}</h6>
+                                      <h3 class="card-title">
+                                        <a href="">{{ $card->number }}</a>
+                                      </h3>
+                                      <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
+                                       <i class="fa fa-picture-o"></i> Сменить изображение
+                                      <div class="ripple-container"></div>
+                                      </button>
+
                                       <form action="{{ route('profile.delete_card.post') }}" method="POST">
                                         <input type="hidden" name="current_card" value="{{ $card->number }}">
                                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                         {{ csrf_field()}}
-                                        <button type="submit" class="btn btn-profile"><i class="material-icons">delete_sweep</i> Удалить карту</button>
+                                        <button type="submit" class="btn btn-simple btn-youtube">
+                                       <i class="fa fa-trash-o"></i> Удалить
+                                      <div class="ripple-container"></div>
+                                      </button>
                                       </form>
-                                    </div>
-                                  </div>  
+                                      </div>
+                                  </div>
                                 </div>
+                                </div>
+                                
                                 @endforeach
                               </div>
                               <div class="row">
@@ -532,7 +542,6 @@
                      </div>
                    </div>
                  </div>
-
                </div>
              </div>
            </div>
@@ -589,6 +598,37 @@
           </div>
         </div>
       </div>
+
+      @foreach ($cards as $card)
+      <div class="modal fade" id="change-card-image-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+       <div class="modal-dialog">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+               <i class="material-icons">clear</i>
+             </button>
+             <h4 class="modal-title">Изменение изображения карты</h4>
+           </div>
+           <div class="modal-body">
+               <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                              <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                <div class="fileinput-new thumbnail img-rounded img-raised">
+                                  <img src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" alt="">
+                                </div>
+                                </div>
+                            
+
+                                  </div>
+                                </div>
+          </div>
+          <div class="modal-footer">
+           <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
+         </div>
+       </div>
+     </div>
+   </div>
+      @endforeach
       @endsection
 
 

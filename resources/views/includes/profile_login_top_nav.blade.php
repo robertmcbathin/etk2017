@@ -12,6 +12,9 @@
 
 		<div class="collapse navbar-collapse" id="navigation-example">
 			<ul class="nav navbar-nav navbar-right">
+				<li>
+				  	<h4><strong>{{ session()->get('current_card_balance', 'н/д') }}</strong> <i class="fa fa-ruble"></i> </h4> 
+				</li>
 				<li class="dropdown">
 					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
@@ -97,11 +100,6 @@
 									<i class="material-icons">account_box</i> Выйти
 									<div class="ripple-container"></div></a></li>
 								</ul>
-							</li>
-							<li>
-								<a href="">
-									Баланс
-								</a>
 							</li>
 						</ul>
 					</div>

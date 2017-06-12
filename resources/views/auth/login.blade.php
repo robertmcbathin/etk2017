@@ -87,8 +87,6 @@
                                 </div>
                                 @endif
                                 @if (Session::has('account-is-not-exist'))
-                                <div class="row">
-                                <div class="container">
                                 <div class="alert alert-warning">
                                     <div class="container register-alert">
                                         <div class="alert-icon">
@@ -100,12 +98,8 @@
                                         <strong>{{Session::pull('account-is-not-exist')}}</strong>
                                     </div>
                                 </div>
-                                </div>
-                                </div>
                                 @endif
                                 @if (Session::has('new_email_accepted'))
-                                <div class="row">
-                                    <div class="container">
                                       <div class="alert alert-success">
                                         <div class="container">
                                           <div class="alert-icon">
@@ -117,15 +111,11 @@
                                         <strong>{{Session::pull('new_email_accepted')}}</strong>
                                     </div>
                                 </div>  
-                            </div>
-                        </div>
                         @endif
                         @if (Session::has('wrong-credentials'))
-                                <div class="row">
-                                    <div class="container">
-                                      <div class="alert alert-danger">
-                                        <div class="container">
-                                          <div class="alert-icon">
+                                <div class="alert alert-danger">
+                                    <div class="container register-alert">
+                                        <div class="alert-icon">
                                             <i class="material-icons">error_outline</i>
                                         </div>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -133,13 +123,11 @@
                                         </button>
                                         <strong>{{Session::pull('wrong-credentials')}}</strong>
                                     </div>
-                                </div>  
-                            </div>
+                                </div>
                         </div>
                         @endif
                         @if (Session::has('new_email_denied'))
-                        <div class="row">
-                            <div class="container">
+
                               <div class="alert alert-danger">
                                 <div class="container">
                                   <div class="alert-icon">
@@ -151,8 +139,6 @@
                                 <strong>{{Session::pull('new_email_denied')}}</strong>
                             </div>
                         </div>  
-                    </div>
-                </div>
                 @endif
             </div>
             <div class="panel panel-default">
