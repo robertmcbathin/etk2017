@@ -35,7 +35,7 @@
                                 <div class="card-header card-header-icon" data-background-color="rose">
                                     <i class="material-icons">assignment</i>
                                 </div>
-                                <h4 class="card-title">Результат</h4>
+                                <h4 class="card-title" id="current-balance">Результат</h4>
                                 <div class="card-content">
                                     <div class="table-responsive">
                                         <table class="table table-striped">

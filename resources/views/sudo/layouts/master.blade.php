@@ -98,9 +98,11 @@
           if ((msg['message']) == 'success'){
             if (msg['data'].length == 0){
                 html = '<h3 id=\"operations-results-none\" class=\"text-center\">Нет результатов</h3>';
+                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\">' + msg.balance + '</h4>';
                 htmlNull = '<tbody id=\"operations-results\"></tbody>';
                 $('#operations-results-none').replaceWith(html);
                 $('#operations-results').replaceWith(htmlNull);
+                $('#current-balance').replaceWith(balanceHtml);
                 html = '<h3 id=\"operations-results-none\"></h3>';
             } else {
                 html = '<tbody id=\"operations-results\">';
@@ -112,8 +114,10 @@
                     html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
                 }
                 html += '</tbody>';
+                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\"> Текущий баланс: ' + msg.balance + '.00 р</h4>';
                 $('#operations-results-none').replaceWith(htmlNull);
                 $('#operations-results').replaceWith(html);
+                $('#current-balance').replaceWith(balanceHtml);
             }
             html = '<tbody id=\"operations-results\"></tbody>';
         };

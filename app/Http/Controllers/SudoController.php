@@ -286,10 +286,14 @@ public function postAddArticle(Request $request){
       $format_date = new \DateTime($operation->transaction_date);
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
+    $semifullnumber = '0123' . $num;
+    $balance = DB::table('ETK_CARDS')
+                 ->where('num', $semifullnumber)
+                 ->first();
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $balance->ep_balance_fact],200);
 
   }
 }
