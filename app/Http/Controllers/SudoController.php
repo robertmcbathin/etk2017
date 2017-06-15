@@ -223,6 +223,65 @@ public function postAddArticle(Request $request){
         return redirect()->back();
       }
       /**
+       * [postUpdateCards description]
+       * @param  Request $request [description]
+       * @return [type]           [description]
+       */
+      public function postUpdateCards(Request $request){
+        $updated_cards = $request->file('update-cards');
+        $updated_cards_name = '/admin/files/updates/UPDATED_CARDS_'  . date('Ymd-His') . '.csv';
+        if ($request->file('update_cards')->isValid()){
+          Storage::disk('public')->put($updated_cards_name, File::get($updated_cards));
+          $reader = CsvReader::open($updated_cards);
+          $counter = 0;
+          while (($line = $reader->readLine()) !== false) {
+            try {
+              $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[12]);
+              DB::table('ETK_CARDS')
+              ->update(['kind' => $line[0],
+               'series' => $line[1],
+               'num' => $line[2],
+               'chip' => $line[3],
+               'id_privilege' => $line[5],
+               'id_privilege_group' => $line[6],
+               'F' => $line[7],
+               'I' => $line[8],
+               'O' => $line[9],
+               'type' => $line[10],
+               'state' => $line[11],
+               'ep_balance_fact' => $line[12],
+               'date_of_travel_doc_kind_last' => $last_trip_date,
+               'travel_doc_kind' => $line[14]
+               ]);
+              $counter++;
+            } catch (Exception $e) {
+              Session::flash('update-cards-fail', $e->getMessage());
+            }
+          }
+           /**
+            * SAVE IMPORT FILENAME
+            */
+           DB::table('ETK_CARDS_UPDATES')
+           ->insert(['filename' => $updated_cards_name,
+            'created_by' => Auth::user()->id
+            ]);
+           /*
+           * LOGGING THE IMPORT
+           * 
+            */
+           $log = new \App\Log;
+           $log->action_type = 7;
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " обновил список карт";
+           $log->save();
+          /**
+           * 
+           */
+          $reader->close();
+          Session::flash('update-cards-ok', "Обновление данных прошло успешно, обновлено " . $counter . " записей");
+        } else Session::flash('update-cards-fail', 'С файлом что-то не так');
+        return redirect()->back();
+      }
+      /**
        * ACCEPT DETALIZATION REQUEST
        * @param  Request $request [description]
        * @return [type]           [description]

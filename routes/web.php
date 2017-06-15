@@ -288,6 +288,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postAttachFileForDetailingRequest',
             'as' => 'sudo.pages.detailing-requests.attach_file'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/import/update-cards',[
+            'uses' => 'SudoController@postUpdateCards',
+            'as' => 'sudo.update.cards.post'
+            ])->middleware('can:show-sudo,App\User');
 
     /**
      * QUESTIONS    

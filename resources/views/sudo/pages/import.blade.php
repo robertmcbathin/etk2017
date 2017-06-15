@@ -37,13 +37,13 @@
             <i class="material-icons">credit_card</i>
           </div>                
           <h4 class="card-title">Обновление списка карт
-            <small class="category">Загрузить файл выгрузок (.csv). Последняя выгрузка: {{$last_import->created_at}} </small>
+            <small class="category">Загрузить файл обновленных карт (.csv). Последняя выгрузка: {{$last_import->created_at}} </small>
           </h4>
           <div class="card-content">
             <div class="row">
               <div class="col-sm-6 col-sm-offset-3">
-                <form action="{{ route('sudo.import.transactions.post')}}" method="POST" enctype="multipart/form-data">
-                  <input type="file" name="sb-transaction">
+                <form action="{{ route('sudo.update.cards.post')}}" method="POST" enctype="multipart/form-data">
+                  <input type="file" name="update-cards">
                   {{csrf_field()}}
                   <button type="submit" class="btn btn-fill btn-rose">Обновить</button>
                 </form>
@@ -53,10 +53,6 @@
           </div>
         </div>
       </div>
-
-
-
-
 
         @if (Session::has('add-transactions-ok'))
         <div class="row">
