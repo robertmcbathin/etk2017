@@ -172,8 +172,16 @@ public function postAddArticle(Request $request){
         ->first(); 
         $last_import->created_at = new \DateTime($last_import->created_at);
         $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
+
+        if ($last_card_update = DB::table('ETK_CARDS_UPDATES')
+        ->orderBy('created_at', 'DESC')
+        ->first()){
+          $last_card_update->created_at = new \DateTime($last_card_update->created_at);
+          $last_card_update->created_at = date_format($last_card_update->created_at,'d.m.Y H:i:s');
+        }
         return view('sudo.pages.import', [
-          'last_import' => $last_import
+          'last_import' => $last_import,
+          'last_card_update' => $last_card_update
           ]);
       }
       public function postImportTransactions(Request $request){
@@ -230,14 +238,35 @@ public function postAddArticle(Request $request){
       public function postUpdateCards(Request $request){
         $updated_cards = $request->file('update-cards');
         $updated_cards_name = '/admin/files/updates/UPDATED_CARDS_'  . date('Ymd-His') . '.csv';
-        if ($request->file('update_cards')->isValid()){
+        if ($request->file('update-cards')->isValid()){
           Storage::disk('public')->put($updated_cards_name, File::get($updated_cards));
           $reader = CsvReader::open($updated_cards);
           $counter = 0;
           while (($line = $reader->readLine()) !== false) {
             try {
-              $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[12]);
+              /**
+               * MODIFY DATE
+               * @var [type]
+               */
+              $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[13]);
+              /**
+               * CHECK FOR PRIVILEGE ID
+               */
+              if ($line[5] == ''){
+                $line[5] = null;
+              }
+              /**
+               * CHECK FOR RIGHT FLOAT VALUE
+               */
+              if ($line[12] !== ""){
+                if (!is_int($line[12])){
+                  $ep_balance_fact = str_replace(',', '.', $line[12]);
+                }
+              } else {
+                $ep_balance_fact = 0;
+              }
               DB::table('ETK_CARDS')
+              ->where('num',$line[2])
               ->update(['kind' => $line[0],
                'series' => $line[1],
                'num' => $line[2],
@@ -249,7 +278,7 @@ public function postAddArticle(Request $request){
                'O' => $line[9],
                'type' => $line[10],
                'state' => $line[11],
-               'ep_balance_fact' => $line[12],
+               'ep_balance_fact' => $ep_balance_fact,
                'date_of_travel_doc_kind_last' => $last_trip_date,
                'travel_doc_kind' => $line[14]
                ]);

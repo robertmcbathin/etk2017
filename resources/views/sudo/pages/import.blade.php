@@ -37,7 +37,7 @@
             <i class="material-icons">credit_card</i>
           </div>                
           <h4 class="card-title">Обновление списка карт
-            <small class="category">Загрузить файл обновленных карт (.csv). Последняя выгрузка: {{$last_import->created_at}} </small>
+            <small class="category">Загрузить файл обновленных карт (.csv). Последняя выгрузка:  </small> 
           </h4>
           <div class="card-content">
             <div class="row">
@@ -67,12 +67,35 @@
         @endif
         @if (Session::has('add-transactions-fail'))
         <div class="row">
-         <div class="alert alert-success">
+         <div class="alert alert-danger">
           <button type="button" aria-hidden="true" class="close">
             <i class="material-icons">close</i>
           </button>
           <span>
             Что-то пошло не так...</span>
+          </div>
+        </div>
+        @endif
+
+        @if (Session::has('update-cards-ok'))
+        <div class="row">
+         <div class="alert alert-success">
+          <button type="button" aria-hidden="true" class="close">
+            <i class="material-icons">close</i>
+          </button>
+          <span>
+            {{Session::pull('update-cards-ok')}}</span>
+          </div>
+        </div>
+        @endif
+        @if (Session::has('update-cards-fail'))
+        <div class="row">
+         <div class="alert alert-danger">
+          <button type="button" aria-hidden="true" class="close">
+            <i class="material-icons">close</i>
+          </button>
+          <span>
+            {{Session::pull('update-cards-fail')}}</span>
           </div>
         </div>
         @endif
