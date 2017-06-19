@@ -236,7 +236,6 @@ public function postAddArticle(Request $request){
        * @return [type]           [description]
        */
       public function postUpdateCards(Request $request){
-        dd($request);
         $updated_cards = $request->file('update-cards');
         $updated_cards_name = '/admin/files/updates/UPDATED_CARDS_'  . date('Ymd-His') . '.csv';
         if ($request->file('update-cards')->isValid()){
@@ -266,6 +265,14 @@ public function postAddArticle(Request $request){
               } else {
                 $ep_balance_fact = 0;
               }
+              /**
+               * 
+               */
+              if ($line[14] == ""){
+                $travel_doc_kind = 0;
+              } else {
+                $travel_doc_kind = $line[14];
+              }
               DB::table('ETK_CARDS')
               ->where('num',$line[2])
               ->update(['kind' => $line[0],
@@ -281,7 +288,7 @@ public function postAddArticle(Request $request){
                'state' => $line[11],
                'ep_balance_fact' => $ep_balance_fact,
                'date_of_travel_doc_kind_last' => $last_trip_date,
-               'travel_doc_kind' => $line[14]
+               'travel_doc_kind' => $travel_doc_kind
                ]);
               $counter++;
             } catch (Exception $e) {
@@ -307,6 +314,81 @@ public function postAddArticle(Request $request){
            * 
            */
           $reader->close();
+          Session::flash('update-cards-ok', "Обновление данных прошло успешно, обновлено " . $counter . " записей");
+        } else Session::flash('update-cards-fail', 'С файлом что-то не так');
+        return redirect()->back();
+      }
+
+
+
+      /**
+       * UPDATE CARDS BETA
+       */
+      public function postUpdateCardsBeta(Request $request){
+        $updated_cards = $request->file('update-cards');
+        if ($request->file('update-cards')->isValid()){
+          $reader = CsvReader::open($updated_cards);
+          $counter = 0;
+          $sql = '';
+          while (($line = $reader->readLine()) !== false) {
+            try {
+              /**
+               * MODIFY DATE
+               * @var [type]
+               */
+              $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[13]);
+              /**
+               * CHECK FOR PRIVILEGE ID
+               */
+              if ($line[5] == ''){
+                $line[5] = null;
+              }
+              /**
+               * CHECK FOR RIGHT FLOAT VALUE
+               */
+              if ($line[12] !== ""){
+                if (!is_int($line[12])){
+                  $ep_balance_fact = str_replace(',', '.', $line[12]);
+                }
+              } else {
+                $ep_balance_fact = 0;
+              }
+              /**
+               * 
+               */
+              if ($line[14] == ""){
+                $travel_doc_kind = 0;
+              } else {
+                $travel_doc_kind = $line[14];
+              }
+              $sql .= 'UPDATE ETK_DB.ETK_CARDS SET ';
+              $sql .= 'kind=' . $line[0] . ', ';
+              $sql .= 'series=' . $line[1] . ', ';
+              $sql .= 'num=' . $line[2] . ', ';
+              $sql .= 'chip=' . $line[3] . ', ';
+              $sql .= 'social_card=' . $line[4] . ', ';
+              $sql .= 'id_privilege=' . $line[5] . ', ';
+              $sql .= 'id_privilege_group=' . $line[6] . ', ';
+              $sql .= 'F=' . $line[7] . ', ';
+              $sql .= 'I=' . $line[8] . ', ';
+              $sql .= 'O=' . $line[9] . ', ';
+              $sql .= 'type=' . $line[10] . ', ';
+              $sql .= 'state=' . $line[11] . ', ';
+              $sql .= 'ep_balance_fact=' . $ep_balance_fact . ', ';
+              $sql .= 'date_of_travel_doc_kind_last=' . $line[13]. ', ';
+              $sql .= 'travel_doc_kind=' . $travel_doc_kind . ' ';
+              $sql .= 'WHERE num=' . $line[2] . ';';
+              $counter++;
+            } catch (Exception $e) {
+              Session::flash('update-cards-fail', $e->getMessage());
+            }
+          }
+          /**
+           * 
+           */
+          $reader->close();
+          $updated_cards_name = '/admin/files/updates/UPDATED_CARDS_SQL'  . date('Ymd-His') . '.sql';
+          Storage::disk('public')->put($updated_cards_name, $sql);
           Session::flash('update-cards-ok', "Обновление данных прошло успешно, обновлено " . $counter . " записей");
         } else Session::flash('update-cards-fail', 'С файлом что-то не так');
         return redirect()->back();

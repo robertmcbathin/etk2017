@@ -54,6 +54,29 @@
         </div>
       </div>
 
+        <div class="row">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="default">
+            <i class="material-icons">credit_card</i>
+          </div>                
+          <h4 class="card-title">Обновление списка карт Beta
+            <small class="category">Загрузить файл обновленных карт (.csv). Последняя выгрузка:  </small> 
+          </h4>
+          <div class="card-content">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <form action="{{ route('sudo.update.cards.beta.post')}}" method="POST" enctype="multipart/form-data">
+                  <input type="file" name="update-cards">
+                  {{csrf_field()}}
+                  <button type="submit" class="btn btn-fill btn-default">Обновить</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
         @if (Session::has('add-transactions-ok'))
         <div class="row">
          <div class="alert alert-success">

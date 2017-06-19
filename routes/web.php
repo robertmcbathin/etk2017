@@ -292,6 +292,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postUpdateCards',
             'as' => 'sudo.update.cards.post'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/import/update-cards-beta',[
+            'uses' => 'SudoController@postUpdateCardsBeta',
+            'as' => 'sudo.update.cards.beta.post'
+            ])->middleware('can:show-sudo,App\User');
 
     /**
      * QUESTIONS    
