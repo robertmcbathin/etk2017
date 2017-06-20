@@ -476,7 +476,7 @@ public function postAddArticle(Request $request){
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
     $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-    ->where('card_number', 'like',  $num)
+    ->where('card_number',  $num)
     ->orderBy('transaction_date', 'DESC')
     ->get();
     foreach ($operations as $operation) {
@@ -484,13 +484,18 @@ public function postAddArticle(Request $request){
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
     $semifullnumber = '0123' . $num;
-    $balance = DB::table('ETK_CARDS')
+
+    if ($balance = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
-                 ->first();
+                 ->first() == NULL){
+      $cur_balance = "-1";
+    } else {
+      $cur_balance = $balance->ep_balance_fact;
+    }
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $balance->ep_balance_fact],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance],200);
 
   }
 }

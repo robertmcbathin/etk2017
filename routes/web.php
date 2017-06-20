@@ -317,7 +317,7 @@ Route::group(['middleware' => 'auth'], function()
     /**
      * 
      */
-    Route::post('/sudo/ajax/check_card_operations', [ 'uses' =>
+    Route::post('/ajax/check_card_operations', [ 'uses' =>
         'SudoController@ajaxCheckCardOperations',
         'as' => 'ajax.check_card_operations'
         ])->middleware('can:show-sudo,App\User');
