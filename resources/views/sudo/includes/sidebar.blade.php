@@ -103,6 +103,39 @@ $username = Auth::user()->name;
                        
                     </li>
                     <li>
+                        <a data-toggle="collapse" href="dashboard.html#settings">
+                            <i class="material-icons">image</i>
+                            <p>Справочники
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        @can('show-settings', App\User::class)
+                        <div class="collapse" id="settings">
+                            <ul class="nav">
+                                <li>
+                                    <a href="{{route('sudo.pages.schools')}}">Учебные заведения</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sudo.pages.students') }}">Учащиеся</a>
+                                </li>
+                             <!--   <li>
+                                    <a href="#">Пункты продаж</a>
+                                </li>
+                                <li>
+                                    <a href="#">Пункты пополнения</a>
+                                </li>
+                                <li>
+                                    <a href="#">Карты</a>
+                                </li>
+                                <li>
+                                    <a href="#">Пользователи</a>
+                                </li>-->
+                            </ul>
+                        </div>
+                        @endcan
+
+                    </li>
+                    <li>
                         <a href="#">
                             <i class="material-icons">timeline</i>
                             <p>Статистика</p>

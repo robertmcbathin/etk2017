@@ -68,7 +68,7 @@
                 <form action="{{ route('sudo.update.cards.beta.post')}}" method="POST" enctype="multipart/form-data">
                   <input type="file" name="update-cards">
                   {{csrf_field()}}
-                  <button type="submit" class="btn btn-fill btn-default">Обновить</button>
+                  <button type="submit" class="btn btn-fill btn-default">Создать SQL-файл</button>
                 </form>
               </div>
             </div>

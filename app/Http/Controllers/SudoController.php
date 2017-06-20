@@ -184,6 +184,23 @@ public function postAddArticle(Request $request){
           'last_card_update' => $last_card_update
           ]);
       }
+      /**
+       * SETTINGS
+       * @param  Request $request [description]
+       * @return [type]           [description]
+       */
+      public function getSchoolsPage(){
+        $schools = DB::table('ETK_PRIVILEGE')
+                    ->orderBy('code')
+                    ->paginate(25);
+        return view('sudo.pages.schools', [
+              'schools' => $schools
+          ]);
+      }
+      /**
+       * [postImportTransactions description]
+       * 
+       */
       public function postImportTransactions(Request $request){
         $transactions = $request->file('sb-transaction');
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
@@ -361,21 +378,30 @@ public function postAddArticle(Request $request){
               } else {
                 $travel_doc_kind = $line[14];
               }
+              /**
+               * 
+               */
+              if ($line[5] == ""){
+                $id_privilege = 0;
+              } else {
+                $id_privilege = $line[5];
+              }
+
               $sql .= 'UPDATE ETK_DB.ETK_CARDS SET ';
-              $sql .= 'kind=' . $line[0] . ', ';
-              $sql .= 'series=' . $line[1] . ', ';
-              $sql .= 'num=' . $line[2] . ', ';
-              $sql .= 'chip=' . $line[3] . ', ';
-              $sql .= 'social_card=' . $line[4] . ', ';
-              $sql .= 'id_privilege=' . $line[5] . ', ';
-              $sql .= 'id_privilege_group=' . $line[6] . ', ';
-              $sql .= 'F=' . $line[7] . ', ';
-              $sql .= 'I=' . $line[8] . ', ';
-              $sql .= 'O=' . $line[9] . ', ';
-              $sql .= 'type=' . $line[10] . ', ';
-              $sql .= 'state=' . $line[11] . ', ';
-              $sql .= 'ep_balance_fact=' . $ep_balance_fact . ', ';
-              $sql .= 'date_of_travel_doc_kind_last=' . $line[13]. ', ';
+              $sql .= 'kind="' . $line[0] . '", ';
+              $sql .= 'series="' . $line[1] . '", ';
+              $sql .= 'num="' . $line[2] . '", ';
+              $sql .= 'chip="' . $line[3] . '", ';
+              $sql .= 'social_card="' . $line[4] . '", ';
+              $sql .= 'id_privilege="' . $id_privilege . '", ';
+              $sql .= 'id_privilege_group="' . $line[6] . '", ';
+              $sql .= 'F="' . $line[7] . '", ';
+              $sql .= 'I="' . $line[8] . '", ';
+              $sql .= 'O="' . $line[9] . '", ';
+              $sql .= 'type="' . $line[10] . '", ';
+              $sql .= 'state="' . $line[11] . '", ';
+              $sql .= 'ep_balance_fact="' . $ep_balance_fact . '", ';
+              $sql .= 'date_of_travel_doc_kind_last=STR_TO_DATE("' . $line[13]. '","%d.%m.%Y %H:%i:%s"), ';
               $sql .= 'travel_doc_kind=' . $travel_doc_kind . ' ';
               $sql .= 'WHERE num=' . $line[2] . ';';
               $counter++;

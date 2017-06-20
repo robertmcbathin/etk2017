@@ -297,6 +297,16 @@ Route::group(['middleware' => 'auth'], function()
             'as' => 'sudo.update.cards.beta.post'
             ])->middleware('can:show-sudo,App\User');
 
+        Route::get('/schools',[
+            'uses' => 'SudoController@getSchoolsPage',
+            'as' => 'sudo.pages.schools'
+            ])->middleware('can:show-settings,App\User');
+        Route::get('/students',[
+            'uses' => 'SudoController@getStudentsPage',
+            'as' => 'sudo.pages.students'
+            ])->middleware('can:show-settings,App\User');
+
+
     /**
      * QUESTIONS    
      */
