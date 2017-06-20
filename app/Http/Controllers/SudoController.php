@@ -485,9 +485,9 @@ public function postAddArticle(Request $request){
     }
     $semifullnumber = '0123' . $num;
 
-    if ($balance = DB::table('ETK_CARDS')
+    if (($balance = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
-                 ->first() == NULL){
+                 ->first()) == NULL){
       $cur_balance = "-1";
     } else {
       $cur_balance = $balance->ep_balance_fact;
