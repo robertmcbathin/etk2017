@@ -265,7 +265,9 @@ public function postAddArticle(Request $request){
                * MODIFY DATE
                * @var [type]
                */
-              $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[13]);
+              if ($line[13] == 0){
+                $last_trip_date = null;
+              } else $last_trip_date = date_create_from_format('d.m.Y H:i:s', $line[13]);
               /**
                * CHECK FOR PRIVILEGE ID
                */
