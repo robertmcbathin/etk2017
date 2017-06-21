@@ -313,9 +313,14 @@
                         </div>
                     </div>
                     <div class="row partners-block">
-                        <div class="col-md-4 col-md-offset-4">
+                        <div class="col-md-4 col-md-offset-2">
                             <div class="info">
                                 <img src="/pictures/partners/isbc.png" alt="ISBC" class="mx-auto partner-logo">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info">
+                                <img src="/pictures/partners/chkpb.jpg" alt="Чувашкредитпромбанк" class="mx-auto partner-logo">
                             </div>
                         </div>
                     </div>

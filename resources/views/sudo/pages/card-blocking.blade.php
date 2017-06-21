@@ -1,5 +1,5 @@
 @section('title')
-Операции по картам
+Блокировка карт
 @endsection
 @extends('sudo.layouts.master')
 @section('content')

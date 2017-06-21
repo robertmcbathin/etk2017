@@ -198,6 +198,16 @@ public function postAddArticle(Request $request){
           ]);
       }
       /**
+       * [getOperationsPage description]
+       * @return [type] [description]
+       */
+      public function getCardBlockingPage(){
+
+        return view('sudo.pages.card-blocking', [
+          
+          ]);
+      }
+      /**
        * [postImportTransactions description]
        * 
        */
@@ -477,6 +487,7 @@ public function postAddArticle(Request $request){
    }
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
+    $serie = $request['serie'];
     $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
     ->where('card_number',  $num)
     ->orderBy('transaction_date', 'DESC')
@@ -485,7 +496,9 @@ public function postAddArticle(Request $request){
       $format_date = new \DateTime($operation->transaction_date);
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
-    $semifullnumber = '0123' . $num;
+    if ($serie !== null){
+      $semifullnumber = '01' . $serie . $num;
+    } else $semifullnumber = '0123' . $num;
 
     if (($balance = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)

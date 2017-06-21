@@ -276,6 +276,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getImportPage',
             'as' => 'sudo.pages.import'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/card-blocking',[
+            'uses' => 'SudoController@getCardBlockingPage',
+            'as' => 'sudo.pages.card-blocking'
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/import/transactions',[
             'uses' => 'SudoController@postImportTransactions',
             'as' => 'sudo.import.transactions.post'

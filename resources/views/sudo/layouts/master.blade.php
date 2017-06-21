@@ -87,7 +87,8 @@
           method: 'POST',
           url: url,
           data: { 
-            num: $('#card_number').val(), 
+            num: $('#card_number').val(),
+            serie: $('#card_serie').val(), 
             _token: token}
         })
         .done(function(msg){
