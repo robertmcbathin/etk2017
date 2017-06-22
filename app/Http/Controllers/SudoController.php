@@ -179,9 +179,23 @@ public function postAddArticle(Request $request){
           $last_card_update->created_at = new \DateTime($last_card_update->created_at);
           $last_card_update->created_at = date_format($last_card_update->created_at,'d.m.Y H:i:s');
         }
+        $sb_imports_list = DB::table('SB_DEPOSIT_IMPORTS')
+                              ->join('users', 'SB_DEPOSIT_IMPORTS.created_by', '=', 'users.id')
+                              ->select('SB_DEPOSIT_IMPORTS.id', 'SB_DEPOSIT_IMPORTS.created_at', 'SB_DEPOSIT_IMPORTS.transaction_count','users.name as created_by')
+                              ->orderBy('created_at', 'desc')
+                              ->limit(5)
+                              ->get();
+        $card_updates_list = DB::table('ETK_CARDS_UPDATES')
+                              ->join('users', 'ETK_CARDS_UPDATES.created_by', '=', 'users.id')
+                              ->select('ETK_CARDS_UPDATES.id', 'ETK_CARDS_UPDATES.created_at', 'ETK_CARDS_UPDATES.transaction_count','users.name as created_by')
+                              ->orderBy('created_at', 'desc')
+                              ->limit(5)
+                              ->get();
         return view('sudo.pages.import', [
           'last_import' => $last_import,
-          'last_card_update' => $last_card_update
+          'last_card_update' => $last_card_update,
+          'sb_imports_list' => $sb_imports_list,
+          'card_updates_list' => $card_updates_list
           ]);
       }
       /**
@@ -239,7 +253,8 @@ public function postAddArticle(Request $request){
             */
            DB::table('SB_DEPOSIT_IMPORTS')
            ->insert(['filename' => $transaction_name,
-            'created_by' => Auth::user()->id
+            'created_by' => Auth::user()->id,
+            'transaction_count' => $counter
             ]);
            /*
            * LOGGING THE IMPORT
@@ -329,7 +344,8 @@ public function postAddArticle(Request $request){
             */
            DB::table('ETK_CARDS_UPDATES')
            ->insert(['filename' => $updated_cards_name,
-            'created_by' => Auth::user()->id
+            'created_by' => Auth::user()->id,
+            'transaction_count' => $counter
             ]);
            /*
            * LOGGING THE IMPORT
