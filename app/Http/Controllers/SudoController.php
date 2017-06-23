@@ -278,7 +278,6 @@ public function postAddArticle(Request $request){
        * @return [type]           [description]
        */
       public function postUpdateCards(Request $request){
-        dd($request->file('update-cards'));
         $updated_cards = $request->file('update-cards');
         $updated_cards_name = '/admin/files/updates/UPDATED_CARDS_'  . date('Ymd-His') . '.csv';
         if ($request->file('update-cards')->isValid()){
