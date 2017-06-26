@@ -104,6 +104,80 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="card">
+          <div class="card-header card-header-icon" data-background-color="rose">
+            <i class="material-icons">directions_bus</i>
+          </div>                
+          <h4 class="card-title">Импорт файла поездок
+            
+          </h4>
+          <div class="card-content">
+            <div class="row">
+              <div class="col-sm-8">
+               @if ($trip_imports_list)
+                <table class="table table-shopping">
+                  <thead>
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th class="text-left">Дата создания</th>
+                      <th class="text-description">Количество транзакций</th>
+                      <th class="text-center">Кем создано</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @foreach ($trip_imports_list as $trip_import)
+                    <tr>
+                      <td>{{ $trip_import->id }}</td>
+                      <td>{{ $trip_import->created_at }}</td>
+                      <td>{{ $trip_import->transaction_count }}</td>
+                      <td>{{ $trip_import->created_by }}</td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+                @else
+                <p>Импортов не было</p>
+                @endif
+              </div>
+              <div class="col-sm-4">
+              <small class="category">Загрузить файл поездок (.csv) </small> 
+                <form action="{{ route('sudo.import.trips.post')}}" method="POST" enctype="multipart/form-data">
+                  <input type="file" name="import-trips">
+                  {{csrf_field()}}
+                  <button type="submit" class="btn btn-fill btn-rose">Загрузить</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      @if (Session::has('import-trips-ok'))
+      <div class="row">
+       <div class="alert alert-success">
+        <button type="button" aria-hidden="true" class="close">
+          <i class="material-icons">close</i>
+        </button>
+        <span>
+          {{Session::pull('import-trips-ok')}}</span>
+        </div>
+      </div>
+      @endif
+      @if (Session::has('import-trips-fail'))
+      <div class="row">
+       <div class="alert alert-danger">
+        <button type="button" aria-hidden="true" class="close">
+          <i class="material-icons">close</i>
+        </button>
+        <span>
+          {{Session::pull('import-trips-fail')}}</span>
+        </div>
+      </div>
+      @endif
+
       @if (Session::has('add-transactions-ok'))
       <div class="row">
        <div class="alert alert-success">

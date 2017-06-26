@@ -191,11 +191,18 @@ public function postAddArticle(Request $request){
                               ->orderBy('created_at', 'desc')
                               ->limit(5)
                               ->get();
+        $trip_imports_list = DB::table('ETK_T_DATA_IMPORTS')
+                              ->join('users', 'ETK_T_DATA_IMPORTS.created_by', '=', 'users.id')
+                              ->select('ETK_T_DATA_IMPORTS.id', 'ETK_T_DATA_IMPORTS.created_at', 'ETK_T_DATA_IMPORTS.transaction_count','users.name as created_by')
+                              ->orderBy('created_at', 'desc')
+                              ->limit(5)
+                              ->get();
         return view('sudo.pages.import', [
           'last_import' => $last_import,
           'last_card_update' => $last_card_update,
           'sb_imports_list' => $sb_imports_list,
-          'card_updates_list' => $card_updates_list
+          'card_updates_list' => $card_updates_list,
+          'trip_imports_list' => $trip_imports_list
           ]);
       }
       /**
@@ -364,6 +371,55 @@ public function postAddArticle(Request $request){
         return redirect()->back();
       }
 
+ public function postImportTrips(Request $request){
+        $new_trips = $request->file('new-trips');
+        $new_trips_name = '/admin/files/imports/IMPORTED_TRIPS_'  . date('Ymd-His') . '.csv';
+        if ($request->file('new-trips')->isValid()){
+          Storage::disk('public')->put($new_trips_name, File::get($new_trips));
+          $reader = CsvReader::open($new_trips);
+          $counter = 0;
+          while (($line = $reader->readLine()) !== false) {
+            try {
+              $trip_date = date_create_from_format('d.m.Y H:i:s', $line[1]);
+              DB::table('ETK_T_DATA')
+              ->insert(['KIND' => $line[0],
+               'DATE_OF' => $trip_date,
+               'EP_BALANCE' => $line[2],
+               'AMOUNT' => $line[3],
+               'TICKET_NUM' => $line[4],
+               'ID_ROUTE' => $line[5],
+               'CARD_SERIES' => $line[6],
+               'CARD_NUM' => $line[7]
+               ]);
+              $counter++;
+            } catch (Exception $e) {
+              Session::flash('import-trips-fail', $e->getMessage());
+            }
+          }
+           /**
+            * SAVE IMPORT FILENAME
+            */
+           DB::table('ETK_T_DATA_IMPORTS')
+           ->insert(['filename' => $new_trips_name,
+            'created_by' => Auth::user()->id,
+            'transaction_count' => $counter
+            ]);
+           /*
+           * LOGGING THE IMPORT
+           * 
+            */
+           $log = new \App\Log;
+           $log->action_type = 8;
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал файл поездок";
+           $log->save();
+          /**
+           * 
+           */
+          $reader->close();
+          Session::flash('import-trips-ok', "Обновление данных прошло успешно, добавлено " . $counter . " записей");
+        } else Session::flash('import-trips-fail', 'С файлом что-то не так');
+        return redirect()->back();
+      }
 
 
       /**

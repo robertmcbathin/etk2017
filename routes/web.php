@@ -300,6 +300,11 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postUpdateCardsBeta',
             'as' => 'sudo.update.cards.beta.post'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/import/import-trips',[
+            'uses' => 'SudoController@postImportTrips',
+            'as' => 'sudo.import.trips.post'
+            ])->middleware('can:show-sudo,App\User');
+
 
         Route::get('/schools',[
             'uses' => 'SudoController@getSchoolsPage',
