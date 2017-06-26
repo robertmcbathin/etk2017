@@ -372,6 +372,7 @@ public function postAddArticle(Request $request){
       }
 
  public function postImportTrips(Request $request){
+  dd($request);
         $new_trips = $request->file('new-trips');
         $new_trips_name = '/admin/files/imports/IMPORTED_TRIPS_'  . date('Ymd-His') . '.csv';
         if ($request->file('new-trips')->isValid()){
