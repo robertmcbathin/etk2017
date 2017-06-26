@@ -144,7 +144,7 @@
               <div class="col-sm-4">
               <small class="category">Загрузить файл поездок (.csv) </small> 
                 <form action="{{ route('sudo.import.trips.post')}}" method="POST" enctype="multipart/form-data">
-                  <input type="file" name="import-trips">
+                  <input type="file" name="new-trips">
                   {{csrf_field()}}
                   <button type="submit" class="btn btn-fill btn-rose">Загрузить</button>
                 </form>
