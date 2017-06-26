@@ -179,6 +179,9 @@ public function postAddArticle(Request $request){
           $last_card_update->created_at = new \DateTime($last_card_update->created_at);
           $last_card_update->created_at = date_format($last_card_update->created_at,'d.m.Y H:i:s');
         }
+        $last_trip_date = DB::table('ETK_T_DATA')
+                            ->orderBy('DATE_OF', 'DESC')
+                            ->first();
         $sb_imports_list = DB::table('SB_DEPOSIT_IMPORTS')
                               ->join('users', 'SB_DEPOSIT_IMPORTS.created_by', '=', 'users.id')
                               ->select('SB_DEPOSIT_IMPORTS.id', 'SB_DEPOSIT_IMPORTS.created_at', 'SB_DEPOSIT_IMPORTS.transaction_count','users.name as created_by')
@@ -202,7 +205,8 @@ public function postAddArticle(Request $request){
           'last_card_update' => $last_card_update,
           'sb_imports_list' => $sb_imports_list,
           'card_updates_list' => $card_updates_list,
-          'trip_imports_list' => $trip_imports_list
+          'trip_imports_list' => $trip_imports_list,
+          'last_trip_date' => $last_trip_date->DATE_OF
           ]);
       }
       /**

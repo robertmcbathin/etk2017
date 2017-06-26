@@ -91,13 +91,14 @@ class UserController extends Controller
         $full_card_number = $card_num_part1 . $card_num_part2 . $card_num_part3;
         if ($trips = DB::table('ETK_T_DATA')
                     ->where('CARD_NUM', $full_card_number)
+                    ->limit(20)
                     ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
           }
-        }
-      }
+        } else $trips = null;
+      } else $trips = null;
       /**
        * GET ARTICLES
        * @var [type]
