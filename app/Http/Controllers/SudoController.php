@@ -607,9 +607,12 @@ public function postAddArticle(Request $request){
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
     if ($serie !== null){
+     if ($serie == '99'){
+      $semifullnumber = '02' . $serie . $num;
+     } else {
       $semifullnumber = '01' . $serie . $num;
-    } else $semifullnumber = '0123' . $num;
-
+    }
+  } else $semifullnumber = '0123' . $num;
     if (($balance = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
                  ->first()) == NULL){
