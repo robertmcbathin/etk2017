@@ -84,6 +84,20 @@ class UserController extends Controller
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
+      if (Session::has('current_card_number')){
+        $card_num_part1 = '01';
+        $card_num_part2 = substr(session()->get('current_card_number'),1,2);
+        $card_num_part3  = substr(session()->get('current_card_number'),3,6);
+        $full_card_number = $card_num_part1 . $card_num_part2 . $card_num_part3;
+        if ($trips = DB::table('ETK_T_DATA')
+                    ->where('CARD_NUM', $full_card_number)
+                    ->get()){
+          foreach ($trips as $trip){
+            $trip->DATE_OF = new \Datetime($trip->DATE_OF);
+            $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+          }
+        }
+      }
       /**
        * GET ARTICLES
        * @var [type]
@@ -143,14 +157,14 @@ class UserController extends Controller
        ->where('user_id',Auth::user()->id)
        ->orderBy('created_at')
        ->get();
-
        return view('pages.profile',[
         'operations' => $operations,
         'last_import' => $last_import,
         'requests' => $requests,
         'cards' => $cards,
         'current_card' => $current_card,
-        'articles' => $articles
+        'articles' => $articles,
+        'trips' => $trips
      //   'card_count' => $card_count
         ]);
      }

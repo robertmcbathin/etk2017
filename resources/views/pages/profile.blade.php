@@ -55,51 +55,71 @@
              <div class="row">
                @foreach ($articles as $article)
 
-              <div class="card card-plain card-blog">
+               <div class="card card-plain card-blog">
                 <div class="row">
                   <div class="col-md-4">
                     <div class="card-image">
                       <img class="img img-raised" src="{{$article->image}}">
-                    <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
-                  </div>
-                  <div class="col-md-8">
-                    <h6 class="card-title">
-                      <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
-                    </h6>
-                    <p class="card-description">
-                      {{ $article->description }}<a href="{{route('article',['id' => $article->id])}}"> Подробнее </a>
-                    </p>
-                    <p class="author">
-                      <i class="material-icons">schedule</i>{{ $article->created_at }}
-                    
-                  </p></div>
-                </div>
-              </div>
+                      <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
+                    </div>
+                    <div class="col-md-8">
+                      <h6 class="card-title">
+                        <a href="{{route('article',['id' => $article->id])}}">{{ $article->title }}</a>
+                      </h6>
+                      <p class="card-description">
+                        {{ $article->description }}<a href="{{route('article',['id' => $article->id])}}"> Подробнее </a>
+                      </p>
+                      <p class="author">
+                        <i class="material-icons">schedule</i>{{ $article->created_at }}
 
-              @endforeach
-            </div>
-            </div>
-            <div class="col-md-3 col-md-offset-1 stats">
-              <h4 class="title">Информация по карте</h4>
-              <ul class="list-unstyled">
-                <li>Номер <b>{{ session()->get('current_card_number', 'н/д') }}</b></li>
-                <li>Баланс <b>{{ session()->get('current_card_balance', 'н/д') }} <i class="fa fa-ruble"></i></b></li>
-                <li>Последняя операция по карте <b>{{ session()->get('current_card_last_transaction', 'н/д') }}</b></li>
-                <li>Тип <b>{{ session()->get('current_card_kind', 'н/д') }}</b></li>
-                <li>Состояние <b>{{ session()->get('current_card_state', 'н/д') }}</b></li>
-              </ul>
-              <hr>
-              <h4 class="title">Информация по поездкам</h4>
-              <small class="muted">Информация доступна за последний месяц</p>
-                <p class="description">Здесь будет информация по поездкам</small>
-                  <hr>
+                      </p></div>
+                    </div>
+                  </div>
+
+                  @endforeach
                 </div>
               </div>
-            </div>
+              <div class="col-md-3 col-md-offset-1 stats">
+                <h4 class="title">Информация по карте</h4>
+                <ul class="list-unstyled">
+                  <li>Номер <b>{{ session()->get('current_card_number', 'н/д') }}</b></li>
+                  <li>Баланс <b>{{ session()->get('current_card_balance', 'н/д') }} <i class="fa fa-ruble"></i></b></li>
+                  <li>Последняя операция по карте <b>{{ session()->get('current_card_last_transaction', 'н/д') }}</b></li>
+                  <li>Тип <b>{{ session()->get('current_card_kind', 'н/д') }}</b></li>
+                  <li>Состояние <b>{{ session()->get('current_card_state', 'н/д') }}</b></li>
+                </ul>
+                <hr>
+                <h4 class="title">Информация по поездкам</h4>
+                <small class="muted">Информация доступна за последнюю неделю</small>
+                <table class="table" id="profile-trips-table">
+                  <tbody>
+                  </tbody><thead>
+
+                </thead>
+                <tbody>
+                @if ($trips)
+                  @foreach ($trips as $trip)
+                  <tr>
+                    <td>{{ $trip->DATE_OF }}</td>
+                    <td>{{ $trip->ID_ROUTE }}</td>
+                    <td>{{ $trip->AMOUNT }} <i class="fa fa-ruble"></i></td>
+                  </tr>
+                  @endforeach
+                @else
+                <small class="description">Информации о поездках нет</small>
+                @endif
+
+              </tbody>
+
+            </table>
+            <hr>
           </div>
         </div>
       </div>
-      @endsection
+    </div>
+  </div>
+</div>
+@endsection
 
 
 

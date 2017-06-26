@@ -174,3 +174,6 @@ animation: Gradient 30s ease infinite;
 .link-menu:hover{
     background-color: #403a91 !important;
 }
+#profile-trips-table{
+    font-size: 12px;
+}
