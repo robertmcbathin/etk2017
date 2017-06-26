@@ -381,13 +381,48 @@ public function postAddArticle(Request $request){
           while (($line = $reader->readLine()) !== false) {
             try {
               $trip_date = date_create_from_format('d.m.Y H:i:s', $line[1]);
+              /**
+               * 
+               */
+              if ($line[2] == ""){
+                $ep_balance = 0;
+              } else {
+                $ep_balance = $line[2];
+              }
+              /**
+               * 
+               */
+              if ($line[3] == ""){
+                $amount = 0;
+              } else {
+                $amount = $line[3];
+              }
+              /**
+               * 
+               */
+              if ($line[4] == ""){
+                $ticket_num = null;
+              } else {
+                $ticket_num = $line[4];
+              }
+              /**
+               * 
+               */
+              if ($line[5] == ""){
+                $id_route = null;
+              } else {
+                $id_route = $line[5];
+              }
+              /**
+               * 
+               */
               DB::table('ETK_T_DATA')
               ->insert(['KIND' => $line[0],
                'DATE_OF' => $trip_date,
-               'EP_BALANCE' => $line[2],
-               'AMOUNT' => $line[3],
-               'TICKET_NUM' => $line[4],
-               'ID_ROUTE' => $line[5],
+               'EP_BALANCE' => $ep_balance,
+               'AMOUNT' => $amount,
+               'TICKET_NUM' => $ticket_num,
+               'ID_ROUTE' => $id_route,
                'CARD_SERIES' => $line[6],
                'CARD_NUM' => $line[7]
                ]);
