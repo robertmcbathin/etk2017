@@ -382,12 +382,14 @@ public function postAddArticle(Request $request){
             try {
               $trip_date = date_create_from_format('d.m.Y H:i:s', $line[1]);
               /**
-               * 
+               * CHECK FOR RIGHT FLOAT VALUE
                */
-              if ($line[2] == ""){
-                $ep_balance = 0;
+              if ($line[2] !== ""){
+                if (!is_int($line[2])){
+                  $ep_balance = str_replace(',', '.', $line[2]);
+                }
               } else {
-                $ep_balance = $line[2];
+                $ep_balance = 0;
               }
               /**
                * 
@@ -416,6 +418,7 @@ public function postAddArticle(Request $request){
               /**
                * 
                */
+              
               DB::table('ETK_T_DATA')
               ->insert(['KIND' => $line[0],
                'DATE_OF' => $trip_date,
