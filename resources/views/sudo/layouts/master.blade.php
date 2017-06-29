@@ -115,10 +115,14 @@
                     html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
                 }
                 html += '</tbody>';
-                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\"> Текущий баланс: ' + msg.balance + '.00 р</h4>';
+                balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
+                stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
+                lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
                 $('#operations-results-none').replaceWith(htmlNull);
                 $('#operations-results').replaceWith(html);
                 $('#current-balance').replaceWith(balanceHtml);
+                $('#current-state').replaceWith(stateHtml);
+                $('#current-last-operation').replaceWith(lastOperationHtml);
             }
             html = '<tbody id=\"operations-results\"></tbody>';
         };

@@ -247,6 +247,7 @@ public function postAddArticle(Request $request){
           while (($line = $reader->readLine()) !== false) {
             try {
               $transaction_date = date_create_from_format('d.m.Y', $line[1]);
+              if (length($line[4] < 6)) $line[4] = '0' . $line[4];
               DB::table('SB_DEPOSIT_TRANSACTIONS')
               ->insert(['transaction_number' => $line[0],
                'transaction_date' => $transaction_date,
@@ -610,24 +611,45 @@ public function postAddArticle(Request $request){
       $format_date = new \DateTime($operation->transaction_date);
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
-    if ($serie !== null){
+  if ($serie !== null){
      if ($serie == '99'){
       $semifullnumber = '02' . $serie . $num;
      } else {
       $semifullnumber = '01' . $serie . $num;
     }
   } else $semifullnumber = '0123' . $num;
-    if (($balance = DB::table('ETK_CARDS')
+    if (($card = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
                  ->first()) == NULL){
-      $cur_balance = "-1";
+      $cur_balance = "Карта не найдена";
     } else {
-      $cur_balance = $balance->ep_balance_fact;
+      $cur_balance = $card->ep_balance_fact;
+      switch ($card->state) {
+        case 1:
+          $cur_state = 'В обращении';
+          break;
+        case 2:
+          $cur_state = 'В блокировочном списке';
+          break;
+        case 3:
+          $cur_state = 'Заблокирована';
+          break;
+        case 4:
+          $cur_state = 'В деблокировочном списке';
+          break;
+        case 5:
+          $cur_state = 'Изъята';
+          break; 
+        default:
+          $cur_state = 'Не определено';
+          break;
+      }
+      $cur_last_operation = $card->date_of_travel_doc_kind_last;
     }
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'last_operation' => $cur_last_operation],200);
 
   }
 }

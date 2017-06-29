@@ -201,4 +201,5 @@ public function getNewsPage(){
             return redirect()->back();
         }
     }
+
 }

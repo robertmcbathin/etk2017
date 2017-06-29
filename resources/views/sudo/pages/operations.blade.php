@@ -22,7 +22,7 @@
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
                                     <input id="card_serie" class="form-control" type="text" name="required" required="true" aria-required="true" placeholder="00"  minlength="2" maxlength="2">
-                                    <span class="material-input">Серия 2 цифры</span>
+                                    <span class="material-input">Серия 2 цифры (по умолчанию 23)</span>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -37,12 +37,25 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="rose">
+                                    <i class="material-icons">credit_card</i>
+                                </div>
+                                <h4 class="card-title">Данные по карте</h4>
+                                <div class="card-content">
+                                <p>Баланс: <b id="current-balance"></b></p>
+                                <p>Состояние: <b id="current-state"></b></p>
+                                <p>Последняя операция по карте: <b id="current-last-operation"></b></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
                             <div class="card">
                                 <div class="card-header card-header-icon" data-background-color="rose">
                                     <i class="material-icons">assignment</i>
                                 </div>
-                                <h4 class="card-title" id="current-balance">Результат</h4>
+                                <h4 class="card-title">Пополнение (Сбербанк)</h4>
                                 <div class="card-content">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
