@@ -280,9 +280,13 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getCardBlockingPage',
             'as' => 'sudo.pages.card-blocking'
             ])->middleware('can:show-sudo,App\User');
-        Route::post('/import/transactions',[
-            'uses' => 'SudoController@postImportTransactions',
-            'as' => 'sudo.import.transactions.post'
+        Route::post('/import/sb-transactions',[
+            'uses' => 'SudoController@postImportSBTransactions',
+            'as' => 'sudo.import.sb-transactions.post'
+            ])->middleware('can:show-sudo,App\User');
+        Route::post('/import/nbd-bank-transactions',[
+            'uses' => 'SudoController@postImportNBDTransactions',
+            'as' => 'sudo.import.nbd-bank-transactions.post'
             ])->middleware('can:show-sudo,App\User');
         Route::post('/detailing-requests/accept',[
             'uses' => 'SudoController@postAcceptDetailingRequest',

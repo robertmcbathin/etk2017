@@ -236,7 +236,7 @@ public function postAddArticle(Request $request){
        * [postImportTransactions description]
        * 
        */
-      public function postImportTransactions(Request $request){
+      public function postImportSBTransactions(Request $request){
         $transactions = $request->file('sb-transaction');
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
         $content = "";
@@ -253,8 +253,64 @@ public function postAddArticle(Request $request){
                'transaction_date' => $transaction_date,
                'terminal_number' => $line[2],
                'value' => $line[3],
-               'card_number' => $line[4]
+               'card_number' => $line[4],
+               'source' => 1
                ]);
+
+              $counter++;
+            } catch (Exception $e) {
+              Session::flash('add-transactions-fail', $e->getMessage());
+            }
+          }
+           /**
+            * SAVE IMPORT FILENAME
+            */
+           DB::table('SB_DEPOSIT_IMPORTS')
+           ->insert(['filename' => $transaction_name,
+            'created_by' => Auth::user()->id,
+            'transaction_count' => $counter
+            ]);
+           /*
+           * LOGGING THE IMPORT
+           * 
+            */
+           $log = new \App\Log;
+           $log->action_type = 3;
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции Сбербанка";
+           $log->save();
+          /**
+           * 
+           */
+          $reader->close();
+          Session::flash('add-transactions-ok', "Импорт данных прошел успешно, загружено " . $counter . " записей");
+        } else Session::flash('add-transactions-fail', $content);
+        return redirect()->back();
+      }
+      /**
+       * [postImportTransactions description]
+       * 
+       */
+      public function postImportNBDTransactions(Request $request){
+        $transactions = $request->file('sb-transaction');
+        $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
+        $content = "";
+        if ($request->file('sb-transaction')->isValid()){
+          Storage::disk('public')->put($transaction_name, File::get($transactions));
+          $reader = CsvReader::open($transactions);
+          $counter = 0;
+          while (($line = $reader->readLine()) !== false) {
+            try {
+              $transaction_date = date_create_from_format('d.m.Y', $line[1]);
+              if (strlen($line[4] < 6)) $line[4] = '0' . $line[4];
+              DB::table('SB_DEPOSIT_TRANSACTIONS')
+              ->insert(['transaction_number' => $line[0],
+               'transaction_date' => $transaction_date,
+               'terminal_number' => $line[2],
+               'value' => $line[3],
+               'card_number' => $line[4],
+               'source' => 1
+               ]);
+
               $counter++;
             } catch (Exception $e) {
               Session::flash('add-transactions-fail', $e->getMessage());
