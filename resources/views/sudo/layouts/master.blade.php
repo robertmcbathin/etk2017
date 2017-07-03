@@ -122,6 +122,20 @@
                 balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\">' + msg.balance + '</h4>';
                 $('#current-balance').replaceWith(balanceHtml);
                 html = '<h3 id=\"operations-results-none\"></h3>';
+
+                blockButtonHtml = '<div id=\"block-action\">' +
+                                  '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                                  '<button type=\"submit\" class=\"btn btn-danger\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                                  '</form>' +
+                                  '</div>';
+                $('#block-action').replaceWith(blockButtonHtml);
+
+                preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
+                $('#trips-preloader').replaceWith(preloaderTripsNull);
+                preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
+                $('#refills-preloader').replaceWith(preloaderRefillsNull);
+                preloaderInfoNull = '<div id=\"info-preloader\"></div>';
+                $('#info-preloader').replaceWith(preloaderInfoNull);
             } else {
                 html = '<tbody id=\"operations-results\">';
                 htmlNull = '<h3 id=\"operations-results-none\"></h3>';
@@ -156,6 +170,15 @@
                 $('#current-balance').replaceWith(balanceHtml);
                 $('#current-state').replaceWith(stateHtml);
                 $('#current-last-operation').replaceWith(lastOperationHtml);
+                blockButtonHtml = '<div id=\"block-action\">' +
+                                  '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                                  '{{ csrf_field() }}' + 
+                                  '<button type=\"submit\" class=\"btn btn-danger\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                                  '</form>' +
+                                  '</div>';
+                $('#block-action').replaceWith(blockButtonHtml);
                 preloaderInfoNull = '<div id=\"info-preloader\"></div>';
                 $('#info-preloader').replaceWith(preloaderInfoNull);
                 /**

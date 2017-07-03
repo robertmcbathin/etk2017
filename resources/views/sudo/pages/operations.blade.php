@@ -48,6 +48,7 @@
                                         <p>Баланс: <b id="current-balance"></b></p>
                                         <p>Состояние: <b id="current-state"></b></p>
                                         <p>Последняя операция по карте: <b id="current-last-operation"></b></p>
+                                        <div id="block-action"></div>
                                          <div id="info-preloader">
                                          </div>
                                     </div>

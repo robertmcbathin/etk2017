@@ -658,6 +658,17 @@ public function postAddArticle(Request $request){
      } else Session::flash('add-report-error', 'Произошла ошибка');
      return redirect()->back();
    }
+
+
+   public function postBlockCard(Request $request){
+    dd($request);
+    $card_number = $request['card_number'];
+   }
+   /**
+    * [ajaxCheckCardOperations description]
+    * @param  Request $request [description]
+    * @return [type]           [description]
+    */
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
@@ -725,7 +736,7 @@ public function postAddArticle(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'card_state'=> $card->state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 }

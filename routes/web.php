@@ -308,6 +308,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postImportTrips',
             'as' => 'sudo.import.trips.post'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/card/block',[
+            'uses' => 'SudoController@postBlockCard',
+            'as' => 'sudo.block-card.post'
+            ])->middleware('can:show-sudo,App\User');
 
 
         Route::get('/schools',[
