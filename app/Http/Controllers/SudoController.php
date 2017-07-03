@@ -239,7 +239,6 @@ public function postAddArticle(Request $request){
       public function postImportSBTransactions(Request $request){
         $transactions = $request->file('sb-transaction');
         $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
-        $content = "";
         if ($request->file('sb-transaction')->isValid()){
           Storage::disk('public')->put($transaction_name, File::get($transactions));
           $reader = CsvReader::open($transactions);
@@ -247,7 +246,9 @@ public function postAddArticle(Request $request){
           while (($line = $reader->readLine()) !== false) {
             try {
               $transaction_date = date_create_from_format('d.m.Y', $line[1]);
-              if (strlen($line[4] < 6)) $line[4] = '0' . $line[4];
+              if (strlen($line[4] = 5)) $line[4] = '0' . $line[4];
+              if (strlen($line[4] = 4)) $line[4] = '00' . $line[4];
+              if (strlen($line[4] = 3)) $line[4] = '000' . $line[4];
               DB::table('SB_DEPOSIT_TRANSACTIONS')
               ->insert(['transaction_number' => $line[0],
                'transaction_date' => $transaction_date,
@@ -291,24 +292,25 @@ public function postAddArticle(Request $request){
        * 
        */
       public function postImportNBDTransactions(Request $request){
-        $transactions = $request->file('sb-transaction');
-        $transaction_name = '/admin/files/transactions/SB_TRANSACTION_'  . date('Ymd-His') . '.csv';
-        $content = "";
-        if ($request->file('sb-transaction')->isValid()){
+        $transactions = $request->file('nbd-bank-transaction');
+        $transaction_name = '/admin/files/transactions/NBD_BANK_TRANSACTION_'  . date('Ymd-His') . '.csv';
+        if ($request->file('nbd-bank-transaction')->isValid()){
           Storage::disk('public')->put($transaction_name, File::get($transactions));
           $reader = CsvReader::open($transactions);
           $counter = 0;
           while (($line = $reader->readLine()) !== false) {
             try {
-              $transaction_date = date_create_from_format('d.m.Y', $line[1]);
-              if (strlen($line[4] < 6)) $line[4] = '0' . $line[4];
+              $transaction_date = date_create_from_format('d.m.Y', $line[0]);
+              if (strlen($line[2] = 5)) $line[2] = '0' . $line[2];
+              if (strlen($line[2] = 4)) $line[2] = '00' . $line[2];
+              if (strlen($line[2] = 3)) $line[2] = '000' . $line[2];
               DB::table('SB_DEPOSIT_TRANSACTIONS')
-              ->insert(['transaction_number' => $line[0],
+              ->insert(['transaction_number' => null,
                'transaction_date' => $transaction_date,
-               'terminal_number' => $line[2],
-               'value' => $line[3],
-               'card_number' => $line[4],
-               'source' => 1
+               'terminal_number' => null,
+               'value' => $line[1],
+               'card_number' => $line[2],
+               'source' => 2
                ]);
 
               $counter++;
@@ -330,7 +332,7 @@ public function postAddArticle(Request $request){
             */
            $log = new \App\Log;
            $log->action_type = 3;
-           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции Сбербанка";
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " импортировал транзакции пополнения";
            $log->save();
           /**
            * 
@@ -702,10 +704,28 @@ public function postAddArticle(Request $request){
       }
       $cur_last_operation = $card->date_of_travel_doc_kind_last;
     }
+    /**
+     * GET TRIPS
+     * @var [type]
+     */
+      if ($semifullnumber){
+        if ($trips = DB::table('ETK_T_DATA')
+                    ->where('CARD_NUM', $semifullnumber)
+                    ->orderBy('DATE_OF', 'DESC')
+                    ->limit(10)
+                    ->get()){
+          foreach ($trips as $trip){
+            $trip->DATE_OF = new \Datetime($trip->DATE_OF);
+            $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+            if ($trip->ID_ROUTE == NULL) $trip->ID_ROUTE = 'Пополнение';
+          }
+        } else $trips = null;
+      } else $trips = null;
+
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'last_operation' => $cur_last_operation],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 }

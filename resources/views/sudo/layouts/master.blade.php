@@ -20,8 +20,11 @@
     <link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
     <link href="/admin/css/material-dashboard.css" rel="stylesheet" />
+    <link href="/admin/css/app.css" rel="stylesheet" />
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="/admin/css/demo.css" rel="stylesheet" />
+    <!-- For progress bars -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
@@ -71,6 +74,8 @@
 <script src="/admin/js/material-dashboard.js"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="/admin/js/demo.js"></script>
+<!-- For progress bars -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -83,6 +88,18 @@
 <script>
   $('#card_number').on('keyup', function(){
     if ($('#card_number').val().length > 5) {
+        /**
+         * SHOW PRELOADERS
+         */
+        preloaderTrips = '<div id=\"trips-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
+        preloaderInfo = '<div id=\"info-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
+        preloaderRefills = '<div id=\"refills-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
+        $('#refills-preloader').replaceWith(preloaderRefills);
+        $('#info-preloader').replaceWith(preloaderInfo);
+        $('#trips-preloader').replaceWith(preloaderTrips);
+        /**
+         * GET DATA
+         */
         $.ajax({
           method: 'POST',
           url: url,
@@ -115,14 +132,29 @@
                     html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
                 }
                 html += '</tbody>';
+                htmlTrips = '<tbody id=\"trips-results\">';
+                for (var i = 0; i <= msg['trips'].length - 1; i++) {
+                    htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td></tr>";
+                }
+                htmlTrips += '</tbody>';
                 balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
                 stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
                 lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
                 $('#operations-results-none').replaceWith(htmlNull);
                 $('#operations-results').replaceWith(html);
+                $('#trips-results').replaceWith(htmlTrips);
                 $('#current-balance').replaceWith(balanceHtml);
                 $('#current-state').replaceWith(stateHtml);
                 $('#current-last-operation').replaceWith(lastOperationHtml);
+                /**
+                 * HIDE PRELOADERS
+                 */
+                preloaderInfoNull = '<div id=\"info-preloader\"></div>';
+                $('#info-preloader').replaceWith(preloaderInfoNull);
+                preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
+                $('#refills-preloader').replaceWith(preloaderRefillsNull);
+                preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
+                $('#trips-preloader').replaceWith(preloaderTripsNull);
             }
             html = '<tbody id=\"operations-results\"></tbody>';
         };

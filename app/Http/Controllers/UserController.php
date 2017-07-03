@@ -91,6 +91,7 @@ class UserController extends Controller
         $full_card_number = $card_num_part1 . $card_num_part2 . $card_num_part3;
         if ($trips = DB::table('ETK_T_DATA')
                     ->where('CARD_NUM', $full_card_number)
+                    ->orderBy('DATE_OF', 'DESC')
                     ->limit(20)
                     ->get()){
           foreach ($trips as $trip){
