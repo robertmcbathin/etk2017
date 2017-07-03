@@ -91,9 +91,9 @@
         /**
          * SHOW PRELOADERS
          */
-        preloaderTrips = '<div id=\"trips-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
-        preloaderInfo = '<div id=\"info-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
-        preloaderRefills = '<div id=\"refills-preloader\"><div class=\"uil-reload-css reload-background reload-small\" style=\"left:45%;\" display=\"block\"><div></div></div></div>';
+        preloaderTrips = '<div class=\"progress\" id=\"trips-preloader\"><div class=\"indeterminate\"></div></div>';
+        preloaderInfo = '<div class=\"progress\" id=\"info-preloader\"><div class=\"indeterminate\"></div></div>';
+        preloaderRefills = '<div class=\"progress\" id=\"refills-preloader\"><div class=\"indeterminate\"></div></div>';
         $('#refills-preloader').replaceWith(preloaderRefills);
         $('#info-preloader').replaceWith(preloaderInfo);
         $('#trips-preloader').replaceWith(preloaderTrips);
@@ -116,10 +116,10 @@
           if ((msg['message']) == 'success'){
             if (msg['data'].length == 0){
                 html = '<h3 id=\"operations-results-none\" class=\"text-center\">Нет результатов</h3>';
-                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\">' + msg.balance + '</h4>';
                 htmlNull = '<tbody id=\"operations-results\"></tbody>';
                 $('#operations-results-none').replaceWith(html);
                 $('#operations-results').replaceWith(htmlNull);
+                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\">' + msg.balance + '</h4>';
                 $('#current-balance').replaceWith(balanceHtml);
                 html = '<h3 id=\"operations-results-none\"></h3>';
             } else {
@@ -132,29 +132,35 @@
                     html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
                 }
                 html += '</tbody>';
+                $('#operations-results-none').replaceWith(htmlNull);
+                $('#operations-results').replaceWith(html);
+                preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
+                $('#refills-preloader').replaceWith(preloaderRefillsNull);
+                /**
+                 * [htmlTrips description]
+                 * 
+                 */
                 htmlTrips = '<tbody id=\"trips-results\">';
                 for (var i = 0; i <= msg['trips'].length - 1; i++) {
                     htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td></tr>";
                 }
                 htmlTrips += '</tbody>';
+                $('#trips-results').replaceWith(htmlTrips);
+                preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
+                $('#trips-preloader').replaceWith(preloaderTripsNull);
+
                 balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
                 stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
                 lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
-                $('#operations-results-none').replaceWith(htmlNull);
-                $('#operations-results').replaceWith(html);
-                $('#trips-results').replaceWith(htmlTrips);
+
                 $('#current-balance').replaceWith(balanceHtml);
                 $('#current-state').replaceWith(stateHtml);
                 $('#current-last-operation').replaceWith(lastOperationHtml);
+                preloaderInfoNull = '<div id=\"info-preloader\"></div>';
+                $('#info-preloader').replaceWith(preloaderInfoNull);
                 /**
                  * HIDE PRELOADERS
                  */
-                preloaderInfoNull = '<div id=\"info-preloader\"></div>';
-                $('#info-preloader').replaceWith(preloaderInfoNull);
-                preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
-                $('#refills-preloader').replaceWith(preloaderRefillsNull);
-                preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
-                $('#trips-preloader').replaceWith(preloaderTripsNull);
             }
             html = '<tbody id=\"operations-results\"></tbody>';
         };
