@@ -24,7 +24,7 @@
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="/admin/css/demo.css" rel="stylesheet" />
     <!-- For progress bars -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/admin/css/materialize.css">
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
