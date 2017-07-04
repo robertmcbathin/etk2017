@@ -177,3 +177,7 @@ animation: Gradient 30s ease infinite;
 #profile-trips-table{
     font-size: 12px;
 }
+.panel .panel-body {
+    border: 0 none;
+    padding: 15px 15px 5px;
+}

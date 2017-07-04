@@ -175,10 +175,13 @@
                                   '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
                                   '{{ csrf_field() }}' + 
-                                  '<button type=\"submit\" class=\"btn btn-danger\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                                  '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
                                   '</div>';
                 $('#block-action').replaceWith(blockButtonHtml);
+                if ($('#card_serie').val().length < 2){
+                    $('#block-button').attr('disabled','disabled');
+                };
                 preloaderInfoNull = '<div id=\"info-preloader\"></div>';
                 $('#info-preloader').replaceWith(preloaderInfoNull);
                 /**

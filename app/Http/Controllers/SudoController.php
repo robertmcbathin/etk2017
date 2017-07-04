@@ -246,9 +246,9 @@ public function postAddArticle(Request $request){
           while (($line = $reader->readLine()) !== false) {
             try {
               $transaction_date = date_create_from_format('d.m.Y', $line[1]);
-              if (strlen($line[4] = 5)) $line[4] = '0' . $line[4];
-              if (strlen($line[4] = 4)) $line[4] = '00' . $line[4];
-              if (strlen($line[4] = 3)) $line[4] = '000' . $line[4];
+              if (strlen($line[4] == 5)) $line[4] = '0' . $line[4];
+              if (strlen($line[4] == 4)) $line[4] = '00' . $line[4];
+              if (strlen($line[4] == 3)) $line[4] = '000' . $line[4];
               DB::table('SB_DEPOSIT_TRANSACTIONS')
               ->insert(['transaction_number' => $line[0],
                'transaction_date' => $transaction_date,
