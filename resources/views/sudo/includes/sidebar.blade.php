@@ -88,10 +88,10 @@ $username = Auth::user()->name;
                                 <li>
                                     <a href="{{ route('sudo.pages.operations') }}">Операции по картам</a>
                                 </li>
+                                @can('show-import', App\User::class)
                                 <li>
                                     <a href="{{ route('sudo.pages.card-blocking') }}">Блокировка</a>
                                 </li>
-                                @can('show-import', App\User::class)
                                 <li>
                                     <a href="{{ route('sudo.pages.import') }}">Импорт</a>
                                 </li>

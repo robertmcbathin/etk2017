@@ -312,7 +312,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postBlockCard',
             'as' => 'sudo.block-card.post'
             ])->middleware('can:show-sudo,App\User');
-
+        Route::get('/card/{card_number}/cancel',[
+            'uses' => 'SudoController@getCancelBlockCard',
+            'as' => 'sudo.block-card.cancel'
+            ])->middleware('can:show-sudo,App\User');
 
         Route::get('/schools',[
             'uses' => 'SudoController@getSchoolsPage',

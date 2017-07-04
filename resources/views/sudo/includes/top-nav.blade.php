@@ -25,20 +25,33 @@
                             </li>
                             <li class="dropdown">
                                 <a href="dashboard.html#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="material-icons">lock</i>
+                                    <p class="hidden-lg hidden-md">
+                                        Блок-лист
+                                        <b class="caret"></b>
+                                    </p>
+                                    <span class="notification">{{$blocklist_count}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                <li>Список карт, подлежащих блокировке/разблокировке</li>
+                                @foreach ($blocklist as $block_card)
+                                    <li>
+                                        <a href="{{ route('sudo.block-card.cancel',['card_number' => $block_card->card_number]) }}">номер карты: <strong>{{ $block_card->card_number}}</strong> создал: {{$block_card->name}} - отменить</a>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="dashboard.html#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="material-icons">notifications</i>
                                     <p class="hidden-lg hidden-md">
                                         Уведомления
                                         <b class="caret"></b>
                                     </p>
-                                    <span class="notification">{{$new_detailing_requests_count}}</span>
-                                </a>
+                                    <span class="notification">0</span>
+                                <div class="ripple-container"></div></a>
                                 <ul class="dropdown-menu">
-                                @foreach ($new_detailing_requests as $new_detailing_request)
-                                    <li>
-                                        <a href="{{ route('sudo.pages.detailing-requests') }}">Новый запрос отчета по карте <strong>{{$new_detailing_request->card_number}}</strong></a>
-                                    </li>
-                                @endforeach
-                                </ul>
+                                                                </ul>
                             </li>
                             <li class="separator hidden-lg hidden-md"></li>
                         </ul>

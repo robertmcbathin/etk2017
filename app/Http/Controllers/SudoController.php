@@ -661,8 +661,63 @@ public function postAddArticle(Request $request){
 
 
    public function postBlockCard(Request $request){
-    dd($request);
     $card_number = $request['card_number'];
+    $card_serie = $request['card_serie'];
+    $to_state = '02';
+    $user_id = Session::get('user_id');
+    /**
+     * [$prefix description]
+     * @var string
+     */
+    if ($card_serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
+    /**
+     * [$fullcard_number description]
+     * @var [type]
+     */
+    $fullcard_number = $prefix . $card_serie . $card_number;
+    dd($request);
+    $card = DB::table('ETK_CARDS')
+              ->where('num', $fullcard_number)
+              ->first();
+    $chip = $card->chip;
+    if (DB::table('ETK_BLOCKLISTS')
+          ->where('card_number', $fullcard_number)
+          ->where('is_loaded', 0)
+          ->first()){
+      Session::flash('number-already-isset','Данная карта уже стоит в очереди на блокировку');
+      return redirect()->back();      
+
+    }
+    if (DB::table('ETK_BLOCKLISTS')
+          ->insert(['card_number' => $fullcard_number,
+                    'chip' => $chip,
+                    'operation_type' => $to_state,
+                    'created_by' => $user_id
+                    ])){
+      Session::flash('add-to-blocklist-success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист');
+      return redirect()->back();
+    } else {
+      Session::flash('add-to-blocklist-fail','Не удалось добавиь карту в блок-лист');
+      return redirect()->back();
+    }
+   }
+
+   public function getCancelBlockCard($card_number){
+    $user_id = Auth::user()->id;
+    if ($card = DB::table('ETK_BLOCKLISTS')
+          ->where('card_number',$card_number)
+          ->first()){
+      if ($card->created_by == $user_id){
+        DB::table('ETK_BLOCKLISTS')
+          ->where('card_number', $card_number)
+          ->delete();
+        Session::flash('cancel-block-success', 'Карта ' . $card_number . ' успешно удалена из блок-листа');  
+        return redirect()->back();  
+      } else {
+        Session::flash('cancel-block-access-denied', 'Вы не можете отменить действие другого пользователя');
+        return redirect()->back();
+      }
+    }
    }
    /**
     * [ajaxCheckCardOperations description]

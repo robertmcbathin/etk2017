@@ -119,15 +119,39 @@
                 htmlNull = '<tbody id=\"operations-results\"></tbody>';
                 $('#operations-results-none').replaceWith(html);
                 $('#operations-results').replaceWith(htmlNull);
-                balanceHtml = '<h4 class=\"card-title\" id=\"current-balance\">' + msg.balance + '</h4>';
-                $('#current-balance').replaceWith(balanceHtml);
                 html = '<h3 id=\"operations-results-none\"></h3>';
 
+                balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
+                stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
+                lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
+
+                $('#current-balance').replaceWith(balanceHtml);
+                $('#current-state').replaceWith(stateHtml);
+                $('#current-last-operation').replaceWith(lastOperationHtml);
+                switch (msg.card_state) {
+                    case 1:
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-                                  '<button type=\"submit\" class=\"btn btn-danger\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                                  '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
+                                  '{{ csrf_field() }}' + 
+                                  '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
-                                  '</div>';
+                                  '</div>'; 
+                                  break;
+                    case 2 :                
+                blockButtonHtml = '<div id=\"block-action\">' +
+                                  '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                                  '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
+                                  '{{ csrf_field() }}' + 
+                                  '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Разблокировать<div class=\"ripple-container\"></div></button>' +
+                                  '</form>' +
+                                  '</div>';  
+                                  break;
+                }
                 $('#block-action').replaceWith(blockButtonHtml);
 
                 preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
@@ -170,18 +194,34 @@
                 $('#current-balance').replaceWith(balanceHtml);
                 $('#current-state').replaceWith(stateHtml);
                 $('#current-last-operation').replaceWith(lastOperationHtml);
-             /**   blockButtonHtml = '<div id=\"block-action\">' +
+                switch (msg.card_state) {
+                    case 1:
+                blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                                  '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
-                                  '</div>';
+                                  '</div>'; 
+                                  break;
+                    case 2 :                
+                blockButtonHtml = '<div id=\"block-action\">' +
+                                  '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                                  '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
+                                  '{{ csrf_field() }}' + 
+                                  '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Разблокировать<div class=\"ripple-container\"></div></button>' +
+                                  '</form>' +
+                                  '</div>';  
+                                  break;
+                }
                 $('#block-action').replaceWith(blockButtonHtml); 
                 if ($('#card_serie').val().length < 2){
                     $('#block-button').attr('disabled','disabled');
-                }; **/
+                }; 
                 preloaderInfoNull = '<div id=\"info-preloader\"></div>';
                 $('#info-preloader').replaceWith(preloaderInfoNull);
                 /**
@@ -192,13 +232,12 @@
         };
     });
     } else {
-        console.log('Oops...');
-    }
+        $('#block-button').attr('disabled','disabled');    }
 });
 </script>
 <script>
     $('#card_serie').on('keyup', function(){
-        $('#block-button').attr('disabled','disabled');
+        if ($('#card_serie').val().length == 2) $('#block-button').removeAttr('disabled');
     });
 </script>
 </html>

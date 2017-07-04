@@ -50,6 +50,7 @@ class UserController extends Controller
         $log->action_type = 1;
         $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " вошел в систему";
         $log->save();
+        Session::put('user_id',Auth::user()->id);
         return redirect()->route('sudo.pages.dashboard');
       }
       return redirect()->back();
