@@ -170,7 +170,7 @@
                 $('#current-balance').replaceWith(balanceHtml);
                 $('#current-state').replaceWith(stateHtml);
                 $('#current-last-operation').replaceWith(lastOperationHtml);
-                blockButtonHtml = '<div id=\"block-action\">' +
+             /**   blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
@@ -178,10 +178,10 @@
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
                                   '</div>';
-                $('#block-action').replaceWith(blockButtonHtml);
+                $('#block-action').replaceWith(blockButtonHtml); 
                 if ($('#card_serie').val().length < 2){
                     $('#block-button').attr('disabled','disabled');
-                };
+                }; **/
                 preloaderInfoNull = '<div id=\"info-preloader\"></div>';
                 $('#info-preloader').replaceWith(preloaderInfoNull);
                 /**
@@ -195,5 +195,10 @@
         console.log('Oops...');
     }
 });
+</script>
+<script>
+    $('#card_serie').on('keyup', function(){
+        $('#block-button').attr('disabled','disabled');
+    });
 </script>
 </html>
