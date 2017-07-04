@@ -28,8 +28,9 @@ class AppServiceProvider extends ServiceProvider
                                     ->count();
         $blocklist = DB::table('ETK_BLOCKLISTS')
                                     ->join('users','ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                                    ->select('ETK_BLOCKLISTS.card_number','users.name')
+                                    ->select('ETK_BLOCKLISTS.card_number','users.id', '=', 'ETK_BLOCKLISTS.created_by')
                                     ->where('ETK_BLOCKLISTS.is_loaded', 0)
+                                    ->select('ETK_BLOCKLISTS.card_number','users.name')
                                     ->get();
 
         View::share('new_detailing_requests_count', $new_detailing_requests_count);

@@ -675,7 +675,6 @@ public function postAddArticle(Request $request){
      * @var [type]
      */
     $fullcard_number = $prefix . $card_serie . $card_number;
-    dd($request);
     $card = DB::table('ETK_CARDS')
               ->where('num', $fullcard_number)
               ->first();
