@@ -316,6 +316,15 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getCancelBlockCard',
             'as' => 'sudo.block-card.cancel'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/card/remove-from-blocklist',[
+            'uses' => 'SudoController@postRemoveFromBlocklist',
+            'as' => 'sudo.remove-from-blocklist.post'
+            ])->middleware('can:show-sudo,App\User');
+        Route::post('/card/make-statuscard',[
+            'uses' => 'SudoController@postMakeStatuscard',
+            'as' => 'sudo.make-statuscard.post'
+            ])->middleware('can:show-sudo,App\User');
+
 
         Route::get('/schools',[
             'uses' => 'SudoController@getSchoolsPage',

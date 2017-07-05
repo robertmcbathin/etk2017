@@ -228,9 +228,39 @@ public function postAddArticle(Request $request){
        */
       public function getCardBlockingPage(){
 
+        $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
+                              ->where('ETK_BLOCKLISTS.source', 1)
+                              ->get();
+        $today_profile_blocklist = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
+                              ->where('ETK_BLOCKLISTS.source', 2)
+                              ->get();
         return view('sudo.pages.card-blocking', [
-          
+          'today_office_blocklist' => $today_office_blocklist,
+          'today_profile_blocklist' => $today_profile_blocklist
           ]);
+      }
+      /**
+       * [postRemoveFromBlocklist description]
+       * @param  Request $request [description]
+       * @return [type]           [description]
+       */
+      public function postRemoveFromBlocklist(Request $request){
+        $chip = $request['chip'];
+        if (DB::table('ETK_BLOCKLISTS')
+              ->where('chip',$chip)
+              ->delete()){
+          Session::flash('item-removed-success', 'Позиция успешкно удалена');
+          return redirect()->back();
+        } else {
+          Session::flash('item-removed-fail', 'Удалить элемент не удалось');
+          return redirect()->back();
+        }
       }
       /**
        * [postImportTransactions description]
@@ -691,6 +721,7 @@ public function postAddArticle(Request $request){
           ->insert(['card_number' => $fullcard_number,
                     'chip' => $chip,
                     'operation_type' => $to_state,
+                    'source' => 1,
                     'created_by' => $user_id
                     ])){
       Session::flash('add-to-blocklist-success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист');
@@ -699,6 +730,39 @@ public function postAddArticle(Request $request){
       Session::flash('add-to-blocklist-fail','Не удалось добавиь карту в блок-лист');
       return redirect()->back();
     }
+   }
+   /**
+    * [postMakeStatuscard description]
+    * @param  Request $request [description]
+    * @return [type]           [description]
+    */
+   public function postMakeStatuscard(Request $request){
+    $source = $request['source'];
+    $filename = '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
+    $fp = fopen($filename, 'w');
+
+    $status_count = 0;
+    $cards = DB::table('ETK_BLOCKLISTS')
+                ->where('source', $source)
+                ->where('is_loaded', 0)
+                ->get();
+    foreach ($cards as $card) {
+      $status_count++;
+      $row = $card->chip . '\t' . $card->operation_type . '\n';
+      fwrite($fp, $row);
+    }
+    fclose($fp);
+    if (DB::table('ETK_STATUSCARDS')
+          ->insert(['filename' => $filename,
+                    'status_count' => $status_count,
+                    'created_by' => Auth::user()->id])){
+      Session::flash('file-creation-success','Файл составлен');
+      return redirect()->back();
+    } else {
+       Session::flash('file-creation-fail','Создать файл не удалось');
+       return redirect()->back();     
+    }
+
    }
 
    public function getCancelBlockCard($card_number){
@@ -744,8 +808,12 @@ public function postAddArticle(Request $request){
     if (($card = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
                  ->first()) == NULL){
-      $cur_balance = "Карта не найдена";
+    $card_digit_state = 0;
+    $cur_balance = "Карта не найдена";
+    $cur_state = 'Состояние не определено';
+    $cur_last_operation = null;
     } else {
+      $card_digit_state = $card->state;
       $cur_balance = $card->ep_balance_fact;
       switch ($card->state) {
         case 1:
@@ -790,7 +858,7 @@ public function postAddArticle(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'card_state'=> $card->state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 }
