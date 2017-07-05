@@ -240,9 +240,14 @@ public function postAddArticle(Request $request){
                               ->where('ETK_BLOCKLISTS.is_loaded', 0)
                               ->where('ETK_BLOCKLISTS.source', 2)
                               ->get();
+        $statuscard_lists = DB::table('ETK_STATUSCARDS')
+                              ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
+                              ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
+                              ->get();                        
         return view('sudo.pages.card-blocking', [
           'today_office_blocklist' => $today_office_blocklist,
-          'today_profile_blocklist' => $today_profile_blocklist
+          'today_profile_blocklist' => $today_profile_blocklist,
+          'statuscard_lists' => $statuscard_lists
           ]);
       }
       /**
@@ -739,7 +744,8 @@ public function postAddArticle(Request $request){
    public function postMakeStatuscard(Request $request){
     $source = $request['source'];
     $filename = '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
-    $fp = fopen($filename, 'w');
+    $path = public_path() . '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
+    $fp = fopen($path, 'w');
 
     $status_count = 0;
     $cards = DB::table('ETK_BLOCKLISTS')
@@ -748,7 +754,7 @@ public function postAddArticle(Request $request){
                 ->get();
     foreach ($cards as $card) {
       $status_count++;
-      $row = $card->chip . '\t' . $card->operation_type . '\n';
+      $row = $card->chip . "\t" . $card->operation_type . "\n";
       fwrite($fp, $row);
     }
     fclose($fp);
@@ -756,6 +762,10 @@ public function postAddArticle(Request $request){
           ->insert(['filename' => $filename,
                     'status_count' => $status_count,
                     'created_by' => Auth::user()->id])){
+      DB::table('ETK_BLOCKLISTS')
+        ->where('source', $source)
+        ->where('is_loaded', 0)
+        ->delete();
       Session::flash('file-creation-success','Файл составлен');
       return redirect()->back();
     } else {
