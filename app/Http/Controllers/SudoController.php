@@ -744,7 +744,7 @@ public function postAddArticle(Request $request){
    public function postMakeStatuscard(Request $request){
     $source = $request['source'];
     $filename = '/admin/files/statuscard/statuscard-21-' . date('ymd') . '-0000' . $source . '.txt';
-    $path = public_path() . '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
+    $path = public_path() . '/admin/files/statuscard/statuscard-21-' . date('ymd') . '-0000' . $source . '.txt';
     $fp = fopen($path, 'w');
 
     $status_count = 0;
