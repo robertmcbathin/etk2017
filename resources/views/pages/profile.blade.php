@@ -15,21 +15,20 @@
     <div class="container">
       <div class="tab-pane">
         <div class="row">
-          <div class="col-md-6 col-md-offset-1">
+          <div class="col-md-6 col-md-offset-1 col-sm-6">
             <h4 class="title">Мои карты</h4>
             <div class="row collections">
               @if (count($cards) !== 0)
               @foreach ($cards as $card)
-
-              <div class="col-md-6">
+              <div class=" col-sm-6">
                 <div class="card card-plain card-blog">
                   <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-3">
                       <div class="card-image">
                         <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-sm-3">
                         <h6 class="category text-info">{{ $card->name}}</h6>
                         <h3 class="card-title">
                           <a href="">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
@@ -44,8 +43,6 @@
                    </div>
                  </div>
                </div>
-
-
                @endforeach
                @else 
                <p class="description">Нет добавленных карт. Добавить карты Вы можете в разделе <a href="{{ route('profile.settings') }}">настройки</a>.</p>
@@ -79,7 +76,7 @@
                   @endforeach
                 </div>
               </div>
-              <div class="col-md-3 col-md-offset-1 stats">
+              <div class="col-md-3 col-md-offset-1 stats col-sm-3">
                 <h4 class="title">Информация по карте</h4>
                 <ul class="list-unstyled">
                   <li>Номер <b>{{ session()->get('current_card_number', 'н/д') }}</b></li>

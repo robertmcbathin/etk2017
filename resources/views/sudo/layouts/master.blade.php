@@ -76,13 +76,14 @@
 <script src="/admin/js/demo.js"></script>
 <!-- For progress bars -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+<script src="/admin/js/app.js">
+    
+</script>
 <script type="text/javascript">
     $(document).ready(function() {
 
         // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
-
-        demo.initVectorMap();
+        app.initCharts();
     });
 </script>
 <script>
