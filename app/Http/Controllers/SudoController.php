@@ -698,7 +698,7 @@ public function postAddArticle(Request $request){
    public function postBlockCard(Request $request){
     $card_number = $request['card_number'];
     $card_serie = $request['card_serie'];
-    $to_state = '02';
+    $to_state = $request['to_state'];
     $user_id = Session::get('user_id');
     /**
      * [$prefix description]
@@ -743,7 +743,7 @@ public function postAddArticle(Request $request){
     */
    public function postMakeStatuscard(Request $request){
     $source = $request['source'];
-    $filename = '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
+    $filename = '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-0000' . $source . '.txt';
     $path = public_path() . '/admin/files/statuscard/statuscard-21-' . date('dmY') . '-' . $source . '.txt';
     $fp = fopen($path, 'w');
 

@@ -134,18 +134,18 @@
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
-                                  '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
+                                  '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
                                   '</div>'; 
                                   break;
-                    case 2 :                
+                    case 3 :                
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
-                                  '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
+                                  '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Разблокировать<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
@@ -200,7 +200,7 @@
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
-                                  '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
+                                  '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
@@ -211,7 +211,7 @@
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
                                   '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
-                                  '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
+                                  '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
                                   '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Разблокировать<div class=\"ripple-container\"></div></button>' +
                                   '</form>' +
