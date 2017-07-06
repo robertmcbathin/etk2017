@@ -765,7 +765,7 @@ public function postAddArticle(Request $request){
       DB::table('ETK_BLOCKLISTS')
         ->where('source', $source)
         ->where('is_loaded', 0)
-        ->delete();
+        ->update(['is_loaded' => 1]);
       Session::flash('file-creation-success','Файл составлен');
       return redirect()->back();
     } else {
