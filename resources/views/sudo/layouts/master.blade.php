@@ -132,7 +132,7 @@
                     case 1:
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
                                   '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
@@ -143,7 +143,7 @@
                     case 2 :                
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
                                   '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
@@ -198,7 +198,7 @@
                     case 1:
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
                                   '<input type=\"hidden\" value=\"2\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
@@ -209,7 +209,7 @@
                     case 2 :                
                 blockButtonHtml = '<div id=\"block-action\">' +
                                   '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-                                  '<input type=\"hidden\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                                  '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
                                   '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
                                   '<input type=\"hidden\" value=\"1\" name=\"to_state\">' +
                                   '{{ csrf_field() }}' + 
@@ -237,7 +237,10 @@
 </script>
 <script>
     $('#card_serie').on('keyup', function(){
-        if ($('#card_serie').val().length == 2) $('#block-button').removeAttr('disabled');
+        if ($('#card_serie').val().length == 2){
+            $('#block-button').removeAttr('disabled');
+            $('#serie').val($('#card_serie').val());
+        }
     });
 </script>
 </html>
