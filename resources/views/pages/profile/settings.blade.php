@@ -418,7 +418,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-content padding-plus">
                       <div class="tab-content ">
                         <div class="tab-pane active" id="personal">
                           <div class="row">

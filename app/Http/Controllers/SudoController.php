@@ -754,7 +754,7 @@ public function postAddArticle(Request $request){
                 ->get();
     foreach ($cards as $card) {
       $status_count++;
-      $row = $card->chip . "\t" . $card->operation_type . "\n";
+      $row = $card->chip . "\t" . $card->operation_type . "\r\n";
       fwrite($fp, $row);
     }
     fclose($fp);
