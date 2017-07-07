@@ -23,12 +23,12 @@
               <div class=" col-sm-6 col-xs-6">
                 <div class="card card-plain card-blog">
                   <div class="row">
-                    <div class="col-sm-3 col-xs-12">
+                    <div class="col-sm-3 col-md-6 col-xs-12">
                       <div class="card-image">
                         <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                       </div>
-                      <div class="col-sm-3 col-xs-12">
+                      <div class="col-sm-3 col-md-6 col-xs-12">
                         <h6 class="category text-info">{{ $card->name}}</h6>
                         <h5 class="card-title">
                           <a href="">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
@@ -71,8 +71,12 @@
                   @foreach ($trips as $trip)
                   <tr>
                     <td>{{ $trip->DATE_OF }}</td>
-                    <td>{{ $trip->ID_ROUTE }}</td>
-                    <td>{{ $trip->AMOUNT }} <i class="fa fa-ruble"></i></td>
+                    @if ($trip->name == '')
+                    <td>Пополнение</td>
+                    @else
+                    <td> <img src="/images/icons/{{$trip->transport_type}}.png" alt=""><b>{{ $trip->name }}</b></td>
+                    @endif
+                    <td><b>{{ $trip->AMOUNT }} </b><i class="fa fa-ruble"></i></td>
                   </tr>
                   @endforeach
                 @else
