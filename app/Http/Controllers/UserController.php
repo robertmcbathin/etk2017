@@ -708,13 +708,11 @@ public function showDetailsHistory(){
                         'password' => $password
             ]);  
       });
-        if (Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
+        Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))
          Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
          return redirect()->back();
-       } else {
          Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
          return redirect()->back()->withInput();
-       }  
        Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
        return redirect()->back();
    }
