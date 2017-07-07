@@ -13,12 +13,16 @@
 		<div class="collapse navbar-collapse" id="navigation-example">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-				  	<h4><strong>{{ session()->get('current_card_balance', 'н/д') }}</strong> <i class="fa fa-ruble"></i> </h4> 
+					@if (session()->has('current_card_balance'))
+					<h4><strong>{{ session()->get('current_card_balance') }}</strong> <i class="fa fa-ruble"></i> </h4> 
+					@else
+					<h4><strong>Выберите карту</strong>  </h4> 
+					@endif
 				</li>
 				<li class="dropdown">
 					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
-							<img class="img-responsive" src="{{ session()->get('current_card_image_type', '/pictures/cards/thumbnails/160/999.png') }}" width="40px">
+							<img class="img-responsive" src="{{ session()->get('current_card_image_type', '/pictures/cards/thumbnails/160/888.png') }}" width="40px">
 						</div>
 						<b class="caret"></b>
 						<div class="ripple-container"></div></a>
