@@ -91,13 +91,29 @@ class UserController extends Controller
         $card_num_part3  = substr(session()->get('current_card_number'),3,6);
         $full_card_number = $card_num_part1 . $card_num_part2 . $card_num_part3;
         if ($trips = DB::table('ETK_T_DATA')
-                    ->where('CARD_NUM', $full_card_number)
+                    ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+                    ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
                     ->orderBy('DATE_OF', 'DESC')
                     ->limit(20)
                     ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+            switch ($trip->transport_type) {
+              case 600013467:
+                $trip->transport_type = 'M32';
+                break;
+              case 400013467:
+                $trip->transport_type = 'A32';
+                break;
+              case 200013467:
+                $trip->transport_type = 'T32';
+                break;
+              default:
+                $trip->transport_type = 'T32';
+                break;
+            }
           }
         } else $trips = null;
       } else $trips = null;
@@ -692,13 +708,16 @@ public function showDetailsHistory(){
                         'password' => $password
             ]);  
       });
-        if (Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id))){
+        Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id));
+        if (DB::table('ETK_TEMP_PASSWORDS')
+              ->where('user_id', $user_id)
+              ->first()){
          Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
          return redirect()->back();
-       } else {
+        } else {
          Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
          return redirect()->back()->withInput();
-       }  
+        }
        Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
        return redirect()->back();
    }

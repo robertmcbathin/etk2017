@@ -72,7 +72,7 @@
                   @foreach ($trips as $trip)
                   <tr>
                     <td>{{ $trip->DATE_OF }}</td>
-                    <td>{{ $trip->ID_ROUTE }}</td>
+                    <td> <img src="/images/icons/{{$trip->transport_type}}.png" alt=""> {{ $trip->name }}</td>
                     <td>{{ $trip->AMOUNT }} <i class="fa fa-ruble"></i></td>
                   </tr>
                   @endforeach
