@@ -174,6 +174,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showDetailsHistory',
         'as' => 'profile.details_history'
         ]);
+    Route::get('/profile/details-report', [
+        'uses' => 'UserController@showDetailsReport',
+        'as' => 'profile.details_report'
+        ]);
     Route::get('/profile/settings', [
         'uses' => 'UserController@showSettings',
         'as' => 'profile.settings'

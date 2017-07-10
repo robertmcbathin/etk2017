@@ -70,6 +70,11 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
+								<a href="{{route('profile.details_report')}}" class="link-menu">
+									<i class="material-icons">insert_chart</i> Поездки и списания
+								</a>
+							</li>
+							<li>
 								<a href="{{route('profile.details_request')}}" class="link-menu">
 									<i class="material-icons">insert_comment</i> Создать запрос
 								</a>

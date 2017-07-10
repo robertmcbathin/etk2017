@@ -19,6 +19,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/material-kit.css" rel="stylesheet"/>
     <link href="/css/app.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/charts.css">
 
 
 </head>
@@ -86,6 +87,15 @@
     }
 });
     </script>
+    <script src="/js/chartist.min.js"></script>
+    <script src="/js/app.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        // Javascript method's body can be found in assets/js/demos.js
+        app.initCharts();
+    });
+</script>
 	<script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {

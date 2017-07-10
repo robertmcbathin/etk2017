@@ -72,8 +72,7 @@
 <script src="/admin/js/jquery.tagsinput.js"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="/admin/js/material-dashboard.js"></script>
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="/admin/js/demo.js"></script>
+
 <!-- For progress bars -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 <script src="/admin/js/app.js">
@@ -161,6 +160,19 @@
                 $('#refills-preloader').replaceWith(preloaderRefillsNull);
                 preloaderInfoNull = '<div id=\"info-preloader\"></div>';
                 $('#info-preloader').replaceWith(preloaderInfoNull);
+
+                 /**
+                 * [htmlTrips description]
+                 * 
+                 */
+                htmlTrips = '<tbody id=\"trips-results\">';
+                for (var i = 0; i <= msg['trips'].length - 1; i++) {
+                    htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td><td class=\"text-right\">" + msg.trips[i].EP_BALANCE + "</td></tr>";
+                }
+                htmlTrips += '</tbody>';
+                $('#trips-results').replaceWith(htmlTrips);
+                preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
+                $('#trips-preloader').replaceWith(preloaderTripsNull);
             } else {
                 html = '<tbody id=\"operations-results\">';
                 htmlNull = '<h3 id=\"operations-results-none\"></h3>';

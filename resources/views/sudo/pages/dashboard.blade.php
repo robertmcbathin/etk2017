@@ -90,7 +90,7 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-5">
                     <div class="card">
                         <div class="card-header card-header-icon" data-background-color="blue">
                             <i class="material-icons">timeline</i>
@@ -102,6 +102,16 @@
                         </div>
                         <div id="colouredBarsChart" class="ct-chart"></div>
                     </div>
+              <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="blue">
+                                    <i class="material-icons">timeline</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">График списаний
+                                    </h4>
+                                </div>
+                                <div id="colouredRoundedLineChart" class="ct-chart"></div>
+                            </div>
                 </div>
             </div>
         </div>
