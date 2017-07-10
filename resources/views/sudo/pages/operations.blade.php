@@ -155,6 +155,7 @@
                                             <th>Дата</th>
                                             <th>Маршрут</th>
                                             <th class="text-right">Сумма</th>
+                                            <th class="text-right">Остаток</th>
                                         </tr>
                                     </thead>
                                     <tbody id="trips-results">

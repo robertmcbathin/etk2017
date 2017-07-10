@@ -8,7 +8,7 @@
 Личный кабинет
 @endsection
 @section('content')
-<div class="page-header header-filter" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
+<div class="page-header header-filter" data-parallax="active" style="background-image: url(&quot;/images/bgs/triangle-background.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
 </div>
 <div class="main main-raised">
   <div class="profile-content">

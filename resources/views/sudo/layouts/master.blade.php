@@ -181,7 +181,7 @@
                  */
                 htmlTrips = '<tbody id=\"trips-results\">';
                 for (var i = 0; i <= msg['trips'].length - 1; i++) {
-                    htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td></tr>";
+                    htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td><td class=\"text-right\">" + msg.trips[i].EP_BALANCE + "</td></tr>";
                 }
                 htmlTrips += '</tbody>';
                 $('#trips-results').replaceWith(htmlTrips);
