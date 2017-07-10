@@ -19,7 +19,7 @@
         </div>
       </div>
         @if (Session::has('current_card_number'))
-       <p>Здесь будет форма пополнения карты</p>
+       <p class="description">Онлайн-пополнение пока недоступно</p>
       @else
         <p class="text-danger description">Не выбрана карта для пополнения</p>
       @endif

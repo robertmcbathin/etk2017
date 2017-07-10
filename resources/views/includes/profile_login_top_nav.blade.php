@@ -51,12 +51,12 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.deposit')}}" class="link-menu">
+								<a href="{{route('profile.payment')}}" class="link-menu">
 									<i class="material-icons">account_balance_wallet</i> Пополнить счет
 								</a>
 							</li>
 							<li>
-								<a href="{{route('profile.deposit_history')}}" class="link-menu">
+								<a href="{{route('profile.payment_history')}}" class="link-menu">
 									<i class="material-icons">list</i> История пополнения
 								</a>
 							</li>

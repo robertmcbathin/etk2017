@@ -158,13 +158,13 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showProfile',
         'as' => 'profile'
         ]);
-    Route::get('/profile/deposit', [
-        'uses' => 'UserController@showDepositPage',
-        'as' => 'profile.deposit'
+    Route::get('/profile/payment', [
+        'uses' => 'UserController@showPaymentPage',
+        'as' => 'profile.payment'
         ]);
-    Route::get('/profile/deposit-history', [
-        'uses' => 'UserController@showDepositHistory',
-        'as' => 'profile.deposit_history'
+    Route::get('/profile/payment-history', [
+        'uses' => 'UserController@showPaymentHistory',
+        'as' => 'profile.payment_history'
         ]);
     Route::get('/profile/details_request', [
         'uses' => 'UserController@showDetailsRequestForm',
@@ -226,6 +226,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeCardImage',
         'as' => 'profile.change_card_image'
         ]);
+    Route::get('/profile/test/payment',[
+        'uses' => 'UserController@getTestPaymentPage',
+        'as' => 'profile.test_payment_page.get'
+        ]);   
     /**
      * END OF PROFILE ROUTES
      */

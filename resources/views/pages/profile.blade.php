@@ -53,11 +53,11 @@
               <div class="col-md-3 col-md-offset-1 stats col-sm-3">
                 <h4 class="title">Информация по карте</h4>
                 <ul class="list-unstyled">
-                  <li>Номер <b>{{ session()->get('current_card_number', 'н/д') }}</b></li>
-                  <li>Баланс <b>{{ session()->get('current_card_balance', 'н/д') }} <i class="fa fa-ruble"></i></b></li>
+                  <li>Номер <b>{{ session()->get('current_card_number', 'неизвестно') }}</b></li>
+                  <li>Баланс <b>{{ session()->get('current_card_balance', 'неизвестно') }} <i class="fa fa-ruble"></i></b></li>
                   <li>Последняя операция по карте <b>{{ session()->get('current_card_last_transaction', 'н/д') }}</b></li>
-                  <li>Тип <b>{{ session()->get('current_card_kind', 'н/д') }}</b></li>
-                  <li>Состояние <b>{{ session()->get('current_card_state', 'н/д') }}</b></li>
+                  <li>Тип <b>{{ session()->get('current_card_kind', 'неизвестно') }}</b></li>
+                  <li>Состояние <b>{{ session()->get('current_card_state', 'неизвестно') }}</b></li>
                 </ul>
                 <hr>
                 <h4 class="title">Информация по поездкам</h4>

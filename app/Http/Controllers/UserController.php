@@ -191,7 +191,7 @@ class UserController extends Controller
      * [showDepositPage description]
      * @return [type] [description]
      */
-    public function showDepositPage(){
+    public function showPaymentPage(){
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -202,15 +202,17 @@ class UserController extends Controller
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
-      return view('pages.profile.deposit',[
+      return view('pages.profile.payment',[
         'cards' => $cards,
         'current_card' => $current_card]);
     }
+
+
     /**
      * [showDepositHistory description]
      * @return [type] [description]
      */
-    public function showDepositHistory(){
+    public function showPaymentHistory(){
       $num   = substr(Session::get('current_card_number'),3,6);
       /**
        * SHOW LAST IMPORT DIFF
@@ -245,7 +247,7 @@ class UserController extends Controller
             ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
             ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
             ->first();
-            return view('pages.profile.deposit_history',
+            return view('pages.profile.payment_history',
               ['operations' => $operations,
               'last_import' => $last_import,
               'cards' => $cards,
@@ -813,4 +815,25 @@ public function showDetailsHistory(){
         return response()->json(['message' => 'success', 'data' => $email],200);
     }
 
+
+
+    /**
+     * [showDepositPage description]
+     * @return [type] [description]
+     */
+    public function getTestPaymentPage(){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      return view('pages.profile.test.payment',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
+    }
   }
