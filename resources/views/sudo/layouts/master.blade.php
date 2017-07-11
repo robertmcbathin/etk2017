@@ -168,6 +168,19 @@ $('#card_number').on('keyup', function(){
       blockInfoHtml = '<b id=\"card-block-info\">' + msg.blockedBy + '('+ msg.blockDate + ')' + '</b>'  
       $('#card-block-info').replaceWith(blockInfoHtml);
                         break;
+          case 4:
+      blockButtonHtml = '<div id=\"block-action\">' +
+                        '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                        '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                        '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
+                        '{{ csrf_field() }}' + 
+                        '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                        '</form>' +
+                        '</div>'; 
+      blockInfoHtml = '<b id=\"card-block-info\"></b>'; 
+      $('#card-block-info').replaceWith(blockInfoHtml);      
+                        break;
       };
       $('#block-action').replaceWith(blockButtonHtml);      
       preloaderInfoNull = '<div id=\"info-preloader\"></div>';
