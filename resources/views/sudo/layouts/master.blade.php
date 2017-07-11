@@ -85,8 +85,147 @@
         app.initCharts();
     });
 </script>
+
+
+
+
 <script>
-  $('#card_number').on('keyup', function(){
+$('#card_number').on('keyup', function(){
+  if ($('#card_number').val().length > 5) { 
+  /**
+  * SHOW PRELOADERS
+  */
+  preloaderTrips = '<div class=\"progress\" id=\"trips-preloader\"><div class=\"indeterminate\"></div></div>';
+  preloaderInfo = '<div class=\"progress\" id=\"info-preloader\"><div class=\"indeterminate\"></div></div>';
+  preloaderRefills = '<div class=\"progress\" id=\"refills-preloader\"><div class=\"indeterminate\"></div></div>';
+  $('#refills-preloader').replaceWith(preloaderRefills);
+  $('#info-preloader').replaceWith(preloaderInfo);
+  $('#trips-preloader').replaceWith(preloaderTrips);
+  /**
+   * GET DATA
+   */
+  $.ajax({
+    method: 'POST',
+    url: url,
+    data: { 
+      num: $('#card_number').val(),
+      serie: $('#card_serie').val(), 
+      _token: token}
+  })
+  .done(function(msg){
+    console.log(JSON.stringify(msg));
+    if ((msg['message']) == 'error'){
+      console.log('Произошла ошибка');
+    };
+    if ((msg['message']) == 'success'){
+      /**
+       * LOAD CARD DATA
+       */
+      balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
+      stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
+      lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
+
+      $('#current-balance').replaceWith(balanceHtml);
+      $('#current-state').replaceWith(stateHtml);
+      $('#current-last-operation').replaceWith(lastOperationHtml);
+      switch (msg.card_state) {
+          case 1:
+      blockButtonHtml = '<div id=\"block-action\">' +
+                        '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                        '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                        '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
+                        '{{ csrf_field() }}' + 
+                        '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Добавить в блок-лист<div class=\"ripple-container\"></div></button>' +
+                        '</form>' +
+                        '</div>'; 
+      blockInfoHtml = '<b id=\"card-block-info\"></b>'; 
+      $('#card-block-info').replaceWith(blockInfoHtml);      
+                        break;
+          case 2:
+      blockButtonHtml = '<div id=\"block-action\">' +
+                        '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                        '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                        '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
+                        '{{ csrf_field() }}' + 
+                        '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Убрать из блок-листа<div class=\"ripple-container\"></div></button>' +
+                        '</form>' +
+                        '</div>'; 
+      blockInfoHtml = '<b id=\"card-block-info\">' + msg.blockedBy + '('+ msg.blockDate + ')' + '</b>'  
+      $('#card-block-info').replaceWith(blockInfoHtml);      
+                        break;
+          case 3 :                
+      blockButtonHtml = '<div id=\"block-action\">' +
+                        '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
+                        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
+                        '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
+                        '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
+                        '{{ csrf_field() }}' + 
+                        '<button type=\"submit\" class=\"btn btn-danger\" id=\"block-button\">Разблокировать<div class=\"ripple-container\"></div></button>' +
+                        '</form>' +
+                        '</div>';
+      blockInfoHtml = '<b id=\"card-block-info\">' + msg.blockedBy + '('+ msg.blockDate + ')' + '</b>'  
+      $('#card-block-info').replaceWith(blockInfoHtml);
+                        break;
+      };
+      $('#block-action').replaceWith(blockButtonHtml);      
+      preloaderInfoNull = '<div id=\"info-preloader\"></div>';
+      $('#info-preloader').replaceWith(preloaderInfoNull);
+      /**
+       * END OF LOAD CARD DATA
+       */
+      /**
+       * LOAD REFILLS DATA
+       */
+      if (msg['data'].length > 0){
+        html = '<tbody id=\"operations-results\">';
+        htmlNull = '<h3 id=\"operations-results-none\"></h3>';
+        for (var i = 0; i <= msg['data'].length - 1; i++) {
+            if (msg.data[i].terminal_number == 'SELLING'){
+                html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td><span class='material-icons'>shopping_cart</span> Продажа</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+            } else 
+            html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+        }
+        html += '</tbody>';
+        $('#operations-results-none').replaceWith(htmlNull);
+        $('#operations-results').replaceWith(html);
+        preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
+        $('#refills-preloader').replaceWith(preloaderRefillsNull);        
+      } else {
+        html = '<h3 id=\"operations-results-none\" class=\"text-center\">Нет результатов</h3>';
+        htmlNull = '<tbody id=\"operations-results\"></tbody>';
+        $('#operations-results-none').replaceWith(html);
+        $('#operations-results').replaceWith(htmlNull);
+        html = '<h3 id=\"operations-results-none\"></h3>';
+      }
+      /**
+       * END REFILLS DATA
+       */
+      /**
+       * LOAD CARD DATA
+       */
+        htmlTrips = '<tbody id=\"trips-results\">';
+        for (var i = 0; i <= msg['trips'].length - 1; i++) {
+            htmlTrips += "<tr><td>" + msg.trips[i].DATE_OF + "</td><td>" + msg.trips[i].ID_ROUTE + "</td><td class=\"text-right\">"  + msg.trips[i].AMOUNT + "</td><td class=\"text-right\">" + msg.trips[i].EP_BALANCE + "</td></tr>";
+        }
+        htmlTrips += '</tbody>';
+        $('#trips-results').replaceWith(htmlTrips);
+        preloaderTripsNull = '<div id=\"trips-preloader\"></div>';
+        $('#trips-preloader').replaceWith(preloaderTripsNull);
+      /**
+       * END OF LOAD CARD DATA
+       */
+    };
+  });
+};
+});
+</script>
+
+
+
+<!--<script>
+  $('#card_number').on('', function(){
     if ($('#card_number').val().length > 5) {
         /**
          * SHOW PRELOADERS
@@ -247,7 +386,8 @@
     } else {
         $('#block-button').attr('disabled','disabled');    }
 });
-</script>
+</script>  -->
+
 <script>
     $('#card_serie').on('keyup', function(){
         if ($('#card_serie').val().length == 2){

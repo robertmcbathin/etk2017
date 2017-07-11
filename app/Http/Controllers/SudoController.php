@@ -260,7 +260,7 @@ public function postAddArticle(Request $request){
         if (DB::table('ETK_BLOCKLISTS')
               ->where('chip',$chip)
               ->delete()){
-          Session::flash('item-removed-success', 'Позиция успешкно удалена');
+          Session::flash('item-removed-success', 'Позиция успешно удалена');
           return redirect()->back();
         } else {
           Session::flash('item-removed-fail', 'Удалить элемент не удалось');
@@ -744,7 +744,8 @@ public function postAddArticle(Request $request){
    public function postMakeStatuscard(Request $request){
     $source = $request['source'];
     $filename = '/admin/files/statuscard/statuscard-21-' . date('ymd') . '-0000' . $source . '.txt';
-    $path = public_path() . '/admin/files/statuscard/statuscard-21-' . date('ymd') . '-0000' . $source . '.txt';
+    $short_filename = 'statuscard-21-' . date('ymd') . '-0000' . $source . '.txt';
+    $path = public_path() . '/admin/files/statuscard/' . $short_filename;
     $fp = fopen($path, 'w');
 
     $status_count = 0;
@@ -766,7 +767,16 @@ public function postAddArticle(Request $request){
         ->where('source', $source)
         ->where('is_loaded', 0)
         ->update(['is_loaded' => 1]);
-      Session::flash('file-creation-success','Файл составлен');
+      /**
+       * LOAD FILE TO FTP
+       */
+      $ftp_file = fopen($path, 'r');
+      Storage::disk('ftp-cott-blocklists')->put($short_filename, $ftp_file);
+      fclose($ftp_file);
+      /**
+       * 
+       */
+      Session::flash('file-creation-success','Файл составлен и выгружен');
       return redirect()->back();
     } else {
        Session::flash('file-creation-fail','Создать файл не удалось');
@@ -800,6 +810,12 @@ public function postAddArticle(Request $request){
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
+    /**
+     * [$operations description]
+     * @var [type]
+     */
+    $blockedBy = null;
+    $blockDate = null;
     $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
     ->where('card_number',  $num)
     ->orderBy('transaction_date', 'DESC')
@@ -831,9 +847,25 @@ public function postAddArticle(Request $request){
           break;
         case 2:
           $cur_state = 'В блокировочном списке';
+          $blockedById = DB::table('ETK_BLOCKLISTS')
+                            ->where('card_number', $semifullnumber)
+                            ->first();
+          $blockedByName = DB::table('users')
+                          ->where('id', $blockedById->created_by)
+                          ->first();
+          $blockedBy = $blockedByName->name;
+          $blockDate = $blockedById->created_at;
           break;
         case 3:
-          $cur_state = 'Заблокирована';
+          $cur_state = 'В блокировочном списке';
+          $blockedById = DB::table('ETK_BLOCKLISTS')
+                            ->where('card_number', $semifullnumber)
+                            ->first();
+          $blockedByName = DB::table('users')
+                          ->where('id', $blockedById->created_by)
+                          ->first();
+          $blockedBy = $blockedByName->name;
+          $blockDate = $blockedById->created_at;
           break;
         case 4:
           $cur_state = 'В деблокировочном списке';
@@ -868,7 +900,7 @@ public function postAddArticle(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 }

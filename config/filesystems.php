@@ -63,6 +63,18 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'ftp-cott-blocklists' => [
+        'driver'   => 'ftp',
+        'host'     => '85.234.12.242',
+        'username' => 'anonymous',
+        'password' => 'anonymous',
+        'port'     => 5021,
+        // 'root'     => '',
+        // 'passive'  => true,
+        // 'ssl'      => true,
+        // 'timeout'  => 30,
+    ],
+
     ],
 
 ];
