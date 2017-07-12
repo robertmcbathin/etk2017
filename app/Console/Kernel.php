@@ -64,8 +64,9 @@ class Kernel extends ConsoleKernel
             fclose($ftp_file);
             }
           }
-    })->dailyAt('18:20');
-      }
+    })->dailyAt('18:20'); 
+
+    }
 
     /**
      * Register the Closure based commands for the application.
