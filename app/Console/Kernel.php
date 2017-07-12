@@ -64,7 +64,7 @@ class Kernel extends ConsoleKernel
             fclose($ftp_file);
             }
           }
-    })->dailyAt('10:35'); 
+    })->everyMinute(); 
 
     }
 
