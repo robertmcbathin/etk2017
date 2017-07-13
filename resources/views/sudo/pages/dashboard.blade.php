@@ -124,6 +124,7 @@
                         <a href="dashboard.html#">
                             Панель управления
                         </a>
+                        <?php echo date('l jS \of F Y h:i:s A'); ?>
                     </li>
                 </ul>
             </nav>
