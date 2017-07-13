@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use DB;
 use Storage;
+use Log;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -60,10 +61,21 @@ class Kernel extends ConsoleKernel
             $ftp_file = fopen($path, 'r');
             Storage::disk('ftp-cott-blocklists')->put($short_filename, $ftp_file);
             fclose($ftp_file);
+            /*
+           * LOGGING THE BLOCKLIST EXPORT
+           * 
+            */
+           $log = new \App\Log;
+           $log->action_type = 8;
+           $log->message = date('Y-m-d H:i:s') . " | Автоматическая выгрузка блок-листов на FTP. Выгружено записей: $status_count";
+           $log->save();
+          /**
+           * 
+           */
         }
     } 
 }  
-})->cron('45 14 * * *'); 
+})->cron('20 18 * * *'); 
 
   }
 

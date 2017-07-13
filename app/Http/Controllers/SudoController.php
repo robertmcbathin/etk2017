@@ -243,6 +243,8 @@ public function postAddArticle(Request $request){
         $statuscard_lists = DB::table('ETK_STATUSCARDS')
                               ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
                               ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
+                              ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
+                              ->limit(10)
                               ->get();                        
         return view('sudo.pages.card-blocking', [
           'today_office_blocklist' => $today_office_blocklist,

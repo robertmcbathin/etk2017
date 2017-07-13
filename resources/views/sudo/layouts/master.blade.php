@@ -83,6 +83,7 @@
 
         // Javascript method's body can be found in assets/js/demos.js
         app.initCharts();
+        app.initFormExtendedDatetimepickers();
     });
 </script>
 
