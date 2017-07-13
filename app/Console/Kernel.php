@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
         }
     } 
 }  
-})->cron('25 14 * * *'); 
+})->cron('31 14 * * *'); 
 
   }
 
