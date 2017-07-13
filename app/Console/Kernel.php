@@ -63,7 +63,7 @@ class Kernel extends ConsoleKernel
         }
     } 
 }  
-})->dailyAt('18:20'); 
+})->cron('51 8 * * *'); 
 
   }
 
