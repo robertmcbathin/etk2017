@@ -243,6 +243,7 @@ public function postAddArticle(Request $request){
                               ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
                               ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
                               ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+                              ->orderBy('created_by','asc')
                               ->get();
         $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
                               ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
@@ -293,6 +294,7 @@ public function postAddArticle(Request $request){
                               ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
                               ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
                               ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+                              ->orderBy('created_by','asc')
                               ->get();
         $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
                               ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
@@ -953,13 +955,29 @@ public function postAddArticle(Request $request){
      */
       if ($semifullnumber){
         if ($trips = DB::table('ETK_T_DATA')
-                    ->where('CARD_NUM', $semifullnumber)
+                    ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+                    ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
                     ->orderBy('DATE_OF', 'DESC')
-                    ->limit(10)
+                    ->limit(20)
                     ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+            switch ($trip->transport_type) {
+              case 600013467:
+                $trip->transport_type = 'M32';
+                break;
+              case 400013467:
+                $trip->transport_type = 'A32';
+                break;
+              case 200013467:
+                $trip->transport_type = 'T32';
+                break;
+              default:
+                $trip->transport_type = 'T32';
+                break;
+            }
             if ($trip->ID_ROUTE == NULL) $trip->ID_ROUTE = 'Пополнение';
           }
         } else $trips = null;
