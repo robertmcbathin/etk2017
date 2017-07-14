@@ -227,7 +227,23 @@ public function postAddArticle(Request $request){
        * @return [type] [description]
        */
       public function getCardBlockingPage(){
+        $begin_date_for_request = date('Y-m-d');
+        $end_date_for_request = new \DateTime;
+        $end_date_for_request = date_add($end_date_for_request, date_interval_create_from_date_string('1 day'));
+        $end_date_for_request = date_format($end_date_for_request, 'Y-m-d');
 
+        /**
+         * GET CURRENT DATE
+         * @var [type]
+         */
+        $date = new \DateTime;
+        $output_date = date_format($date, 'm/d/Y');
+        $next_date = date_add($date, date_interval_create_from_date_string('1 day'));
+        $today_blocklist_by = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+                              ->get();
         $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
                               ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
                               ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
@@ -249,7 +265,59 @@ public function postAddArticle(Request $request){
         return view('sudo.pages.card-blocking', [
           'today_office_blocklist' => $today_office_blocklist,
           'today_profile_blocklist' => $today_profile_blocklist,
-          'statuscard_lists' => $statuscard_lists
+          'statuscard_lists' => $statuscard_lists,
+          'date' => $output_date,
+          'today_blocklist_by' => $today_blocklist_by
+          ]);
+      }
+            /**
+       * [getCardBlockingPage with specific date description]
+       * @return [type] [description]
+       */
+      public function postCardBlockingPageWithDate(Request $request){
+        $begin_date_for_request = date_create_from_format('m/d/Y', $request['date']);
+        $end_date_for_request = date_create_from_format('m/d/Y', $request['date']);
+        $end_date_for_request = date_add($end_date_for_request, date_interval_create_from_date_string('1 day'));
+
+        $begin_date_for_request = date_format($begin_date_for_request, 'Y-m-d');
+        $end_date_for_request = date_format($end_date_for_request, 'Y-m-d');
+
+        /**
+         * GET CURRENT DATE
+         * @var [type]
+         */
+        $date = new \DateTime;
+        $output_date = $request['date'];
+        $next_date = date_add($date, date_interval_create_from_date_string('1 day'));
+        $today_blocklist_by = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+                              ->get();
+        $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
+                              ->where('ETK_BLOCKLISTS.source', 1)
+                              ->get();
+        $today_profile_blocklist = DB::table('ETK_BLOCKLISTS')
+                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
+                              ->where('ETK_BLOCKLISTS.source', 2)
+                              ->get();
+        $statuscard_lists = DB::table('ETK_STATUSCARDS')
+                              ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
+                              ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
+                              ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
+                              ->limit(10)
+                              ->get();                        
+        return view('sudo.pages.card-blocking', [
+          'today_office_blocklist' => $today_office_blocklist,
+          'today_profile_blocklist' => $today_profile_blocklist,
+          'statuscard_lists' => $statuscard_lists,
+          'date' => $output_date,
+          'today_blocklist_by' => $today_blocklist_by
           ]);
       }
       /**
@@ -849,25 +917,23 @@ public function postAddArticle(Request $request){
           break;
         case 2:
           $cur_state = 'В блокировочном списке';
-          $blockedById = DB::table('ETK_BLOCKLISTS')
-                            ->where('card_number', $semifullnumber)
-                            ->first();
-          $blockedByName = DB::table('users')
-                          ->where('id', $blockedById->created_by)
-                          ->first();
-          $blockedBy = $blockedByName->name;
-          $blockDate = $blockedById->created_at;
+          if (($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first() == NULL) || ($blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first() == NULL)){
+              $blockedBy = 'Неизвестно';
+              $blockDate = 'Неизвестно';
+          } else {
+            $blockedBy = $blockedByName->name;
+            $blockDate = $blockedById->created_at;
+          }
           break;
         case 3:
           $cur_state = 'В блокировочном списке';
-          $blockedById = DB::table('ETK_BLOCKLISTS')
-                            ->where('card_number', $semifullnumber)
-                            ->first();
-          $blockedByName = DB::table('users')
-                          ->where('id', $blockedById->created_by)
-                          ->first();
-          $blockedBy = $blockedByName->name;
-          $blockDate = $blockedById->created_at;
+          if (($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first() == NULL) || ($blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first() == NULL)){
+              $blockedBy = 'Неизвестно';
+              $blockDate = 'Неизвестно';
+          } else {
+            $blockedBy = $blockedByName->name;
+            $blockDate = $blockedById->created_at;
+          }
           break;
         case 4:
           $cur_state = 'В деблокировочном списке';

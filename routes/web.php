@@ -288,6 +288,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getCardBlockingPage',
             'as' => 'sudo.pages.card-blocking'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/card-blocking',[
+            'uses' => 'SudoController@postCardBlockingPageWithDate',
+            'as' => 'sudo.pages.card-blocking-with-date'
+            ])->middleware('can:show-sudo,App\User');
         Route::post('/import/sb-transactions',[
             'uses' => 'SudoController@postImportSBTransactions',
             'as' => 'sudo.import.sb-transactions.post'

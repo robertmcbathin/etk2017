@@ -1,5 +1,5 @@
 app = {
-   initFormExtendedDatetimepickers: function(){z
+   initFormExtendedDatetimepickers: function(){
         $('.datetimepicker').datetimepicker({
             icons: {
                 time: "fa fa-clock-o",
