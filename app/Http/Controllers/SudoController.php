@@ -567,7 +567,9 @@ public function postAddArticle(Request $request){
               if ($line[3] == ""){
                 $amount = 0;
               } else {
-                $amount = $line[3];
+                if (!is_int($line[3])){
+                  $amount = str_replace(',', '.', $line[3]);
+                } else $amount = $line[3];
               }
               /**
                * 
