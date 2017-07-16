@@ -1,4 +1,4 @@
-app = {
+charts = {
         initCharts: function(){
 
         /* ----------==========    Rounded Line Chart initialization    ==========---------- */

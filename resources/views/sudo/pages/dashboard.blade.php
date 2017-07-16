@@ -103,6 +103,19 @@
                         <div id="colouredBarsChart" class="ct-chart"></div>
                     </div>
                 </div>
+                <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="green">
+                                    <i class="material-icons">timeline</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Пополнение по дням
+                                        <small> - Сбербанк</small>
+                                    </h4>
+                                </div>
+                                <div id="colouredRoundedLineChart" class="ct-chart"></div>
+                            </div>
+                        </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -133,4 +146,21 @@
         </div>
     </footer>
 </div>
+<script>
+    var days = ['\'06','\'07','\'08','\'09', '\'10', '\'11', '\'12', '\'13', '\'14','\'15'];
+    var amounts = [
+            [900, 480, 290, 554, 690, 690, 500, 752, 650, 900, 944]
+          ];
+    /**
+     * FOR CASHIERS
+     */
+     var cashierValues =  [
+            [1000, 385, 490, 554, 586, 698, 695, 752, 788, 846, 944],
+            [67, 152, 143,  287, 335, 435, 437, 539, 542, 544, 647],
+            [23, 113, 67, 190, 239, 307, 308, 439, 410, 410, 509]
+          ];
+    /**
+     * 
+     */
+</script>
 @endsection

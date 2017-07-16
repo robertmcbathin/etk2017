@@ -27,9 +27,25 @@ class SudoController extends Controller
                                ->count();
    $users_count = DB::table('users')
                     ->count();
-  $new_detailing_requests_count = DB::table('ETK_DETAILING_REQUEST')
+   $new_detailing_requests_count = DB::table('ETK_DETAILING_REQUEST')
                               ->where('status',1)
                               ->count();
+
+   /**
+    * GET SBERBANK DEPOSITS FOR LAST MONTH
+    */
+   /** $now = new \Datetime();
+    $last_month_date = date_sub($now,date_interval_create_from_date_string('30 days'));
+    $deposits = DB::table('SB_DEPOSIT_TRANSACTIONS')
+                  ->where('transaction_date','>', $last_month_date)
+                  ->groupBy('terminal_number')
+                  ->get(); dd($deposits);
+    foreach ($deposits as $deposit) {
+      
+    }
+   /**
+    * 
+    */
    return view('sudo.pages.dashboard',[
     'questions_count' => $questions_count,
     'waiting_for_activation' => $waiting_for_activation,
@@ -957,8 +973,8 @@ public function postAddArticle(Request $request){
      */
       if ($semifullnumber){
         if ($trips = DB::table('ETK_T_DATA')
-                    ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+                    ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
                     ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
                     ->orderBy('DATE_OF', 'DESC')
                     ->limit(20)
@@ -977,10 +993,10 @@ public function postAddArticle(Request $request){
                 $trip->transport_type = 'T32';
                 break;
               default:
-                $trip->transport_type = 'T32';
+                $trip->transport_type = NULL;
                 break;
             }
-            if ($trip->ID_ROUTE == NULL) $trip->ID_ROUTE = 'Пополнение';
+            if ($trip->name == NULL) $trip->name = 'Пополнение';
           }
         } else $trips = null;
       } else $trips = null;

@@ -91,11 +91,11 @@ class UserController extends Controller
         if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
         $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
         if ($trips = DB::table('ETK_T_DATA')
-                    ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+                    ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
                     ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
                     ->orderBy('DATE_OF', 'DESC')
-                    ->limit(20)
+                    ->limit(15)
                     ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
@@ -111,9 +111,10 @@ class UserController extends Controller
                 $trip->transport_type = 'T32';
                 break;
               default:
-                $trip->transport_type = 'T32';
+                $trip->transport_type = NULL;
                 break;
             }
+            if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
           }
         } else $trips = null;
       } else $trips = null;
@@ -327,8 +328,8 @@ public function showDetailsReport(){
         if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
         $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
         if ($trips = DB::table('ETK_T_DATA')
-                    ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+                    ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
                     ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
                     ->orderBy('DATE_OF', 'DESC')
                     ->paginate(15)){
@@ -346,12 +347,50 @@ public function showDetailsReport(){
                 $trip->transport_type = 'T32';
                 break;
               default:
-                $trip->transport_type = 'T32';
+                $trip->transport_type = NULL;
                 break;
             }
+            if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
           }
         } else $trips = null;
       } else $trips = null;
+      /**
+       * [$cards description]
+       * @var [type]
+       */
+
+      $vehicle_chart = DB::table('ETK_T_DATA')
+          ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
+          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->groupBy('ETK_ROUTES.id_transport_mode')
+          ->get();
+      $trip_count = 0;
+      foreach ($vehicle_chart as $certain_vehicle) {
+        $trip_count += $certain_vehicle->transport_type;
+        switch ($certain_vehicle->id_transport_mode) {
+          case 600013467:
+            $certain_vehicle->id_transport_mode = 'Маршрутный автобус';
+            break;
+          case 400013467:
+            $certain_vehicle->id_transport_mode = 'Автобус';
+            break;
+          case 200013467:
+            $certain_vehicle->id_transport_mode = 'Троллейбус';
+            break;
+          default:
+            $certain_vehicle->id_transport_mode = 'Неизвестно';
+            break;
+        }
+      }
+      foreach ($vehicle_chart as $certain_vehicle) {
+        $certain_vehicle->transport_type = ($certain_vehicle->transport_type/$trip_count)*100;
+        $certain_vehicle->transport_type = round($certain_vehicle->transport_type);
+      }
+      /**
+       * 
+       * 
+       */
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -365,7 +404,8 @@ public function showDetailsReport(){
       return view('pages.profile.details_report',
         ['trips' => $trips,
         'cards' => $cards,
-        'current_card' => $current_card
+        'current_card' => $current_card,
+        'vehicle_chart' => $vehicle_chart,
          ]);
     }
     /**
