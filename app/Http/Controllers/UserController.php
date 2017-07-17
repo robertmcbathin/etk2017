@@ -370,10 +370,10 @@ public function showDetailsReport(){
         $trip_count += $certain_vehicle->transport_type;
         switch ($certain_vehicle->id_transport_mode) {
           case 600013467:
-            $certain_vehicle->id_transport_mode = 'Маршрутный автобус';
+            $certain_vehicle->id_transport_mode = 'Пригородный автобус';
             break;
           case 400013467:
-            $certain_vehicle->id_transport_mode = 'Автобус';
+            $certain_vehicle->id_transport_mode = 'Автобус и МТ';
             break;
           case 200013467:
             $certain_vehicle->id_transport_mode = 'Троллейбус';

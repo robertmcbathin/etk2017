@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-6">
           @if ($trips)
           <div class="table-responsive">
             <table class="table table-striped">
@@ -55,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-header card-header-icon" data-background-color="red">
               <i class="material-icons">pie_chart</i>
@@ -64,11 +64,6 @@
               <h4 class="card-title">Использование транспорта</h4>
             </div>
             <div id="chartPreferences" class="ct-chart"></div>
-            <div class="card-footer">
-              <i class="fa fa-circle text-info"></i> Троллейбус
-              <i class="fa fa-circle text-warning"></i> Маршрутный автобус
-              <i class="fa fa-circle text-danger"></i> Автобус
-            </div>
           </div>
         </div>
 
@@ -78,11 +73,11 @@
   <script>
     var percentages = [
     @foreach ($vehicle_chart as $certain_vehicle) 
-     '{{ $certain_vehicle->transport_type }}%' ,
+     '{{ $certain_vehicle->id_transport_mode }}' ,
     @endforeach];
     var amounts =
     [@foreach ($vehicle_chart as $certain_vehicle) 
-     { value: {{ $certain_vehicle->transport_type }} , name: '{{ $certain_vehicle->id_transport_mode }}' } ,
+     {{ $certain_vehicle->transport_type }},
     @endforeach];
   </script>
   @endsection
