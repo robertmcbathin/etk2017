@@ -937,20 +937,22 @@ public function postAddArticle(Request $request){
           break;
         case 2:
           $cur_state = 'В блокировочном списке';
-          if (($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first() == NULL) || ($blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first() == NULL)){
+          if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
               $blockedBy = 'Неизвестно';
               $blockDate = 'Неизвестно';
           } else {
+            $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
             $blockedBy = $blockedByName->name;
             $blockDate = $blockedById->created_at;
           }
           break;
         case 3:
-          $cur_state = 'В блокировочном списке';
-          if (($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first() == NULL) || ($blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first() == NULL)){
+          $cur_state = 'Заблокирована';
+          if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
               $blockedBy = 'Неизвестно';
               $blockDate = 'Неизвестно';
           } else {
+            $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
             $blockedBy = $blockedByName->name;
             $blockDate = $blockedById->created_at;
           }

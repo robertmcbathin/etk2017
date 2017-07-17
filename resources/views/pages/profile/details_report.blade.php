@@ -82,7 +82,7 @@
     @endforeach];
     var amounts =
     [@foreach ($vehicle_chart as $certain_vehicle) 
-    {{ $certain_vehicle->transport_type }},
+     { value: {{ $certain_vehicle->transport_type }} , name: '{{ $certain_vehicle->id_transport_mode }}' } ,
     @endforeach];
   </script>
   @endsection
