@@ -430,7 +430,7 @@ public function postAddArticle(Request $request){
               DB::table('SB_DEPOSIT_TRANSACTIONS')
               ->insert(['transaction_number' => null,
                'transaction_date' => $transaction_date,
-               'terminal_number' => null,
+               'terminal_number' => 'НБД-терминал',
                'value' => $line[1],
                'card_number' => $line[2],
                'source' => 2
