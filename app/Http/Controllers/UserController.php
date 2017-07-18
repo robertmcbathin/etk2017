@@ -19,6 +19,18 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
   /**
+   * [modifyToFullNumber description]
+   * @param  [type] $number [description]
+   * @return [type]         [description]
+   */
+  public function modifyToFullNumber($number){
+      $card_num_part2 = substr($number,1,2);
+      $card_num_part3  = substr($number,3,6);
+      if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
+      $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
+      return $full_card_number;
+  }
+  /**
    * [generatePassword description]
    * @param  integer $length [description]
    * @return [type]          [description]
@@ -86,10 +98,7 @@ class UserController extends Controller
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
       if (Session::has('current_card_number')){
-        $card_num_part2 = substr(session()->get('current_card_number'),1,2);
-        $card_num_part3  = substr(session()->get('current_card_number'),3,6);
-        if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
-        $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
+        $full_card_number = $this->modifyToFullNumber(Session::get('current_card_number'));
         if ($trips = DB::table('ETK_T_DATA')
                     ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
                     ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
@@ -406,6 +415,7 @@ public function showDetailsReport(){
         'cards' => $cards,
         'current_card' => $current_card,
         'vehicle_chart' => $vehicle_chart,
+        'trip_count' => $trip_count
          ]);
     }
     /**
@@ -637,6 +647,7 @@ public function showDetailsReport(){
       session()->forget('current_card_last_transaction');
       session()->forget('current_card_kind');
       session()->forget('current_card_state');
+      session()->forget('verified');
       $card = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -651,16 +662,15 @@ public function showDetailsReport(){
        * get database card number
        * @var [type]
        */
-      $card_num_part1 = '01';
-      $card_num_part2 = substr(Session::get('current_card_number'),1,2);
-      $card_num_part3  = substr(Session::get('current_card_number'),3,6);
+      $full_card_number = $this->modifyToFullNumber($current_card);
       if ($card_info = DB::table('ETK_CARDS')
-                    ->where('num', $card_num_part1 . $card_num_part2 . $card_num_part3 )
+                    ->where('num', $full_card_number )
                     ->first()){
         session()->put('current_card_balance', $card_info->ep_balance_fact);
         $non_formatted_date = new \DateTime($card_info->date_of_travel_doc_kind_last);
         $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
         session()->put('current_card_last_transaction', $last_transaction);
+        session()->put('current_card_verified', $card->verified);
         /**
          * CARD KIND : персональная или на предъявителя
          */
@@ -705,6 +715,12 @@ public function showDetailsReport(){
       session()->put('current_card_image_type', '/pictures/cards/thumbnails/160/' . $card->card_image_type . '.png');
       return redirect()->back();         
     }
+
+    /**
+     * [getConfirmEmailChanging description]
+     * @param  [type] $token [description]
+     * @return [type]        [description]
+     */
     public function getConfirmEmailChanging($token){
       if ($temp = DB::table('ETK_TEMP_EMAILS')
         ->where('token', $token)
@@ -884,6 +900,51 @@ public function showDetailsReport(){
         Session::flash('change_card_image_fail', 'Упс... Изображение карты изменить не удалось');
         return redirect()->back();
       }
+    }
+    /**
+     * [postVerifyCard description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postVerifyCard(Request $request){
+      $chip = $request['chip'];
+      $user_id = $request['user_id'];
+      $card_number = $request['number'];
+
+      $full_card_number = $this->modifyToFullNumber($card_number);
+      if ($card = DB::table('ETK_CARDS')
+          ->where('num', $full_card_number)
+          ->first()){
+        if ($chip_from_db = substr($card->chip,0,8)){
+          if ($chip == $chip_from_db) {
+            DB::table('ETK_CARD_USERS')
+              ->where('user_id', $user_id)
+              ->where('number', $card_number)
+              ->update(['verified' => 1]);
+              Session::flash('verified-ok', 'Карта успешно подтверждена!');
+              return redirect()->back();
+          } else {
+            Session::flash('verified-fail', 'Коды не совпадают!');
+            return redirect()->back();
+          }
+        } else return redirect()->back();
+      } else {
+          Session::flash('verified-card-search-fail', 'Такая карта не найдена!');
+          return redirect()->back();
+      }
+      if ($chip_from_db = substr($card->chip,0,8)){
+        if ($chip == $chip_from_db) {
+          DB::table('ETK_CARD_USERS')
+            ->where('user_id', $user_id)
+            ->where('number', $card_number)
+            ->update(['verified' => 1]);
+            Session::flash('verified-ok', 'Карта успешно подтверждена!');
+            return redirect()->back();
+        } else {
+          Session::flash('verified-fail', 'Коды не совпадают!');
+          return redirect()->back();
+        }
+      } else return redirect()->back();
     }
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED

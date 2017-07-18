@@ -234,6 +234,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@getTestPaymentPage',
         'as' => 'profile.test_payment_page.get'
         ]);   
+    Route::post('/profile/verify_card',[
+        'uses' => 'UserController@postVerifyCard',
+        'as' => 'profile.verify_card'
+        ]);
     /**
      * END OF PROFILE ROUTES
      */

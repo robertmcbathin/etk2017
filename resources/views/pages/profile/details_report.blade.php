@@ -57,30 +57,46 @@
         </div>
         <div class="col-md-6">
           <div class="card">
-            <div class="card-header card-header-icon" data-background-color="red">
-              <i class="material-icons">pie_chart</i>
+            <div class="card-header card-header-text" data-background-color="red">
+                <h4 class="card-title">Расходы</h4>
             </div>
             <div class="card-content">
               <h4 class="card-title">Использование транспорта</h4>
             </div>
             <div id="chartPreferences" class="ct-chart"></div>
           </div>
-        </div>
+          <div class="card">
+          <div class="card-header card-header-text" data-background-color="red">
+              <h4 class="card-title">Статистика</h4>
+              <p class="category">За последний месяц</p>
+            </div>
+            <div class="card-content table-responsive">
+              <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Поездки:</td>
+                      <td>{{ $trip_count }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
+        </div>
       </div>
     </div>
-  </div>
-  <script>
-    var percentages = [
-    @foreach ($vehicle_chart as $certain_vehicle) 
-     '{{ $certain_vehicle->id_transport_mode }}' ,
-    @endforeach];
-    var amounts =
-    [@foreach ($vehicle_chart as $certain_vehicle) 
-     {{ $certain_vehicle->transport_type }},
-    @endforeach];
-  </script>
-  @endsection
+    <script>
+      var percentages = [
+      @foreach ($vehicle_chart as $certain_vehicle) 
+      '{{ $certain_vehicle->id_transport_mode }}' ,
+      @endforeach];
+      var amounts =
+      [@foreach ($vehicle_chart as $certain_vehicle) 
+      {{ $certain_vehicle->transport_type }},
+      @endforeach];
+    </script>
+    @endsection
 
 
 
