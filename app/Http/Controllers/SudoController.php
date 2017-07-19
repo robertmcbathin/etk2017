@@ -900,6 +900,7 @@ public function postAddArticle(Request $request){
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
+    $zero_serie = '00';
     /**
      * [$operations description]
      * @var [type]
@@ -919,8 +920,12 @@ public function postAddArticle(Request $request){
       $semifullnumber = '02' . $serie . $num;
      } else {
       $semifullnumber = '01' . $serie . $num;
+      $semifullnumber_zero = '01' . $zero_serie . $num;
     }
-  } else $semifullnumber = '0123' . $num;
+  } else { 
+    $semifullnumber = '0123' . $num;
+    $semifullnumber_zero = '01' . $zero_serie . $num;
+  }
     if (($card = DB::table('ETK_CARDS')
                  ->where('num', $semifullnumber)
                  ->first()) == NULL){
@@ -978,6 +983,7 @@ public function postAddArticle(Request $request){
                     ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
                     ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
                     ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
+                    ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
                     ->orderBy('DATE_OF', 'DESC')
                     ->limit(20)
                     ->get()){
