@@ -108,6 +108,9 @@ class Kernel extends ConsoleKernel
         /**
          * STOP COPY DATA
          */
+        DB::table('ETK_T_DATA')
+          ->where('DATE_OF', '<', $month_ago)
+          ->delete();
           /*
          * STOP LOGGING
          * 
@@ -119,7 +122,7 @@ class Kernel extends ConsoleKernel
         /**
          * 
          */
-  })->cron('30 14 * * *'); 
+  })->cron('0 3 * * *'); 
 
     }
 

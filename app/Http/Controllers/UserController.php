@@ -542,6 +542,12 @@ public function showDetailsReport(){
             case '034':
             $card_type = 10;
             break;
+            case '097':
+            $card_type = 4;
+            break;
+            case '099':
+            $card_type = 12;
+            break;
 
             default:
                                         # code...

@@ -71,6 +71,14 @@
         serie = '034';
         type = 'Карта студента';
         break;
+        case '097':
+        serie = '097';
+        type = 'Банковская транспортная карта';
+        break;
+        case '099':
+        serie = '099';
+        type = 'УЭК';
+        break;
 
         default :
         serie = '999';

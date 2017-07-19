@@ -985,7 +985,7 @@ public function postAddArticle(Request $request){
                     ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
                     ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
                     ->orderBy('DATE_OF', 'DESC')
-                    ->limit(20)
+                    ->limit(50)
                     ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
