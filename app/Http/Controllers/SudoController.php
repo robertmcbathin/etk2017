@@ -918,6 +918,7 @@ public function postAddArticle(Request $request){
   if ($serie !== null){
      if ($serie == '99'){
       $semifullnumber = '02' . $serie . $num;
+      $semifullnumber_zero = '02' . $zero_serie . $num;
      } else {
       $semifullnumber = '01' . $serie . $num;
       $semifullnumber_zero = '01' . $zero_serie . $num;
