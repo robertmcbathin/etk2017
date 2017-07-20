@@ -773,12 +773,9 @@ public function postAddArticle(Request $request){
               'filepath' => $reportname,
               'status' => 3
               ])){
-            if (Mail::to($email)->send(new ReportReady())){
+            Mail::to($email)->send(new ReportReady())
              Session::flash('add-report-ok', 'Отчет добавлен');
              return redirect()->back();
-           } else { 
-           Session::flash('add-report-error', 'Отправить письмо не удалось');
-             return redirect()->back(); }
          } else {Session::flash('add-report-error', 'Произошла ошибка');
          return redirect()->back();}
        } else {

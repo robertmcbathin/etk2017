@@ -6,6 +6,6 @@
 Перейти к отчету
 @endcomponent
 
-Thanks,<br>
+По пути с Вами,<br>
 {{ config('app.name') }}
 @endcomponent

@@ -5,6 +5,6 @@
 Активировать аккаунт
 @endcomponent
 
-Всегда с Вами,<br>
+По пути с Вами,<br>
 {{ config('app.name') }}
 @endcomponent
