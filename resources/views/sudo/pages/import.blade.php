@@ -186,7 +186,7 @@
           <div class="card-header card-header-icon" data-background-color="rose">
             <i class="material-icons">directions_bus</i>
           </div>                
-          <h4 class="card-title">Импорт файла поездок <small class="category"> Последняя транзакция: @if ($last_trip_date) <b>{{$last_trip_date}}</b> @endif</small>
+          <h4 class="card-title">Импорт файла поездок <small class="category"> Последняя транзакция: </small>
             
           </h4>
           <div class="card-content">
