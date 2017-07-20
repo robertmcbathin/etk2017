@@ -14,6 +14,7 @@ use \App\Log;
 use \App\Article;
 use \App\Question;
 use Carbon\Carbon;
+use App\Mail\ReportReady;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,13 +24,13 @@ class SudoController extends Controller
    $questions = new Question;
    $questions_count = $questions->count();
    $waiting_for_activation = DB::table('users')
-                               ->where('register_token','!=',NULL)
-                               ->count();
+   ->where('register_token','!=',NULL)
+   ->count();
    $users_count = DB::table('users')
-                    ->count();
+   ->count();
    $new_detailing_requests_count = DB::table('ETK_DETAILING_REQUEST')
-                              ->where('status',1)
-                              ->count();
+   ->where('status',1)
+   ->count();
 
    /**
     * GET SBERBANK DEPOSITS FOR LAST MONTH
@@ -165,8 +166,8 @@ public function postAddArticle(Request $request){
      */
       public function getDetailingRequestsPage(){
         $requests = DB::table('ETK_DETAILING_REQUEST')
-        ->orderBy('created_at')
-        ->paginate(10);
+        ->orderBy('created_at','DESC')
+        ->paginate(15);
         return view('sudo.pages.detailing_requests',[
           'requests' => $requests
           ]); 
@@ -190,41 +191,41 @@ public function postAddArticle(Request $request){
         $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
 
         if ($last_card_update = DB::table('ETK_CARDS_UPDATES')
-        ->orderBy('created_at', 'DESC')
-        ->first()){
+          ->orderBy('created_at', 'DESC')
+          ->first()){
           $last_card_update->created_at = new \DateTime($last_card_update->created_at);
-          $last_card_update->created_at = date_format($last_card_update->created_at,'d.m.Y H:i:s');
-        }
-        $last_trip_date = DB::table('ETK_T_DATA')
-                            ->orderBy('DATE_OF', 'DESC')
-                            ->first();
-        $sb_imports_list = DB::table('SB_DEPOSIT_IMPORTS')
-                              ->join('users', 'SB_DEPOSIT_IMPORTS.created_by', '=', 'users.id')
-                              ->select('SB_DEPOSIT_IMPORTS.id', 'SB_DEPOSIT_IMPORTS.created_at', 'SB_DEPOSIT_IMPORTS.transaction_count','users.name as created_by')
-                              ->orderBy('created_at', 'desc')
-                              ->limit(5)
-                              ->get();
-        $card_updates_list = DB::table('ETK_CARDS_UPDATES')
-                              ->join('users', 'ETK_CARDS_UPDATES.created_by', '=', 'users.id')
-                              ->select('ETK_CARDS_UPDATES.id', 'ETK_CARDS_UPDATES.created_at', 'ETK_CARDS_UPDATES.transaction_count','users.name as created_by')
-                              ->orderBy('created_at', 'desc')
-                              ->limit(5)
-                              ->get();
-        $trip_imports_list = DB::table('ETK_T_DATA_IMPORTS')
-                              ->join('users', 'ETK_T_DATA_IMPORTS.created_by', '=', 'users.id')
-                              ->select('ETK_T_DATA_IMPORTS.id', 'ETK_T_DATA_IMPORTS.created_at', 'ETK_T_DATA_IMPORTS.transaction_count','users.name as created_by')
-                              ->orderBy('created_at', 'desc')
-                              ->limit(5)
-                              ->get();
-        return view('sudo.pages.import', [
-          'last_import' => $last_import,
-          'last_card_update' => $last_card_update,
-          'sb_imports_list' => $sb_imports_list,
-          'card_updates_list' => $card_updates_list,
-          'trip_imports_list' => $trip_imports_list,
-          'last_trip_date' => $last_trip_date->DATE_OF
-          ]);
+        $last_card_update->created_at = date_format($last_card_update->created_at,'d.m.Y H:i:s');
       }
+      $last_trip_date = DB::table('ETK_T_DATA')
+      ->orderBy('DATE_OF', 'DESC')
+      ->first();
+      $sb_imports_list = DB::table('SB_DEPOSIT_IMPORTS')
+      ->join('users', 'SB_DEPOSIT_IMPORTS.created_by', '=', 'users.id')
+      ->select('SB_DEPOSIT_IMPORTS.id', 'SB_DEPOSIT_IMPORTS.created_at', 'SB_DEPOSIT_IMPORTS.transaction_count','users.name as created_by')
+      ->orderBy('created_at', 'desc')
+      ->limit(5)
+      ->get();
+      $card_updates_list = DB::table('ETK_CARDS_UPDATES')
+      ->join('users', 'ETK_CARDS_UPDATES.created_by', '=', 'users.id')
+      ->select('ETK_CARDS_UPDATES.id', 'ETK_CARDS_UPDATES.created_at', 'ETK_CARDS_UPDATES.transaction_count','users.name as created_by')
+      ->orderBy('created_at', 'desc')
+      ->limit(5)
+      ->get();
+      $trip_imports_list = DB::table('ETK_T_DATA_IMPORTS')
+      ->join('users', 'ETK_T_DATA_IMPORTS.created_by', '=', 'users.id')
+      ->select('ETK_T_DATA_IMPORTS.id', 'ETK_T_DATA_IMPORTS.created_at', 'ETK_T_DATA_IMPORTS.transaction_count','users.name as created_by')
+      ->orderBy('created_at', 'desc')
+      ->limit(5)
+      ->get();
+      return view('sudo.pages.import', [
+        'last_import' => $last_import,
+        'last_card_update' => $last_card_update,
+        'sb_imports_list' => $sb_imports_list,
+        'card_updates_list' => $card_updates_list,
+        'trip_imports_list' => $trip_imports_list,
+        'last_trip_date' => $last_trip_date->DATE_OF
+        ]);
+    }
       /**
        * SETTINGS
        * @param  Request $request [description]
@@ -232,10 +233,10 @@ public function postAddArticle(Request $request){
        */
       public function getSchoolsPage(){
         $schools = DB::table('ETK_PRIVILEGE')
-                    ->orderBy('code')
-                    ->paginate(25);
+        ->orderBy('code')
+        ->paginate(25);
         return view('sudo.pages.schools', [
-              'schools' => $schools
+          'schools' => $schools
           ]);
       }
       /**
@@ -256,29 +257,29 @@ public function postAddArticle(Request $request){
         $output_date = date_format($date, 'm/d/Y');
         $next_date = date_add($date, date_interval_create_from_date_string('1 day'));
         $today_blocklist_by = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
-                              ->orderBy('created_by','asc')
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+        ->orderBy('created_by','asc')
+        ->get();
         $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
-                              ->where('ETK_BLOCKLISTS.source', 1)
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->where('ETK_BLOCKLISTS.is_loaded', 0)
+        ->where('ETK_BLOCKLISTS.source', 1)
+        ->get();
         $today_profile_blocklist = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
-                              ->where('ETK_BLOCKLISTS.source', 2)
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->where('ETK_BLOCKLISTS.is_loaded', 0)
+        ->where('ETK_BLOCKLISTS.source', 2)
+        ->get();
         $statuscard_lists = DB::table('ETK_STATUSCARDS')
-                              ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
-                              ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
-                              ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
-                              ->limit(10)
-                              ->get();                        
+        ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
+        ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
+        ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
+        ->limit(10)
+        ->get();                        
         return view('sudo.pages.card-blocking', [
           'today_office_blocklist' => $today_office_blocklist,
           'today_profile_blocklist' => $today_profile_blocklist,
@@ -291,13 +292,13 @@ public function postAddArticle(Request $request){
        * [getCardBlockingPage with specific date description]
        * @return [type] [description]
        */
-      public function postCardBlockingPageWithDate(Request $request){
-        $begin_date_for_request = date_create_from_format('m/d/Y', $request['date']);
-        $end_date_for_request = date_create_from_format('m/d/Y', $request['date']);
-        $end_date_for_request = date_add($end_date_for_request, date_interval_create_from_date_string('1 day'));
+            public function postCardBlockingPageWithDate(Request $request){
+              $begin_date_for_request = date_create_from_format('m/d/Y', $request['date']);
+              $end_date_for_request = date_create_from_format('m/d/Y', $request['date']);
+              $end_date_for_request = date_add($end_date_for_request, date_interval_create_from_date_string('1 day'));
 
-        $begin_date_for_request = date_format($begin_date_for_request, 'Y-m-d');
-        $end_date_for_request = date_format($end_date_for_request, 'Y-m-d');
+              $begin_date_for_request = date_format($begin_date_for_request, 'Y-m-d');
+              $end_date_for_request = date_format($end_date_for_request, 'Y-m-d');
 
         /**
          * GET CURRENT DATE
@@ -307,29 +308,29 @@ public function postAddArticle(Request $request){
         $output_date = $request['date'];
         $next_date = date_add($date, date_interval_create_from_date_string('1 day'));
         $today_blocklist_by = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
-                              ->orderBy('created_by','asc')
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->whereBetween('ETK_BLOCKLISTS.created_at', [$begin_date_for_request,$end_date_for_request] )
+        ->orderBy('created_by','asc')
+        ->get();
         $today_office_blocklist = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
-                              ->where('ETK_BLOCKLISTS.source', 1)
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->where('ETK_BLOCKLISTS.is_loaded', 0)
+        ->where('ETK_BLOCKLISTS.source', 1)
+        ->get();
         $today_profile_blocklist = DB::table('ETK_BLOCKLISTS')
-                              ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
-                              ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
-                              ->where('ETK_BLOCKLISTS.is_loaded', 0)
-                              ->where('ETK_BLOCKLISTS.source', 2)
-                              ->get();
+        ->join('users', 'ETK_BLOCKLISTS.created_by', '=', 'users.id')
+        ->select('ETK_BLOCKLISTS.id','ETK_BLOCKLISTS.card_number','ETK_BLOCKLISTS.chip','ETK_BLOCKLISTS.operation_type','users.name as created_by', 'ETK_BLOCKLISTS.created_at','ETK_BLOCKLISTS.is_loaded')
+        ->where('ETK_BLOCKLISTS.is_loaded', 0)
+        ->where('ETK_BLOCKLISTS.source', 2)
+        ->get();
         $statuscard_lists = DB::table('ETK_STATUSCARDS')
-                              ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
-                              ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
-                              ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
-                              ->limit(10)
-                              ->get();                        
+        ->join('users','ETK_STATUSCARDS.created_by','=','users.id')
+        ->select('ETK_STATUSCARDS.id', 'ETK_STATUSCARDS.status_count', 'ETK_STATUSCARDS.filename', 'users.name', 'ETK_STATUSCARDS.created_at')
+        ->orderBy('ETK_STATUSCARDS.created_at', 'DESC')
+        ->limit(10)
+        ->get();                        
         return view('sudo.pages.card-blocking', [
           'today_office_blocklist' => $today_office_blocklist,
           'today_profile_blocklist' => $today_profile_blocklist,
@@ -346,15 +347,15 @@ public function postAddArticle(Request $request){
       public function postRemoveFromBlocklist(Request $request){
         $chip = $request['chip'];
         if (DB::table('ETK_BLOCKLISTS')
-              ->where('chip',$chip)
-              ->delete()){
+          ->where('chip',$chip)
+          ->delete()){
           Session::flash('item-removed-success', 'Позиция успешно удалена');
-          return redirect()->back();
-        } else {
-          Session::flash('item-removed-fail', 'Удалить элемент не удалось');
-          return redirect()->back();
-        }
+        return redirect()->back();
+      } else {
+        Session::flash('item-removed-fail', 'Удалить элемент не удалось');
+        return redirect()->back();
       }
+    }
       /**
        * [postImportTransactions description]
        * 
@@ -557,7 +558,7 @@ public function postAddArticle(Request $request){
         return redirect()->back();
       }
 
- public function postImportTrips(Request $request){
+      public function postImportTrips(Request $request){
         $new_trips = $request->file('new-trips');
         $new_trips_name = '/admin/files/imports/IMPORTED_TRIPS_'  . date('Ymd-His') . '.csv';
         if ($request->file('new-trips')->isValid()){
@@ -772,24 +773,25 @@ public function postAddArticle(Request $request){
               'filepath' => $reportname,
               'status' => 3
               ])){
-            Mail::send('emails.send_report_notification',
-             [],
-             function ($m) use ($email){
-               $m->from('no-reply@etk21.ru', 'Служба поддержки ЕТК');
-               $m->to($email)->subject('Ваш отчет готов!');
-             });
-         Session::flash('add-report-ok', 'Отчет добавлен');
+            if (Mail::to($email)->send(new ReportReady())){
+             Session::flash('add-report-ok', 'Отчет добавлен');
+             return redirect()->back();
+           } else { 
+           Session::flash('add-report-error', 'Отправить письмо не удалось');
+             return redirect()->back(); }
+         } else {Session::flash('add-report-error', 'Произошла ошибка');
+         return redirect()->back();}
+       } else {
+        Session::flash('add-report-error', 'Загрузить файл не удалось');
+         return redirect()->back();
+       } 
        }
-     } else Session::flash('add-report-error', 'Произошла ошибка');
-     return redirect()->back();
-   }
 
-
-   public function postBlockCard(Request $request){
-    $card_number = $request['card_number'];
-    $card_serie = $request['card_serie'];
-    $to_state = $request['to_state'];
-    $user_id = Session::get('user_id');
+       public function postBlockCard(Request $request){
+        $card_number = $request['card_number'];
+        $card_serie = $request['card_serie'];
+        $to_state = $request['to_state'];
+        $user_id = Session::get('user_id');
     /**
      * [$prefix description]
      * @var string
@@ -801,31 +803,31 @@ public function postAddArticle(Request $request){
      */
     $fullcard_number = $prefix . $card_serie . $card_number;
     $card = DB::table('ETK_CARDS')
-              ->where('num', $fullcard_number)
-              ->first();
+    ->where('num', $fullcard_number)
+    ->first();
     $chip = $card->chip;
     if (DB::table('ETK_BLOCKLISTS')
-          ->where('card_number', $fullcard_number)
-          ->where('is_loaded', 0)
-          ->first()){
+      ->where('card_number', $fullcard_number)
+      ->where('is_loaded', 0)
+      ->first()){
       Session::flash('number-already-isset','Данная карта уже стоит в очереди на блокировку');
-      return redirect()->back();      
+    return redirect()->back();      
 
-    }
-    if (DB::table('ETK_BLOCKLISTS')
-          ->insert(['card_number' => $fullcard_number,
-                    'chip' => $chip,
-                    'operation_type' => $to_state,
-                    'source' => 1,
-                    'created_by' => $user_id
-                    ])){
-      Session::flash('add-to-blocklist-success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист');
-      return redirect()->back();
-    } else {
-      Session::flash('add-to-blocklist-fail','Не удалось добавиь карту в блок-лист');
-      return redirect()->back();
-    }
-   }
+  }
+  if (DB::table('ETK_BLOCKLISTS')
+    ->insert(['card_number' => $fullcard_number,
+      'chip' => $chip,
+      'operation_type' => $to_state,
+      'source' => 1,
+      'created_by' => $user_id
+      ])){
+    Session::flash('add-to-blocklist-success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист');
+  return redirect()->back();
+} else {
+  Session::flash('add-to-blocklist-fail','Не удалось добавиь карту в блок-лист');
+  return redirect()->back();
+}
+}
    /**
     * [postMakeStatuscard description]
     * @param  Request $request [description]
@@ -840,9 +842,9 @@ public function postAddArticle(Request $request){
 
     $status_count = 0;
     $cards = DB::table('ETK_BLOCKLISTS')
-                ->where('source', $source)
-                ->where('is_loaded', 0)
-                ->get();
+    ->where('source', $source)
+    ->where('is_loaded', 0)
+    ->get();
     foreach ($cards as $card) {
       $status_count++;
       $row = $card->chip . "\t" . $card->operation_type . "\r\n";
@@ -850,13 +852,13 @@ public function postAddArticle(Request $request){
     }
     fclose($fp);
     if (DB::table('ETK_STATUSCARDS')
-          ->insert(['filename' => $filename,
-                    'status_count' => $status_count,
-                    'created_by' => Auth::user()->id])){
+      ->insert(['filename' => $filename,
+        'status_count' => $status_count,
+        'created_by' => Auth::user()->id])){
       DB::table('ETK_BLOCKLISTS')
-        ->where('source', $source)
-        ->where('is_loaded', 0)
-        ->update(['is_loaded' => 1]);
+    ->where('source', $source)
+    ->where('is_loaded', 0)
+    ->update(['is_loaded' => 1]);
       /**
        * LOAD FILE TO FTP
        */
@@ -869,29 +871,29 @@ public function postAddArticle(Request $request){
       Session::flash('file-creation-success','Файл составлен и выгружен');
       return redirect()->back();
     } else {
-       Session::flash('file-creation-fail','Создать файл не удалось');
-       return redirect()->back();     
-    }
-
+     Session::flash('file-creation-fail','Создать файл не удалось');
+     return redirect()->back();     
    }
 
-   public function getCancelBlockCard($card_number){
-    $user_id = Auth::user()->id;
-    if ($card = DB::table('ETK_BLOCKLISTS')
-          ->where('card_number',$card_number)
-          ->first()){
-      if ($card->created_by == $user_id){
-        DB::table('ETK_BLOCKLISTS')
-          ->where('card_number', $card_number)
-          ->delete();
-        Session::flash('cancel-block-success', 'Карта ' . $card_number . ' успешно удалена из блок-листа');  
-        return redirect()->back();  
-      } else {
-        Session::flash('cancel-block-access-denied', 'Вы не можете отменить действие другого пользователя');
-        return redirect()->back();
-      }
+ }
+
+ public function getCancelBlockCard($card_number){
+  $user_id = Auth::user()->id;
+  if ($card = DB::table('ETK_BLOCKLISTS')
+    ->where('card_number',$card_number)
+    ->first()){
+    if ($card->created_by == $user_id){
+      DB::table('ETK_BLOCKLISTS')
+      ->where('card_number', $card_number)
+      ->delete();
+      Session::flash('cancel-block-success', 'Карта ' . $card_number . ' успешно удалена из блок-листа');  
+      return redirect()->back();  
+    } else {
+      Session::flash('cancel-block-access-denied', 'Вы не можете отменить действие другого пользователя');
+      return redirect()->back();
     }
-   }
+  }
+}
    /**
     * [ajaxCheckCardOperations description]
     * @param  Request $request [description]
@@ -915,11 +917,11 @@ public function postAddArticle(Request $request){
       $format_date = new \DateTime($operation->transaction_date);
       $operation->transaction_date = $format_date->format('d.m.Y');
     }
-  if ($serie !== null){
+    if ($serie !== null){
      if ($serie == '99'){
       $semifullnumber = '02' . $serie . $num;
       $semifullnumber_zero = '02' . $zero_serie . $num;
-     } else {
+    } else {
       $semifullnumber = '01' . $serie . $num;
       $semifullnumber_zero = '01' . $zero_serie . $num;
     }
@@ -927,88 +929,88 @@ public function postAddArticle(Request $request){
     $semifullnumber = '0123' . $num;
     $semifullnumber_zero = '01' . $zero_serie . $num;
   }
-    if (($card = DB::table('ETK_CARDS')
-                 ->where('num', $semifullnumber)
-                 ->first()) == NULL){
+  if (($card = DB::table('ETK_CARDS')
+   ->where('num', $semifullnumber)
+   ->first()) == NULL){
     $card_digit_state = 0;
-    $cur_balance = "Карта не найдена";
-    $cur_state = 'Состояние не определено';
-    $cur_last_operation = null;
+  $cur_balance = "Карта не найдена";
+  $cur_state = 'Состояние не определено';
+  $cur_last_operation = null;
+} else {
+  $card_digit_state = $card->state;
+  $cur_balance = $card->ep_balance_fact;
+  switch ($card->state) {
+    case 1:
+    $cur_state = 'В обращении';
+    break;
+    case 2:
+    $cur_state = 'В блокировочном списке';
+    if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
+      $blockedBy = 'Неизвестно';
+      $blockDate = 'Неизвестно';
     } else {
-      $card_digit_state = $card->state;
-      $cur_balance = $card->ep_balance_fact;
-      switch ($card->state) {
-        case 1:
-          $cur_state = 'В обращении';
-          break;
-        case 2:
-          $cur_state = 'В блокировочном списке';
-          if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
-              $blockedBy = 'Неизвестно';
-              $blockDate = 'Неизвестно';
-          } else {
-            $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
-            $blockedBy = $blockedByName->name;
-            $blockDate = $blockedById->created_at;
-          }
-          break;
-        case 3:
-          $cur_state = 'Заблокирована';
-          if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
-              $blockedBy = 'Неизвестно';
-              $blockDate = 'Неизвестно';
-          } else {
-            $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
-            $blockedBy = $blockedByName->name;
-            $blockDate = $blockedById->created_at;
-          }
-          break;
-        case 4:
-          $cur_state = 'В деблокировочном списке';
-          break;
-        case 5:
-          $cur_state = 'Изъята';
-          break; 
-        default:
-          $cur_state = 'Не определено';
-          break;
-      }
-      $cur_last_operation = $card->date_of_travel_doc_kind_last;
+      $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
+      $blockedBy = $blockedByName->name;
+      $blockDate = $blockedById->created_at;
     }
+    break;
+    case 3:
+    $cur_state = 'Заблокирована';
+    if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
+      $blockedBy = 'Неизвестно';
+      $blockDate = 'Неизвестно';
+    } else {
+      $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
+      $blockedBy = $blockedByName->name;
+      $blockDate = $blockedById->created_at;
+    }
+    break;
+    case 4:
+    $cur_state = 'В деблокировочном списке';
+    break;
+    case 5:
+    $cur_state = 'Изъята';
+    break; 
+    default:
+    $cur_state = 'Не определено';
+    break;
+  }
+  $cur_last_operation = $card->date_of_travel_doc_kind_last;
+}
     /**
      * GET TRIPS
      * @var [type]
      */
-      if ($semifullnumber){
-        if ($trips = DB::table('ETK_T_DATA')
-                    ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
-                    ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
-                    ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
-                    ->orderBy('DATE_OF', 'DESC')
-                    ->limit(50)
-                    ->get()){
-          foreach ($trips as $trip){
-            $trip->DATE_OF = new \Datetime($trip->DATE_OF);
-            $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
-            switch ($trip->transport_type) {
-              case 600013467:
-                $trip->transport_type = 'M32';
-                break;
-              case 400013467:
-                $trip->transport_type = 'A32';
-                break;
-              case 200013467:
-                $trip->transport_type = 'T32';
-                break;
-              default:
-                $trip->transport_type = NULL;
-                break;
-            }
-            if ($trip->name == NULL) $trip->name = 'Пополнение';
+    if ($semifullnumber){
+      if ($trips = DB::table('ETK_T_DATA')
+        ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+        ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
+        ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
+        ->orderBy('DATE_OF', 'DESC')
+        ->limit(50)
+        ->get()){
+        foreach ($trips as $trip){
+          $trip->DATE_OF = new \Datetime($trip->DATE_OF);
+          $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+          switch ($trip->transport_type) {
+            case 600013467:
+            $trip->transport_type = 'M32';
+            break;
+            case 400013467:
+            $trip->transport_type = 'A32';
+            break;
+            case 200013467:
+            $trip->transport_type = 'T32';
+            break;
+            default:
+            $trip->transport_type = NULL;
+            break;
           }
-        } else $trips = null;
+          if ($trip->name == NULL) $trip->name = 'Пополнение';
+        }
       } else $trips = null;
+    } else $trips = null;
 
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);

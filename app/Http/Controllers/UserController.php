@@ -296,7 +296,7 @@ public function showDetailsHistory(){
       $requests = DB::table('ETK_DETAILING_REQUEST')
       ->where('user_id',Auth::user()->id)
       ->where('card_number', Session::get('current_card_number'))
-      ->orderBy('created_at')
+      ->orderBy('created_at', 'DESC')
       ->get();
 
       foreach ($requests as $request) {
@@ -332,10 +332,7 @@ public function showDetailsReport(){
        * @var [type]
        */
       if (Session::has('current_card_number')){
-        $card_num_part2 = substr(session()->get('current_card_number'),1,2);
-        $card_num_part3  = substr(session()->get('current_card_number'),3,6);
-        if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
-        $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
+        $full_card_number = $this->modifyToFullNumber(session()->get('current_card_number'));
         if ($trips = DB::table('ETK_T_DATA')
                     ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
                     ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
@@ -584,6 +581,9 @@ public function showDetailsReport(){
         Session::flash('account-not-deleted', 'Удалить аккаунт не удалось');
         return redirect()->route('register');
       }
+    }
+    public function postBlockCard(Request $request){
+      
     }
       /**
      * CHANGE PHONE

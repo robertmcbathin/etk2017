@@ -117,7 +117,7 @@
                   <textarea class="form-control" rows="5" name="reason"></textarea>
                   <span class="material-input"></span></div>
                 </div>
-                <input type="hidden" value="{{ Auth::user()->card_number }}" name="card_number">
+                <input type="hidden" value="{{ Session::get('current_card_number') }}" name="card_number">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-profile">Запросить детализацию</button>

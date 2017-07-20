@@ -206,6 +206,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postDeleteCard',
         'as' => 'profile.delete_card.post'
         ]);
+    Route::post('/profile/block_card',[
+        'uses' => 'UserController@postBlockCard',
+        'as' => 'profile.block_card.post'
+        ]);
     Route::post('/profile/card_card',[
         'uses' => 'UserController@postAddCard',
         'as' => 'profile.add_card.post'

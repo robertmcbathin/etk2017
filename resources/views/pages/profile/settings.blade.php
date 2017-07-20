@@ -529,6 +529,17 @@
                                          <div class="ripple-container"></div>
                                        </button>
                                      </form>
+                                     @if ($card->verified == 1)
+                                     <form action="{{ route('profile.block_card.post') }}" method="POST">
+                                        <input type="hidden" name="current_card" value="{{ $card->number }}">
+                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                        {{ csrf_field()}}
+                                        <button type="submit" class="btn btn-simple">
+                                         <i class="fa fa-lock"></i> Заблокировать
+                                         <div class="ripple-container"></div>
+                                       </button>
+                                     </form>
+                                     @endif
                                    </div>
                                  </div>
                                </div>
