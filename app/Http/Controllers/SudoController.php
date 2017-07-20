@@ -223,7 +223,7 @@ public function postAddArticle(Request $request){
         'sb_imports_list' => $sb_imports_list,
         'card_updates_list' => $card_updates_list,
         'trip_imports_list' => $trip_imports_list,
-      /*  'last_trip_date' => $last_trip_date->DATE_OF*/
+        'last_trip_date' => $last_trip_date->DATE_OF
         ]);
     }
       /**
