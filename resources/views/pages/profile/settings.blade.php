@@ -17,6 +17,29 @@
           <h4 class="title">Настройки</h4>
         </div>
       </div>
+
+
+      @if (Session::has('error'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-danger">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">error_outline</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('error')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
+
+
+
+
       @if (Session::has('name-changed-successfully'))
       <div class="row">
         <div class="container">
@@ -590,6 +613,7 @@
              </div>
            </div>
          </div>
+         <!-- ADD CARD MODAL  -->
          <div class="modal fade" id="add-card-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -607,6 +631,7 @@
                    <input type="text" class="form-control" id="card_number" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
                    <span class="material-input" id="card_preview">Тип карты</span>
                    <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
+                   <p class="text-muted">Доступные на текущий момент серии: 21,23,25,26,33,34,36,37,40,41,43,44,97,99</p>
                    {{ csrf_field()}}
                    <button type="submit" class="btn btn-profile">Добавить карту</button>
                  </div>
@@ -618,7 +643,7 @@
           </div>
         </div>
       </div>
-
+      <!--  -->
       <div class="modal fade" id="delete-account-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
           <div class="modal-content">

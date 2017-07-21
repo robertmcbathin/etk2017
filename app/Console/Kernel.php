@@ -90,7 +90,7 @@ class Kernel extends ConsoleKernel
         date_sub($current_date, date_interval_create_from_date_string('1 month'));
         $month_ago = date_format($current_date, 'Y-m-d H:i:s');
         $buffer = DB::table('ETK_T_DATA')
-                    ->where('DATE_OF', '<', $month_ago)
+                    ->where('INS_DATE', '<', $month_ago)
                     ->get();
         $transaction_count = 0;
         foreach ($buffer as $transaction){
@@ -101,7 +101,8 @@ class Kernel extends ConsoleKernel
                                                     'TICKET_NUM' => $transaction->TICKET_NUM,
                                                     'ID_ROUTE' => $transaction->ID_ROUTE,
                                                     'CARD_SERIES' => $transaction->CARD_SERIES,
-                                                    'CARD_NUM' => $transaction->CARD_NUM
+                                                    'CARD_NUM' => $transaction->CARD_NUM,
+                                                    'INS_DATE' => $transaction->INS_DATE
                                                   ]);
           $transaction_count++;
         }

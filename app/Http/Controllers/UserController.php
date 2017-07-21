@@ -539,6 +539,24 @@ public function showDetailsReport(){
             case '034':
             $card_type = 10;
             break;
+            case '036':
+            $card_type = 9;
+            break;
+            case '037':
+            $card_type = 10;
+            break;
+            case '040':
+            $card_type = 7;
+            break;
+            case '041':
+            $card_type = 7;
+            break;
+            case '43':
+            $card_type = 5;
+            break;
+            case '44':
+            $card_type = 8;
+            break;
             case '097':
             $card_type = 4;
             break;
@@ -547,9 +565,21 @@ public function showDetailsReport(){
             break;
 
             default:
-                                        # code...
+            Session::flash('error', 'Данную серию карт нельзя добавить!');
+            return redirect()->back();
             break;
           }
+
+          /**
+           * CHECK CARD ON EXISTING
+           */
+          $full_card_number = $this->modifyToFullNumber($card_number);
+
+          if (($card = \App\Card::where('num', $full_card_number)->first()) == NULL ){
+            Session::flash('error', 'Данной карты не существует. Если Вы уверены в обратном, свяжитесь с нами.');
+            return redirect()->back();            
+          }
+
           $card->card_image_type   = $card_type;
           $card->user_id = $user_id;
           if ($card->save()){
@@ -583,7 +613,7 @@ public function showDetailsReport(){
       }
     }
     public function postBlockCard(Request $request){
-      
+
     }
       /**
      * CHANGE PHONE

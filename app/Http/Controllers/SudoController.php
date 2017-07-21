@@ -604,6 +604,7 @@ public function postAddArticle(Request $request){
               } else {
                 $id_route = $line[5];
               }
+              $ins_date = date_create_from_format('d.m.Y H:i:s', $line[8]);
               /**
                * 
                */
@@ -616,7 +617,8 @@ public function postAddArticle(Request $request){
                'TICKET_NUM' => $ticket_num,
                'ID_ROUTE' => $id_route,
                'CARD_SERIES' => $line[6],
-               'CARD_NUM' => $line[7]
+               'CARD_NUM' => $line[7],
+               'INS_DATE' => $ins_date
                ]);
               $counter++;
             } catch (Exception $e) {
