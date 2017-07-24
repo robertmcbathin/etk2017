@@ -184,3 +184,9 @@ animation: Gradient 30s ease infinite;
 .padding-plus{
     padding: 15px 15px 5px;
 }
+#settings-block{
+    width: 100%;
+}
+#beta-notifier{
+    margin-bottom: 0px;
+}

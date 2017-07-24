@@ -21,7 +21,9 @@
         <div class="col-md-8 col-md-offset-2">
         <p class="description"><b>Внимание:</b> Отображается история пополнения через терминалы Сбербанка (информация доступна на следующий рабочий день после 10:00).</p>
           <div class="table-responsive">
-            <h3 id="operations-results-none"></h3><table class="table table-striped">
+          @if (Session::get('current_card_verified') == 1)
+            <h3 id="operations-results-none"></h3>
+            <table class="table table-striped">
             <tbody>
               @if (count($operations) > 0)
               <thead>
@@ -50,6 +52,10 @@
             </tbody>
 
           </table>
+
+          @else 
+          <p class="description">Для просмотра истории пополнения Вам  необходимо подтвердить карту</p>
+          @endif
         </div>
       </div>
     </div>

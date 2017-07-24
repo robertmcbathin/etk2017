@@ -25,9 +25,10 @@
 </head>
 
 <body class="profile-page">
+
  @include('includes.profile_login_top_nav')
  @yield('content')
- @include('includes.login-footer')
+ @include('includes.profile-footer')
 
 
 </body>

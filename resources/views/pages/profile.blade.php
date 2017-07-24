@@ -128,6 +128,7 @@
                   <td>{{ $trip->AMOUNT }} <i class="fa fa-ruble"></i></td>
                 </tr>
                 @endforeach
+                <small class="description">Информация за последний месяц в разделе {{ route('profile.details-report') }}</small>
                 @else
                 <small class="description">Информации о поездках нет</small>
                 @endif

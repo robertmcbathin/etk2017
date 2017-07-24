@@ -398,7 +398,8 @@
       </div>
       @endif
       <div class="row">
-        <div class="card card-nav-tabs">
+      <div class="col-md-10 col-md-offset-1">
+                <div class="card card-nav-tabs" id="settings-block">
           <div class="header header-danger">
             <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
             <div class="nav-tabs-navigation">
@@ -525,15 +526,15 @@
                           <div class="tab-pane" id="my-cards">
                             <div class="row">
                               @foreach ($cards as $card)
-                              <div class="col-md-6 col-md-offset-3">
+                              <div class="col-md-6 col-md-offset-3 col-xs-6">
                                 <div class="card card-plain card-blog">
                                   <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-xs-12">
                                       <div class="card-image">
                                         <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                                       </div>
-                                      <div class="col-md-8">
+                                      <div class="col-md-8 col-xs-12">
                                         <h6 class="category text-info">{{ $card->name}}</h6>
                                         <h3 class="card-title">
                                           <a href="">{{ $card->number }}</a>
@@ -609,6 +610,8 @@
                      </div>
                    </div>
                  </div>
+      </div>
+      <!-- END OF MENU -->
                </div>
              </div>
            </div>
