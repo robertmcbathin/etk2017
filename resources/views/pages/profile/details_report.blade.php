@@ -17,8 +17,10 @@
           <h4 class="title">Поездки</h4>
         </div>
       </div>
-      <div class="row">
+      @if (Session::get('current_card_verified') == 1)
+            <div class="row">
         <div class="col-md-6">
+                  <small class="description">Показываются поездки за прошедший месяц. Если Вас интересует подробный отчет за 2 недели, сформируйте запрос в разделе <a href="{{ route('profile.details_request') }}"> создать запрос</a>.</small>
           @if ($trips)
           <div class="table-responsive">
             <table class="table table-striped">
@@ -39,7 +41,7 @@
                 </tr>
                 @endforeach
                 @else
-                <h4>Поездок нет</h4>
+                <h4>Поездок за последний месяц нет</h4>
                 @endif
               </tbody>
 
@@ -84,9 +86,7 @@
           </div>
 
         </div>
-      </div>
-    </div>
-    <script>
+            <script>
       var percentages = [
       @foreach ($vehicle_chart as $certain_vehicle) 
       '{{ $certain_vehicle->id_transport_mode }}' ,
@@ -96,6 +96,13 @@
       {{ $certain_vehicle->transport_type }},
       @endforeach];
     </script>
+      @else
+                                  <p class="description">
+            <b>Карта не подтверждена: </b> Для просмотра истории запросов на детализацию Вам необходимо подтвердить карту на <a href="{{ route('profile') }}">главной странице профиля</a>.
+          </p>
+      @endif
+      </div>
+    </div>
     @endsection
 
 

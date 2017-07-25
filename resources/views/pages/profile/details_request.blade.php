@@ -85,7 +85,8 @@
         </div>
       </div>
       @endif
-      <div class="row">
+      @if (Session::get('current_card_verified') == 1)
+            <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <p class="description">
             <b>Внимание:</b> Минимальная дата начала - не более 15 дней раньше текущей даты. Максимальная - не менее 1 дня до текущей даты.
@@ -124,6 +125,15 @@
               </form>
             </div>
           </div>
+      @else
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+                  <p class="description">
+            <b>Карта не подтверждена: </b> Для просмотра истории запросов на детализацию Вам необходимо подтвердить карту на <a href="{{ route('profile') }}">главной странице профиля</a>.
+          </p>
+        </div>
+      </div>
+      @endif
 
         </div>
       </div>

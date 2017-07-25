@@ -17,7 +17,8 @@
           <h4 class="title">История запросов на детализацию</h4>
         </div>
       </div>
-      <div class="row">
+      @if (Session::get('current_card_verified') == 1)
+              <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <div class="table-responsive">
             <table class="table table-striped">
@@ -64,7 +65,15 @@
               </div>
             </div>
           </div>
-
+      @else
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+                            <p class="description">
+            <b>Карта не подтверждена: </b> Для просмотра истории запросов на детализацию Вам необходимо подтвердить карту на <a href="{{ route('profile') }}">главной странице профиля</a>.
+          </p>
+        </div>
+      </div>
+      @endif
         </div>
       </div>
     </div>
