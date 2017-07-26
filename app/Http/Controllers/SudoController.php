@@ -938,11 +938,24 @@ public function postAddArticle(Request $request){
 } else {
   $card_digit_state = $card->state;
   $cur_balance = $card->ep_balance_fact;
+  /**CHECK ON DOBLE CARDS
+  *
+  **
+  *
+  *
+  ***/
   if($card->is_double == 1){
     $cur_is_double = ' (Есть дублирующая карта, необходимо заменить!) ';
+    $double_cards = DB::table('ETK_DOUBLE_CARD_LIST')
+                      ->where('num',$semifullnumber)
+                      ->get();
   } else {
     $cur_is_double = '';
+    $double_cards = NULL;
   }
+  /**
+   * CHECK ON DOBLE CARDS END
+   */
   switch ($card->state) {
     case 1:
     $cur_state = 'В обращении';
@@ -1019,7 +1032,7 @@ public function postAddArticle(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=>$double_cards, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 }

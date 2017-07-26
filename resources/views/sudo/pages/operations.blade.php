@@ -104,6 +104,7 @@
                                     <p>Состояние: <b id="current-state"></b><b id="cur-is-double"></b></p>
                                     <p>Последняя операция по карте: <b id="current-last-operation"></b></p>
                                     <p>Данные о блокировке <b id="card-block-info"></b></p>
+                                    <p>Дубликаты <b id="card-double-info"></b></p>
                                     <div id="block-action"></div>
                                     <div id="info-preloader">
                                     </div>

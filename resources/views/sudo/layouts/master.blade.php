@@ -489,11 +489,17 @@
        stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
        lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
        curIsDouble = '<b id=\"cur-is-double\">' + msg.cur_is_double + '</b>';
-
+       if (msg.double_cards !== null){
+        doublicates = '<b id=\"card-double-info\">';
+          for (var i = 0; i <= msg['double_cards'].length - 1; i++) {
+          doublicates += i +'.)' + msg.double_cards[i].series + ' ' + msg.double_cards[i].num + ' ' + msg.double_cards[i].chip + ' ' + msg.double_cards[i].ep_balance_fact + 'р. ' + msg.double_cards[i].date_of_travel_doc_kind_last + '<br>';
+       } doublicates += '</b>';
+       } else doublicates = '<b id=\"card-double-info\">Повторных карт нет</b>';
        $('#current-balance').replaceWith(balanceHtml);
        $('#current-state').replaceWith(stateHtml);
        $('#current-last-operation').replaceWith(lastOperationHtml);
        $('#cur-is-double').replaceWith(curIsDouble);
+       $('#card-double-info').replaceWith(doublicates);
        switch (msg.card_state) {
         case 1:
         blockButtonHtml = '<div id=\"block-action\">' +
