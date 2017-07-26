@@ -488,10 +488,12 @@
        balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
        stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
        lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
+       curIsDouble = '<b id=\"cur-is-double\">' + msg.cur_is_double + '</b>';
 
        $('#current-balance').replaceWith(balanceHtml);
        $('#current-state').replaceWith(stateHtml);
        $('#current-last-operation').replaceWith(lastOperationHtml);
+       $('#cur-is-double').replaceWith(curIsDouble);
        switch (msg.card_state) {
         case 1:
         blockButtonHtml = '<div id=\"block-action\">' +

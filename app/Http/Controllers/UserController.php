@@ -575,7 +575,7 @@ public function showDetailsReport(){
            */
           $full_card_number = $this->modifyToFullNumber($card_number);
 
-          if (($card = \App\Card::where('num', $full_card_number)->first()) == NULL ){
+          if (($requested_card = \App\Card::where('num', $full_card_number)->first()) == NULL ){
             Session::flash('error', 'Данной карты не существует. Если Вы уверены в обратном, свяжитесь с нами.');
             return redirect()->back();            
           }
