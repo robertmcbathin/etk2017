@@ -89,7 +89,7 @@
             <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <p class="description">
-            <b>Внимание:</b> Минимальная дата начала - не более 15 дней раньше текущей даты. Максимальная - не менее 1 дня до текущей даты.
+            <b>Внимание:</b> Максимальный размер периода заказываемой выписки - 14 дней 
           </p>
           <form action="{{ route('profile.request_details.post') }}" method="POST">
             <div class="col-md-12">

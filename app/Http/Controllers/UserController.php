@@ -782,30 +782,30 @@ public function showDetailsReport(){
     'date_end' => 'required'
     ]);
 
-  $date_start  = $request['date_start'];
-  $date_end    = $request['date_end'];
-  $reason      = $request['reason'];
-  $card_number = $request['card_number'];
-  $user_id     = $request['user_id'];
+  $request_date_start  = $request['date_start'];
+  $request_date_end    = $request['date_end'];
+  $reason              = $request['reason'];
+  $card_number         = $request['card_number'];
+  $user_id             = $request['user_id'];
 
-  $date_start = new \Datetime($date_start);
-  $date_end = new \Datetime($date_end);
+  $date_start = new \Datetime($request_date_start);
+  $date_end = new \Datetime($request_date_end);
 
-  $min_date = new \DateTime();
-  $max_date = new \DateTime();
+  $min_date = new \DateTime($request_date_start);
+  $max_date = new \DateTime($request_date_end);
   $estimated_date = new \DateTime();
   $current_date = new \DateTime();
 
   $min_date->sub(new \DateInterval('P15D'));
   $max_date->sub(new \DateInterval('P1D'));
 
-  if ($date_start < $min_date){
-    Session::flash('min-date-error', 'Можно заказать детализацию не более чем за 2 недели до текущей даты');
+  if ($date_start >= $date_end){
+    Session::flash('min-date-error', 'Вы указали начальную дату позже конечной');
     return redirect()->back();
   } elseif ($date_end >= $max_date) {
     Session::flash('max-date-error', 'Можно заказать детализацию не менее чем за 1 день до текущей даты');
     return redirect()->back();
-  }
+  } else print_f($interval = $date_start->diff($date_end));
 
   $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
 
