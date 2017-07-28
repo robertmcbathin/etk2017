@@ -146,6 +146,7 @@ Route::group(['prefix' => 'sudo'], function () {
     })->name('sudo.login');
     Route::post('login', [
         'uses' => 'UserController@postLogin',
+        env('HTTPS'),
         'as' => 'sudo.login.post' 
         ]);
 });
