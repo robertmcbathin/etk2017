@@ -69,6 +69,7 @@ Route::group(['middleware' => 'web'], function () {
         ]);
     Route::post('/ask', [
         'uses' => 'SiteController@postQuestion',
+        env('HTTPS'),
         'as' => 'ask.add.post'
         ]);
     Route::get('/law', [
