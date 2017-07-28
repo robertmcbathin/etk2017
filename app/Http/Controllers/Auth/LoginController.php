@@ -81,6 +81,7 @@ class LoginController extends Controller
                       ->first()){
                         session()->put('current_card_number', $primary_card->number);
                         session()->put('current_card_verified', $primary_card->verified);
+                        session()->put('current_card_block_state', $card->block_state);
                        /**
                         * get database card number
                         * @var [type]

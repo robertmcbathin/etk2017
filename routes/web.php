@@ -209,10 +209,24 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postDeleteCard',
         'as' => 'profile.delete_card.post'
         ]);
+    /**
+     * BLOCKING CARDS
+     */
     Route::post('/profile/block_card',[
         'uses' => 'UserController@postBlockCard',
         'as' => 'profile.block_card.post'
         ]);
+    Route::post('/profile/cancel_block_card',[
+        'uses' => 'UserController@postCancelBlockCard',
+        'as' => 'profile.cancel_block_card.post'
+        ]);
+    Route::post('/profile/unblock_card',[
+        'uses' => 'UserController@postUnBlockCard',
+        'as' => 'profile.unblock_card.post'
+        ]);
+    /**
+     * 
+     */
     Route::post('/profile/card_card',[
         'uses' => 'UserController@postAddCard',
         'as' => 'profile.add_card.post'

@@ -569,14 +569,6 @@
                                            <div class="ripple-container"></div>
                                          </button>
                                        </form>
-                                       @if (($card->verified == 1) && ($card->state !== 1))
-                                        @if ($card->block_created_by == NULL)
-                                        @elseif ($card->block_created_by == $card->user_id)
-                                        @endif
-                                        <button class="btn btn-simple" data-toggle="modal" data-target="#block-card-{{$card->number}}">
-                                         <i class="fa fa-lock"></i> Заблокировать
-                                       </button>
-                                     @endif
                                    </div>
                                  </div>
                                </div>
@@ -731,43 +723,7 @@
  </div>
 </div>
 @endforeach
-@foreach ($cards as $card)
-@if ($card->verified == 1)
-<div class="modal fade" id="block-card-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="block-card" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-          <i class="material-icons">clear</i>
-        </button>
-        <h4 class="modal-title">Блокировка карты № {{ $card->number }}</h4>
-        <small class="description">Обращаем Ваше внимание, что карта будет заблокирована при следующей поездке, но не раньше чем на следующий день после внесения ее в блокировочный список. Вы можете отменить заявление на блокировку карты до 18:00 текущего дня.</small>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-           <form action="{{ route('profile.block_card.post') }}" method="POST">
-            <input type="hidden" name="current_card" value="{{ $card->number }}">
-            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-            <input type="hidden" name="to_state" value="02">
-            {{ csrf_field()}}
-            <button type="submit" class="btn btn-primary">
-             <i class="fa fa-lock"></i> Заблокировать карту №{{$card->number}}
-             <div class="ripple-container"></div>
-           </button>
-         </form>
-       </div>
-     </div>
-   </form>
- </div>
- <div class="modal-footer">
-  <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Отмена<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 17.0781px; top: 20px; background-color: rgb(244, 67, 54); transform: scale(8.50977);"></div></div></button>
-</div>
-</div>
-</div>
-</div>
-@endif
-@endforeach
+
 @endsection
 
 
