@@ -65,6 +65,7 @@ Route::group(['middleware' => 'web'], function () {
         ]);
     Route::get('/ask', [
         'uses' => 'SiteController@getAskPage',
+        env('HTTPS'),
         'as' => 'ask'
         ]);
     Route::post('/ask', [
