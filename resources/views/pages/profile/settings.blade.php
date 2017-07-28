@@ -37,7 +37,23 @@
       </div>
       @endif
 
-
+      @if (Session::has('success'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-success">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">check</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('success')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
 
 
       @if (Session::has('name-changed-successfully'))
@@ -398,171 +414,168 @@
       </div>
       @endif
       <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-                <div class="card card-nav-tabs" id="settings-block">
-          <div class="header header-danger">
-            <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-            <div class="nav-tabs-navigation">
-              <div class="nav-tabs-wrapper">
-                <ul class="nav nav-tabs" data-tabs="tabs">
-                  <li class="active">
-                    <a href="#personal" data-toggle="tab" aria-expanded="false">
-                      <i class="material-icons">chat</i>
-                      Личные данные
-                      <div class="ripple-container"></div></a>
-                    </li>
-                    <li class="">
-                      <a href="#image" data-toggle="tab" aria-expanded="false">
-                        <i class="material-icons">face</i>
-                        Изображение профиля
+        <div class="col-md-10 col-md-offset-1">
+          <div class="card card-nav-tabs" id="settings-block">
+            <div class="header header-danger">
+              <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+              <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                  <ul class="nav nav-tabs" data-tabs="tabs">
+                    <li class="active">
+                      <a href="#personal" data-toggle="tab" aria-expanded="false">
+                        <i class="material-icons">chat</i>
+                        Личные данные
                         <div class="ripple-container"></div></a>
                       </li>
                       <li class="">
-                        <a href="#my-cards" data-toggle="tab" aria-expanded="true">
-                          <i class="material-icons">credit_card</i>
-                          Мои карты
+                        <a href="#image" data-toggle="tab" aria-expanded="false">
+                          <i class="material-icons">face</i>
+                          Изображение профиля
                           <div class="ripple-container"></div></a>
-
                         </li>
                         <li class="">
-                          <a href="#password" data-toggle="tab" aria-expanded="false">
-                            <i class="material-icons">lock</i>
-                            Пароль
+                          <a href="#my-cards" data-toggle="tab" aria-expanded="true">
+                            <i class="material-icons">credit_card</i>
+                            Мои карты
                             <div class="ripple-container"></div></a>
 
                           </li>
                           <li class="">
-                            <a href="#delete-account" data-toggle="tab" aria-expanded="false">
-                              <i class="material-icons">delete</i>
-                              Удалить аккаунт
+                            <a href="#password" data-toggle="tab" aria-expanded="false">
+                              <i class="material-icons">lock</i>
+                              Пароль
                               <div class="ripple-container"></div></a>
 
                             </li>
-                          </ul>
+                            <li class="">
+                              <a href="#delete-account" data-toggle="tab" aria-expanded="false">
+                                <i class="material-icons">delete</i>
+                                Удалить аккаунт
+                                <div class="ripple-container"></div></a>
+
+                              </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="card-content padding-plus">
-                      <div class="tab-content ">
-                        <div class="tab-pane active" id="personal">
-                          <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                              <div class="form-group is-empty">
-                                <form action="{{ route('profile.change_name.post') }}" method="POST">
-                                  <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Фамилия" class="form-control" name="name">
-                                  <span class="material-input"></span>
-                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                  {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-profile">Сменить имя</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                          <hr>
-                          <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                              <div class="form-group is-empty">
-                                <form action="{{ route('profile.change_email.post') }}" method="POST">
-                                  <input type="email" value="{{ Auth::user()->email }}" placeholder="example@mail.com" class="form-control" name="email">
-                                  <span class="material-input"></span>
-                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                  <small>На новый адрес электронной почты придет письмо со ссылкой на подтверждение нового адреса</small>
-                                  {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-profile">Сменить Email</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                          <hr>
-                          <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                              <div class="form-group is-empty">
-                                <form action="{{ route('profile.change_phone.post') }}" method="POST">
-                                  <input type="text" value="{{ Auth::user()->phone}}" placeholder="+70000000000" class="form-control" name="phone">
-                                  <span class="material-input"></span>
-                                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                  <small>Номер телефона будет использоваться для срочной связи с Вами</small>
-                                  {{ csrf_field()}}
-                                  <button type="submit" class="btn btn-profile">Сменить номер телефона</button>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="tab-pane" id="image">
-                          <p class="description">
-                            <b>Внимание:</b> Размер изображения должен составлять не более 100КБ
-                          </p>
-                          <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                              <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                                <div class="fileinput-new thumbnail img-rounded img-raised">
-                                  <img src="{{ Auth::user()->profile_image }}" alt="">
-                                </div>
-                                <div class="fileinput-preview fileinput-exists thumbnail img-rounded img-raised"></div>
-
-                                <div>
-                                  <form action="{{ route('profile.change_avatar.post') }}" enctype="multipart/form-data" method="POST">
-                                    <span class="btn btn-info btn-file">
-                                      <span class="fileinput-new">Загрузить фото</span>
-                                      <span class="fileinput-exists">Изменить</span>
-                                      <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                      <input type="file" name="avatar"></span>
-                                      {{ csrf_field() }}
-                                      <button type="submit" class="btn btn-profile">Сохранить изменения</button>
-                                    </form>
-                                    <br>
-                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
-                                  </div>
-                                  @if ($errors->has('avatar'))
-                                  <span class="help-block">
-                                    <strong>{{ $errors->first('avatar') }}</strong>
-                                  </span>
-                                  @endif
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="tab-pane" id="my-cards">
+                      <div class="card-content padding-plus">
+                        <div class="tab-content ">
+                          <div class="tab-pane active" id="personal">
                             <div class="row">
-                              @foreach ($cards as $card)
-                              <div class="col-md-6 col-md-offset-3 col-xs-6">
-                                <div class="card card-plain card-blog">
-                                  <div class="row">
-                                    <div class="col-md-4 col-xs-12">
-                                      <div class="card-image">
-                                        <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
-                                        <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
-                                      </div>
-                                      <div class="col-md-8 col-xs-12">
-                                        <h6 class="category text-info">{{ $card->name}}</h6>
-                                        <h3 class="card-title">
-                                          <a href="">{{ $card->number }}</a>
-                                        </h3>
-                                        <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
-                                         <i class="fa fa-picture-o"></i> Сменить изображение
-                                         <div class="ripple-container"></div>
-                                       </button>
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.change_name.post') }}" method="POST">
+                                    <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Фамилия" class="form-control" name="name">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Сменить имя</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.change_email.post') }}" method="POST">
+                                    <input type="email" value="{{ Auth::user()->email }}" placeholder="example@mail.com" class="form-control" name="email">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <small>На новый адрес электронной почты придет письмо со ссылкой на подтверждение нового адреса</small>
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Сменить Email</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.change_phone.post') }}" method="POST">
+                                    <input type="text" value="{{ Auth::user()->phone}}" placeholder="+70000000000" class="form-control" name="phone">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <small>Номер телефона будет использоваться для срочной связи с Вами</small>
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Сменить номер телефона</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="tab-pane" id="image">
+                            <p class="description">
+                              <b>Внимание:</b> Размер изображения должен составлять не более 100КБ
+                            </p>
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                                  <div class="fileinput-new thumbnail img-rounded img-raised">
+                                    <img src="{{ Auth::user()->profile_image }}" alt="">
+                                  </div>
+                                  <div class="fileinput-preview fileinput-exists thumbnail img-rounded img-raised"></div>
 
-                                       <form action="{{ route('profile.delete_card.post') }}" method="POST">
-                                        <input type="hidden" name="current_card" value="{{ $card->number }}">
+                                  <div>
+                                    <form action="{{ route('profile.change_avatar.post') }}" enctype="multipart/form-data" method="POST">
+                                      <span class="btn btn-info btn-file">
+                                        <span class="fileinput-new">Загрузить фото</span>
+                                        <span class="fileinput-exists">Изменить</span>
                                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                        {{ csrf_field()}}
-                                        <button type="submit" class="btn btn-simple btn-youtube">
-                                         <i class="fa fa-trash-o"></i> Удалить
-                                         <div class="ripple-container"></div>
-                                       </button>
-                                     </form>
-                                     @if ($card->verified == 1)
-                                     <form action="{{ route('profile.block_card.post') }}" method="POST">
-                                        <input type="hidden" name="current_card" value="{{ $card->number }}">
-                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                        {{ csrf_field()}}
-                                        <button type="submit" class="btn btn-simple">
+                                        <input type="file" name="avatar"></span>
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-profile">Сохранить изменения</button>
+                                      </form>
+                                      <br>
+                                      <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Удалить</a>
+                                    </div>
+                                    @if ($errors->has('avatar'))
+                                    <span class="help-block">
+                                      <strong>{{ $errors->first('avatar') }}</strong>
+                                    </span>
+                                    @endif
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="tab-pane" id="my-cards">
+                              <div class="row">
+                                @foreach ($cards as $card)
+                                <div class="col-md-6 col-md-offset-3 col-xs-6">
+                                  <div class="card card-plain card-blog">
+                                    <div class="row">
+                                      <div class="col-md-4 col-xs-12">
+                                        <div class="card-image">
+                                          <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
+                                          <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
+                                        </div>
+                                        <div class="col-md-8 col-xs-12">
+                                          <h6 class="category text-info">{{ $card->name}}</h6>
+                                          <h3 class="card-title">
+                                            <a href="">{{ $card->number }}</a>
+                                          </h3>
+                                          <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
+                                           <i class="fa fa-picture-o"></i> Сменить изображение
+                                           <div class="ripple-container"></div>
+                                         </button>
+
+                                         <form action="{{ route('profile.delete_card.post') }}" method="POST">
+                                          <input type="hidden" name="current_card" value="{{ $card->number }}">
+                                          <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                          {{ csrf_field()}}
+                                          <button type="submit" class="btn btn-simple btn-youtube">
+                                           <i class="fa fa-trash-o"></i> Удалить
+                                           <div class="ripple-container"></div>
+                                         </button>
+                                       </form>
+                                       @if (($card->verified == 1) && ($card->state !== 1))
+                                        @if ($card->block_created_by == NULL)
+                                        @elseif ($card->block_created_by == $card->user_id)
+                                        @endif
+                                        <button class="btn btn-simple" data-toggle="modal" data-target="#block-card-{{$card->number}}">
                                          <i class="fa fa-lock"></i> Заблокировать
-                                         <div class="ripple-container"></div>
                                        </button>
-                                     </form>
                                      @endif
                                    </div>
                                  </div>
@@ -610,85 +623,85 @@
                      </div>
                    </div>
                  </div>
-      </div>
-      <!-- END OF MENU -->
                </div>
+               <!-- END OF MENU -->
              </div>
            </div>
          </div>
-         <!-- ADD CARD MODAL  -->
-         <div class="modal fade" id="add-card-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                  <i class="material-icons">clear</i>
-                </button>
-                <h4 class="modal-title">Добавить карту</h4>
-              </div>
-              <div class="modal-body">
-                <form action="{{ route('profile.add_card.post') }}" method="POST">
-                  <div class="form-group is-empty">
-                   <input type="hidden" value="0" name="card_type" id="card_type">
-                   <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                   <input type="text" class="form-control" id="card_number" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
-                   <span class="material-input" id="card_preview">Тип карты</span>
-                   <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
-                   <p class="text-muted">Доступные на текущий момент серии: 21,23,25,26,33,34,36,37,40,41,43,44,97,99</p>
-                   {{ csrf_field()}}
-                   <button type="submit" class="btn btn-profile">Добавить карту</button>
-                 </div>
-               </form>
-             </div>
-             <div class="modal-footer">
-              <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Закрыть</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--  -->
-      <div class="modal fade" id="delete-account-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+       </div>
+       <!-- ADD CARD MODAL  -->
+       <div class="modal fade" id="add-card-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 <i class="material-icons">clear</i>
               </button>
-              <h4 class="modal-title">Вы действительно хотите удалить аккаунт?</h4>
+              <h4 class="modal-title">Добавить карту</h4>
             </div>
             <div class="modal-body">
-              <form action="{{ route('profile.delete_account.post') }}" method="POST">
+              <form action="{{ route('profile.add_card.post') }}" method="POST">
                 <div class="form-group is-empty">
+                 <input type="hidden" value="0" name="card_type" id="card_type">
                  <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                 <input type="text" class="form-control" id="card_number" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
+                 <span class="material-input" id="card_preview">Тип карты</span>
+                 <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
+                 <p class="text-muted">Доступные на текущий момент серии: 21,23,25,26,33,34,36,37,40,41,43,44,97,99</p>
                  {{ csrf_field()}}
-                 <button type="submit" class="btn btn-profile" >Да, я хочу удалить аккаунт</button>
+                 <button type="submit" class="btn btn-profile">Добавить карту</button>
                </div>
              </form>
            </div>
            <div class="modal-footer">
-            <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
+            <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Закрыть</button>
           </div>
         </div>
       </div>
     </div>
-
-    @foreach ($cards as $card)
-    <div class="modal fade" id="change-card-image-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-             <i class="material-icons">clear</i>
-           </button>
-           <h4 class="modal-title">Изменение изображения карты</h4>
+    <!--  -->
+    <div class="modal fade" id="delete-account-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <i class="material-icons">clear</i>
+            </button>
+            <h4 class="modal-title">Вы действительно хотите удалить аккаунт?</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route('profile.delete_account.post') }}" method="POST">
+              <div class="form-group is-empty">
+               <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+               {{ csrf_field()}}
+               <button type="submit" class="btn btn-profile" >Да, я хочу удалить аккаунт</button>
+             </div>
+           </form>
          </div>
-         <div class="modal-body">
+         <div class="modal-footer">
+          <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @foreach ($cards as $card)
+  <div class="modal fade" id="change-card-image-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+           <i class="material-icons">clear</i>
+         </button>
+         <h4 class="modal-title">Изменение изображения карты</h4>
+       </div>
+       <div class="modal-body">
          <form action="{{ route('profile.change_card_image') }}" method="POST">
-         @foreach ($card_types as $card_type)
+           @foreach ($card_types as $card_type)
            <div class="row">
              <div class="col-md-10 col-md-offset-1">
-             @if ($card->category == $card_type->category)
-             <div class="radio">
+               @if ($card->category == $card_type->category)
+               <div class="radio">
                 <label>
                   <input type="radio" name="card_image_type" value="{{ $card_type->id }}"><span class="circle"></span><span class="check"></span>
                   <img src="{{$card_type->image}}" class="img img-raised img-rounded" alt="" height="60px">
@@ -696,29 +709,66 @@
                 </label>
               </div>
               @else
-                <label>
-                  <input type="radio" name="card_image_type" disabled><span class="circle"></span><span class="check"></span>
-                  <img src="{{$card_type->image}}" class="img img-raised img-rounded" alt="" height="60px">
-                  {{$card_type->name}}
-                </label>
+              <label>
+                <input type="radio" name="card_image_type" disabled><span class="circle"></span><span class="check"></span>
+                <img src="{{$card_type->image}}" class="img img-raised img-rounded" alt="" height="60px">
+                {{$card_type->name}}
+              </label>
               @endif
-             </div>
-           </div>
-         @endforeach
-              <input type="hidden" name="card_number" value="{{ $card->number }}">
-              <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                 {{ csrf_field()}}
-                <button type="submit" class="btn btn-profile" >Сохранить</button>
-              </form>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
-         </div>
-       </div>
+            </div>
+          </div>
+          @endforeach
+          <input type="hidden" name="card_number" value="{{ $card->number }}">
+          <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+          {{ csrf_field()}}
+          <button type="submit" class="btn btn-profile" >Сохранить</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
      </div>
    </div>
-   @endforeach
-   @endsection
+ </div>
+</div>
+@endforeach
+@foreach ($cards as $card)
+@if ($card->verified == 1)
+<div class="modal fade" id="block-card-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="block-card" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="material-icons">clear</i>
+        </button>
+        <h4 class="modal-title">Блокировка карты № {{ $card->number }}</h4>
+        <small class="description">Обращаем Ваше внимание, что карта будет заблокирована при следующей поездке, но не раньше чем на следующий день после внесения ее в блокировочный список. Вы можете отменить заявление на блокировку карты до 18:00 текущего дня.</small>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+           <form action="{{ route('profile.block_card.post') }}" method="POST">
+            <input type="hidden" name="current_card" value="{{ $card->number }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            <input type="hidden" name="to_state" value="02">
+            {{ csrf_field()}}
+            <button type="submit" class="btn btn-primary">
+             <i class="fa fa-lock"></i> Заблокировать карту №{{$card->number}}
+             <div class="ripple-container"></div>
+           </button>
+         </form>
+       </div>
+     </div>
+   </form>
+ </div>
+ <div class="modal-footer">
+  <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Отмена<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 17.0781px; top: 20px; background-color: rgb(244, 67, 54); transform: scale(8.50977);"></div></div></button>
+</div>
+</div>
+</div>
+</div>
+@endif
+@endforeach
+@endsection
 
 
 

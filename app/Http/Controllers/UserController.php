@@ -432,6 +432,7 @@ public function showDetailsReport(){
       ->first();
       $card_types = DB::table('ETK_CARD_TYPES')
                       ->get();
+                      dd($cards);
       return view('pages.profile.settings',[
         'cards' => $cards,
         'current_card' => $current_card,
@@ -613,7 +614,32 @@ public function showDetailsReport(){
       }
     }
     public function postBlockCard(Request $request){
+      $current_card = $request['current_card'];
+      $user_id = $request['user_id'];
+      $source = 2;
+      $to_state = $request['to_state'];
 
+      $serie = substr($current_card,1,2);
+      $number = substr($current_card,3,6);
+      if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
+      $fullcard_number = $prefix . $serie . $number;
+      $card = DB::table('ETK_CARDS')
+        ->where('num', $fullcard_number)
+        ->first();
+        $chip = $card->chip;
+      if (DB::table('ETK_BLOCKLISTS')
+            ->insert(['card_number' => $fullcard_number,
+              'chip' => $chip,
+              'operation_type' => $to_state,
+              'source' => 2,
+              'created_by' => $user_id
+              ])){
+            Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист. Вы можете отменить блокировку до 18 часов текущего дня');
+          return redirect()->back();
+        } else {
+          Session::flash('error','Не удалось добавиь карту в блок-лист. Напишите нам');
+          return redirect()->back();
+        }
     }
       /**
      * CHANGE PHONE
