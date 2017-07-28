@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use View;
+use URL;
 use Session;
 use Illuminate\Support\ServiceProvider;
 
