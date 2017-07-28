@@ -17,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (env('APP_ENV') === 'production') {
+            URL::forceSchema('https');
+        }
         $new_detailing_requests_count = DB::table('ETK_DETAILING_REQUEST')
                                     ->where('status', 1)
                                     ->count();
