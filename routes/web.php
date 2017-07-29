@@ -227,6 +227,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postUnBlockCard',
         'as' => 'profile.unblock_card.post'
         ]);
+    Route::post('/profile/cancel_unblock_card',[
+        'uses' => 'UserController@postCancelUnBlockCard',
+        'as' => 'profile.cancel_unblock_card.post'
+        ]);
     /**
      * 
      */

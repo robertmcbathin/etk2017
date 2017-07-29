@@ -156,9 +156,13 @@
              <button class="btn btn-simple" data-toggle="modal" data-target="#cancel-block-card-{{ session()->get('current_card_number') }}">
                <i class="fa fa-lock"></i> Отменить блокировку
              </button>
-             @elseif ((session()->get('current_card_verified') == 1) && ((session()->get('current_card_block_state') == 2) || (session()->get('current_card_state')) == 'Заблокирована'))
+             @elseif ((session()->get('current_card_verified') == 1) && ((session()->get('current_card_block_state') !== 2) && (session()->get('current_card_state')) == 'Заблокирована'))
              <button class="btn btn-simple" data-toggle="modal" data-target="#unblock-card-{{ session()->get('current_card_number') }}">
                <i class="fa fa-unlock"></i> Разблокировать
+             </button>
+             @elseif ((session()->get('current_card_verified') == 1) && ((session()->get('current_card_block_state') == 2) && (session()->get('current_card_state')) == 'Заблокирована'))
+             <button class="btn btn-simple" data-toggle="modal" data-target="#cancel-unblock-card-{{ session()->get('current_card_number') }}">
+               <i class="fa fa-unlock"></i> Отменить разблокировку
              </button>
              @endif
            </ul>
@@ -353,6 +357,42 @@
             {{ csrf_field()}}
             <button type="submit" class="btn btn-primary">
              <i class="fa fa-lock"></i> Разблокировать карту №{{ session()->get('current_card_number') }}
+             <div class="ripple-container"></div>
+           </button>
+         </form>
+       </div>
+     </div>
+   </form>
+ </div>
+ <div class="modal-footer">
+  <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Отмена<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 17.0781px; top: 20px; background-color: rgb(244, 67, 54); transform: scale(8.50977);"></div></div></button>
+</div>
+</div>
+</div>
+</div>
+@endif
+
+<!-- CANCEL BLOCK CARD -->
+@if (session()->get('current_card_verified') == 1)
+<div class="modal fade" id="cancel-unblock-card-{{ session()->get('current_card_number') }}" tabindex="-1" role="dialog" aria-labelledby="cancel-unblock-card" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="material-icons">clear</i>
+        </button>
+        <h4 class="modal-title">Отмена разблокировки карты № {{ session()->get('current_card_number') }}</h4>
+        <small class="description">Обращаем Ваше внимание, что карта будет разблокирована при следующей поездке, но не раньше чем на следующий день после внесения ее в блокировочный список. Вы можете отменить заявление на разблокировку карты до 18:00 текущего дня.</small>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+           <form action="{{ route('profile.cancel_unblock_card.post') }}" method="POST">
+            <input type="hidden" name="current_card" value="{{ session()->get('current_card_number') }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            {{ csrf_field()}}
+            <button type="submit" class="btn btn-primary">
+             <i class="fa fa-lock"></i> Отменить разблокировку №{{ session()->get('current_card_number') }}
              <div class="ripple-container"></div>
            </button>
          </form>

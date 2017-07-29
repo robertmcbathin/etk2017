@@ -640,6 +640,7 @@ public function showDetailsReport(){
        */
       if ((DB::table('ETK_BLOCKLISTS')
             ->where('card_number', $fullcard_number)
+            ->where('is_loaded', 0)
             ->first()) !== NULL){
           Session::flash('error','Данная карта уже стоит в очереди на блокировку');
           return redirect()->back();
@@ -691,8 +692,20 @@ public function showDetailsReport(){
       if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
       $fullcard_number = $prefix . $serie . $number;
 
+
+      if (($last_block_request = DB::table('ETK_BLOCKLISTS')
+            ->where('card_number', $fullcard_number)
+            ->orderBy('updated_at', 'DESC')
+            ->first()) !== NULL){
+          if ($last_block_request->is_loaded == 1){
+            Session::flash('error','Снять карту с очереди на блокировку не удалось. Она уже загружена в блок-лист');
+            return redirect()->back();
+          }
+      }
+
       if ((DB::table('ETK_BLOCKLISTS')
             ->where('card_number', $fullcard_number)
+            ->where('is_loaded', 0)
             ->delete()) && 
         DB::table('ETK_CARD_USERS')
             ->where('number', $current_card)
@@ -744,6 +757,7 @@ public function showDetailsReport(){
        */
       if ((DB::table('ETK_BLOCKLISTS')
             ->where('card_number', $fullcard_number)
+            ->where('is_loaded', 0)
             ->first()) !== NULL){
           Session::flash('error','Данная карта уже стоит в очереди на разблокировку');
           return redirect()->back();
@@ -762,6 +776,7 @@ public function showDetailsReport(){
             ->where('number', $current_card)
             ->update(['block_state' => 2])){
           Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в деблок-лист. Вы не можете отменить разблокировку');
+        session()->put('current_card_block_state', 2);
           /*
            * LOGGING CARD BLOCKING
            * 
@@ -779,7 +794,57 @@ public function showDetailsReport(){
           return redirect()->back();
         }
     }
+    /**
+     * [postCancelBlockCard description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postCancelUnBlockCard(Request $request){
+      $current_card = $request['current_card'];
+      $user_id = $request['user_id'];
+      $source = 2;
 
+      $serie = substr($current_card,1,2);
+      $number = substr($current_card,3,6);
+      if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
+      $fullcard_number = $prefix . $serie . $number;
+
+      if (($last_unblock_request = DB::table('ETK_BLOCKLISTS')
+            ->where('card_number', $fullcard_number)
+            ->orderBy('updated_at', 'DESC')
+            ->first()) !== NULL){
+          if ($last_unblock_request->is_loaded == 1){
+            Session::flash('error','Снять карту с очереди на разблокировку не удалось. Она уже загружена в деблок-лист');
+            return redirect()->back();
+          }
+      }
+
+      if ((DB::table('ETK_BLOCKLISTS')
+            ->where('card_number', $fullcard_number)
+            ->where('is_loaded', 0)
+            ->delete()) && 
+        DB::table('ETK_CARD_USERS')
+            ->where('number', $current_card)
+            ->update(['block_state' => 0])){
+            Session::flash('success','Карта ' . $fullcard_number . ' успешно снята с очереди на разблокировку.');
+          session()->put('current_card_block_state', 0);
+            /*
+           * LOGGING CANCEL CARD BLOCKING
+           * 
+            */
+           $log = new \App\Log;
+           $log->action_type = 14;
+           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " отменил разблокировку карты #" . $fullcard_number . " из личного кабинета";
+           $log->save();
+          /**
+           * 
+           */
+          return redirect()->back();
+        } else {
+          Session::flash('error','Что-то пошло не так. Снять карту с очереди на разблокировку не удалось. Напишите нам');
+          return redirect()->back();
+        }
+    }
       /**
      * CHANGE PHONE
      * @param  Request $request [description]
