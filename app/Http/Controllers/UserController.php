@@ -606,6 +606,9 @@ public function showDetailsReport(){
          $log->action_type = 5;
          $log->message = date('Y-m-d H:i:s') . " | Удален аккаунт пользвателя с номером карты " . $user->card_number;
          $log->save();
+         DB::table('ETK_CARD_USERS')
+            ->where('user_id',$user_id)
+            ->delete();
          return redirect()->route('register');
        } else {
         Session::flash('account-not-deleted', 'Удалить аккаунт не удалось');
