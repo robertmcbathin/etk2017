@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <ol class="breadcrumb">
-                      <li><a href="{{route('static_articles')}}">Статьи</a></li>
+                      <li><a href="{{route('static_articles')}}">Дополнительная информация</a></li>
                       <li class="active">Список дублирующихся карт, подлежащих замене</li>
                   </ol>
               </div>

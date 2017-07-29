@@ -71,7 +71,7 @@
 							</li>
 							<li>
 								<a href="{{route('static_articles')}}">
-									<i class="material-icons">speaker_notes</i> Статьи
+									<i class="material-icons">speaker_notes</i> Дополнительная информация
 								</a>
 							</li>
 							<hr>

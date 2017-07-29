@@ -1,20 +1,20 @@
 @extends('layouts.master')
 
 @section('description')
-Статьи
+Дополнительная информация
 @endsection
 @section('keywords')
 
 @endsection
 @section('title')
-Статьи
+Дополнительная информация
 @endsection
 @section('content')
 <div class="page-header header-filter simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_temp3.jpg&quot;); transform: translate3d(0px, 0px, 0px); ">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <h1 class="title">Статьи</h1>
+                <h1 class="title">Дополнительная информация</h1>
             </div>
         </div>
     </div>
