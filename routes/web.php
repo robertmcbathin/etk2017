@@ -138,6 +138,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/static_articles/is-it-safely', function(){
             return view('pages.static_articles.is-it-safely');
         });
+    Route::get('/static_articles/double_cards', function(){
+            return view('pages.static_articles.double_cards');
+        });
         /**
          * 
          */
