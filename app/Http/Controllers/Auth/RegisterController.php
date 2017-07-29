@@ -129,7 +129,7 @@ class RegisterController extends Controller
              $user->register_token = $register_token;
              $user->password = bcrypt($password);
              if ($user->save()){
-                if (Mail::to($request->email)->send(new RegEmail($email, $password, $register_token))){
+                if (Mail::to($request->email)->send(new RegEmail($email, $password, $register_token)) !== NULL){
                        Session::flash('register-ok', 'Спасибо за активацию аккаунта! Вам на электронную почту было отправлено письмо. Пройдите по ссылке для подтверждения регистрации.');
                        return redirect()->back();
                 } else {
