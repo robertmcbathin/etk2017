@@ -6,7 +6,7 @@
 регистрация карты етк
 @endsection
 @section('title')
-Регистрация карты
+Регистрация аккаунта
 @endsection
 @section('content')
 <div class="page-header header-filter login-page-header" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
