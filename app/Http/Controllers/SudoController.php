@@ -176,7 +176,6 @@ public function postAddArticle(Request $request){
       public function getEmailDistributionPage(){
         $lk_email_count = DB::table('ETK_QUESTIONS')
                     ->selectRaw('count(distinct email) as email_count')
-                    ->where('id', '>', 173)
                     ->first();
         return view('sudo.pages.email_distribution',[
           'lk_email_count' => $lk_email_count
@@ -189,6 +188,7 @@ public function postAddArticle(Request $request){
       public function sendLKStartEmails(){
         $lk_emails = DB::table('ETK_QUESTIONS')
                     ->selectRaw('distinct email')
+                    ->where('id','>',187)
                     ->get();
          $sent_counter = 0;
         foreach ($lk_emails as $lk) {
