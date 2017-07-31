@@ -190,3 +190,6 @@ animation: Gradient 30s ease infinite;
 #beta-notifier{
     margin-bottom: 0px;
 }
+.header-filter::before {
+    background-color: rgba(199, 0, 28, 0.45) !important; 
+}

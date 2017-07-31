@@ -141,6 +141,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/static_articles/double_cards', function(){
             return view('pages.static_articles.double_cards');
         });
+    Route::get('/static_articles/profile', function(){
+            return view('pages.static_articles.profile');
+        });    
         /**
          * 
          */

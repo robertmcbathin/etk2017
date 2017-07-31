@@ -18,27 +18,27 @@
                     <div class="col-md-5 hidden-xs">
                         <div >
                             <a href="sections.html#pablo">
-                                <img src="/images/e-wallet-mirror-2.png">
+                                <img src="/images/profile.png">
                             </a>
                             <div class="ripple-container"></div></div>
                         </div>
                         <div class="col-md-5 visible-xs" id="card-xs-img">
                             <div >
                                 <a href="sections.html#pablo">
-                                    <img src="/images/e-wallet-mirror-2.png">
+                                    <img src="/images/profile.png">
                                 </a>
                                 <div class="ripple-container"></div></div>
                             </div>
                             <div class="col-md-7">
                                 <div class="content">
-                                    <h3 class="card-title" id="landing-title">Электронный кошелек</h3>
+                                    <h3 class="card-title" id="landing-title">Личный кабинет</h3>
 
                                     <h5 class="card-description" id="landing-content">
-                                     Оплачивайте проезд в общественном транспорте со скидкой!
+                                     Примите участие в бета-тестировании!
                                  </h5>
 
                                  <div class="footer text-right">
-                                    <a href="{{route('cards.ewallet')}}" class="btn btn-primary landing-link">Подробнее...</a>
+                                    <a href="/static_articles/profile" class="btn btn-primary landing-link">Подробнее...</a>
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,16 @@
 							   О компании
 							<div class="ripple-container"></div></a>
 						</li>
+						<li>
+							<a href="{{ route('register') }}">
+							   Регистрация
+							<div class="ripple-container"></div></a>
+						</li>
+						<li>
+							<a href="{{ route('login') }}">
+							   Личный кабинет
+							<div class="ripple-container"></div></a>
+						</li>
 					</ul>
 	            </nav>
 	            <div class="copyright pull-right">

@@ -7,6 +7,18 @@
 	            					<div class="col-md-3">
 	            						<a href="{{route('index')}}"><h5>Единая транспортная карта</h5></a>
 	            						<p>Оператор безналичной оплаты проезда Чувашской Республики</p>
+	            											<ul class="links-vertical">
+						<li>
+							<a href="{{ route('register') }}">
+								Регистрация
+								<div class="ripple-container"></div></a>
+							</li>
+							<li>
+								<a href="{{ route('login') }}">
+									Личный кабинет
+									<div class="ripple-container"></div></a>
+								</li>
+							</ul>
 	            					</div>
 	            					<div class="col-md-2">
 	            						<h5>Карты</h5>
