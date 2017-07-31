@@ -303,7 +303,9 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postDeleteArticle',
             'as' => 'sudo.articles.delete'
             ])->middleware('can:show-sudo,App\User');
-
+        /**
+         * SIDEBAR
+         */
         Route::get('/operations',[
             'uses' => 'SudoController@getOperationsPage',
             'as' => 'sudo.pages.operations'
@@ -312,6 +314,20 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getDetailingRequestsPage',
             'as' => 'sudo.pages.detailing-requests'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/email-distribution',[
+            'uses' => 'SudoController@getEmailDistributionPage',
+            'as' => 'sudo.pages.email-distribution'
+            ])->middleware('can:show-sudo,App\User');
+        /**
+         * SEND EMAILS
+         */
+        Route::get('/email-distribution/send-lk-start',[
+            'uses' => 'SudoController@sendLKStartEmails',
+            'as' => 'sudo.pages.email-distribution.lk-start'
+            ])->middleware('can:show-sudo,App\User');
+        /**
+         * 
+         */
         Route::get('/import',[
             'uses' => 'SudoController@getImportPage',
             'as' => 'sudo.pages.import'

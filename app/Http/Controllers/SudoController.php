@@ -15,6 +15,7 @@ use \App\Article;
 use \App\Question;
 use Carbon\Carbon;
 use App\Mail\ReportReady;
+use App\Mail\LKStart;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -172,6 +173,33 @@ public function postAddArticle(Request $request){
           'requests' => $requests
           ]); 
       }
+      public function getEmailDistributionPage(){
+        $lk_email_count = DB::table('ETK_QUESTIONS')
+                    ->selectRaw('count(distinct email) as email_count')
+                    ->first();
+        return view('sudo.pages.email_distribution',[
+          'lk_email_count' => $lk_email_count
+          ]); 
+      }
+      /**
+       * [getEmailDistributionPage description]
+       * @return [type] [description]
+       */
+      public function sendLKStartEmails(){
+        $lk_emails = DB::table('ETK_QUESTIONS')
+                    ->selectRaw('distinct email')
+                    ->get();
+
+        Mail::to('alexander21-12@mail.ru')->send(new LKStart());
+
+        Session::flash('success', 'Рассылка отправлена');
+        return redirect()->back(); 
+      }
+
+      /**
+       * [getOperationsPage description]
+       * @return [type] [description]
+       */
       public function getOperationsPage(){
         $last_import = DB::table('SB_DEPOSIT_IMPORTS')
         ->orderBy('created_at', 'DESC')
