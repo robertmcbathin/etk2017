@@ -189,10 +189,13 @@ public function postAddArticle(Request $request){
         $lk_emails = DB::table('ETK_QUESTIONS')
                     ->selectRaw('distinct email')
                     ->get();
+         $sent_counter = 0;
+        foreach ($lk_emails as $lk) {
+         Mail::to($lk->email)->send(new LKStart()); 
+         $sent_counter++;
+        }
 
-        Mail::to('alexander21-12@mail.ru')->send(new LKStart());
-
-        Session::flash('success', 'Рассылка отправлена');
+        Session::flash('success', 'Рассылка отправлена.' . $sent_counter . ' сообщений отправлено');
         return redirect()->back(); 
       }
 
