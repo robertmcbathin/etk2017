@@ -164,7 +164,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Wilgucki\Csv\CsvServiceProvider::class,
-        Artisaninweb\SoapWrapper\ServiceProvider::class,
 
 
         /*
@@ -231,7 +230,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'CsvReader' => Wilgucki\Csv\Facades\Reader::class,
         'CsvWriter' => Wilgucki\Csv\Facades\Writer::class,
-        'SoapWrapper' => Artisaninweb\SoapWrapper\Facade::class,
 
     ],
 
