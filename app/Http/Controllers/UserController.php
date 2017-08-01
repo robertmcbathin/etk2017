@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use \App\Log;
 use Storage;
 use File;
+use \App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -1260,6 +1261,9 @@ public function showDetailsReport(){
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
+
+      $cardInfo = new PaymentController;
+      $cardInfo->show();
       return view('pages.profile.test.payment',[
         'cards' => $cards,
         'current_card' => $current_card]);
