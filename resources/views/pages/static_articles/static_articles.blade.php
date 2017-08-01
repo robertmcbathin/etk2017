@@ -27,7 +27,7 @@
             <div class="col-md-4">
                 <div class="card card-blog">
                     <div class="card-image">
-                        <a href="/static_articles/sberbank_new_us">
+                        <a href="/static_articles/sberbank-new">
                             <img class="img" src="/pictures/static_articles/sberbank_new_us/sberbank_new_us.jpg">
                             <div class="card-title">
                                 Расширение списка УС Сбербанка
