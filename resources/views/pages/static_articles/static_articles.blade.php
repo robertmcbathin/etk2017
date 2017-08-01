@@ -27,6 +27,24 @@
             <div class="col-md-4">
                 <div class="card card-blog">
                     <div class="card-image">
+                        <a href="/static_articles/sberbank_new_us">
+                            <img class="img" src="/pictures/static_articles/sberbank_new_us/sberbank_new_us.jpg">
+                            <div class="card-title">
+                                Расширение списка УС Сбербанка
+                            </div>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <p class="card-description">
+                             Количество устройств самообслуживания Сбербанка, на которых можно пополнить транспортную карту, увеличилось на 25 шт.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-blog">
+                    <div class="card-image">
                         <a href="/static_articles/profile">
                             <img class="img" src="/pictures/static_articles/profile/profile.jpg">
                             <div class="card-title">

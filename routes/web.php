@@ -143,6 +143,9 @@ Route::group(['middleware' => 'web'], function () {
         });
     Route::get('/static_articles/profile', function(){
             return view('pages.static_articles.profile');
+        });   
+    Route::get('/static_articles/sberbank_new_us', function(){
+            return view('pages.static_articles.sberbank_new_us');
         });    
         /**
          * 
