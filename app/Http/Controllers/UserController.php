@@ -1262,6 +1262,7 @@ public function showDetailsReport(){
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
 
+      $client = new \SoapClient()
       $cardInfo = new PaymentController;
       $cardInfo->show();
       return view('pages.profile.test.payment',[
