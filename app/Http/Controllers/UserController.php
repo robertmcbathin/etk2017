@@ -12,6 +12,7 @@ use App\Mail\ChangeEmail;
 use App\Mail\SendNewPassword;
 use Carbon\Carbon;
 use \App\Log;
+use \App\Payment;
 use Storage;
 use File;
 use \App\Http\Controllers\PaymentController;
@@ -1262,9 +1263,39 @@ public function showDetailsReport(){
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
 
-      $client = new \SoapClient()
-      $cardInfo = new PaymentController;
-      $cardInfo->show();
+      /**
+       * PAYMENT SOAP CARDINFO
+       * @var Payment
+       */
+      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => 1));
+   /*   dd($cardInfo->__getFunctions());*/
+      dd($cardInfo->__soapCall('CardInfo',array('agentId' => 7)));
+      $cardInfo->__soapCall('CardInfo',array('agentId' => 7));
+      $cardInfo->__doRequest('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
+                                 <soapenv:Header> 
+                                       <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"> 
+                                       <wsse:UsernameToken xmlns:wsu="..."> 
+                                          <wsse:Username>admin</wsse:Username> 
+                                          <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">1</wsse:Password> 
+                                       </wsse:UsernameToken> 
+                                    </wsse:Security> 
+                                    </soapenv:Header> 
+                                 <soapenv:Body> 
+                                    <ser:CardInfoRequest> 
+                                       <ser:agentId>7</ser:agentId> 
+                                       <ser:salepointId>7</ser:salepointId> 
+                                       <ser:version>1</ser:version> 
+                                       <ser:sysNum>0100001148</ser:sysNum> 
+                                       <ser:regionId>99</ser:regionId> 
+                                       <ser:deviceId>B9900007</ser:deviceId> 
+                                    </ser:CardInfoRequest> 
+                                 </soapenv:Body> 
+                              </soapenv:Envelope>',
+                              'http://umarsh.ru/sdp/servicepojo',
+                              null,
+                              null,
+                              0
+                            );
       return view('pages.profile.test.payment',[
         'cards' => $cards,
         'current_card' => $current_card]);
