@@ -26,11 +26,11 @@ class UserController extends Controller
    * @return [type]         [description]
    */
   public function modifyToFullNumber($number){
-      $card_num_part2 = substr($number,1,2);
-      $card_num_part3  = substr($number,3,6);
-      if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
-      $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
-      return $full_card_number;
+    $card_num_part2 = substr($number,1,2);
+    $card_num_part3  = substr($number,3,6);
+    if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
+    $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
+    return $full_card_number;
   }
   /**
    * [generatePassword description]
@@ -134,14 +134,14 @@ class UserController extends Controller
        * @var [type]
        */
       $articles = DB::table('ETK_ARTICLES')
-       ->orderBy('created_at', 'desc')
-       ->take(3)
-       ->get();
-       Carbon::setLocale('ru');
-       foreach ($articles as $article) {
-          $non_formatted_date = new Carbon($article->created_at);
-          $date = $non_formatted_date->diffForHumans();
-          $article->created_at = $date;
+      ->orderBy('created_at', 'desc')
+      ->take(3)
+      ->get();
+      Carbon::setLocale('ru');
+      foreach ($articles as $article) {
+        $non_formatted_date = new Carbon($article->created_at);
+        $date = $non_formatted_date->diffForHumans();
+        $article->created_at = $date;
       }
       /**
        * SHOW LAST IMPORT DIFF
@@ -336,27 +336,27 @@ public function showDetailsReport(){
       if (Session::has('current_card_number')){
         $full_card_number = $this->modifyToFullNumber(session()->get('current_card_number'));
         if ($trips = DB::table('ETK_T_DATA')
-                    ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-                    ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
-                    ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
-                    ->orderBy('DATE_OF', 'DESC')
-                    ->paginate(15)){
+          ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+          ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->orderBy('DATE_OF', 'DESC')
+          ->paginate(15)){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
             switch ($trip->transport_type) {
               case 600013467:
-                $trip->transport_type = 'M32';
-                break;
+              $trip->transport_type = 'M32';
+              break;
               case 400013467:
-                $trip->transport_type = 'A32';
-                break;
+              $trip->transport_type = 'A32';
+              break;
               case 200013467:
-                $trip->transport_type = 'T32';
-                break;
+              $trip->transport_type = 'T32';
+              break;
               default:
-                $trip->transport_type = NULL;
-                break;
+              $trip->transport_type = NULL;
+              break;
             }
             if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
           }
@@ -368,27 +368,27 @@ public function showDetailsReport(){
        */
 
       $vehicle_chart = DB::table('ETK_T_DATA')
-          ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
-          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
-          ->groupBy('ETK_ROUTES.id_transport_mode')
-          ->get();
+      ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+      ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
+      ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+      ->groupBy('ETK_ROUTES.id_transport_mode')
+      ->get();
       $trip_count = 0;
       foreach ($vehicle_chart as $certain_vehicle) {
         $trip_count += $certain_vehicle->transport_type;
         switch ($certain_vehicle->id_transport_mode) {
           case 600013467:
-            $certain_vehicle->id_transport_mode = 'Пригородный автобус';
-            break;
+          $certain_vehicle->id_transport_mode = 'Пригородный автобус';
+          break;
           case 400013467:
-            $certain_vehicle->id_transport_mode = 'Автобус и МТ';
-            break;
+          $certain_vehicle->id_transport_mode = 'Автобус и МТ';
+          break;
           case 200013467:
-            $certain_vehicle->id_transport_mode = 'Троллейбус';
-            break;
+          $certain_vehicle->id_transport_mode = 'Троллейбус';
+          break;
           default:
-            $certain_vehicle->id_transport_mode = 'Неизвестно';
-            break;
+          $certain_vehicle->id_transport_mode = 'Неизвестно';
+          break;
         }
       }
       foreach ($vehicle_chart as $certain_vehicle) {
@@ -415,7 +415,7 @@ public function showDetailsReport(){
         'current_card' => $current_card,
         'vehicle_chart' => $vehicle_chart,
         'trip_count' => $trip_count
-         ]);
+        ]);
     }
     /**
      * [showSettings description]
@@ -433,7 +433,7 @@ public function showDetailsReport(){
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
       $card_types = DB::table('ETK_CARD_TYPES')
-                      ->get();
+      ->get();
       return view('pages.profile.settings',[
         'cards' => $cards,
         'current_card' => $current_card,
@@ -609,8 +609,8 @@ public function showDetailsReport(){
          $log->message = date('Y-m-d H:i:s') . " | Удален аккаунт пользвателя с номером карты " . $user->card_number;
          $log->save();
          DB::table('ETK_CARD_USERS')
-            ->where('user_id',$user_id)
-            ->delete();
+         ->where('user_id',$user_id)
+         ->delete();
          return redirect()->route('register');
        } else {
         Session::flash('account-not-deleted', 'Удалить аккаунт не удалось');
@@ -633,46 +633,46 @@ public function showDetailsReport(){
       if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
       $fullcard_number = $prefix . $serie . $number;
       $card = DB::table('ETK_CARDS')
-        ->where('num', $fullcard_number)
-        ->first();
+      ->where('num', $fullcard_number)
+      ->first();
       if ($card->state == 2){
-          Session::flash('error','Данная карта уже заблокирована');
-          return redirect()->back();
+        Session::flash('error','Данная карта уже заблокирована');
+        return redirect()->back();
       }
       $chip = $card->chip;
       /**
        * CHECK ON EXISTING OF THE CARD IN BLOCKLIST
        */
       if ((DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->where('is_loaded', 0)
-            ->first()) !== NULL){
-          Session::flash('error','Данная карта уже стоит в очереди на блокировку');
-          return redirect()->back();
-      }
+        ->where('card_number', $fullcard_number)
+        ->where('is_loaded', 0)
+        ->first()) !== NULL){
+        Session::flash('error','Данная карта уже стоит в очереди на блокировку');
+      return redirect()->back();
+    }
       /**
        * 
        */
       if (DB::table('ETK_BLOCKLISTS')
-            ->insert(['card_number' => $fullcard_number,
-              'chip' => $chip,
-              'operation_type' => $to_state,
-              'source' => 2,
-              'created_by' => $user_id
-              ]) && 
-          DB::table('ETK_CARD_USERS')
-            ->where('number', $current_card)
-            ->update(['block_state' => 1])){
-          Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист. Вы можете отменить блокировку до 18 часов текущего дня');
-          session()->put('current_card_block_state', 1);
+        ->insert(['card_number' => $fullcard_number,
+          'chip' => $chip,
+          'operation_type' => $to_state,
+          'source' => 2,
+          'created_by' => $user_id
+          ]) && 
+        DB::table('ETK_CARD_USERS')
+        ->where('number', $current_card)
+        ->update(['block_state' => 1])){
+        Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в блок-лист. Вы можете отменить блокировку до 18 часов текущего дня');
+      session()->put('current_card_block_state', 1);
           /*
            * LOGGING CARD BLOCKING
            * 
             */
-           $log = new \App\Log;
-           $log->action_type = 11;
-           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " поставил карту #" . $fullcard_number . " в блокировочный список из личного кабинета";
-           $log->save();
+          $log = new \App\Log;
+          $log->action_type = 11;
+          $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " поставил карту #" . $fullcard_number . " в блокировочный список из личного кабинета";
+          $log->save();
           /**
            * 
            */
@@ -681,7 +681,7 @@ public function showDetailsReport(){
           Session::flash('error','Не удалось добавить карту в блок-лист. Напишите нам');
           return redirect()->back();
         }
-    }
+      }
     /**
      * [postCancelBlockCard description]
      * @param  Request $request [description]
@@ -699,32 +699,32 @@ public function showDetailsReport(){
 
 
       if (($last_block_request = DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->orderBy('updated_at', 'DESC')
-            ->first()) !== NULL){
-          if ($last_block_request->is_loaded == 1){
-            Session::flash('error','Снять карту с очереди на блокировку не удалось. Она уже загружена в блок-лист');
-            return redirect()->back();
-          }
+        ->where('card_number', $fullcard_number)
+        ->orderBy('updated_at', 'DESC')
+        ->first()) !== NULL){
+        if ($last_block_request->is_loaded == 1){
+          Session::flash('error','Снять карту с очереди на блокировку не удалось. Она уже загружена в блок-лист');
+          return redirect()->back();
+        }
       }
 
       if ((DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->where('is_loaded', 0)
-            ->delete()) && 
+        ->where('card_number', $fullcard_number)
+        ->where('is_loaded', 0)
+        ->delete()) && 
         DB::table('ETK_CARD_USERS')
-            ->where('number', $current_card)
-            ->update(['block_state' => 0])){
-            Session::flash('success','Карта ' . $fullcard_number . ' успешно снята с очереди на блокировку.');
-          session()->put('current_card_block_state', 0);
+        ->where('number', $current_card)
+        ->update(['block_state' => 0])){
+        Session::flash('success','Карта ' . $fullcard_number . ' успешно снята с очереди на блокировку.');
+      session()->put('current_card_block_state', 0);
             /*
            * LOGGING CANCEL CARD BLOCKING
            * 
             */
-           $log = new \App\Log;
-           $log->action_type = 12;
-           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " отменил блокировку карты #" . $fullcard_number . " из личного кабинета";
-           $log->save();
+            $log = new \App\Log;
+            $log->action_type = 12;
+            $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " отменил блокировку карты #" . $fullcard_number . " из личного кабинета";
+            $log->save();
           /**
            * 
            */
@@ -733,13 +733,13 @@ public function showDetailsReport(){
           Session::flash('error','Что-то пошло не так. Снять карту с очереди на блокировку не удалось. Напишите нам');
           return redirect()->back();
         }
-    }
+      }
     /**
      * [postBlockCard description]
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-      public function postUnBlockCard(Request $request){
+    public function postUnBlockCard(Request $request){
       $current_card = $request['current_card'];
       $user_id = $request['user_id'];
       $source = 2;
@@ -750,46 +750,46 @@ public function showDetailsReport(){
       if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
       $fullcard_number = $prefix . $serie . $number;
       $card = DB::table('ETK_CARDS')
-        ->where('num', $fullcard_number)
-        ->first();
+      ->where('num', $fullcard_number)
+      ->first();
       if ($card->state == 1){
-          Session::flash('error','Данная карта не заблокирована');
-          return redirect()->back();
+        Session::flash('error','Данная карта не заблокирована');
+        return redirect()->back();
       }
       $chip = $card->chip;
       /**
        * CHECK ON EXISTING OF THE CARD IN BLOCKLIST
        */
       if ((DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->where('is_loaded', 0)
-            ->first()) !== NULL){
-          Session::flash('error','Данная карта уже стоит в очереди на разблокировку');
-          return redirect()->back();
-      }
+        ->where('card_number', $fullcard_number)
+        ->where('is_loaded', 0)
+        ->first()) !== NULL){
+        Session::flash('error','Данная карта уже стоит в очереди на разблокировку');
+      return redirect()->back();
+    }
       /**
        * 
        */
       if (DB::table('ETK_BLOCKLISTS')
-            ->insert(['card_number' => $fullcard_number,
-              'chip' => $chip,
-              'operation_type' => $to_state,
-              'source' => 2,
-              'created_by' => $user_id
-              ]) && 
-          DB::table('ETK_CARD_USERS')
-            ->where('number', $current_card)
-            ->update(['block_state' => 2])){
-          Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в деблок-лист. Вы не можете отменить разблокировку');
-        session()->put('current_card_block_state', 2);
+        ->insert(['card_number' => $fullcard_number,
+          'chip' => $chip,
+          'operation_type' => $to_state,
+          'source' => 2,
+          'created_by' => $user_id
+          ]) && 
+        DB::table('ETK_CARD_USERS')
+        ->where('number', $current_card)
+        ->update(['block_state' => 2])){
+        Session::flash('success','Карта ' . $fullcard_number . ' успешно добавлена в деблок-лист. Вы не можете отменить разблокировку');
+      session()->put('current_card_block_state', 2);
           /*
            * LOGGING CARD BLOCKING
            * 
             */
-           $log = new \App\Log;
-           $log->action_type = 13;
-           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " поставил карту #" . $fullcard_number . " в деблокировочный список из личного кабинета";
-           $log->save();
+          $log = new \App\Log;
+          $log->action_type = 13;
+          $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " поставил карту #" . $fullcard_number . " в деблокировочный список из личного кабинета";
+          $log->save();
           /**
            * 
            */
@@ -798,7 +798,7 @@ public function showDetailsReport(){
           Session::flash('error','Не удалось добавить карту в деблок-лист. Напишите нам');
           return redirect()->back();
         }
-    }
+      }
     /**
      * [postCancelBlockCard description]
      * @param  Request $request [description]
@@ -815,32 +815,32 @@ public function showDetailsReport(){
       $fullcard_number = $prefix . $serie . $number;
 
       if (($last_unblock_request = DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->orderBy('updated_at', 'DESC')
-            ->first()) !== NULL){
-          if ($last_unblock_request->is_loaded == 1){
-            Session::flash('error','Снять карту с очереди на разблокировку не удалось. Она уже загружена в деблок-лист');
-            return redirect()->back();
-          }
+        ->where('card_number', $fullcard_number)
+        ->orderBy('updated_at', 'DESC')
+        ->first()) !== NULL){
+        if ($last_unblock_request->is_loaded == 1){
+          Session::flash('error','Снять карту с очереди на разблокировку не удалось. Она уже загружена в деблок-лист');
+          return redirect()->back();
+        }
       }
 
       if ((DB::table('ETK_BLOCKLISTS')
-            ->where('card_number', $fullcard_number)
-            ->where('is_loaded', 0)
-            ->delete()) && 
+        ->where('card_number', $fullcard_number)
+        ->where('is_loaded', 0)
+        ->delete()) && 
         DB::table('ETK_CARD_USERS')
-            ->where('number', $current_card)
-            ->update(['block_state' => 0])){
-            Session::flash('success','Карта ' . $fullcard_number . ' успешно снята с очереди на разблокировку.');
-          session()->put('current_card_block_state', 0);
+        ->where('number', $current_card)
+        ->update(['block_state' => 0])){
+        Session::flash('success','Карта ' . $fullcard_number . ' успешно снята с очереди на разблокировку.');
+      session()->put('current_card_block_state', 0);
             /*
            * LOGGING CANCEL CARD BLOCKING
            * 
             */
-           $log = new \App\Log;
-           $log->action_type = 14;
-           $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " отменил разблокировку карты #" . $fullcard_number . " из личного кабинета";
-           $log->save();
+            $log = new \App\Log;
+            $log->action_type = 14;
+            $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " отменил разблокировку карты #" . $fullcard_number . " из личного кабинета";
+            $log->save();
           /**
            * 
            */
@@ -849,7 +849,7 @@ public function showDetailsReport(){
           Session::flash('error','Что-то пошло не так. Снять карту с очереди на разблокировку не удалось. Напишите нам');
           return redirect()->back();
         }
-    }
+      }
       /**
      * CHANGE PHONE
      * @param  Request $request [description]
@@ -936,50 +936,50 @@ public function showDetailsReport(){
        */
       $full_card_number = $this->modifyToFullNumber($current_card);
       if ($card_info = DB::table('ETK_CARDS')
-                    ->where('num', $full_card_number )
-                    ->first()){
+        ->where('num', $full_card_number )
+        ->first()){
         session()->put('current_card_balance', $card_info->ep_balance_fact);
-        $non_formatted_date = new \DateTime($card_info->date_of_travel_doc_kind_last);
-        $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
-        session()->put('current_card_last_transaction', $last_transaction);
-        session()->put('current_card_verified', $card->verified);
-        session()->put('current_card_block_state', $card->block_state);
+      $non_formatted_date = new \DateTime($card_info->date_of_travel_doc_kind_last);
+      $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
+      session()->put('current_card_last_transaction', $last_transaction);
+      session()->put('current_card_verified', $card->verified);
+      session()->put('current_card_block_state', $card->block_state);
         /**
          * CARD KIND : персональная или на предъявителя
          */
         switch ($card_info->kind) {
           case 1:
-            session()->put('current_card_kind', 'Персональная');
-            break;
+          session()->put('current_card_kind', 'Персональная');
+          break;
           case 2:
-            session()->put('current_card_kind', 'На предъявителя');
-            break;
+          session()->put('current_card_kind', 'На предъявителя');
+          break;
           default:
-            session()->put('current_card_kind', 'Не определен');
-            break;
+          session()->put('current_card_kind', 'Не определен');
+          break;
         }
         /**
          * CARD STATE : Состояние карты(1-в обращении, 2-в блок списке, 3-заблокирована, 4-в деблок списке, 5-изъята, 6-чужая в блок, 7-чужая из блок, 8-Заблокирована по списку терминалов)
          */
         switch ($card_info->state) {
           case 1:
-            session()->put('current_card_state', 'В обращении');
-            break;
+          session()->put('current_card_state', 'В обращении');
+          break;
           case 2:
-            session()->put('current_card_state', 'В блокировочном списке');
-            break;
+          session()->put('current_card_state', 'В блокировочном списке');
+          break;
           case 3:
-            session()->put('current_card_state', 'Заблокирована');
-            break;
+          session()->put('current_card_state', 'Заблокирована');
+          break;
           case 4:
-            session()->put('current_card_state', 'В деблокировочном списке');
-            break;
+          session()->put('current_card_state', 'В деблокировочном списке');
+          break;
           case 5:
-            session()->put('current_card_state', 'Изъята');
-            break; 
+          session()->put('current_card_state', 'Изъята');
+          break; 
           default:
-            session()->put('current_card_state', 'Не определено');
-            break;
+          session()->put('current_card_state', 'Не определено');
+          break;
         }
       } else {
         session()->put('current_card_balance', '0');
@@ -1087,27 +1087,27 @@ public function showDetailsReport(){
        * @var [type]
        */
       DB::transaction(function() use ($email,$confirmation_token,$user_id, $password){
-            DB::table('users')
-              ->where('email',$email)
-              ->update(['confirmation_token' => $confirmation_token]);
-            DB::table('ETK_TEMP_PASSWORDS')
-              ->insert(['user_id' => $user_id, 
-                        'password' => $password
-            ]);  
+        DB::table('users')
+        ->where('email',$email)
+        ->update(['confirmation_token' => $confirmation_token]);
+        DB::table('ETK_TEMP_PASSWORDS')
+        ->insert(['user_id' => $user_id, 
+          'password' => $password
+          ]);  
       });
-        Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id));
-        if (DB::table('ETK_TEMP_PASSWORDS')
-              ->where('user_id', $user_id)
-              ->first()){
-         Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
-         return redirect()->back();
-        } else {
-         Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
-         return redirect()->back()->withInput();
-        }
-       Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
-       return redirect()->back();
+      Mail::to($request->email)->send(new SendNewPassword($password_to_send, $password, $confirmation_token, $user_id));
+      if (DB::table('ETK_TEMP_PASSWORDS')
+        ->where('user_id', $user_id)
+        ->first()){
+       Session::flash('reset-link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
+     return redirect()->back();
+   } else {
+     Session::flash('saving-fail', 'Что-то пошло не так... Попробуйте повторить позднее');
+     return redirect()->back()->withInput();
    }
+   Session::flash('link-sent', 'Вам было отправлено электронное письмо. Вам необходимо подтвердить изменение пароля.');
+   return redirect()->back();
+ }
     /**
  * CONFIRM PASSWORD CHANGING
  * @param  [type] $register_token [description]
@@ -1115,22 +1115,22 @@ public function showDetailsReport(){
  */
     public function confirmNewPassword($confirmation_token,$user_id){
       $account = DB::table('users')
-                    ->where('confirmation_token',$confirmation_token)
-                    ->first();
+      ->where('confirmation_token',$confirmation_token)
+      ->first();
       if ($account == NULL){
         Session::flash('confirmation-failed', 'Хмм.. Вашей заявки восстановления доступа не обнаружено');
         return redirect()->route('login');
       } else {
         DB::transaction(function() use ($user_id,$account){
           $new_password = DB::table('ETK_TEMP_PASSWORDS')
-              ->where('user_id',$user_id)
-              ->first();
+          ->where('user_id',$user_id)
+          ->first();
           DB::table('users')
-            ->where('id', $account->id)
-            ->update(['password' => $new_password->password, 'confirmation_token' => NULL]);
+          ->where('id', $account->id)
+          ->update(['password' => $new_password->password, 'confirmation_token' => NULL]);
           DB::table('ETK_TEMP_PASSWORDS')
-             ->where('user_id',$user_id)
-             ->delete();
+          ->where('user_id',$user_id)
+          ->delete();
         });
         Session::flash('confirmation-success', 'Ваш пароль успешно изменен');
         return redirect()->route('login');
@@ -1164,16 +1164,16 @@ public function showDetailsReport(){
       $card_number     = $request['card_number'];
       $user_id         = $request['user_id'];
       if (DB::table('ETK_CARD_USERS')
-            ->where('user_id', $user_id)
-            ->where('number',$card_number)
-            ->update(['card_image_type' => $card_image_type])){
+        ->where('user_id', $user_id)
+        ->where('number',$card_number)
+        ->update(['card_image_type' => $card_image_type])){
         Session::flash('change_card_image_ok', 'Изображение карты успешно изменено');
-        return redirect()->back();
-      } else {
-        Session::flash('change_card_image_fail', 'Упс... Изображение карты изменить не удалось');
-        return redirect()->back();
-      }
+      return redirect()->back();
+    } else {
+      Session::flash('change_card_image_fail', 'Упс... Изображение карты изменить не удалось');
+      return redirect()->back();
     }
+  }
     /**
      * [postVerifyCard description]
      * @param  Request $request [description]
@@ -1186,33 +1186,33 @@ public function showDetailsReport(){
 
       $full_card_number = $this->modifyToFullNumber($card_number);
       if ($card = DB::table('ETK_CARDS')
-          ->where('num', $full_card_number)
-          ->first()){
+        ->where('num', $full_card_number)
+        ->first()){
         if ($chip_from_db = substr($card->chip,0,8)){
           if ($chip == $chip_from_db) {
             DB::table('ETK_CARD_USERS')
-              ->where('user_id', $user_id)
-              ->where('number', $card_number)
-              ->update(['verified' => 1]);
-              Session::flash('verified-ok', 'Карта успешно подтверждена!');
-              return redirect()->back();
+            ->where('user_id', $user_id)
+            ->where('number', $card_number)
+            ->update(['verified' => 1]);
+            Session::flash('verified-ok', 'Карта успешно подтверждена!');
+            return redirect()->back();
           } else {
             Session::flash('verified-fail', 'Коды не совпадают!');
             return redirect()->back();
           }
         } else return redirect()->back();
       } else {
-          Session::flash('verified-card-search-fail', 'Такая карта не найдена!');
-          return redirect()->back();
+        Session::flash('verified-card-search-fail', 'Такая карта не найдена!');
+        return redirect()->back();
       }
       if ($chip_from_db = substr($card->chip,0,8)){
         if ($chip == $chip_from_db) {
           DB::table('ETK_CARD_USERS')
-            ->where('user_id', $user_id)
-            ->where('number', $card_number)
-            ->update(['verified' => 1]);
-            Session::flash('verified-ok', 'Карта успешно подтверждена!');
-            return redirect()->back();
+          ->where('user_id', $user_id)
+          ->where('number', $card_number)
+          ->update(['verified' => 1]);
+          Session::flash('verified-ok', 'Карта успешно подтверждена!');
+          return redirect()->back();
         } else {
           Session::flash('verified-fail', 'Коды не совпадают!');
           return redirect()->back();
@@ -1268,14 +1268,39 @@ public function showDetailsReport(){
        * @var Payment
        */
       
-      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_2, 'trace' => true));
+      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true));
+      $response = $cardInfo->__doRequest(
+        '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
+   <soapenv:Header> 
+         <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"> 
+         <wsse:UsernameToken xmlns:wsu="..."> 
+            <wsse:Username>admin</wsse:Username> 
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">1</wsse:Password> 
+         </wsse:UsernameToken> 
+      </wsse:Security> 
+      </soapenv:Header> 
+   <soapenv:Body> 
+      <ser:CardInfoRequest> 
+         <ser:agentId>7</ser:agentId> 
+         <ser:salepointId>7</ser:salepointId> 
+         <ser:version>1</ser:version> 
+         <ser:sysNum>0100001148</ser:sysNum> 
+         <ser:regionId>99</ser:regionId> 
+         <!--Optional:--> 
+         <ser:deviceId>B9900007</ser:deviceId> 
+      </ser:CardInfoRequest> 
+   </soapenv:Body> 
+</soapenv:Envelope>'
+,'http://195.182.143.218:8888/SDPServer/SDPendpoints',null, SOAP_1_1,0 );
+      return $response;
     // dd($cardInfo->__getTypes());
     //  $cardInfo->CardInfo();
-      $cardInfo->CardInfo('0100001148',99,'B9900007');
-      $cardInfo->__soapCall('CardInfo',array('sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'));
-
-      return view('pages.profile.test.payment',[
-        'cards' => $cards,
-        'current_card' => $current_card]);
+  //    $cardInfo->CardInfo('7','7','1','0100001148',99,'B9900007');
+  //    $cardInfo->__soapCall('CardInfo',array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'),
+  //      NULL, new SoapHeader(), NULL);
+  //    dd($cardInfo);
+  //    return view('pages.profile.test.payment',[
+  //      'cards' => $cards,
+  //      'current_card' => $current_card]);
     }
   }
