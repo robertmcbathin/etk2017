@@ -99,7 +99,7 @@ class UserController extends Controller
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
-      if (Session::has('current_card_number')){
+    /**  if (Session::has('current_card_number')){
         $full_card_number = $this->modifyToFullNumber(Session::get('current_card_number'));
         if ($trips = DB::table('ETK_T_DATA')
                     ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
@@ -128,7 +128,7 @@ class UserController extends Controller
             if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
           }
         } else $trips = null;
-      } else $trips = null;
+      } else $trips = null;**/
       /**
        * GET ARTICLES
        * @var [type]
@@ -195,7 +195,7 @@ class UserController extends Controller
         'cards' => $cards,
         'current_card' => $current_card,
         'articles' => $articles,
-        'trips' => $trips
+       // 'trips' => $trips
      //   'card_count' => $card_count
         ]);
      }
@@ -1267,35 +1267,13 @@ public function showDetailsReport(){
        * PAYMENT SOAP CARDINFO
        * @var Payment
        */
-      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => 1));
-   /*   dd($cardInfo->__getFunctions());*/
-      dd($cardInfo->__soapCall('CardInfo',array('agentId' => 7)));
-      $cardInfo->__soapCall('CardInfo',array('agentId' => 7));
-      $cardInfo->__doRequest('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
-                                 <soapenv:Header> 
-                                       <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"> 
-                                       <wsse:UsernameToken xmlns:wsu="..."> 
-                                          <wsse:Username>admin</wsse:Username> 
-                                          <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">1</wsse:Password> 
-                                       </wsse:UsernameToken> 
-                                    </wsse:Security> 
-                                    </soapenv:Header> 
-                                 <soapenv:Body> 
-                                    <ser:CardInfoRequest> 
-                                       <ser:agentId>7</ser:agentId> 
-                                       <ser:salepointId>7</ser:salepointId> 
-                                       <ser:version>1</ser:version> 
-                                       <ser:sysNum>0100001148</ser:sysNum> 
-                                       <ser:regionId>99</ser:regionId> 
-                                       <ser:deviceId>B9900007</ser:deviceId> 
-                                    </ser:CardInfoRequest> 
-                                 </soapenv:Body> 
-                              </soapenv:Envelope>',
-                              'http://umarsh.ru/sdp/servicepojo',
-                              null,
-                              null,
-                              0
-                            );
+      
+      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_2, 'trace' => true));
+    // dd($cardInfo->__getTypes());
+    //  $cardInfo->CardInfo();
+      $cardInfo->CardInfo('0100001148',99,'B9900007');
+      $cardInfo->__soapCall('CardInfo',array('sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'));
+
       return view('pages.profile.test.payment',[
         'cards' => $cards,
         'current_card' => $current_card]);

@@ -167,31 +167,7 @@
              @endif
            </ul>
            <hr>
-           <h4 class="title">Операции по карте</h4>
-           @if (Session::get('current_card_verified') == 1)
-           <small class="muted">Последние 15 операций по карте</small>
-           <table class="table" id="profile-trips-table">
-            <tbody>
-              @if ($trips)
-              @foreach ($trips as $trip)
-              <tr>
-                <td>{{ $trip->DATE_OF }}</td>
-                <td> <img src="/images/icons/{{$trip->transport_type}}.png" alt=""> {{ $trip->name }}</td>
-                <td>{{ $trip->AMOUNT }} <i class="fa fa-ruble"></i></td>
-              </tr>
-              @endforeach
-              <small class="description">Информация за последний месяц в разделе <a href="{{ route('profile.details_report') }}"> поездки и списания </a></small>
-              @else
-              <small class="description">Информации о поездках нет</small>
-              @endif
 
-            </tbody>
-
-          </table>
-          @else
-          <small class="muted">Карта не подтверждена. Вы не можете просмотреть операции по ней.</small>
-          @endif
-          <hr>
         </div>
       </div>
     </div>

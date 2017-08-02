@@ -8,8 +8,6 @@ use \SoapServer;
 
 class Payment extends SoapClient
 {
-	public $wsdl = 'http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl';
-	protected $options = null;
 	protected $request = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
    <soapenv:Header> 
          <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"> 
@@ -37,12 +35,12 @@ class Payment extends SoapClient
         $this->server = new SoapServer($wsdl, $options);
 	}
     
- /**   function __doRequest($request,$location, $action, $version, $one_way = 0){
+    function __doRequest($request,$location, $action, $version, $one_way = 0){
    		ob_start();
     	$this->server->handle($request);
     	$response = ob_get_contents();
     	ob_end_clean();
     	return $response;
-    }**/
+    }
 
 }
