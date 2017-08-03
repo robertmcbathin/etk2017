@@ -6,6 +6,10 @@ use DB;
 use Session;
 use \DateTime;
 use \DateInterval;
+use \SoapClient;
+use \SoapServer;
+use \SimpleXML;
+use \SimpleXMLElement;
 use Hash;
 use Mail;
 use App\Mail\ChangeEmail;
@@ -1268,7 +1272,35 @@ public function showDetailsReport(){
        * @var Payment
        */
       
+      $cardInfo = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+      $params = array(
+        "id" => 100,
+        "name" => "John",
+        "description" => "Barrel of Oil",
+        "amount" => 500,
+      );
+      dd($cardInfo->__getTypes()); 
+      dd($cardInfo->__soapCall('CardInfo', array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007')));
+      return $response;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true));
+      $response = $cardInfo->__soapCall('CardInfo', array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'));
+      return $response;
+
+
       $response = $cardInfo->__doRequest(
         '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
    <soapenv:Header> 
@@ -1292,6 +1324,14 @@ public function showDetailsReport(){
    </soapenv:Body> 
 </soapenv:Envelope>'
 ,'http://195.182.143.218:8888/SDPServer/SDPendpoints',null, SOAP_1_1,0 );
+
+ //     $cardInfoStringResponse = new SimpleXMLElement($response);
+      $cardInfoResponseString = simplexml_load_string($response);
+      return $cardInfoResponseString;
+      $cardInfoResponse = new SimpleXMLElement($cardInfoResponseString);
+      
+      return $cardInfoResponse;
+      return $cardInfoResponse->CardInfoResponse->CardInformation->sessionId;
       return $response;
     // dd($cardInfo->__getTypes());
     //  $cardInfo->CardInfo();

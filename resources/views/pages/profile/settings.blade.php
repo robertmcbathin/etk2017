@@ -639,7 +639,7 @@
                  <input type="text" class="form-control" id="card_number" name="card_number" value="{{ old('card_number') }}" required autofocus placeholder="000000000" minlength="9" maxlength="9">
                  <span class="material-input" id="card_preview">Тип карты</span>
                  <p class="text-muted">9 цифр. Для карт нового образца: номер карты без серии. Для остальных: серия и номер, начиная с 0. Например: 023000001</p>
-                 <p class="text-muted">Доступные на текущий момент серии: 21,23,25,26,33,34,36,37,40,41,43,44,97,99</p>
+                 <p class="text-muted">Доступные на текущий момент серии: 21,23,25,26,33,34,36,37,40,41,43,44,97 - Банковская транспортная карта,99 - УЭК</p>
                  {{ csrf_field()}}
                  <button type="submit" class="btn btn-profile">Добавить карту</button>
                </div>

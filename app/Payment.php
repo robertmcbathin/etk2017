@@ -15,6 +15,8 @@ class Payment extends SoapClient
         $this->server = new SoapServer($wsdl, $options);
 	}
     
-
+	function __doRequest($request, $location, $action, $version, $one_way = 0){
+		return parent::__doRequest($request, $location, $action, $version, $one_way = 0);
+	}
 
 }
