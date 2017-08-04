@@ -1256,7 +1256,7 @@ public function showDetailsReport(){
      * [showDepositPage description]
      * @return [type] [description]
      */
-    public function getTestPaymentPage(){
+    public function getTestUnitellerPaymentPage(){
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -1273,23 +1273,14 @@ public function showDetailsReport(){
        * @var Payment
        */
       
+      /
       $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
-      $params = array(
-        "id" => 100,
-        "name" => "John",
-        "description" => "Barrel of Oil",
-        "amount" => 500,
-      );
-     // dd($cardInfo->__getTypes()); 
       $params = array('agentId' => '7', 
                       'salepointId' => '7', 
                       'version' => '1', 
                       'sysNum' => '0100001148', 
                       'regionId' => 99, 
                       'deviceId' => 'B9900007');
-     // $header = new SoapHeader('<wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">','fuck');
-  //    $soap_header = new SoapHeader()
-     // dd($header);
 
       $username = 'admin';
       $password = '1';
@@ -1301,65 +1292,5 @@ public function showDetailsReport(){
        * FUCKING AWESOME!
        **/
       return $response;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      $cardInfo = new Payment('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true));
-      $response = $cardInfo->__soapCall('CardInfo', array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'));
-      return $response;
-
-
-      $response = $cardInfo->__doRequest(
-        '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://umarsh.ru/sdp/servicepojo"> 
-   <soapenv:Header> 
-         <wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"> 
-         <wsse:UsernameToken xmlns:wsu="..."> 
-            <wsse:Username>admin</wsse:Username> 
-            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">1</wsse:Password> 
-         </wsse:UsernameToken> 
-      </wsse:Security> 
-      </soapenv:Header> 
-   <soapenv:Body> 
-      <ser:CardInfoRequest> 
-         <ser:agentId>7</ser:agentId> 
-         <ser:salepointId>7</ser:salepointId> 
-         <ser:version>1</ser:version> 
-         <ser:sysNum>0100001148</ser:sysNum> 
-         <ser:regionId>99</ser:regionId> 
-         <!--Optional:--> 
-         <ser:deviceId>B9900007</ser:deviceId> 
-      </ser:CardInfoRequest> 
-   </soapenv:Body> 
-</soapenv:Envelope>'
-,'http://195.182.143.218:8888/SDPServer/SDPendpoints',null, SOAP_1_1,0 );
-
- //     $cardInfoStringResponse = new SimpleXMLElement($response);
-      $cardInfoResponseString = simplexml_load_string($response);
-      return $cardInfoResponseString;
-      $cardInfoResponse = new SimpleXMLElement($cardInfoResponseString);
-      
-      return $cardInfoResponse;
-      return $cardInfoResponse->CardInfoResponse->CardInformation->sessionId;
-      return $response;
-    // dd($cardInfo->__getTypes());
-    //  $cardInfo->CardInfo();
-  //    $cardInfo->CardInfo('7','7','1','0100001148',99,'B9900007');
-  //    $cardInfo->__soapCall('CardInfo',array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007'),
-  //      NULL, new SoapHeader(), NULL);
-  //    dd($cardInfo);
-  //    return view('pages.profile.test.payment',[
-  //      'cards' => $cards,
-  //      'current_card' => $current_card]);
     }
   }
