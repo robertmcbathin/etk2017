@@ -8,6 +8,7 @@ use \DateTime;
 use \DateInterval;
 use \SoapClient;
 use \SoapServer;
+use \SoapHeader;
 use \SimpleXML;
 use \SimpleXMLElement;
 use Hash;
@@ -16,7 +17,7 @@ use App\Mail\ChangeEmail;
 use App\Mail\SendNewPassword;
 use Carbon\Carbon;
 use \App\Log;
-use \App\Payment;
+use \App\WsseAuthHeader;
 use Storage;
 use File;
 use \App\Http\Controllers\PaymentController;
@@ -1272,15 +1273,33 @@ public function showDetailsReport(){
        * @var Payment
        */
       
-      $cardInfo = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+      $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
       $params = array(
         "id" => 100,
         "name" => "John",
         "description" => "Barrel of Oil",
         "amount" => 500,
       );
-      dd($cardInfo->__getTypes()); 
-      dd($cardInfo->__soapCall('CardInfo', array('agentId' => '7', 'salepointId' => '7', 'version' => '1', 'sysNum' => '0100001148', 'regionId' => 99, 'deviceId' => 'B9900007')));
+     // dd($cardInfo->__getTypes()); 
+      $params = array('agentId' => '7', 
+                      'salepointId' => '7', 
+                      'version' => '1', 
+                      'sysNum' => '0100001148', 
+                      'regionId' => 99, 
+                      'deviceId' => 'B9900007');
+     // $header = new SoapHeader('<wsse:Security soapenv:mustUnderstand="0" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">','fuck');
+  //    $soap_header = new SoapHeader()
+     // dd($header);
+
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      $cardInfo = $client->__soapCall('CardInfo', array($params));
+      dd($cardInfo);
+      /**
+       * FUCKING AWESOME!
+       **/
       return $response;
 
 
