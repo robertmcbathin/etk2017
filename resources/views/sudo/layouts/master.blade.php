@@ -659,7 +659,7 @@ if ($('#card_serie').val().length == 2){
         htmlNull = '<h3 id=\"compensations-results-none\"></h3>';
         for (var i = 0; i <= msg['data'].length - 1; i++) {
                     if (msg.data[i].is_compensated == 0){
-           msg.data[i].is_compensated = "<form action=\"https://etk21.ru/sudo/compensate\" method=\"POST\"><input type=\"hidden\" name=\"transaction_number\" value=\"" + msg.data[i].transaction_number + "\"><input type=\"hidden\" name=\"value\" value=\"" + msg.data[i].value + "\"><input type=\"hidden\" name=\"card_number\" value=\"" + msg.data[i].card_number + "\"><input type=\"submit\" class=\"btn btn-primary\" value=\"Возместить\"></form>";
+           msg.data[i].is_compensated = "<form action=\"https://etk21.ru/sudo/compensate\" method=\"POST\"><input type=\"hidden\" name=\"transaction_number\" value=\"" + msg.data[i].transaction_number + "\"><input type=\"hidden\" name=\"value\" value=\"" + msg.data[i].value + "\"><input type=\"hidden\" name=\"card_number\" value=\"" + msg.data[i].card_number + "\"><input type=\"hidden\" name=\"_token\" value=\"" + token + "\"><input type=\"submit\" class=\"btn btn-primary\" value=\"Возместить\"></form>";
 
           } else msg.data[i].is_compensated = '<i class="material-icons">done</i>';
           if (msg.data[i].terminal_number == 'SELLING'){

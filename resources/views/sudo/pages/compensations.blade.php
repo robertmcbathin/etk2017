@@ -7,16 +7,33 @@
     @include('sudo.includes.top-nav')
     <div class="content">
         <div class="container-fluid">
-
-
-
+<script>
+  var token = '{{ Session::token() }}';
+</script>
+        @if (Session::has('success'))
+        <div class="row">
+          <div class="container">
+            <div class="alert alert-success">
+              <div class="container">
+                <div class="alert-icon">
+                  <i class="material-icons">error_outline</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <strong>{{Session::pull('success')}}</strong>
+              </div>
+            </div>  
+          </div>
+        </div>
+        @endif
           <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-icon" data-background-color="rose">
                         <i class="material-icons">credit_card</i>
                     </div>                
-                    <h4 class="card-title">Операции по картам -
+                    <h4 class="card-title">Возмещение по картам -
                         <small class="category">Введите номер карты</small>
                     </h4>
                     <div class="card-content">
