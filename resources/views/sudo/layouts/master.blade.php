@@ -567,10 +567,13 @@
         html = '<tbody id=\"operations-results\">';
         htmlNull = '<h3 id=\"operations-results-none\"></h3>';
         for (var i = 0; i <= msg['data'].length - 1; i++) {
+          if (msg.data[i].is_compensated == 0){
+           msg.data[i].is_compensated = '<i class="material-icons">clear</i>';
+          } else msg.data[i].is_compensated = '<i class="material-icons">done</i>';
           if (msg.data[i].terminal_number == 'SELLING'){
-            html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td><span class='material-icons'>shopping_cart</span> Продажа</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+            html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td><span class='material-icons'>shopping_cart</span> Продажа</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td><td class=\"text-right\">"  + msg.data[i].is_compensated + "</td></tr>";
           } else 
-          html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td></tr>";
+          html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td><td class=\"text-right\">"  + msg.data[i].is_compensated + "</td></tr>";
         }
         html += '</tbody>';
         $('#operations-results-none').replaceWith(htmlNull);
@@ -607,6 +610,80 @@ if ($('#card_serie').val().length == 2){
   $('#block-button').removeAttr('disabled');
   $('#serie').val($('#card_serie').val());
 } else $('#block-button').attr('disabled','disabled');
+};
+});
+</script>
+
+
+
+<script>
+  $('.compensations-handler').on('keyup', function(){
+    if ($('#card_number').val().length > 5) { 
+  /**
+  * SHOW PRELOADERS
+  */
+  preloaderTrips = '<div class=\"progress\" id=\"trips-preloader\"><div class=\"indeterminate\"></div></div>';
+  preloaderInfo = '<div class=\"progress\" id=\"info-preloader\"><div class=\"indeterminate\"></div></div>';
+  preloaderRefills = '<div class=\"progress\" id=\"refills-preloader\"><div class=\"indeterminate\"></div></div>';
+  $('#refills-preloader').replaceWith(preloaderRefills);
+  $('#info-preloader').replaceWith(preloaderInfo);
+  $('#trips-preloader').replaceWith(preloaderTrips);
+  /**
+   * GET DATA
+   */
+   $.ajax({
+    method: 'POST',
+    url: url,
+    data: { 
+      num: $('#card_number').val(),
+      serie: $('#card_serie').val(), 
+      _token: token}
+    })
+   .done(function(msg){
+    console.log(JSON.stringify(msg));
+    if ((msg['message']) == 'error'){
+      console.log('Произошла ошибка');
+    };
+    if ((msg['message']) == 'success'){
+      /**
+       * LOAD CARD DATA
+       */
+      /**
+       * END OF LOAD CARD DATA
+       */
+      /**
+       * LOAD REFILLS DATA
+       */
+       if (msg['data'].length > 0){
+        html = '<tbody id=\"compensations-results\">';
+        htmlNull = '<h3 id=\"compensations-results-none\"></h3>';
+        for (var i = 0; i <= msg['data'].length - 1; i++) {
+                    if (msg.data[i].is_compensated == 0){
+           msg.data[i].is_compensated = "<form action=\"https://etk21.ru/sudo/compensate\" method=\"POST\"><input type=\"hidden\" name=\"transaction_number\" value=\"" + msg.data[i].transaction_number + "\"><input type=\"hidden\" name=\"value\" value=\"" + msg.data[i].value + "\"><input type=\"hidden\" name=\"card_number\" value=\"" + msg.data[i].card_number + "\"><input type=\"submit\" class=\"btn btn-primary\" value=\"Возместить\"></form>";
+
+          } else msg.data[i].is_compensated = '<i class="material-icons">done</i>';
+          if (msg.data[i].terminal_number == 'SELLING'){
+            html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td><span class='material-icons'>shopping_cart</span> Продажа</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td><td class=\"text-right\">"  + msg.data[i].is_compensated + "</td></tr>";
+          } else 
+          html += "<tr><td>" + msg.data[i].card_number + "</td><td>" + msg.data[i].transaction_number + "</td><td>"  + msg.data[i].terminal_number + "</td><td class=\"text-right\">"  + msg.data[i].value + "</td><td class=\"text-right\">"  + msg.data[i].transaction_date + "</td><td class=\"text-right\">"  + msg.data[i].is_compensated + "</td></tr>";
+        }
+        html += '</tbody>';
+        $('#compensations-results-none').replaceWith(htmlNull);
+        $('#compensations-results').replaceWith(html);
+        preloaderRefillsNull = '<div id=\"refills-preloader\"></div>';
+        $('#refills-preloader').replaceWith(preloaderRefillsNull);        
+      } else {
+        html = '<h3 id=\"compensations-results-none\" class=\"text-center\">Нет результатов</h3>';
+        htmlNull = '<tbody id=\"compensations-results\"></tbody>';
+        $('#compensations-results-none').replaceWith(html);
+        $('#compensations-results').replaceWith(htmlNull);
+        html = '<h3 id=\"compensations-results-none\"></h3>';
+      }
+      /**
+       * END REFILLS DATA
+       */
+     };
+   });
 };
 });
 </script>

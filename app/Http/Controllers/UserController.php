@@ -18,6 +18,7 @@ use App\Mail\SendNewPassword;
 use Carbon\Carbon;
 use \App\Log;
 use \App\WsseAuthHeader;
+use \App\Orders;
 use Storage;
 use File;
 use \App\Http\Controllers\PaymentController;
@@ -1256,7 +1257,7 @@ public function showDetailsReport(){
      * [showDepositPage description]
      * @return [type] [description]
      */
-    public function getTestUnitellerPaymentPage(){
+    public function getTestPaymentPage(){
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
@@ -1267,18 +1268,42 @@ public function showDetailsReport(){
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
+      return view('pages.profile.test.payment',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
+    }
 
-      /**
+    public function getTestBankCardPaymentPage(){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+            /**
        * PAYMENT SOAP CARDINFO
        * @var Payment
        */
       
-      /
+      if (Session::has('current_card_number')){
+        $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
+
+      } else {
+        Session::flash('warning','Выберите карту для пополнения в меню');
+        return view('pages.profile.test.bank_card_payment',[
+         'cards' => $cards,
+         'current_card' => $current_card]);
+    }
+
       $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
       $params = array('agentId' => '7', 
                       'salepointId' => '7', 
                       'version' => '1', 
-                      'sysNum' => '0100001148', 
+                      'sysNum' => $current_card, 
                       'regionId' => 99, 
                       'deviceId' => 'B9900007');
 
@@ -1286,11 +1311,122 @@ public function showDetailsReport(){
       $password = '1';
       $wsse_header = new WsseAuthHeader($username, $password);
       $client->__setSoapHeaders(array($wsse_header));
-      $cardInfo = $client->__soapCall('CardInfo', array($params));
-      dd($cardInfo);
+      try {
+        $cardInfo = $client->__soapCall('CardInfo', array($params));
+      } catch (Exception $e) {
+        return redirect()->back();
+      }
+    /*  dd($cardInfo);*/
+      if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
+        Session::flash('info', $cardInfo->CardInformation->warningMsg);
+        return redirect()->back();
+      } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
+        Session::flash('info', $cardInfo->CardInformation->warningMsg);
+      }
       /**
-       * FUCKING AWESOME!
-       **/
-      return $response;
+       * CHECK CARD ON EXISTING
+       * @var [type]
+       */
+      if ($cardInfo->Result->resultCode == 1000){
+        Session::flash('error', $cardInfo->Result->resultCodeText);
+        return redirect()->back();
+      }
+      /**
+       * PREPARE DATA TO OUTPUT
+       */
+      $cardInfo->CardInformation->tariff->minSumInt = floor($cardInfo->CardInformation->tariff->minSumInt / 100);
+      $cardInfo->CardInformation->tariff->maxSumInt = floor($cardInfo->CardInformation->tariff->maxSumInt / 100);
+      /**
+       * 
+       */
+      return view('pages.profile.test.bank_card_payment',[
+        'cards' => $cards,
+        'current_card' => $current_card,
+        'cardInfo' => $cardInfo
+        ]);
+    }
+
+    public function postPayByBankCard(Request $request){
+      $this->validate($request,[
+        
+        ]);
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      if (!is_int($request->payment_value * 100)){
+        Session::flash('error','Введенная сумма не является целым числом');
+        return redirect()->back();
+      }
+
+      $payment_value = ($request->payment_value);
+      $payment_session_id = $request->payment_session_id;
+      $payment_tariff_id = $request->payment_tariff_id;
+      $payment_max_sum = $request->max_sum;
+      $payment_min_sum = $request->min_sum;
+      $payment_to_acquirer = ($payment_value * 1.03);
+      $user_id = $request->user_id;
+      /**
+       * VERIFY INPUTS
+       */
+      if ($payment_value < $payment_min_sum){
+        Session::flash('error','Введенная сумма меньше минимально возможной');
+        return redirect()->back();       
+      }
+      if ($payment_value > $payment_max_sum){
+        Session::flash('error','Введенная сумма больше максимально возможной');
+        return redirect()->back();       
+      }
+      /**
+       * 
+       */
+      /**
+       * GET USER DATA
+       */
+      $user = \App\User::find($user_id);
+      $email = $user->email;
+      /**
+       * 
+       */
+      /**
+       * CREATE AN ORDER
+       */
+        
+      /**
+       * 
+       */
+      
+      return view('pages.profile.test.bank_card_payment_confirm',[
+        'cards' => $cards,
+        'current_card' => $current_card,
+        'payment_to_card' => $payment_value,
+        'payment_to_acquirer' => $payment_to_acquirer,
+        'email' => $email,
+        ]);
+      /**
+       * POST TRANSACTION
+       */
+      $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+      $params = array('agentId' => '7', 
+                      'salepointId' => '7', 
+                      'version' => '1', 
+                      'sessionId' => $payment_session_id,
+                      'tariffId' => $payment_tariff_id,
+                      'paymentSum' => $payment_value,
+                      'paymentInfo' => 'Тест'
+                      );
+
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      $paymentInfo = $client->__soapCall('CardPayment', array($params));
+      dd($paymentInfo);
     }
   }

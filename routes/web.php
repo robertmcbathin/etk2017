@@ -267,7 +267,19 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/profile/test/payment',[
         'uses' => 'UserController@getTestPaymentPage',
         'as' => 'profile.test_payment_page.get'
-        ]);   
+        ]);
+    Route::get('/profile/test/payment/bank_card',[
+        'uses' => 'UserController@getTestBankCardPaymentPage',
+        'as' => 'profile.test.bank_card_payment'
+        ]);    
+    Route::get('/profile/test/payment/bank_card/confirm',[
+        'uses' => 'UserController@getTestBankCardPaymentConfirmPage',
+        'as' => 'profile.test.bank_card_payment_confirm'
+        ]);  
+    Route::post('/profile/test/pay',[
+        'uses' => 'UserController@postPayByBankCard',
+        'as' => 'profile.test.pay'
+        ]);  
     Route::post('/profile/verify_card',[
         'uses' => 'UserController@postVerifyCard',
         'as' => 'profile.verify_card'
@@ -316,14 +328,22 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getOperationsPage',
             'as' => 'sudo.pages.operations'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/compensations',[
+            'uses' => 'SudoController@getCompensationsPage',
+            'as' => 'sudo.pages.compensations'
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/detailing-requests',[
             'uses' => 'SudoController@getDetailingRequestsPage',
             'as' => 'sudo.pages.detailing-requests'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/compensate',[
+            'uses' => 'SudoController@postCompensateTransaction',
+            'as' => 'sudo.compensate.post'
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/email-distribution',[
             'uses' => 'SudoController@getEmailDistributionPage',
             'as' => 'sudo.pages.email-distribution'
-            ])->middleware('can:show-sudo,App\User');
+            ])->middleware('can:show-settings,App\User');
         /**
          * SEND EMAILS
          */
@@ -415,6 +435,10 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/ajax/check_card_operations', [ 'uses' =>
         'SudoController@ajaxCheckCardOperations',
         'as' => 'ajax.check_card_operations'
+        ])->middleware('can:show-sudo,App\User');
+    Route::post('/ajax/check_card_compensations', [ 'uses' =>
+        'SudoController@ajaxCheckCardCompensations',
+        'as' => 'ajax.check_card_compensations'
         ])->middleware('can:show-sudo,App\User');
 });
 });

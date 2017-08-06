@@ -127,6 +127,7 @@
                                                     <th>Терминал</th>
                                                     <th class="text-right">Сумма</th>
                                                     <th class="text-right">Дата</th>
+                                                    <th class="text-right">Возмещение</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="operations-results">

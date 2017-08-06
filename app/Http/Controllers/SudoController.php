@@ -214,6 +214,16 @@ public function postAddArticle(Request $request){
           'last_import' => $last_import
           ]);
       }
+      public function getCompensationsPage(){
+        $last_import = DB::table('SB_DEPOSIT_IMPORTS')
+        ->orderBy('created_at', 'DESC')
+        ->first(); 
+        $last_import->created_at = new \DateTime($last_import->created_at);
+        $last_import->created_at = date_format($last_import->created_at,'d.m.Y H:i:s');
+        return view('sudo.pages.compensations', [
+          'last_import' => $last_import
+          ]);
+      }
 
       public function getImportPage(){
         $last_import = DB::table('SB_DEPOSIT_IMPORTS')
@@ -411,7 +421,8 @@ public function postAddArticle(Request $request){
                'terminal_number' => $line[2],
                'value' => $line[3],
                'card_number' => $line[4],
-               'source' => 1
+               'source' => 1,
+               'is_compensated' => 0
                ]);
 
               $counter++;
@@ -466,7 +477,8 @@ public function postAddArticle(Request $request){
                'terminal_number' => 'НБД-терминал',
                'value' => $line[1],
                'card_number' => $line[2],
-               'source' => 2
+               'source' => 2,
+               'is_compensated' => 0
                ]);
 
               $counter++;
@@ -925,6 +937,22 @@ public function postAddArticle(Request $request){
     }
   }
 }
+public function postCompensateTransaction(Request $request){
+  $transaction_number = $request->transaction_number;
+  $value = $request->value;
+  $card_number = $request->card_number;
+  DB::table('SB_DEPOSIT_TRANSACTIONS')
+    ->where('transaction_number', $transaction_number)
+    ->update(['is_compensated' => 1]);
+  DB::table('ETK_COMPENSATIONS')
+    ->insert([
+      'user_id' => Auth::user()->id,
+      'card_number' => $card_number,
+      'value' => $value
+      ]);
+  Session::flash('success', 'Сумма транзакции возмещена');
+  return redirect()->back();
+}
    /**
     * [ajaxCheckCardOperations description]
     * @param  Request $request [description]
@@ -1067,4 +1095,30 @@ public function postAddArticle(Request $request){
       return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=>$double_cards, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
+
+
+     public function ajaxCheckCardCompensations(Request $request){
+    $num   = $request['num'];
+    $serie = $request['serie'];
+    $zero_serie = '00';
+    /**
+     * [$operations description]
+     * @var [type]
+     */
+    $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
+    ->where('card_number',  $num)
+    ->orderBy('transaction_date', 'DESC')
+    ->get();
+    foreach ($operations as $operation) {
+      $compensation_link = '';
+      $format_date = new \DateTime($operation->transaction_date);
+      $operation->transaction_date = $format_date->format('d.m.Y');
+      $operation->value = $operation->value . $compensation_link;
+    }
+
+    if ($operations == NULL)
+      return response()->json(['message' => 'error'],200);
+    if ($operations !== NULL)
+      return response()->json(['message' => 'success', 'data' => $operations],200);
+}
 }
