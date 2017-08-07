@@ -1288,15 +1288,12 @@ public function showDetailsReport(){
        * PAYMENT SOAP CARDINFO
        * @var Payment
        */
-      
       if (Session::has('current_card_number')){
         $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
 
       } else {
         Session::flash('warning','Выберите карту для пополнения в меню');
-        return view('pages.profile.test.bank_card_payment',[
-         'cards' => $cards,
-         'current_card' => $current_card]);
+        return redirect()->back();
     }
 
       $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
@@ -1372,6 +1369,7 @@ public function showDetailsReport(){
       $payment_min_sum = $request->min_sum;
       $payment_to_acquirer = ($payment_value * 1.03);
       $user_id = $request->user_id;
+      $card_number = $request->card_number;
       /**
        * VERIFY INPUTS
        */
@@ -1397,7 +1395,14 @@ public function showDetailsReport(){
       /**
        * CREATE AN ORDER
        */
-        
+        $order = new \App\Order;
+        $order->user_id = $user_id;
+        $order->order_type = 1;
+        $order->payment_to_acquirer = $payment_to_acquirer;
+        $order->payment_to_card = $payment_value;
+        $order->card_number = $card_number;
+        $order->order_name = 'ut-' . $user_id . '-' . $card_number . '-' . date('YmdHis');
+        $order->save();
       /**
        * 
        */

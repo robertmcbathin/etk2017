@@ -152,10 +152,10 @@ public function confirmAccount($register_token){
     $account = DB::table('users')
     ->where('register_token',$register_token)
     ->first();
-    if ($account == NULL){
+ /*   if ($account){
         Session::flash('activation-failed', 'Хмм.. Активировать аккаунт не удалось. Позвоните нам или напишите для решения проблемы');
         return redirect()->route('login');
-    } else {
+    } else {*/
         DB::table('users')
         ->update(['is_active' => 1, 'register_token' => NULL]);
         Session::flash('activation-success', 'Ваш email подтвержден! Теперь Вы можете войти в личный кабинет!');
@@ -164,6 +164,6 @@ public function confirmAccount($register_token){
         $log->message = date('Y-m-d H:i:s') . " | Зарегистрирован новый пользовтель с номером карты " . $account->email;
         $log->save();
         return redirect()->route('login');
-    }
+  /*  } */
 }
 }

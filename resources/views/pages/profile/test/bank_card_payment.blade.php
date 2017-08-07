@@ -109,6 +109,7 @@
                       <input type="hidden" name="payment_tariff_id" value="{{$cardInfo->CardInformation->tariff->id}}">
                       <input type="hidden" name="max_sum" value="{{$cardInfo->CardInformation->tariff->maxSumInt}}">
                       <input type="hidden" name="min_sum" value="{{$cardInfo->CardInformation->tariff->minSumInt}}">
+                      <input type="hidden" name="card_number" value="{{session()->get('current_card_number')}}">
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                       {{ csrf_field() }}
                       <input id="submit_payment" type="submit" class="btn btn-primary btn-round" value="Перейти к оплате">
