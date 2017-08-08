@@ -1035,20 +1035,19 @@ public function showDetailsReport(){
   $date_end = new \Datetime($request_date_end);
 
   $min_date = new \DateTime($request_date_start);
-  $max_date = new \DateTime($request_date_end);
+  $max_date = new \DateTime();
   $estimated_date = new \DateTime();
   $current_date = new \DateTime();
 
   $min_date->sub(new \DateInterval('P15D'));
   $max_date->sub(new \DateInterval('P1D'));
-
   if ($date_start >= $date_end){
     Session::flash('min-date-error', 'Вы указали начальную дату позже конечной');
     return redirect()->back();
   } elseif ($date_end >= $max_date) {
     Session::flash('max-date-error', 'Можно заказать детализацию не менее чем за 1 день до текущей даты');
     return redirect()->back();
-  } else print_f($interval = $date_start->diff($date_end));
+  }
 
   $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
 
