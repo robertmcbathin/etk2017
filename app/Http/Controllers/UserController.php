@@ -525,6 +525,21 @@ public function showDetailsReport(){
           return redirect()->back();
         }else {
           $num   = substr($card_number, 0, 3);
+          /**
+           * LIMIT CARD COUNT TO 10
+           * @var [type]
+           */
+          $usercard_count = DB::table('ETK_CARD_USERS')
+            ->where('user_id', $user_id)
+            ->count();
+          if ($usercard_count > 10){
+            Session::flash('error', 'Нельзя добавить более 10 карт на один аккаунт');
+            return redirect()->back();
+          }
+          /**
+           * [$card description]
+           * @var [type]
+           */
           $card = new \App\Usercard;
           $card->number = $card_number;
           $card->serie  = $num;
