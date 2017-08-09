@@ -1049,7 +1049,7 @@ public function showDetailsReport(){
   $date_start = new \Datetime($request_date_start);
   $date_end = new \Datetime($request_date_end);
 
-  $min_date = new \DateTime($request_date_start);
+  $min_date = new \DateTime($request_date_end);
   $max_date = new \DateTime();
   $estimated_date = new \DateTime();
   $current_date = new \DateTime();
@@ -1062,8 +1062,10 @@ public function showDetailsReport(){
   } elseif ($date_end >= $max_date) {
     Session::flash('max-date-error', 'Можно заказать детализацию не менее чем за 1 день до текущей даты');
     return redirect()->back();
+  } elseif ($date_start < $min_date){
+    Session::flash('min-date-error', 'Диапазон должен быть не более 14 дней');
+    return redirect()->back();
   }
-
   $estimated_date = $estimated_date->add(new \DateInterval('P5D'));
 
   if ($request = DB::table('ETK_DETAILING_REQUEST')
