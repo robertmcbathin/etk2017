@@ -90,19 +90,6 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header card-header-icon" data-background-color="blue">
-                            <i class="material-icons">timeline</i>
-                        </div>
-                        <div class="card-content">
-                            <h4 class="card-title">Coloured Bars Chart
-                                <small> - Rounded</small>
-                            </h4>
-                        </div>
-                        <div id="colouredBarsChart" class="ct-chart"></div>
-                    </div>
-                </div>
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-icon" data-background-color="green">
@@ -130,6 +117,19 @@
                     </div>
                 </div>
             </div>
+                            <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header card-header-icon" data-background-color="blue">
+                            <i class="material-icons">timeline</i>
+                        </div>
+                        <div class="card-content">
+                            <h4 class="card-title">Coloured Bars Chart
+                                <small> - Rounded</small>
+                            </h4>
+                        </div>
+                        <div id="colouredBarsChart" class="ct-chart"></div>
+                    </div>
+                </div>
             <div class="row">
                 <div class="col-md-6">
 
