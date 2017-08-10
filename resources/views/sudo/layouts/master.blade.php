@@ -137,8 +137,8 @@
 
 
           dataColouredRoundedLineChart = {
-            labels: days,
-            series: amounts
+            labels: sbDepositDays,
+            series: [sbDepositSeries]
           };
 
           optionsColouredRoundedLineChart = {
@@ -153,15 +153,16 @@
               showGrid: false,
             },
             low: 0,
-            high: 1000,
+            high: 3000000,
             showPoint: true,
             height: '300px'
           };
 
 
-          var colouredRoundedLineChart = new Chartist.Line('#colouredRoundedLineChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
+          var colouredRoundedLineChart = new Chartist.Line('#sbDepositChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
 
           md.startAnimationForLineChart(colouredRoundedLineChart);
+
 
 
           /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */

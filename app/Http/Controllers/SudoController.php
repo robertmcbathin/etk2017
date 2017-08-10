@@ -32,7 +32,16 @@ class SudoController extends Controller
    $new_detailing_requests_count = DB::table('ETK_DETAILING_REQUEST')
    ->where('status',1)
    ->count();
-
+   $sbDeposits = DB::table('SB_DEPOSIT_TRANSACTIONS')
+                    ->selectRaw("sum(value) as amount,count(value),date_format(transaction_date, '%Y-%m-%d') as day_of_month")
+                    ->where('source', 1)
+                    ->groupBy('day_of_month')
+                    ->orderBy('day_of_month','DESC')
+                    ->limit(31)
+                    ->get();
+    foreach ($sbDeposits as $sbDeposit) {
+      $sbDeposit->day_of_month = substr($sbDeposit->day_of_month, 8);
+    }
    /**
     * GET SBERBANK DEPOSITS FOR LAST MONTH
     */
@@ -52,7 +61,8 @@ class SudoController extends Controller
     'questions_count' => $questions_count,
     'waiting_for_activation' => $waiting_for_activation,
     'users_count' => $users_count,
-    'new_detailing_requests_count' => $new_detailing_requests_count
+    'new_detailing_requests_count' => $new_detailing_requests_count,
+    'sbDeposits' => $sbDeposits
     ]);
  }
  public function getArticlesPage(){

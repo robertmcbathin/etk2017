@@ -140,7 +140,39 @@ app = {
 
         /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
 
+         /*  **************** sbDepositChart Line Chart - Line Chart ******************** */
 
+
+        dataColouredRoundedLineChart = {
+          labels: ['\'06','\'07','\'08','\'09', '\'10', '\'11', '\'12', '\'13', '\'14','\'15'],
+          series: [
+            [287, 480, 290, 554, 690, 690, 500, 752, 650, 900, 944]
+          ]
+        };
+
+        optionsColouredRoundedLineChart = {
+          lineSmooth: Chartist.Interpolation.cardinal({
+              tension: 10
+          }),
+          axisY: {
+              showGrid: true,
+              offset: 40
+          },
+          axisX: {
+              showGrid: false,
+          },
+          low: 0,
+          high: 1000,
+          showPoint: true,
+          height: '300px'
+        };
+
+
+        var sbDepositChart = new Chartist.Line('#sbDepositChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
+
+        md.startAnimationForLineChart(sbDepositChart);
+  /*  **************** sbDepositChart Line Chart - Line Chart ******************** */  
+  
         dataColouredBarsChart = {
           labels: ['\'06','\'07','\'08','\'09', '\'10', '\'11', '\'12', '\'13', '\'14','\'15'],
           series: [
