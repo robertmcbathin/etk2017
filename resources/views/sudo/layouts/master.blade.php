@@ -164,7 +164,35 @@
           md.startAnimationForLineChart(colouredRoundedLineChart);
 
 
+          /*  **************** Coloured Rounded Line Chart - Line Chart  NEW USERS ******************** */
 
+
+          dataColouredRoundedLineChart = {
+            labels: newUsersDays,
+            series: [newUsersSeries]
+          };
+
+          optionsColouredRoundedLineChart = {
+            lineSmooth: Chartist.Interpolation.cardinal({
+              tension: 10
+            }),
+            axisY: {
+              showGrid: true,
+              offset: 40
+            },
+            axisX: {
+              showGrid: false,
+            },
+            low: 0,
+            high: 500,
+            showPoint: true,
+            height: '300px'
+          };
+
+
+          var colouredRoundedLineChart = new Chartist.Line('#newUsersChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
+
+          md.startAnimationForLineChart(colouredRoundedLineChart);
           /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
 
 

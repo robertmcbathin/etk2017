@@ -104,22 +104,35 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header card-header-icon" data-background-color="green">
-                                    <i class="material-icons">timeline</i>
-                                </div>
-                                <div class="card-content">
-                                    <h4 class="card-title">Пополнение по дням
-                                        <small> - Сбербанк</small>
-                                    </h4>
-                                </div>
-                                <div id="sbDepositChart" class="ct-chart"></div>
-                            </div>
+                    <div class="card">
+                        <div class="card-header card-header-icon" data-background-color="green">
+                            <i class="material-icons">timeline</i>
                         </div>
+                        <div class="card-content">
+                            <h4 class="card-title">Пополнение по дням
+                                <small> - Сбербанк</small>
+                            </h4>
+                        </div>
+                        <div id="sbDepositChart" class="ct-chart"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-icon" data-background-color="green">
+                            <i class="material-icons">timeline</i>
+                        </div>
+                        <div class="card-content">
+                        <h4 class="card-title">Новые пользователи
+                                <small> - по дням</small>
+                            </h4>
+                        </div>
+                        <div id="newUsersChart" class="ct-chart"></div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    
+
                 </div>
             </div>
         </div>
@@ -147,20 +160,34 @@
     </footer>
 </div>
 <script>
- /*  **************** sbDepositChart Line Chart - Line Chart ******************** */
+   /*  **************** sbDepositChart Line Chart - Line Chart ******************** */
 
- var sbDepositDays = 
- [
-  @foreach ($sbDeposits as $sbDeposit) 
-      '{{ $sbDeposit->day_of_month }}' ,
-      @endforeach];
-var sbDepositSeries = 
-[
-      @foreach ($sbDeposits as $sbDeposit) 
-      {{ $sbDeposit->amount }} ,
-      @endforeach];
+   var sbDepositDays = 
+   [
+   @foreach ($sbDeposits as $sbDeposit) 
+   '{{ $sbDeposit->day_of_month }}' ,
+   @endforeach];
+   var sbDepositSeries = 
+   [
+   @foreach ($sbDeposits as $sbDeposit) 
+   {{ $sbDeposit->amount }} ,
+   @endforeach];
 
 
-  /*  **************** sbDepositChart Line Chart - Line Chart ******************** */  
+   /*  **************** newUsersChart Line Chart - Line Chart ******************** */  
+
+    var newUsersDays = 
+   [
+   @foreach ($newUsers as $newUser) 
+   '{{ $newUser->day_of_month }}' ,
+   @endforeach
+   ];
+   var newUsersSeries = 
+   [
+   @foreach ($newUsers as $newUser) 
+   {{ $newUser->amount }} ,
+   @endforeach
+   ];
+
 </script>
 @endsection
