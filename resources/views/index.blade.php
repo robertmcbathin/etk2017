@@ -11,40 +11,25 @@
 @endsection
 @section('content')
 <div class="page-header header-filter"  data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_index_tr.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
-     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="card card-profile card-plain">
-                    <div class="col-md-5 hidden-xs">
-                        <div >
-                            <a href="sections.html#pablo">
-                                <img src="/images/profile.png">
-                            </a>
-                            <div class="ripple-container"></div></div>
-                        </div>
-                        <div class="col-md-5 visible-xs" id="card-xs-img">
-                            <div >
-                                <a href="sections.html#pablo">
-                                    <img src="/images/profile.png">
-                                </a>
-                                <div class="ripple-container"></div></div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="content">
-                                    <h3 class="card-title" id="landing-title">Личный кабинет</h3>
-
-                                    <h5 class="card-description" id="landing-content">
-                                     Примите участие в бета-тестировании!
-                                 </h5>
-
-                                 <div class="footer text-right">
-                                    <a href="/static_articles/profile" class="btn btn-primary landing-link">Подробнее...</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+     <div class="container presentation-page">
+     <div class="section section-components">
+                 <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+                <div class="image-container">
+                    <a href="/static_articles/profile"><img class="components-macbook" src="assets/img/presentation-page/laptop-basic.png" alt=""></a>
+                    <img class="table-img" src="assets/img/presentation-page/table.jpg" alt="">
+                    <a href="http://umarsh.ru" rel="nofollow" target="_blank"><img class="share-btn-img" src="assets/img/presentation-page/share-btn.png" alt=""></a>
+                    <img class="coloured-card-btn-img" src="assets/img/presentation-page/coloured-card-with-btn.png" alt="">
+                    <img class="coloured-card-img" src="assets/img/presentation-page/coloured-card.png" alt="">
+                    <img class="social-img" src="assets/img/presentation-page/social-row.png" alt="">
+                    <img class="pin-btn-img" src="assets/img/presentation-page/pin-btn.png" alt="">
                 </div>
             </div>
+            </div>
+     </div>   
+
+
+
         </div> 
     </div>
     <div class="main main-raised">
