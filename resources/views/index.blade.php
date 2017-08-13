@@ -14,15 +14,15 @@
      <div class="container presentation-page">
      <div class="section section-components">
                  <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3 col-xs-12">
                 <div class="image-container">
-                    <a href="/static_articles/profile"><img class="components-macbook" src="assets/img/presentation-page/laptop-basic.png" alt=""></a>
-                    <img class="table-img" src="assets/img/presentation-page/table.jpg" alt="">
-                    <a href="http://umarsh.ru" rel="nofollow" target="_blank"><img class="share-btn-img" src="assets/img/presentation-page/share-btn.png" alt=""></a>
-                    <img class="coloured-card-btn-img" src="assets/img/presentation-page/coloured-card-with-btn.png" alt="">
-                    <img class="coloured-card-img" src="assets/img/presentation-page/coloured-card.png" alt="">
-                    <img class="social-img" src="assets/img/presentation-page/social-row.png" alt="">
-                    <img class="pin-btn-img" src="assets/img/presentation-page/pin-btn.png" alt="">
+                    <a href="/static_articles/profile"><img class="components-macbook hidden-xs" src="assets/img/presentation-page/laptop-basic.png" alt=""></a>
+                    <a href=""><img class="table-img hidden-xs" src="assets/img/presentation-page/table.jpg" alt=""></a>
+                    <a href="http://umarsh.ru" rel="nofollow" target="_blank"><img class="share-btn-img hidden-xs" src="assets/img/presentation-page/share-btn.png" alt=""></a>
+                    <a href=""><img class="coloured-card-btn-img" src="assets/img/presentation-page/coloured-card-with-btn.png" alt=""></a>
+                    <a href=""><img class="coloured-card-img" src="assets/img/presentation-page/coloured-card.png" alt=""></a>
+                    <a href=""><img class="social-img hidden-xs" src="assets/img/presentation-page/social-row.png" alt=""></a>
+                    <a href=""><img class="pin-btn-img hidden-xs" src="assets/img/presentation-page/pin-btn.png" alt=""></a>
                 </div>
             </div>
             </div>
