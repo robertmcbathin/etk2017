@@ -29,6 +29,20 @@
 									</a>
 								</li>
 								<li>
+									<b>
+									<a href="/static_articles/etkplus-card">
+										ЕТКплюс
+									</a>
+									</b>
+								</li>
+								<li>
+									<b>
+									<a href="/static_articles/airtags">
+										Брелоки Airtag
+									</a>
+									</b>
+								</li>
+								<li>
 									<a href="{{route('cards.sbercard')}}">
 										Банковская транспортная карта
 									</a>

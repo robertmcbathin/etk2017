@@ -19,9 +19,9 @@
                     <a href="/static_articles/profile"><img class="components-macbook hidden-xs" src="assets/img/presentation-page/laptop-basic.png" alt=""></a>
                     <a href=""><img class="table-img hidden-xs" src="assets/img/presentation-page/table.jpg" alt=""></a>
                     <a href="http://umarsh.ru" rel="nofollow" target="_blank"><img class="share-btn-img hidden-xs" src="assets/img/presentation-page/share-btn.png" alt=""></a>
-                    <a href=""><img class="coloured-card-btn-img" src="assets/img/presentation-page/coloured-card-with-btn.png" alt=""></a>
-                    <a href=""><img class="coloured-card-img" src="assets/img/presentation-page/coloured-card.png" alt=""></a>
-                    <a href=""><img class="social-img hidden-xs" src="assets/img/presentation-page/social-row.png" alt=""></a>
+                    <a href="/static_articles/airtags"><img class="coloured-card-btn-img" src="assets/img/presentation-page/coloured-card-with-btn.png" alt=""></a>
+                    <a href="/static_articles/etkplus-card"><img class="coloured-card-img" src="assets/img/presentation-page/coloured-card.png" alt=""></a>
+                    <a href="/static_articles/mifare"><img class="social-img hidden-xs" src="assets/img/presentation-page/social-row.png" alt=""></a>
                     <a href=""><img class="pin-btn-img hidden-xs" src="assets/img/presentation-page/pin-btn.png" alt=""></a>
                 </div>
             </div>

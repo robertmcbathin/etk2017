@@ -146,7 +146,16 @@ Route::group(['middleware' => 'web'], function () {
         });   
     Route::get('/static_articles/sberbank-new', function(){
             return view('pages.static_articles.sberbank_new_us');
-        });    
+        });
+    Route::get('/static_articles/etkplus-card', function(){
+            return view('pages.static_articles.etkplus-card');
+        }); 
+    Route::get('/static_articles/airtags', function(){
+            return view('pages.static_articles.airtags');
+        });     
+    Route::get('/static_articles/mifare', function(){
+            return view('pages.static_articles.mifare');
+        });      
         /**
          * 
          */
