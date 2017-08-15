@@ -593,6 +593,7 @@
        * LOAD REFILLS DATA
        */
        if (msg['data'].length > 0){
+        console.log('1');
         html = '<tbody id=\"operations-results\">';
         htmlNull = '<h3 id=\"operations-results-none\"></h3>';
         for (var i = 0; i <= msg['data'].length - 1; i++) {
