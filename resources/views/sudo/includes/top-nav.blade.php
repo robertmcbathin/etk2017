@@ -55,7 +55,7 @@
                                 <li>Список карт, подлежащих блокировке/разблокировке (личный кабинет)</li>
                                 @foreach ($profile_blocklist as $profile_block_card)
                                     <li>
-                                        <a href="">номер карты: <strong>{{ $block_card->card_number}}</strong> создал: {{$profile_block_card->name}}</a>
+                                        <a href="">номер карты: <strong>{{ $profile_block_card->card_number}}</strong> создал: {{$profile_block_card->name}}</a>
                                     </li>
                                 @endforeach
                                 </ul>
