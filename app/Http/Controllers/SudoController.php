@@ -982,6 +982,10 @@ public function postCompensateTransaction(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
     $zero_serie = '00';
+    /**initiate data
+    **/
+    $double_cards = NULL;
+    $cur_is_double = NULL;
     /**
      * [$operations description]
      * @var [type]
@@ -1112,7 +1116,7 @@ public function postCompensateTransaction(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=>$double_cards, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 
