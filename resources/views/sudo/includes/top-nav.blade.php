@@ -41,6 +41,26 @@
                                 @endforeach
                                 </ul>
                             </li>
+
+                            <li class="dropdown">
+                                <a href="dashboard.html#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="material-icons">account_box</i>
+                                    <p class="hidden-lg hidden-md">
+                                        Блок-лист (ЛК)
+                                        <b class="caret"></b>
+                                    </p>
+                                    <span class="notification">{{$profile_blocklist_count}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                <li>Список карт, подлежащих блокировке/разблокировке (личный кабинет)</li>
+                                @foreach ($profile_blocklist as $profile_block_card)
+                                    <li>
+                                        <a href="">номер карты: <strong>{{ $block_card->card_number}}</strong> создал: {{$profile_block_card->name}}</a>
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </li>
+
                             <li class="dropdown">
                                 <a href="dashboard.html#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="material-icons">notifications</i>

@@ -156,14 +156,6 @@
              <button class="btn btn-simple" data-toggle="modal" data-target="#cancel-block-card-{{ session()->get('current_card_number') }}">
                <i class="fa fa-lock"></i> Отменить блокировку
              </button>
-             @elseif ((session()->get('current_card_verified') == 1) && ((session()->get('current_card_block_state') !== 2) && (session()->get('current_card_state')) == 'Заблокирована'))
-             <button class="btn btn-simple" data-toggle="modal" data-target="#unblock-card-{{ session()->get('current_card_number') }}">
-               <i class="fa fa-unlock"></i> Разблокировать
-             </button>
-             @elseif ((session()->get('current_card_verified') == 1) && ((session()->get('current_card_block_state') == 2) && (session()->get('current_card_state')) == 'Заблокирована'))
-             <button class="btn btn-simple" data-toggle="modal" data-target="#cancel-unblock-card-{{ session()->get('current_card_number') }}">
-               <i class="fa fa-unlock"></i> Отменить разблокировку
-             </button>
              @endif
            </ul>
            <hr>
