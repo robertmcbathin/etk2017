@@ -189,6 +189,7 @@
         </div>
 
         @endforeach
+        <button data-toggle="modal" data-target="#modal-map">.</button>
       </div>
     </div>
 
@@ -375,6 +376,33 @@
 </div>
 </div>
 @endif
+
+<div class="modal fade" id="modal-map" tabindex="-1" role="dialog" aria-labelledby="modal-map" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          <i class="material-icons">clear</i>
+        </button>
+        <h4 class="modal-title">Ближайшие пункты пополнения</h4>
+        <div id="nearest-points">
+          
+        </div>
+        <small class="description"></small>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div id="np-map"></div>
+       </div>
+     </div>
+   </form>
+ </div>
+ <div class="modal-footer">
+  <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Отмена<div class="ripple-container"><div class="ripple ripple-on ripple-out" style="left: 17.0781px; top: 20px; background-color: rgb(244, 67, 54); transform: scale(8.50977);"></div></div></button>
+</div>
+</div>
+</div>
+</div>
 
 @endsection
 

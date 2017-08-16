@@ -96,6 +96,10 @@ animation: Gradient 30s ease infinite;
 	height: 500px;
 	width: 100%;
 }
+#np-map{
+  height: 300px;
+  width: 80%;
+}
 .simple-page-bg{
 	height: 50vh !important;
 }
