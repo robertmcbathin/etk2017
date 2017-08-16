@@ -105,7 +105,7 @@
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
               };
-        
+                console.log(pos);
               geoinfoWindow.setPosition(pos);
               geoinfoWindow.setContent('Вы находитесь здесь');
               map.setCenter(pos);
