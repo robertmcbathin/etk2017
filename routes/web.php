@@ -353,6 +353,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getEmailDistributionPage',
             'as' => 'sudo.pages.email-distribution'
             ])->middleware('can:show-settings,App\User');
+        Route::get('/online-orders',[
+            'uses' => 'SudoController@getOnlineOrders',
+            'as' => 'sudo.pages.online-orders'
+            ])->middleware('can:show-sudo,App\User');
         /**
          * SEND EMAILS
          */

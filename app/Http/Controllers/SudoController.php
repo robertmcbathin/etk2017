@@ -288,6 +288,16 @@ public function postAddArticle(Request $request){
         'last_trip_date' => $last_trip_date->INS_DATE
         ]);
     }
+      public function getOnlineOrders(){
+        $orders = DB::table('ETK_ORDERS')
+                    ->join('users', 'ETK_ORDERS.user_id','=','users.id')
+                    ->select('ETK_ORDERS.id','users.name as name', 'ETK_ORDERS.order_name','ETK_ORDERS.payment_to_card', 'ETK_ORDERS.payment_to_acquirer','ETK_ORDERS.card_number', 'ETK_ORDERS.order_type', 'ETK_ORDERS.status','ETK_ORDERS.created_at')
+                    ->orderBy('ETK_ORDERS.created_at')
+                    ->paginate(15);
+        return view('sudo.pages.online-orders',[
+          'orders' => $orders
+          ]);
+      }
       /**
        * SETTINGS
        * @param  Request $request [description]
@@ -1038,7 +1048,7 @@ public function postCompensateTransaction(Request $request){
     $double_cards = NULL;
   }
   /**
-   * CHECK ON DOBLE CARDS END
+   * CHECK ON DOUBLE CARDS END
    */
   switch ($card->state) {
     case 1:
