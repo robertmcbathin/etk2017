@@ -65,7 +65,7 @@
   </div>
 </div>
     <script>
-      function initMap(withLocation) {
+      function initMap(withLocation = 1) {
 
         var myLatLng = {lat: 56.113534, lng: 47.177142};
          var styleArray = [
