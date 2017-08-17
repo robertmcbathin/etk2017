@@ -73,11 +73,51 @@
           <p class="description">
             <b>Внимание:</b> Пополнение производится не моментально, а по типу "отложенное пополнение". Т.е., может достигать <b>до 2-х рабочих дней</b>.
           </p>
+          <br>
         </div>
 
       </div>
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2">
+
+<div class="card card-plain card-blog">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="card-image">
+                  <img class="img img-raised" src="/images/uniteller.jpg">
+                <div class="ripple-container"></div><div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div></div>
+              </div>
+              <div class="col-md-7">
+                <h6 class="category text-info">Пополнение банковской картой</h6>
+                <h3 class="card-title">
+                  <a href=""><small>транспортная карта №</small>{{session()->get('current_card_number','не определено')}}</a>
+                </h3>
+                <p class="card-description">
+                    <small>информация по карте</small><p> {{$cardInfo->CardInformation->tariff->text}}</p>
+                    <small>минимальная сумма</small><p> {{$cardInfo->CardInformation->tariff->minSumInt}} р.</p>
+                    <small>максимальная сумма</small></p> {{$cardInfo->CardInformation->tariff->maxSumInt}} р.</p>
+  
+                    @if ($cardInfo->CardInformation->tariff->unaccountedResidueInfo)
+                    <p>{{$cardInfo->CardInformation->tariff->unaccountedResidueInfo}}</p>
+                    @endif
+                    
+                    <hr>
+                    @if ($cardInfo->CardInformation->info->otype == 5)
+                    <p><i class="material-icons text-danger">close</i> Пополнение невозможно</p>
+                    @elseif ($cardInfo->CardInformation->info->otype == 4)
+                    <p><i class="material-icons text-succes">check</i> Все готово для пополнения</p>
+                    @endif
+                </p>
+                <p class="author">
+                  by <a href="#pablo"><b>Mike Butcher</b></a>, 2 days ago
+                
+              </p></div>
+            </div>
+          </div>
+
+
+
+
           <div class="card card-pricing">
             <div class="card-content">
               <h6 class="category text-info">Пополнение банковской картой</h6>
