@@ -76,26 +76,33 @@
         </div>
 
       </div>
-      <div class="row">
-
-        <div class="col-md-6 col-md-offset-3">
-          <div class="card card-pricing">
-            <div class="card-content">
-              <h6 class="category text-info">Пополнение банковской картой</h6>
-              <p class="description">Проверьте данные платежа</p>
+            <div class="row">
+         <div class="col-md-8 col-md-offset-2">
+          <div class="card card-plain card-blog">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="card-image">
+                  <img class="img img-raised" src="/images/uniteller.jpg">
+                  <div class="ripple-container"></div><div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div></div>
+                </div>
+                <div class="col-md-7">
+                  <h6 class="category text-info">Пополнение банковской картой</h6>
+                  <p class="description">Проверьте данные платежа</p>
               <h2 class="card-title"><small>карта №</small>{{session()->get('current_card_number','не определено')}}</h1>
-                <ul>
-                  <li><small>E-mail: </small>{{ $email }}</li>
-                  <li><small>На карту будет зачислено: </small> {{$payment_to_card}} р.</li>
-                  <li><small>К оплате (с комиссией 3%): </small> {{$payment_to_acquirer}} р.</li>
-                </ul>
+                
+                <small>E-mail: </small><p>{{ $email }}</p>
+                <small>На карту будет зачислено: </small><p>{{$payment_to_card}} р.</p>
+                <small>К оплате (с комиссией 3%): </small> <p>{{$payment_to_acquirer}} р.</p>
+                
                 <div class="col-md-10 col-md-offset-1">
-                      <input id="submit_payment" type="submit" class="btn btn-primary btn-round" value="Перейти к оплате">
+                      <input id="submit_payment" type="submit" class="btn btn-info btn-fullwidth" value="Перейти к оплате">
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
+        </div>
           <div class="row"></div>
 
         </div>

@@ -2610,3 +2610,6 @@ pre.prettyprint {
 .page-header .container {
     padding-top: 20vh;
 }
+.btn-fullwidth{
+  width: 100%;
+}
