@@ -2613,3 +2613,6 @@ pre.prettyprint {
 .btn-fullwidth{
   width: 100%;
 }
+gallery-feed-right{
+  float: right;
+}

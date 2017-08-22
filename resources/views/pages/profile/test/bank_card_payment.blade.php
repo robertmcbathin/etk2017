@@ -103,7 +103,7 @@
                     
                     <hr>
                     @if ($cardInfo->CardInformation->info->otype == 5)
-                    <p><i class="material-icons text-danger">close</i> Пополнение невозможно</p>
+                    <p><i class="material-icons text-danger">close</i> Это тестовое пополнение</p>
                     <form action="{{route('profile.test.pay')}}" method="POST">
                       <div class="form-group">
                         <input id="payment_value" type="text" value="" placeholder="Введите сумму платежа" minlength="1" name="payment_value" class="form-control">

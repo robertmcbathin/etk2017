@@ -77,7 +77,7 @@
         <div class="container">
 
 
-          <div class="col-md-4 col-md-offset-2">
+          <div class="col-md-6 col-md-offset-3">
             <div class="card card-plain card-blog">
               <div class="card-image">
                 <a href="{{ route('profile.test.bank_card_payment') }}">
@@ -96,7 +96,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+         <!-- <div class="col-md-4">
             <div class="card card-plain card-blog">
               <div class="card-image">
                 <a href="{{ route('profile.test.bank_card_payment') }}">
@@ -114,14 +114,9 @@
                   </p>
                 </div>
               </div>
-            </div>
+            </div> --> 
         </div>
       </div>
-      @if (Session::has('current_card_number'))
-      <p class="description">Онлайн-пополнение пока недоступно</p>
-      @else
-      <p class="text-danger description">Не выбрана карта для пополнения</p>
-      @endif
       <div class="row"></div>
 
     </div>

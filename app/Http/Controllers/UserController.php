@@ -1425,7 +1425,7 @@ public function showDetailsReport(){
       
       return view('pages.profile.test.bank_card_payment_confirm',[
         'cards' => $cards,
-        'current_card' => $current_card,
+        'current_card' => $card_number,
         'payment_to_card' => $payment_value,
         'payment_to_acquirer' => $payment_to_acquirer,
         'email' => $email,
