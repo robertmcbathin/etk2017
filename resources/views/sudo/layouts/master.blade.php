@@ -590,10 +590,23 @@
        * END OF LOAD CARD DATA
        */
       /**
+       * LOAD COMPENSATIONS
+       */
+      if (msg['compensation'] !== null){
+           compHtml = "<div id=\"info-compensate\" class=\"alert alert-danger\"><button type=\"button\" aria-hidden=\"true\" class=\"close\"><i class=\"material-icons\">close</i></button><span><b>ВНИМАНИЕ!</b>На карту необходимо зачислить " + msg['compensation'].value
+                                               + "руб. Причина: " + msg['compensation'].comment + "</span><form action=\"/sudo/compensate-trip\" method=\"POST\"><input type=\"hidden\" name=\"id\" value=\"" + msg['compensation'].id + "\">" + '{{ csrf_field() }}' +  '<button type=\"submit\" class=\"btn btn-info\" ></form>Восстановить на карту</div>';
+           $('#info-compensate').replaceWith(compHtml);                                    
+      } else {
+          compHtml = "<div id=\"info-compensate\" class=\"alert alert-success\"><button type=\"button\" aria-hidden=\"true\" class=\"close\"><i class=\"material-icons\">close</i></button><span>Все транзакции по карте в порядке</span></div>";
+           $('#info-compensate').replaceWith(compHtml); 
+      }
+      /**
+       * END LOADING COMPENSATIONS
+       */ 
+      /**
        * LOAD REFILLS DATA
        */
        if (msg['data'].length > 0){
-        console.log('1');
         html = '<tbody id=\"operations-results\">';
         htmlNull = '<h3 id=\"operations-results-none\"></h3>';
         for (var i = 0; i <= msg['data'].length - 1; i++) {

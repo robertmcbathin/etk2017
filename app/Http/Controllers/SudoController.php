@@ -540,6 +540,40 @@ public function postAddArticle(Request $request){
         } else Session::flash('add-transactions-fail', $content);
         return redirect()->back();
       }
+
+
+      public function postAddCompensation(Request $request){
+        $card_number = $request['card_number'];
+        $value = $request['value'];
+        $created_by = Auth::user()->id;
+        $comment = $request['comment'];
+
+        $compensation = new \App\Compensation;
+        $compensation->card_number = $card_number;
+        $compensation->value = $value;
+        $compensation->created_by = $created_by;
+        $compensation->comment = $comment;
+        if ($compensation->save()){
+          Session::flash('success','Заявка на возмещение добавлена');
+          return redirect()->back();
+        } else {
+          Session::flash('fail','Заявку добавить не удалось');
+          return redirect()->back();          
+        }
+      }
+
+      public function postCompensateTrip(Request $request){
+        $id = $request->id;
+        if (DB::table('ETK_COMPENSATIONS')
+              ->where('id', $id)
+              ->update(['is_confirmed' =>1, 'confirmed_by'=> Auth::user()->id])){
+          Session::flash('success', 'Операция восстановления сохранена');
+        return redirect()->back();
+        } else {
+          Session::flash('fail','Изменения не выполнены');
+          return redirect()->back();
+        }
+      }
       /**
        * [postUpdateCards description]
        * @param  Request $request [description]
@@ -1022,14 +1056,24 @@ public function postCompensateTransaction(Request $request){
     $semifullnumber = '0123' . $num;
     $semifullnumber_zero = '01' . $zero_serie . $num;
   }
+  /**
+   * CHECK FOR COMPENSATIONS
+   */
+    if (($compensation = DB::table('ETK_COMPENSATIONS')
+                          ->where('card_number',$semifullnumber)
+                          ->where('is_confirmed',0)
+                          ->first()) == NULL){$compensation = NULL;} 
+  /**
+   * 
+   */
   if (($card = DB::table('ETK_CARDS')
    ->where('num', $semifullnumber)
    ->first()) == NULL){
     $card_digit_state = 0;
-  $cur_balance = "Карта не найдена";
-  $cur_state = 'Состояние не определено';
-  $cur_last_operation = null;
-} else {
+    $cur_balance = "Карта не найдена";
+    $cur_state = 'Состояние не определено';
+    $cur_last_operation = null;
+  } else {
   $card_digit_state = $card->state;
   $cur_balance = $card->ep_balance_fact;
   /**CHECK ON DOBLE CARDS
@@ -1122,11 +1166,10 @@ public function postCompensateTransaction(Request $request){
         }
       } else $trips = null;
     } else $trips = null;
-
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
 
   }
 

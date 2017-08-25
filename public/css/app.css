@@ -2616,3 +2616,6 @@ pre.prettyprint {
 gallery-feed-right{
   float: right;
 }
+.btn-wide{
+  width: 50%;
+}

@@ -16,7 +16,7 @@
             <div class="alert alert-success">
               <div class="container">
                 <div class="alert-icon">
-                  <i class="material-icons">error_outline</i>
+                  <i class="material-icons">check</i>
                 </div>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true"><i class="material-icons">clear</i></span>
@@ -27,7 +27,52 @@
           </div>
         </div>
         @endif
+        @if (Session::has('fail'))
+        <div class="row">
+          <div class="container">
+            <div class="alert alert-danger">
+              <div class="container">
+                <div class="alert-icon">
+                  <i class="material-icons">error_outline</i>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                </button>
+                <strong>{{Session::pull('fail')}}</strong>
+              </div>
+            </div>  
+          </div>
+        </div>
+        @endif
           <div class="row">
+          @can('show-reports', App\User::class)
+          <div class="col-md-12">
+              <div class="card">
+                                <div class="card-header card-header-icon" data-background-color="rose">
+                                    <i class="material-icons">mail_outline</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Создать запрос на возмещение</h4>
+                                    <form method="POST" action="{{ route('sudo.add-compensation.post') }}">
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Номер карты</label>
+                                            <input type="text" name="card_number" placeholder="0123123456" minlength="10" maxlength="10" required class="form-control">
+                                        <span class="material-input"></span></div>
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Сумма</label>
+                                            <input type="text" name="value" class="form-control" required>
+                                        <span class="material-input"></span></div>
+                                        <div class="form-group label-floating is-empty">
+                                            <label class="control-label">Комментарий</label>
+                                            <input type="text" name="comment" class="form-control">
+                                        <span class="material-input"></span></div>
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-fill btn-rose">Создать</button>
+                                    </form>
+                                </div>
+                            </div>
+          </div>
+            @endcan
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-icon" data-background-color="rose">
