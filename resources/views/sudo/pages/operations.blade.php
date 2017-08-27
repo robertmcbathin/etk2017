@@ -7,6 +7,31 @@
     @include('sudo.includes.top-nav')
     <div class="content">
         <div class="container-fluid">
+          @if (Session::has('success'))
+          <div class="row">
+             <div class="alert alert-success">
+                <button type="button" aria-hidden="true" class="close">
+                  <i class="material-icons">close</i>
+              </button>
+              <span>
+                  {{Session::pull('success')}}</span>
+              </div>
+          </div>
+          @endif
+
+          @if (Session::has('fail'))
+          <div class="row">
+             <div class="alert alert-danger">
+                <button type="button" aria-hidden="true" class="close">
+                  <i class="material-icons">close</i>
+              </button>
+              <span>
+                  {{Session::pull('fail')}}</span>
+              </div>
+          </div>
+          @endif
+
+
           @if (Session::has('cancel-block-success'))
           <div class="row">
              <div class="alert alert-success">
@@ -106,6 +131,13 @@
                                     <p>Данные о блокировке <b id="card-block-info"></b></p>
                                     <p>Дубликаты <b id="card-double-info"></b></p>
                                     <div id="block-action"></div>
+                                    <div id="info-compensate" class="alert alert-info">
+                                        <button type="button" aria-hidden="true" class="close">
+                                            <i class="material-icons">close</i>
+                                        </button>
+                                        <span>
+                                            Компенсации по карте</span>
+                                    </div>
                                     <div id="info-preloader">
                                     </div>
                                 </div>

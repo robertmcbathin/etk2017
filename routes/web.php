@@ -81,6 +81,10 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getContactsPage',
         'as' => 'contacts'
         ]);
+    Route::get('/conditions', [
+        'uses' => 'SiteController@getConditionsPage',
+        'as' => 'conditions'
+        ]);
     /**
      * CARDS
      */
@@ -423,6 +427,14 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postMakeStatuscard',
             'as' => 'sudo.make-statuscard.post'
             ])->middleware('can:show-sudo,App\User');
+        Route::post('/compensations/create',[
+            'uses' => 'SudoController@postAddCompensation',
+            'as' => 'sudo.add-compensation.post'
+            ])->middleware('can:show-import,App\User');
+        Route::post('/compensate-trip',[
+            'uses' => 'SudoController@postCompensateTrip',
+            'as' => 'sudo.compensate-trip.post'
+            ])->middleware('can:show-import,App\User');
 
 
         Route::get('/schools',[

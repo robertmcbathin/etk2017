@@ -12,14 +12,21 @@
 							<a href="{{ route('register') }}">
 								Регистрация
 								<div class="ripple-container"></div></a>
-							</li>
-							<li>
-								<a href="{{ route('login') }}">
+						</li>
+						<li>
+							<a href="{{ route('login') }}">
 									Личный кабинет
-									<div class="ripple-container"></div></a>
-								</li>
-							</ul>
-						</div>
+							<div class="ripple-container"></div>
+							</a>
+						</li>
+					</ul>
+					<div class="gallery-feed">
+						<img src="/images/logo-mastercard.png" alt="MasterCard" class="img">
+						<img src="/images/logo-visa.png" alt="Visa" class="img">
+						<img src="/images/mir-logo.png" alt="Мир" class="img">
+						<img src="/images/uniteller-logo.jpg" alt="Uniteller" class="img">
+					</div>
+				</div>
 						<div class="col-md-2">
 							<h5>Карты</h5>
 							<ul class="links-vertical">
@@ -30,16 +37,16 @@
 								</li>
 								<li>
 									<b>
-									<a href="/static_articles/etkplus-card">
-										ЕТКплюс
-									</a>
+										<a href="/static_articles/etkplus-card">
+											ЕТКплюс
+										</a>
 									</b>
 								</li>
 								<li>
 									<b>
-									<a href="/static_articles/airtags">
-										Брелоки Airtag
-									</a>
+										<a href="/static_articles/airtags">
+											Брелоки Airtag
+										</a>
 									</b>
 								</li>
 								<li>
@@ -70,6 +77,11 @@
 								<li>
 									<a href="{{route('how-to-refill')}}">
 										Как пополнить
+									</a>
+								</li>
+								<li>
+									<a href="{{route('conditions')}}">
+										Условия
 									</a>
 								</li>
 							</ul>

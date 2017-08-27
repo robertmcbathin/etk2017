@@ -13,13 +13,23 @@
 							<div class="ripple-container"></div></a>
 						</li>
 						<li>
-							Личный кабинет (beta-версия 0.9)
+							<a href="{{ route('contacts') }}">
+							   Контакты
+							<div class="ripple-container"></div></a>
+						</li>
+						<li>
+							Личный кабинет (версия 0.9.1)
 						</li>
 					</ul>
 	            </nav>
+	            	<div class="gallery-feed gallery-feed-right">
+						<img src="/images/logo-mastercard.png" alt="MasterCard" class="img">
+						<img src="/images/logo-visa.png" alt="Visa" class="img">
+						<img src="/images/mir-logo.png" alt="Мир" class="img">
+						<img src="/images/uniteller-logo.jpg" alt="Uniteller" class="img">
+					</div>
 	            <div class="copyright pull-right">
-	            Портал работает в тестовом режиме. Просим все замечания и предложения высказать в разделе <a href="{{ route('ask') }}">Задать вопрос</a>. <br>
-	                © <script>document.write(new Date().getFullYear())</script> Все права защищены. <a href="http://etk21.ru" target="_blank">ООО "ЕТК"</a>
+	                © <script>document.write(new Date().getFullYear())</script> Все права защищены. <a href="https://etk21.ru" target="_blank">ООО "ЕТК"</a>
 	            </div>
 	        </div>
 	    </footer>

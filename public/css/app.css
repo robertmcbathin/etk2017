@@ -2610,3 +2610,12 @@ pre.prettyprint {
 .page-header .container {
     padding-top: 20vh;
 }
+.btn-fullwidth{
+  width: 100%;
+}
+gallery-feed-right{
+  float: right;
+}
+.btn-wide{
+  width: 50%;
+}
