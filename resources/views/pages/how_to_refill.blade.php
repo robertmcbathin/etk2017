@@ -48,11 +48,16 @@
                                         <a href=>Онлайн-пополнение</a>
                                     </h4>
                                     <small>Пополнение при помощи банковской карты на сайте в личном кабинете станет доступно в ближайшее время</small>
-                                </div>
+                                    <div class="footer">
+                                        <div>
+                                           <button class="btn btn-simple" data-toggle="modal" data-target="#aboutModal">Подробнее</button>
+                                       </div>
+                                   </div>
+                               </div>
 
-                            </div>
-                        </div>
-                    <div class="col-md-4">
+                           </div>
+                       </div>
+                       <div class="col-md-4">
                         <div class="card card-blog">
                             <div class="card-image">
                                 <a href="">
@@ -120,5 +125,49 @@
                     </div>
                 </div>
             </div>
-
-            @endsection
+            <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                <i class="material-icons">clear</i>
+                            </button>
+                            <h4 class="modal-title">Как пополнить карту онлайн</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul><div class="row">
+                                <div class="col-md-4">
+                                    <ul class="nav nav-pills nav-pills-rose nav-stacked">
+                                      <li class="active"><a href="#tab1" data-toggle="tab" aria-expanded="true">Регистрация</a></li>
+                                      <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false">Добавление карты</a></li>
+                                      <li><a href="#tab3" data-toggle="tab">Оплата</a></li>
+                                  </ul>
+                              </div>
+                              <div class="col-md-8">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab1">
+                                      Для пополнения онлайн Вам будет необходимо <a href="{{ route('register') }}">зарегистрироваться в личном кабинете</a>.
+                                      
+                                  </div>
+                                  <div class="tab-pane" id="tab2">
+                                      После регистрации и подтверждения адреса электронной почты перейдите в личный кабинет и добавьте Вашу карту в меню настроек.
+                                  </div>
+                                  <div class="tab-pane" id="tab3">
+                                  <p>1. Перейдите в меню <b>ПОПОЛНЕНИЕ</b> -> <b>ПОПОЛНИТЬ СЧЕТ</b> -> <b>Пополнение с любой банковской карты</b></p>
+                                  <p>2. Введите сумму платежа, нажмите <b>Перейти к оплате</b></p>
+                                  <p>3. Нажмите <b>Подтвердить заказ</b></p>
+                                  <p>4. Вы попадете на страницу оплаты, где необходимо будет ввести <b>номер банковской карты, срок действия карты, Ваше имя, CVV/CVC2 код</b> и нажмите ОПЛАТИТЬ</p>
+                                  <p>После подтверждения оплаты сформируется отложенное пополнение, которое запишется на карту </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div></ul>
+                    <p class="description">Напоминаем, что онлайн-пополнение пока <b>недоступно</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endsection

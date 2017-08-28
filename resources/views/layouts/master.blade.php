@@ -117,7 +117,6 @@
    @yield('content')
    @include('includes.footer')
 
-
 </body>
 	<!--   Core JS Files   -->
 	<script src="/js/jquery.min.js" type="text/javascript"></script>
