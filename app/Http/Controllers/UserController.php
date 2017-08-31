@@ -1046,6 +1046,10 @@ public function showDetailsReport(){
   $card_number         = $request['card_number'];
   $user_id             = $request['user_id'];
 
+  if ($reason == ''){
+    Session::flash('error','Необходимо обязательно указать причину');
+    return redirect()->back();
+  }
   $date_start = new \Datetime($request_date_start);
   $date_end = new \Datetime($request_date_end);
 
