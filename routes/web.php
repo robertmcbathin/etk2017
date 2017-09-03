@@ -85,6 +85,10 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getConditionsPage',
         'as' => 'conditions'
         ]);
+    Route::get('/wanted',[
+        'uses' => 'SiteController@getWantedPage',
+        'as' => 'wanted'
+        ]);
     /**
      * CARDS
      */

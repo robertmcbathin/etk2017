@@ -524,6 +524,15 @@ public function showDetailsReport(){
           Session::flash('card_is_not_numeric', 'Введенный номер не является числом. Проверьте и попробуйте еще раз');
           return redirect()->back();
         }else {
+          /**
+           * ПРОВЕРИТЬ, ДОБАВЛЕНА ЛИ УЖЕ КАРТА
+           */
+          if ($card_exist = DB::table('ETK_CARD_USERS')
+                              ->where('number',$card_number)
+                              ->first() == true){
+            Session::flash('error', 'Эта карта уже добавлена!');
+            return redirect()->back();
+          }
           $num   = substr($card_number, 0, 3);
           /**
            * LIMIT CARD COUNT TO 10

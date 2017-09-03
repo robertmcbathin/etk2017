@@ -172,6 +172,9 @@ public function getNewsPage(){
     public function getConditionsPage(){
         return view('pages.conditions');
     }
+    public function getWantedPage(){
+        return view('pages.wanted');
+    }
     public function postQuestion(Request $request){
         $this->validate($request,[
             'name' => 'required|min:1|max:100',
