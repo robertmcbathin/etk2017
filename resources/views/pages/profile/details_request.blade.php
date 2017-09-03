@@ -17,6 +17,23 @@
           <h4 class="title">Создать запрос на детализацию</h4>
         </div>
       </div>
+      @if (Session::has('error'))
+      <div class="row">
+        <div class="container">
+          <div class="alert alert-danger">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">error_outline</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <strong>{{Session::pull('error')}}</strong>
+            </div>
+          </div>  
+        </div>
+      </div>
+      @endif
       @if (Session::has('min-date-error'))
       <div class="row">
         <div class="container">
@@ -100,13 +117,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="label-control">Начало периода</label>
-                <input type="text" class="form-control datepicker" name="date_start" value="">
+                <input type="text" class="form-control datepicker" name="date_start" value="" required>
                 <span class="material-input"></span></div>
               </div>
               <div class="col-md-6">
                <div class="form-group">
                 <label class="label-control">Конец периода</label>
-                <input type="text" class="form-control datepicker" name="date_end" value="">
+                <input type="text" class="form-control datepicker" name="date_end" value="" required>
                 <span class="material-input"></span></div>
               </div>
               <div class="col-md-12">
@@ -115,8 +132,9 @@
                 </div>
                 <div class="form-group label-floating is-empty">
                   <label class="control-label"> Введите текст здесь</label>
-                  <textarea class="form-control" rows="5" name="reason"></textarea>
+                  <textarea class="form-control" rows="5" name="reason" required></textarea>
                   <span class="material-input"></span></div>
+                  <small>Примечание: укажите наиболее полное описание проблемы</small>
                 </div>
                 <input type="hidden" value="{{ Session::get('current_card_number') }}" name="card_number">
                 <input type="hidden" value="{{ Auth::user()->id }}" name="user_id">
