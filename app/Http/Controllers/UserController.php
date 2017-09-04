@@ -529,6 +529,7 @@ public function showDetailsReport(){
            */
           if ($card_exist = DB::table('ETK_CARD_USERS')
                               ->where('number',$card_number)
+                              ->where('user_id',$user_id)
                               ->first() == true){
             Session::flash('error', 'Эта карта уже добавлена!');
             return redirect()->back();
