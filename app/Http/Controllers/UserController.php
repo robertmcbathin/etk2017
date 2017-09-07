@@ -27,6 +27,40 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
   /**
+   * СОЗДАНИЕ ПОДПИСИ
+   * @param  [type] $Shop_IDP     [description]
+   * @param  [type] $Order_IDP    [description]
+   * @param  [type] $Subtotal_P   [description]
+   * @param  [type] $MeanType     [description]
+   * @param  [type] $EMoneyType   [description]
+   * @param  [type] $Lifetime     [description]
+   * @param  [type] $Customer_IDP [description]
+   * @param  [type] $Card_IDP     [description]
+   * @param  [type] $IData        [description]
+   * @param  [type] $PT_Code      [description]
+   * @param  [type] $password     [description]
+   * @return [type]               [description]
+   */
+  private function getSignature( $Shop_IDP, $Order_IDP, $Subtotal_P, $MeanType, $EMoneyType,
+    $Lifetime, $Customer_IDP, $Card_IDP, $IData, $PT_Code, $password ) {
+    $Signature = strtoupper(
+      md5(
+        md5($Shop_IDP) . "&" .
+        md5($Order_IDP) . "&" .
+        md5($Subtotal_P) . "&" .
+        md5($MeanType) . "&" .
+        md5($EMoneyType) . "&" .
+        md5($Lifetime) . "&" .
+        md5($Customer_IDP) . "&" .
+        md5($Card_IDP) . "&" .
+        md5($IData) . "&" .
+        md5($PT_Code) . "&" .
+        md5($password)
+        )
+      );
+    return $Signature;
+  }
+  /**
    * [modifyToFullNumber description]
    * @param  [type] $number [description]
    * @return [type]         [description]
@@ -528,20 +562,20 @@ public function showDetailsReport(){
            * ПРОВЕРИТЬ, ДОБАВЛЕНА ЛИ УЖЕ КАРТА
            */
           if ($card_exist = DB::table('ETK_CARD_USERS')
-                              ->where('number',$card_number)
-                              ->where('user_id',$user_id)
-                              ->first() == true){
+            ->where('number',$card_number)
+            ->where('user_id',$user_id)
+            ->first() == true){
             Session::flash('error', 'Эта карта уже добавлена!');
-            return redirect()->back();
-          }
-          $num   = substr($card_number, 0, 3);
+          return redirect()->back();
+        }
+        $num   = substr($card_number, 0, 3);
           /**
            * LIMIT CARD COUNT TO 10
            * @var [type]
            */
           $usercard_count = DB::table('ETK_CARD_USERS')
-            ->where('user_id', $user_id)
-            ->count();
+          ->where('user_id', $user_id)
+          ->count();
           if ($usercard_count > 10){
             Session::flash('error', 'Нельзя добавить более 10 карт на один аккаунт');
             return redirect()->back();
@@ -1318,38 +1352,38 @@ public function showDetailsReport(){
        * PAYMENT SOAP CARDINFO
        * @var Payment
        */
-      if (Session::has('current_card_number')){
-        $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
+            if (Session::has('current_card_number')){
+              $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
 
-      } else {
-        Session::flash('warning','Выберите карту для пополнения в меню');
-        return redirect()->back();
-    }
+            } else {
+              Session::flash('warning','Выберите карту для пополнения в меню');
+              return redirect()->back();
+            }
 
-      $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
-      $params = array('agentId' => '7', 
-                      'salepointId' => '7', 
-                      'version' => '1', 
-                      'sysNum' => $current_card, 
-                      'regionId' => 99, 
-                      'deviceId' => 'B9900007');
+            $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+            $params = array('agentId' => '7', 
+              'salepointId' => '7', 
+              'version' => '1', 
+              'sysNum' => $current_card, 
+              'regionId' => 99, 
+              'deviceId' => 'B9900007');
 
-      $username = 'admin';
-      $password = '1';
-      $wsse_header = new WsseAuthHeader($username, $password);
-      $client->__setSoapHeaders(array($wsse_header));
-      try {
-        $cardInfo = $client->__soapCall('CardInfo', array($params));
-      } catch (Exception $e) {
-        return redirect()->back();
-      }
-    /*  dd($cardInfo);*/
-      if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
-        Session::flash('info', $cardInfo->CardInformation->warningMsg);
-        return redirect()->back();
-      } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
-        Session::flash('info', $cardInfo->CardInformation->warningMsg);
-      }
+            $username = 'admin';
+            $password = '1';
+            $wsse_header = new WsseAuthHeader($username, $password);
+            $client->__setSoapHeaders(array($wsse_header));
+            try {
+              $cardInfo = $client->__soapCall('CardInfo', array($params));
+            } catch (Exception $e) {
+              return redirect()->back();
+            }
+            /*  dd($cardInfo);*/
+            if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
+              Session::flash('info', $cardInfo->CardInformation->warningMsg);
+              return redirect()->back();
+            } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
+              Session::flash('info', $cardInfo->CardInformation->warningMsg);
+            }
       /**
        * CHECK CARD ON EXISTING
        * @var [type]
@@ -1375,7 +1409,7 @@ public function showDetailsReport(){
 
     public function postPayByBankCard(Request $request){
       $this->validate($request,[
-        
+
         ]);
       $cards = DB::table('ETK_CARD_USERS')
       ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
@@ -1392,14 +1426,14 @@ public function showDetailsReport(){
         return redirect()->back();
       }
 
-      $payment_value = ($request->payment_value);
-      $payment_session_id = $request->payment_session_id;
-      $payment_tariff_id = $request->payment_tariff_id;
-      $payment_max_sum = $request->max_sum;
-      $payment_min_sum = $request->min_sum;
+      $payment_value       = $request->payment_value;
+      $payment_session_id  = $request->payment_session_id;
+      $payment_tariff_id   = $request->payment_tariff_id;
+      $payment_max_sum     = $request->max_sum;
+      $payment_min_sum     = $request->min_sum;
       $payment_to_acquirer = ($payment_value * 1.03);
-      $user_id = $request->user_id;
-      $card_number = $request->card_number;
+      $user_id             = $request->user_id;
+      $card_number         = $request->card_number;
       /**
        * VERIFY INPUTS
        */
@@ -1425,21 +1459,45 @@ public function showDetailsReport(){
       /**
        * CREATE AN ORDER
        */
-        $order = new \App\Order;
-        $order->user_id = $user_id;
-        $order->order_type = 1;
-        $order->payment_to_acquirer = $payment_to_acquirer;
-        $order->payment_to_card = $payment_value;
-        $order->card_number = $card_number;
-        $order->order_name = 'ut-' . $user_id . '-' . $card_number . '-' . date('YmdHis');
-        $order->save();
+      $Order_ID = 'Uniteller-u' . $user_id . '-c' . $card_number . '-' . date('YmdHis');
+      $order = new \App\Order;
+      $order->user_id = $user_id;
+      $order->order_type = 1;
+      $order->payment_to_acquirer = $payment_to_acquirer;
+      $order->payment_to_card = $payment_value;
+      $order->card_number = $card_number;
+      $order->order_name = $Order_ID;
+      $order->save();
       /**
        * 
        */
+      $Shop_IDP = '00011986';
+      $Lifetime = 3600;
+      $Subtotal_P = $payment_to_acquirer;
+      $Customer_IDP = $user_id;
+      $URL_RETURN_OK = 'https://etk21.ru/profile/payment/ok';
+      $URL_RETURN_NO = 'https://etk21.ru/profile/payment/fail';
+      $password = 'tusk1oAqfMc8NdYpybGvJFSnsx6UyGbYfIRTQ5m4ocIQjLaGBWYb9sZwf0wjsUHpk0LlT6g55L1iiIHN';
+      $EMoneyType = '';
+      $MeanType = '';
+      $Card_IDP = '';
+      $PT_Code = '';
+
+      $Signature = $this->getSignature( $Shop_IDP, $Order_ID, $Subtotal_P, $MeanType, $EMoneyType,
+$Lifetime, $Customer_IDP, "", "", "", $password );
+
       
       return view('pages.profile.test.bank_card_payment_confirm',[
         'cards' => $cards,
         'current_card' => $card_number,
+        'Order_IDP' => $Order_ID,
+        'Shop_IDP' => $Shop_IDP,
+        'Lifetime' => $Lifetime,
+        'Subtotal_P' => $Subtotal_P,
+        'Customer_IDP' => $Customer_IDP,
+        'Signature' => $Signature,
+        'URL_RETURN_OK' => $URL_RETURN_OK,
+        'URL_RETURN_NO' => $URL_RETURN_NO,
         'payment_to_card' => $payment_value,
         'payment_to_acquirer' => $payment_to_acquirer,
         'email' => $email,
@@ -1449,13 +1507,13 @@ public function showDetailsReport(){
        */
       $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
       $params = array('agentId' => '7', 
-                      'salepointId' => '7', 
-                      'version' => '1', 
-                      'sessionId' => $payment_session_id,
-                      'tariffId' => $payment_tariff_id,
-                      'paymentSum' => $payment_value,
-                      'paymentInfo' => 'Тест'
-                      );
+        'salepointId' => '7', 
+        'version' => '1', 
+        'sessionId' => $payment_session_id,
+        'tariffId' => $payment_tariff_id,
+        'paymentSum' => $payment_value,
+        'paymentInfo' => 'Тест'
+        );
 
       $username = 'admin';
       $password = '1';

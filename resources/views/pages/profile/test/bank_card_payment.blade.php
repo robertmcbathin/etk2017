@@ -116,7 +116,7 @@
                       <input type="hidden" name="card_number" value="{{session()->get('current_card_number')}}">
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                       {{ csrf_field() }}
-                      <input id="submit_payment" type="submit" class="btn btn-info btn-fullwidth" value="Перейти к оплате">
+                      <input id="submit_payment" type="submit" class="btn btn-info btn-fullwidth" value="Перейти к заказу">
                     </form>
                     @elseif ($cardInfo->CardInformation->info->otype == 4)
                     <p><i class="material-icons text-succes">check</i> Все готово для пополнения</p>
@@ -132,7 +132,7 @@
                       <input type="hidden" name="card_number" value="{{session()->get('current_card_number')}}">
                       <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                       {{ csrf_field() }}
-                      <input id="submit_payment" type="submit" class="btn btn-info" value="Перейти к оплате">
+                      <input id="submit_payment" type="submit" class="btn btn-info" value="Перейти к заказу">
                     </form>
                     @endif
                   </p>

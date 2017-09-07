@@ -156,10 +156,19 @@
 
                  </div>
                </div><!--  end acordeon -->
-
+              <form action="https://wpay.uniteller.ru/pay/" method="POST">
                <div class="row">
+               <input type="hidden" name="Shop_IDP" value="{{ $Shop_IDP }}">
+               <input type="hidden" name="Order_IDP" value="{{ $Order_IDP }}">
+               <input type="hidden" name="Subtotal_P" value="{{ $Subtotal_P }}">
+               <input type="hidden" name="Lifetime" value="{{ $Lifetime }}">
+               <input type="hidden" name="Customer_IDP" value="{{ $Customer_IDP }}">
+               <input type="hidden" name="Signature" value="{{ $Signature }}">
+               <input type="hidden" name="URL_RETURN_OK" value="{{ $URL_RETURN_OK }}">
+               <input type="hidden" name="URL_RETURN_NO" value="{{ $URL_RETURN_NO }}">
                 <input id="submit_payment" type="submit" class="btn btn-info btn-fullwidth" value="Подтвердить заказ">
               </div>
+              </form>
             </div>
 
 

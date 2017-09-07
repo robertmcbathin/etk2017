@@ -211,8 +211,7 @@ var depositPoints = [
       $('#payment_value').on('keyup', function(){
         var value = ($('#payment_value').val() * 1.03);
         valueStr = value.toString();
-        console.log('Перейти к оплате (' + valueStr + ' р.)');
-        $('#submit_payment').val('Перейти к оплате (' + valueStr + ' р.)');
+        $('#submit_payment').val('Перейти к заказу (' + valueStr + ' р.)');
       });
     </script>
 <script src="/js/chartist.min.js"></script>
