@@ -1434,6 +1434,11 @@ public function showDetailsReport(){
       $payment_to_acquirer = ($payment_value * 1.03);
       $user_id             = $request->user_id;
       $card_number         = $request->card_number;
+
+      /**
+       * SAVE SESSION ID TO LOCAL SESSION
+       */
+      Session::put('payment_session_id', $payment_session_id);
       /**
        * VERIFY INPUTS
        */
@@ -1521,5 +1526,13 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
       $client->__setSoapHeaders(array($wsse_header));
       $paymentInfo = $client->__soapCall('CardPayment', array($params));
       dd($paymentInfo);
+    }
+
+    public function getPaymentOkPage(){
+      return view('pages.profile.test.payment.payment_ok');
+    }
+
+    public function getPaymentFailPage(){
+
     }
   }

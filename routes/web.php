@@ -292,6 +292,14 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/profile/test/payment/bank_card/confirm',[
         'uses' => 'UserController@getTestBankCardPaymentConfirmPage',
         'as' => 'profile.test.bank_card_payment_confirm'
+        ]);
+    Route::get('/profile/test/payment/ok',[
+        'uses' => 'UserController@getPaymentOkPage',
+        'as' => 'profile.test.payment_ok.get'
+        ]);  
+    Route::get('/profile/test/payment/fail',[
+        'uses' => 'UserController@getPaymentFailPage',
+        'as' => 'profile.test.payment_fail.get'
         ]);  
     Route::post('/profile/test/pay',[
         'uses' => 'UserController@postPayByBankCard',
