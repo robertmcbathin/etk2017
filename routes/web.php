@@ -301,6 +301,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@getPaymentFailPage',
         'as' => 'profile.test.payment_fail.get'
         ]);  
+    Route::post('/profile/payment/notify',[
+        'uses' => 'UserController@postNotifyAboutPayment',
+        'as' => 'profile.pay.notify.post'
+        ]);     
     Route::post('/profile/test/pay',[
         'uses' => 'UserController@postPayByBankCard',
         'as' => 'profile.test.pay'
