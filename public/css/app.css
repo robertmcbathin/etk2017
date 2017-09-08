@@ -2619,3 +2619,6 @@ gallery-feed-right{
 .btn-wide{
   width: 50%;
 }
+.footer-sticky{
+  position: sticky;
+}
