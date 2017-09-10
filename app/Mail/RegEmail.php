@@ -40,6 +40,6 @@ class RegEmail extends Mailable
                         'email' => $this->email,
                         'password' => $this->password,
                         'url'    => $this->url
-                        ]);;
+                        ]);
     }
 }

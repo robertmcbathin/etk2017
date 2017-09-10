@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="container">
                     @foreach ($cards as $card)
-                    <div class="col-md-4">
+                    <div class="col-6 col-md-4">
                         <div class="card card-blog">
                             <div class="card-image">
                                 <a href="{{route('card',['id' => $card->id])}}">
