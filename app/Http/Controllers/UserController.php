@@ -1612,7 +1612,9 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
          */
         if ($order->rewrite_status == 1){ //ЕСЛИ КАРТА УЖЕ ПЕРЕЗАПИСАНА
           Session::flash('error','Отложенное пополнение по этому заказу уже создано');
-          return view('pages.profile.test.payment.payment_ok');
+          return view('pages.profile.test.payment.payment_ok',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
         } elseif ($order->rewrite_status == 0) { //КАРТА НЕ ПЕРЕЗАПИСАНА. МОЖНО СОЗДАВАТЬ ТРАНЗАКЦИЮ
         /**
          * POST TRANSACTION
@@ -1652,7 +1654,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
         }
         
       } else {
-        Session::flash('error','Заказа с таким номером не существует');
+        Session::flash('error','Заказ с таким номером не существует');
         return view('pages.profile.test.payment.payment_ok',[
         'cards' => $cards,
         'current_card' => $current_card]);
