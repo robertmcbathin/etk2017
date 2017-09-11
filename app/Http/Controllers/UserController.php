@@ -1641,17 +1641,25 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
               'rewrite_status' => 1
               ]);
         } catch (Exception $e) {
-          return view('pages.profile.test.payment.payment_fail');
+          return view('pages.profile.test.payment.payment_fail',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
         }
         Session::flash('success','Операция прошла успешно!');
-        return view('pages.profile.test.payment.payment_ok');          
+        return view('pages.profile.test.payment.payment_ok',[
+        'cards' => $cards,
+        'current_card' => $current_card]);          
         }
         
       } else {
         Session::flash('error','Заказа с таким номером не существует');
-        return view('pages.profile.test.payment.payment_ok');
+        return view('pages.profile.test.payment.payment_ok',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
       }
-      return view('pages.profile.test.payment.payment_ok');
+      return view('pages.profile.test.payment.payment_ok',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
     }
 
     public function getPaymentFailPage(){
