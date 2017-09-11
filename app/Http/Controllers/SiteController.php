@@ -236,8 +236,7 @@ public function getNewsPage(){
          * @var [type]
          */
         if ($order->rewrite_status == 1){
-          Session::flash('error','Отложенное пополнение по этому заказу уже создано');
-          return view('pages.profile.test.payment.payment_ok');
+          return;
         } elseif ($order->rewrite_status == 0) {
         /**
          * POST TRANSACTION
@@ -266,17 +265,15 @@ public function getNewsPage(){
               'rewrite_status' => 1
               ]);
         } catch (Exception $e) {
-          return view('pages.profile.test.payment.payment_fail');
+          return;
         }
-        Session::flash('success','Операция прошла успешно!');
-        return view('pages.profile.test.payment.payment_ok');
+        return;
         }
       } else{
         /**
          * ОПЛАТА НЕ ПРОИЗВЕДЕНА
          */
-        Session::flash('warning','На данный момент, оплата еще не прошла. Как только мы получим уведомление от Банка, Вам придет письмо на элктронную почту.');
-        return view('pages.profile.test.payment.payment_fail');
+        return;
       }
 
 
