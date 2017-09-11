@@ -305,7 +305,7 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postPayByBankCard',
         'as' => 'profile.test.pay'
         ]); 
-    Route::get('/profile/payment/ok?Order_ID={Order_ID}',[
+    Route::get('/profile/payment/ok/{Order_ID}',[
         'uses' => 'UserController@getPaymentOkPage',
         'as' => 'profile.test.payment_ok.get'
         ]);  

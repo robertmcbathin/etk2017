@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-class PaymentController extends SoapClient
+class PaymentController
 {
   
 }
