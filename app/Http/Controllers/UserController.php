@@ -1591,6 +1591,16 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
      * @return [type] [description]
      */
     public function getPaymentOkPage($Order_ID){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
       /**
        * SEARCH ORDER BY NAME
        */
@@ -1614,7 +1624,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
             'version' => '1', 
             'sessionId' => $order->session_id,
             'tariffId' => $order->tariff_id,
-            'paymentSum' => $order->payment_to_card,
+            'paymentSum' => ($order->payment_to_card*100),
             'paymentInfo' => 'Тест'
           );
           $username = 'admin';
