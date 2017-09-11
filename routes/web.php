@@ -89,6 +89,10 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getWantedPage',
         'as' => 'wanted'
         ]);
+    Route::post('/uniteller/notify',[
+        'uses' => 'SiteController@postNotifyAboutPayment',
+        'as' => 'profile.pay.notify.post'
+        ]); 
     /**
      * CARDS
      */
@@ -296,11 +300,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/profile/test/payment/fail',[
         'uses' => 'UserController@getPaymentFailPage',
         'as' => 'profile.test.payment_fail.get'
-        ]);  
-    Route::post('/profile/payment/notify',[
-        'uses' => 'UserController@postNotifyAboutPayment',
-        'as' => 'profile.pay.notify.post'
-        ]);     
+        ]);      
     Route::post('/profile/test/pay',[
         'uses' => 'UserController@postPayByBankCard',
         'as' => 'profile.test.pay'
