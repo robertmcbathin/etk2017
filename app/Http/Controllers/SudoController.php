@@ -291,7 +291,7 @@ public function postAddArticle(Request $request){
       public function getOnlineOrders(){
         $orders = DB::table('ETK_ORDERS')
                     ->join('users', 'ETK_ORDERS.user_id','=','users.id')
-                    ->select('ETK_ORDERS.id','users.name as name', 'ETK_ORDERS.order_name','ETK_ORDERS.payment_to_card', 'ETK_ORDERS.payment_to_acquirer','ETK_ORDERS.card_number', 'ETK_ORDERS.order_type', 'ETK_ORDERS.status','ETK_ORDERS.created_at')
+                    ->select('ETK_ORDERS.id','users.name as name', 'ETK_ORDERS.order_name','ETK_ORDERS.payment_to_card', 'ETK_ORDERS.payment_to_acquirer','ETK_ORDERS.card_number', 'ETK_ORDERS.order_type', 'ETK_ORDERS.payment_status', 'ETK_ORDERS.rewrite_status','ETK_ORDERS.created_at')
                     ->orderBy('ETK_ORDERS.created_at','DESC')
                     ->paginate(15);
         return view('sudo.pages.online-orders',[

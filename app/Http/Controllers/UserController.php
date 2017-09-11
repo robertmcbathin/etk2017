@@ -1400,13 +1400,22 @@ public function showDetailsReport(){
       /**
        * 
        */
+      /**
+       * POST DATA TO SESSION
+      **/
+      Session::put('payment_session_id',$cardInfo->CardInformation->sessionId);
+      Session::put('payment_tariff_id', $cardInfo->CardInformation->tariff->id);
       return view('pages.profile.test.bank_card_payment',[
         'cards' => $cards,
         'current_card' => $current_card,
         'cardInfo' => $cardInfo
         ]);
     }
-
+    /**
+     * [postPayByBankCard description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function postPayByBankCard(Request $request){
       $this->validate($request,[
 
@@ -1438,7 +1447,7 @@ public function showDetailsReport(){
       /**
        * SAVE SESSION ID TO LOCAL SESSION
        */
-      Session::put('payment_session_id', $payment_session_id);
+      Session::put('payment_value', $payment_value);
       /**
        * VERIFY INPUTS
        */
@@ -1525,9 +1534,82 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
       $wsse_header = new WsseAuthHeader($username, $password);
       $client->__setSoapHeaders(array($wsse_header));
       $paymentInfo = $client->__soapCall('CardPayment', array($params));
-      dd($paymentInfo);
     }
 
+    /**
+     * [getPaymentOkPage description]
+     * @return [type] [description]
+     */
+    public function postNotifyAboutPayment(Request $request){
+      $Order_ID = $request->Order_ID;
+      $Status = $request->Status;
+      $Signature = $request->Signature;
+
+      $order = DB::table('ETK_ORDERS')
+                  ->where('order_name', $Order_ID)
+                  ->first();
+
+      DB::table('ETK_ORDERS')
+        ->where('order_name', $Order_ID)
+        ->update([
+          'payment_status' => $Status,
+          'signature' => $Signature
+          ]);
+      if (($Status == 'authorized') || ($Status == 'paid')){
+        /**
+         * ОПЛАТА ПРОШЛА УСПЕШНО
+         * @var [type]
+         */
+        if ($order->rewrite_status == 1){
+          Session::flash('error','Отложенное пополнение по этому заказу уже создано');
+          return view('pages.profile.test.payment.payment_ok');
+        } elseif ($order->rewrite_status == 0) {
+        /**
+         * POST TRANSACTION
+         */
+        try {
+          $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+          $params = array('agentId' => '7', 
+            'salepointId' => '7', 
+            'version' => '1', 
+            'sessionId' => Session::get('payment_session_id'),
+            'tariffId' => Session::get('payment_tariff_id'),
+            'paymentSum' => Session::get('payment_value'),
+            'paymentInfo' => 'Тест'
+          );
+          $username = 'admin';
+          $password = '1';
+          $wsse_header = new WsseAuthHeader($username, $password);
+          $client->__setSoapHeaders(array($wsse_header));
+          $paymentInfo = $client->__soapCall('CardPayment', array($params)); 
+          /**
+           * UPDATE DB
+           */
+          DB::table('ETK_ORDERS')
+            ->where('order_name', $Order_ID)
+            ->update([
+              'rewrite_status' => 1
+              ]);
+        } catch (Exception $e) {
+          return view('pages.profile.test.payment.payment_fail');
+        }
+        Session::flash('success','Операция прошла успешно!');
+        return view('pages.profile.test.payment.payment_ok');
+        }
+      } else{
+        /**
+         * ОПЛАТА НЕ ПРОИЗВЕДЕНА
+         */
+        Session::flash('warning','На данный момент, оплата еще не прошла. Как только мы получим уведомление от Банка, Вам придет письмо на элктронную почту.');
+        return view('pages.profile.test.payment.payment_fail');
+      }
+
+
+    }
+    /**
+     * [getPaymentOkPage description]
+     * @return [type] [description]
+     */
     public function getPaymentOkPage(){
       return view('pages.profile.test.payment.payment_ok');
     }

@@ -74,7 +74,8 @@
                                             <th class="text-right">Сумма к пополнению</th>
                                             <th class="text-right">Сумма к списанию</th>
                                             <th class="text-right">Тип заказа</th>
-                                            <th class="text-right">Статус</th>
+                                            <th class="text-right">Статус оплаты</th>
+                                            <th class="text-right">Статус ОП</th>
                                             <th class="text-right">Дата</th>
                                         </tr>
                                     </thead>
@@ -90,17 +91,32 @@
                                             @if ($order->order_type == 1)
                                              <td class="text-right"><span class="label label-info">Uniteller</span></td>
                                              @endif
-                                             @if ($order->status == 2)
+                                             @if ($order->order_type == 2)
                                              <td class="text-right"><span class="label label-success">Сбербанк Онлайн</span></td>
                                              @endif
-                                            @if ($order->status == 0)
-                                             <td class="text-right"><span class="label label-warning">Новый</span></td>
+
+
+                                            @if ($order->payment_status == 0)
+                                             <td class="text-right"><span class="label label-info">Не оплачен</span></td>
                                              @endif
-                                             @if ($order->status == 1)
-                                             <td class="text-right"><span class="label label-info">Оплачен</span></td>
+                                             @if ($order->payment_status == 'paid')
+                                             <td class="text-right"><span class="label label-warning">Оплачен</span></td>
                                              @endif
-                                             @if ($order->status == 2)
-                                             <td class="text-right"><span class="label label-success">Создана ОП</span></td>
+                                             @if ($order->payment_status == 'authorized')
+                                             <td class="text-right"><span class="label label-success">Авторизован</span></td>
+                                             @endif
+                                             @if ($order->payment_status == 'canceled')
+                                             <td class="text-right"><span class="label label-danger">Отменен</span></td>
+                                             @endif
+                                             @if ($order->payment_status == 'waiting')
+                                             <td class="text-right"><span class="label label-warning">Ожидается оплата</span></td>
+                                             @endif
+
+                                             @if ($order->rewrite_status == 0)
+                                             <td class="text-right"><span class="label label-info">Не создано</span></td>
+                                             @endif
+                                             @if ($order->rewrite_status == 1)
+                                             <td class="text-right"><span class="label label-success">Создано</span></td>
                                              @endif
                                             <th class="text-right">{{ $order->created_at }}</th>
                                         </tr>
