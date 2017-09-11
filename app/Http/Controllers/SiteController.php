@@ -8,6 +8,7 @@ use Mail;
 use Session;
 use \SoapClient;
 use \SoapServer;
+use \SoapHeader;
 use Carbon\Carbon;
 use App\Question;
 use \App\WsseAuthHeader;
@@ -236,7 +237,8 @@ public function getNewsPage(){
          * @var [type]
          */
         if ($order->rewrite_status == 1){
-          return;
+          Session::flash('error','Отложенное пополнение по этому заказу уже создано');
+          return view('pages.profile.test.payment.payment_ok');
         } elseif ($order->rewrite_status == 0) {
         /**
          * POST TRANSACTION
@@ -246,9 +248,9 @@ public function getNewsPage(){
           $params = array('agentId' => '7', 
             'salepointId' => '7', 
             'version' => '1', 
-            'sessionId' => Session::get('payment_session_id'),
-            'tariffId' => Session::get('payment_tariff_id'),
-            'paymentSum' => Session::get('payment_value'),
+            'sessionId' => $order->session_id,
+            'tariffId' => $order->tariff_id,
+            'paymentSum' => ($order->payment_to_card*100),
             'paymentInfo' => 'Тест'
           );
           $username = 'admin';
@@ -265,15 +267,17 @@ public function getNewsPage(){
               'rewrite_status' => 1
               ]);
         } catch (Exception $e) {
-          return;
+          return view('pages.profile.test.payment.payment_fail');
         }
-        return;
+        Session::flash('success','Операция прошла успешно!');
+        return view('pages.profile.test.payment.payment_ok');
         }
       } else{
         /**
          * ОПЛАТА НЕ ПРОИЗВЕДЕНА
          */
-        return;
+        Session::flash('warning','На данный момент, оплата еще не прошла. Как только мы получим уведомление от Банка, Вам придет письмо на элктронную почту.');
+        return view('pages.profile.test.payment.payment_fail');
       }
 
 
