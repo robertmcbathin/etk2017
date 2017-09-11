@@ -97,9 +97,9 @@
                     <small>минимальная сумма</small><p> {{$cardInfo->CardInformation->tariff->minSumInt}} р.</p>
                     <small>максимальная сумма</small></p> {{$cardInfo->CardInformation->tariff->maxSumInt}} р.</p>
 
-                    @if ($cardInfo->CardInformation->tariff->unaccountedResidueInfo)
+                    @isset($cardInfo->CardInformation->tariff->unaccountedResidueInfo)
                     <p>{{$cardInfo->CardInformation->tariff->unaccountedResidueInfo}}</p>
-                    @endif
+                    @endisset
                     
                     <hr>
                     @if ($cardInfo->CardInformation->info->otype == 5)
