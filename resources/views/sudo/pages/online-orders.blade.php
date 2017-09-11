@@ -89,14 +89,14 @@
                                             <th class="text-right">{{ $order->payment_to_card }}</th>
                                             <th class="text-right">{{ $order->payment_to_acquirer }}</th>
                                             @if ($order->order_type == 1)
-                                             <td class="text-right"><span class="label label-info">Uniteller</span></td>
+                                             <td class="text-right"><img src="/admin/img/logo.jpg" alt=""></td>
                                              @endif
                                              @if ($order->order_type == 2)
                                              <td class="text-right"><span class="label label-success">Сбербанк Онлайн</span></td>
                                              @endif
 
 
-                                            @if ($order->payment_status == 0)
+                                            @if ($order->payment_status == null)
                                              <td class="text-right"><span class="label label-info">Не оплачен</span></td>
                                              @endif
                                              @if ($order->payment_status == 'paid')
