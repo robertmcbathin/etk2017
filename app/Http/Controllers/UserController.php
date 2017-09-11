@@ -1400,11 +1400,6 @@ public function showDetailsReport(){
       /**
        * 
        */
-      /**
-       * POST DATA TO SESSION
-      **/
-      Session::put('payment_session_id',$cardInfo->CardInformation->sessionId);
-      Session::put('payment_tariff_id', $cardInfo->CardInformation->tariff->id);
       return view('pages.profile.test.bank_card_payment',[
         'cards' => $cards,
         'current_card' => $current_card,
@@ -1481,6 +1476,8 @@ public function showDetailsReport(){
       $order->payment_to_card = $payment_value;
       $order->card_number = $card_number;
       $order->order_name = $Order_ID;
+      $order->session_id = $payment_session_id;
+      $order->tariff_id = $payment_tariff_id;
       $order->save();
       /**
        * 
@@ -1516,24 +1513,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
         'payment_to_acquirer' => $payment_to_acquirer,
         'email' => $email,
         ]);
-      /**
-       * POST TRANSACTION
-       */
-      $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
-      $params = array('agentId' => '7', 
-        'salepointId' => '7', 
-        'version' => '1', 
-        'sessionId' => $payment_session_id,
-        'tariffId' => $payment_tariff_id,
-        'paymentSum' => $payment_value,
-        'paymentInfo' => 'Тест'
-        );
-
-      $username = 'admin';
-      $password = '1';
-      $wsse_header = new WsseAuthHeader($username, $password);
-      $client->__setSoapHeaders(array($wsse_header));
-      $paymentInfo = $client->__soapCall('CardPayment', array($params));
+      
     }
 
     /**
@@ -1610,7 +1590,57 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
      * [getPaymentOkPage description]
      * @return [type] [description]
      */
-    public function getPaymentOkPage(){
+    public function getPaymentOkPage($Order_ID){
+      /**
+       * SEARCH ORDER BY NAME
+       */
+      if ($order = DB::table('ETK_ORDERS')
+            ->where('order_name',$Order_ID)
+            ->first()){
+        /**
+         * ЗАКАЗ НАЙДЕН
+         */
+        if ($order->rewrite_status == 1){ //ЕСЛИ КАРТА УЖЕ ПЕРЕЗАПИСАНА
+          Session::flash('error','Отложенное пополнение по этому заказу уже создано');
+          return view('pages.profile.test.payment.payment_ok');
+        } elseif ($order->rewrite_status == 0) { //КАРТА НЕ ПЕРЕЗАПИСАНА. МОЖНО СОЗДАВАТЬ ТРАНЗАКЦИЮ
+        /**
+         * POST TRANSACTION
+         */
+        try {
+          $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+          $params = array('agentId' => '7', 
+            'salepointId' => '7', 
+            'version' => '1', 
+            'sessionId' => $order->session_id,
+            'tariffId' => $order->tariff_id,
+            'paymentSum' => $order->payment_to_card,
+            'paymentInfo' => 'Тест'
+          );
+          $username = 'admin';
+          $password = '1';
+          $wsse_header = new WsseAuthHeader($username, $password);
+          $client->__setSoapHeaders(array($wsse_header));
+          $paymentInfo = $client->__soapCall('CardPayment', array($params)); 
+          /**
+           * UPDATE DB
+           */
+          DB::table('ETK_ORDERS')
+            ->where('order_name', $Order_ID)
+            ->update([
+              'rewrite_status' => 1
+              ]);
+        } catch (Exception $e) {
+          return view('pages.profile.test.payment.payment_fail');
+        }
+        Session::flash('success','Операция прошла успешно!');
+        return view('pages.profile.test.payment.payment_ok');          
+        }
+        
+      } else {
+        Session::flash('error','Заказа с таким номером не существует');
+        return view('pages.profile.test.payment.payment_ok');
+      }
       return view('pages.profile.test.payment.payment_ok');
     }
 

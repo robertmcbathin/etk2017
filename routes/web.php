@@ -293,10 +293,6 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@getTestBankCardPaymentConfirmPage',
         'as' => 'profile.test.bank_card_payment_confirm'
         ]);
-    Route::get('/profile/test/payment/ok',[
-        'uses' => 'UserController@getPaymentOkPage',
-        'as' => 'profile.test.payment_ok.get'
-        ]);  
     Route::get('/profile/test/payment/fail',[
         'uses' => 'UserController@getPaymentFailPage',
         'as' => 'profile.test.payment_fail.get'
@@ -308,6 +304,10 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/profile/test/pay',[
         'uses' => 'UserController@postPayByBankCard',
         'as' => 'profile.test.pay'
+        ]); 
+    Route::get('/profile/payment/ok/{Order_ID}',[
+        'uses' => 'UserController@getPaymentOkPage',
+        'as' => 'profile.test.payment_ok.get'
         ]);  
     Route::post('/profile/verify_card',[
         'uses' => 'UserController@postVerifyCard',
