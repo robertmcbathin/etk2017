@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::post('/uniteller/notify',[
+        'uses' => 'SiteController@postNotifyAboutPayment',
+        'as' => 'profile.pay.notify.post'
+        ]); 
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', [
        'uses' => 'SiteController@getIndexPage',
@@ -89,10 +93,6 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getWantedPage',
         'as' => 'wanted'
         ]);
-    Route::post('/uniteller/notify',[
-        'uses' => 'SiteController@postNotifyAboutPayment',
-        'as' => 'profile.pay.notify.post'
-        ]); 
     /**
      * CARDS
      */
