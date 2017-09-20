@@ -516,6 +516,21 @@
        */
        balanceHtml = '<b id=\"current-balance\">' + msg.balance + ' р</b>';
        stateHtml = '<b id=\"current-state\">' + msg.state + '</b>';
+       /**
+        * CARDHOLDER INFO
+        * @type {String}
+        */
+       cardholderHtml = '<b id=\"current-cardholder\">';
+        for (var i = 0; i <= msg['cardholders'].length - 1; i++){
+          if (msg.cardholders[i].email !== null){
+            cardholderHtml += msg.cardholders[i].name +'(' + msg.cardholders[i].email + ')<br>';
+          }
+        }
+       cardholderHtml += '</b>';
+       /**
+        * [lastOperationHtml description]
+        * @type {String}
+        */
        lastOperationHtml = '<b id=\"current-last-operation\">' + msg.last_operation + '</b>';
        curIsDouble = '<b id=\"cur-is-double\">' + msg.cur_is_double + '</b>';
        if (msg.double_cards !== null){
@@ -524,6 +539,7 @@
           doublicates += i +'.)' + msg.double_cards[i].series + ' ' + msg.double_cards[i].num + ' ' + msg.double_cards[i].chip + ' ' + msg.double_cards[i].ep_balance_fact + 'р. ' + msg.double_cards[i].date_of_travel_doc_kind_last + '<br>';
        } doublicates += '</b>';
        } else doublicates = '<b id=\"card-double-info\">Повторных карт нет</b>';
+       $('#current-cardholder').replaceWith(cardholderHtml);
        $('#current-balance').replaceWith(balanceHtml);
        $('#current-state').replaceWith(stateHtml);
        $('#current-last-operation').replaceWith(lastOperationHtml);

@@ -1076,7 +1076,19 @@ public function postCompensateTransaction(Request $request){
   } else {
   $card_digit_state = $card->state;
   $cur_balance = $card->ep_balance_fact;
-  /**CHECK ON DOBLE CARDS
+    /**
+   * CHECK CARDHOLDER
+   */
+  $nine_s_card = '0' . $serie . $num;
+  $cardholders = DB::table('ETK_CARD_USERS')
+                  ->leftJoin('users','ETK_CARD_USERS.user_id','=','users.id')
+                  ->where('number','0' . $serie . $num)
+                  ->select('users.name','users.email')
+                  ->get();
+  /**
+   * 
+   */
+  /**CHECK ON DOUBLE CARDS
   *
   **
   *
@@ -1169,7 +1181,7 @@ public function postCompensateTransaction(Request $request){
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips, 'cardholders' => $cardholders],200);
 
   }
 

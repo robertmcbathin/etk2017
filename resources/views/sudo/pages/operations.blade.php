@@ -102,7 +102,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group label-floating is-empty">
                                     <label class="control-label"></label>
-                                    <input id="card_serie" class="form-control operations-handler" type="text" name="required" required="true" aria-required="true" placeholder="00"  minlength="2" maxlength="2">
+                                    <input id="card_serie" class="form-control operations-handler" type="text" name="required" required="true" aria-required="true" placeholder="00"  minlength="2" maxlength="2" value="23">
                                     <span class="material-input">Серия 2 цифры (по умолчанию 23)</span>
                                 </div>
                             </div>
@@ -128,6 +128,7 @@
                                     <p>Баланс: <b id="current-balance"></b></p>
                                     <p>Состояние: <b id="current-state"></b><b id="cur-is-double"></b></p>
                                     <p>Последняя операция по карте: <b id="current-last-operation"></b></p>
+                                    <p>Владелец: <b id="current-cardholder"></b></p>
                                     <p>Данные о блокировке <b id="card-block-info"></b></p>
                                     <p>Дубликаты <b id="card-double-info"></b></p>
                                     <div id="block-action"></div>
