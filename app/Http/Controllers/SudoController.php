@@ -1083,6 +1083,7 @@ public function postCompensateTransaction(Request $request){
   $cardholders = DB::table('ETK_CARD_USERS')
                   ->leftJoin('users','ETK_CARD_USERS.user_id','=','users.id')
                   ->where('number','0' . $serie . $num)
+                  ->where('verified',1)
                   ->select('users.name','users.email')
                   ->get();
   /**
