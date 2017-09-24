@@ -331,6 +331,7 @@ class UserController extends Controller
  * @return [type] [description]
  */
 public function showDetailsHistory(){
+      
       /**
        * GET DETAILING REQUESTS
        * @var [type]
@@ -369,6 +370,7 @@ public function showDetailsHistory(){
  * @return [type] [description]
  */
 public function showDetailsReport(){
+
       /**
        * GET DETAILING REQUESTS
        * @var [type]
@@ -401,7 +403,11 @@ public function showDetailsReport(){
             if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
           }
         } else $trips = null;
-      } else $trips = null;
+      } else {
+        $trips = null;
+        Session::flash('error','Вы не выбрали основную карту');
+        return redirect()->back();
+      }
       /**
        * [$cards description]
        * @var [type]
@@ -939,6 +945,40 @@ public function showDetailsReport(){
          Session::flash('phone_number_failed', 'Сохранить номер не удалось');
          return redirect()->back();
        }              
+     }
+
+
+     /**
+      * CANCEL_DISTRIBUTION
+      */
+     public function postCancelDistribution(Request $request){
+      $user_id = $request->user_id;
+      try {
+        $user = \App\User::find($user_id);
+        $user->is_email_receiver = 0;
+        $user->save();        
+      } catch (Exception $e) {
+        Session::flash('error', $e);
+        return redirect()->back();
+      }
+        Session::flash('success', 'Вы успешно отказались от рассылки');
+        return redirect()->back();   
+     }
+     /**
+      * ACCEPT DISTRIBUTION
+      */
+    public function postAcceptDistribution(Request $request){
+      $user_id = $request->user_id;
+      try {
+        $user = \App\User::find($user_id);
+        $user->is_email_receiver = 1;
+        $user->save();        
+      } catch (Exception $e) {
+        Session::flash('error', $e);
+        return redirect()->back();
+      }
+        Session::flash('success', 'Вы успешно подписались на рассылку');
+        return redirect()->back();   
      }
      /**
      * CHANGE EMAIL

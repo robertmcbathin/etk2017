@@ -93,6 +93,11 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getWantedPage',
         'as' => 'wanted'
         ]);
+
+    Route::get('/about_online',[
+        'uses' => 'SiteController@getAboutOnlinePage',
+        'as' => 'about-online'
+        ]);
     /**
      * CARDS
      */
@@ -238,6 +243,16 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/profile/delete_card',[
         'uses' => 'UserController@postDeleteCard',
         'as' => 'profile.delete_card.post'
+        ]);
+
+    Route::post('/profile/accept_distribution',[
+        'uses' => 'UserController@postAcceptDistribution',
+        'as' => 'profile.accept_distribution.post'
+        ]);
+
+    Route::post('/profile/cancel_distribution',[
+        'uses' => 'UserController@postCancelDistribution',
+        'as' => 'profile.cancel_distribution.post'
         ]);
     /**
      * BLOCKING CARDS

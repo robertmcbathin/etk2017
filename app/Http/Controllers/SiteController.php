@@ -180,6 +180,9 @@ public function getNewsPage(){
     public function getWantedPage(){
         return view('pages.wanted');
     }
+    public function getAboutOnlinePage(){
+        return view('pages.about_online');
+    }
     public function postQuestion(Request $request){
         $this->validate($request,[
             'name' => 'required|min:1|max:100',

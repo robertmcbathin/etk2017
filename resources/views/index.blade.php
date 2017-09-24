@@ -15,16 +15,16 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-2">
+            <div class="col-md-3 col-md-offset-2">
                 <div class="iframe-container">
-                    <img src="/images/developer_wanted.png" alt="">
+                    <img src="/images/online.png" alt="">
                 </div>
             </div>
-            <div class="col-md-6">
-                <h1 class="title">Требуется Android-разработчик</h1>
-                <h4>Для создания приложений, работающих с бесконтактными смарт-картами требуется разработчик</h4>
+            <div class="col-md-7">
+                <h1 class="title">На финишной прямой</h1>
+                <h4>Мы все чаще получаем вопросы о том, можно ли пополнить карту онлайн. Поэтому мы подготовили небольшую статью о том, что для этого необходимо и как это будет работать.</h4>
                 <br>
-                <a href="/wanted" class="btn btn-success btn-lg">
+                <a href="/about_online" class="btn btn-success btn-lg">
                     Подробнее
                 </a>
             </div>

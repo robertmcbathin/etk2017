@@ -32,35 +32,29 @@
             <div class="row">
                 <div class="container">
                     @foreach ($cards as $card)
-                    <div class="col-6 col-md-4">
-                        <div class="card card-blog">
-                            <div class="card-image">
-                                <a href="{{route('card',['id' => $card->id])}}">
-                                <img class="img" src="{{$card->image}}">
-                                </a>
-                                <div class="ripple-container"></div></div>
-                                <div class="content">
-                                    <h6 class="category text-info">На предъявителя</h6>
-                                    <h4 class="card-title">
+                    <div class="card card-plain card-blog">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card-image">
+                                    <img class="img img-raised" src="{{$card->image}}">
+                                    <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div></div>
+                                </div>
+                                <div class="col-md-8">
+                                    <h6 class="category text-info">Именная</h6>
+                                    <h3 class="card-title">
                                         <a href="{{route('card',['id' => $card->id])}}">{{ $card->name }}</a>
-                                    </h4>
-                                    <small>{{$card->description}}</small>
+                                    </h3>
+                                    <p class="card-description">
+                                        {{$card->description}}
+                                    </p>
                                     <div class="footer">
-                                            <div>
-                                                <small>Стоимость</small> <strong>{{$card->price}}</strong>
-                                            </div>
-                                           <div>
-                                                <small>Тариф</small> <strong>{{$card->tariff}}</strong>
-                                            </div>
-                                            <div>
-                                                <small>Срок службы</small> <strong>{{$card->lifetime}}</strong>
-                                            </div>
-                                        </div>
+                                        <small>Стоимость</small> <strong>{{$card->price}}</strong><br>
+                                        <small>Тариф</small> <strong>{{$card->tariff}}</strong><br>
+                                        <small>Срок службы</small> <strong>{{$card->lifetime}}</strong>
+                                    </div></div>
+                                </div>
                             </div>
-
-                        </div>
-                    </div>
-                    @endforeach
+                            @endforeach
         </div>
             </div>     
         </div>

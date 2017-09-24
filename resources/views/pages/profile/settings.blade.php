@@ -504,6 +504,35 @@
                                 </div>
                               </div>
                             </div>
+                            @if (Auth::user()->is_email_receiver == 1)
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.cancel_distribution.post') }}" method="POST">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <small>Вы подписаны на новости</small>
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Отказаться от рассылки</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            @else
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.accept_distribution.post') }}" method="POST">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <small>Вы не подписаны на новости</small>
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Подписаться снова</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            @endif
                           </div>
                           <div class="tab-pane" id="image">
                             <p class="description">

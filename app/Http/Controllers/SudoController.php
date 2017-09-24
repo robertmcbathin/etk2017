@@ -194,9 +194,9 @@ public function postAddArticle(Request $request){
           ]); 
       }
       public function getEmailDistributionPage(){
-        $lk_email_count = DB::table('ETK_QUESTIONS')
-                    ->selectRaw('count(distinct email) as email_count')
-                    ->first();
+        $lk_email_count = DB::table('users')
+                    ->where('is_email_receiver',1)
+                    ->count('email');
         return view('sudo.pages.email_distribution',[
           'lk_email_count' => $lk_email_count
           ]); 
