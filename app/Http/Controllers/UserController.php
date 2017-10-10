@@ -606,6 +606,9 @@ public function showDetailsReport(){
             case '026':
             $card_type = 8;
             break;
+            case '029':
+            $card_type = 15;
+            break;
             case '033':
             $card_type = 9;
             break;
@@ -629,6 +632,9 @@ public function showDetailsReport(){
             break;
             case '44':
             $card_type = 8;
+            break;
+            case '069':
+            $card_type = 18;
             break;
             case '097':
             $card_type = 4;
