@@ -634,7 +634,7 @@ public function showDetailsReport(){
             $card_type = 8;
             break;
             case '069':
-            $card_type = 18;
+            $card_type = 16;
             break;
             case '097':
             $card_type = 4;
