@@ -105,9 +105,10 @@
 									<a href="{{ route('profile.settings') }}" class="link-menu">Настройки</a>
 								</li>
 								<li class="divider"></li>
-								<li>						<a href="{{ route('logout') }}" target="_blank" class="btn btn-danger">
+								<li><a href="{{ route('logout') }}" class="btn btn-danger">
 									<i class="material-icons">account_box</i> Выйти
-									<div class="ripple-container"></div></a></li>
+									<div class="ripple-container"></div></a>
+								</li>
 								</ul>
 							</li>
 						</ul>
