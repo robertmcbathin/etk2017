@@ -7,58 +7,58 @@ $username = Auth::user()->name;
         Tip 2: you can also add an image using data-image tag
         Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
-            <div class="logo">
-                <a href="/" target="_blank" class="simple-text">
-                    <img src="/admin/img/logo.png" height="50px" alt="">
-                </a>
+    <div class="logo">
+        <a href="/" target="_blank" class="simple-text">
+            <img src="/admin/img/logo.png" height="50px" alt="">
+        </a>
+    </div>
+    <div class="logo logo-mini">
+        <a href="#" class="simple-text">
+            <img src="/admin/img/logo.png" height="25px" alt="">
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <div class="user">
+            <div class="photo">
+                <img src="/admin/img/users/{{Auth::user()->username}}.jpg" />
             </div>
-            <div class="logo logo-mini">
-                <a href="#" class="simple-text">
-                    <img src="/admin/img/logo.png" height="25px" alt="">
+            <div class="info">
+                <a data-toggle="collapse" href="dashboard.html#collapseExample" class="collapsed">
+                    {{Auth::user()->name}}
+                    <b class="caret"></b>
                 </a>
-            </div>
-            <div class="sidebar-wrapper">
-                <div class="user">
-                    <div class="photo">
-                        <img src="/admin/img/users/{{Auth::user()->username}}.jpg" />
-                    </div>
-                    <div class="info">
-                        <a data-toggle="collapse" href="dashboard.html#collapseExample" class="collapsed">
-                            {{Auth::user()->name}}
-                            <b class="caret"></b>
-                        </a>
-                        <div class="collapse" id="collapseExample">
-                            <ul class="nav">
-                                <li>
-                                    <a href="{{route('sudo.logout.post')}}">Выйти</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="collapse" id="collapseExample">
+                    <ul class="nav">
+                        <li>
+                            <a href="{{route('sudo.logout.post')}}">Выйти</a>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="nav">
-                    <li class="active">
-                        <a href="{{ route('sudo.pages.dashboard') }}">
-                            <i class="material-icons">dashboard</i>
-                            <p>Панель управления</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a data-toggle="collapse" href="dashboard.html#pagesExamples">
-                            <i class="material-icons">image</i>
-                            <p>Страницы
-                                <b class="caret"></b>
-                            </p>
-                        </a>
-                        @can('show-import', App\User::class)
-                        <div class="collapse" id="pagesExamples">
-                            <ul class="nav">
-                                <li>
-                                    <a href="{{route('sudo.pages.articles')}}">Новости</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('sudo.pages.questions') }}">Вопросы</a>
-                                </li>
+            </div>
+        </div>
+        <ul class="nav">
+            <li class="active">
+                <a href="{{ route('sudo.pages.dashboard') }}">
+                    <i class="material-icons">dashboard</i>
+                    <p>Панель управления</p>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="collapse" href="dashboard.html#pagesExamples">
+                    <i class="material-icons">image</i>
+                    <p>Страницы
+                        <b class="caret"></b>
+                    </p>
+                </a>
+                @can('show-import', App\User::class)
+                <div class="collapse" id="pagesExamples">
+                    <ul class="nav">
+                        <li>
+                            <a href="{{route('sudo.pages.articles')}}">Новости</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('sudo.pages.questions') }}">Вопросы</a>
+                        </li>
                              <!--   <li>
                                     <a href="#">Пункты продаж</a>
                                 </li>
@@ -114,7 +114,7 @@ $username = Auth::user()->name;
                                 @endcan
                             </ul>
                         </div>
-                       
+
                     </li>
                     <li>
                         <a data-toggle="collapse" href="dashboard.html#settings">
@@ -149,12 +149,12 @@ $username = Auth::user()->name;
                         @endcan
 
                     </li>
-                    <li>
-                        <a href="#">
-                            <i class="material-icons">timeline</i>
-                            <p>Статистика</p>
-                        </a>
-                    </li>
+                                                    <li>
+                                    <a href="{{ route('sudo.pages.stat') }}">
+                                        <i class="material-icons">timeline</i>
+                                        <p>Статистика</p>
+                                    </a>
+                                </li>
                 </ul>
             </div>
         </div>

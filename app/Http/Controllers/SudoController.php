@@ -1017,6 +1017,52 @@ public function postCompensateTransaction(Request $request){
   Session::flash('success', 'Сумма транзакции возмещена');
   return redirect()->back();
 }
+
+/**
+ * STAT PAGE
+ */
+public function showStatPage(){
+  return view('sudo.pages.stat');
+}
+
+public function postAnalizeCard(Request $request){
+  $card_number = $request->card_number;
+  /**
+   * ПОПОЛНЕНИЯ ТЕРМИНАЛАМИ СИСТЕМЫ
+   * @var [type]
+   */
+  $inner_deposits = DB::table('ETK_T_DATA')
+                      ->where('ID_ROUTE',NULL)
+                      ->where('CARD_NUM',$card_number)
+                      ->where('DATE_OF','>','2017-07-01 00:00:00')
+                      ->sum('AMOUNT');
+  /**
+   * ПОПОЛНЕНИЯ СБЕРБАНК
+   */
+  $sb_deposits = DB::table('SB_DEPOSIT_TRANSACTIONS')
+                    ->where('card_number',substr($card_number,4,6))
+                    ->where('transaction_date','>','2017-07-01 00:00:00')
+                    ->sum('value');
+  $deposits = $inner_deposits + $sb_deposits;
+  /**
+   * СПИСАНИЯ
+   */
+  $current_writeoffs = DB::table('ETK_T_DATA')
+                ->where('ID_ROUTE','!=',NULL)
+                ->where('CARD_NUM',$card_number)
+                ->sum('AMOUNT');
+  $archive_writeoffs = DB::table('ETK_T_DATA_ARCHIVE')
+                ->where('ID_ROUTE','!=',NULL)
+                ->where('CARD_NUM',$card_number)
+                ->where('DATE_OF','>','2017-07-01 00:00:00')
+                ->sum('AMOUNT');
+  $writeoffs = $current_writeoffs + $archive_writeoffs;
+  /**
+   * РАЗНИЦА
+   */
+  $delta = $deposits - $writeoffs;
+  dd($delta);
+}
    /**
     * [ajaxCheckCardOperations description]
     * @param  Request $request [description]

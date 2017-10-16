@@ -402,6 +402,10 @@ Route::group(['middleware' => 'auth'], function()
         /**
          * 
          */
+        Route::get('/stat',[
+            'uses' => 'SudoController@showStatPage',
+            'as' => 'sudo.pages.stat'
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/import',[
             'uses' => 'SudoController@getImportPage',
             'as' => 'sudo.pages.import'
@@ -465,6 +469,10 @@ Route::group(['middleware' => 'auth'], function()
         Route::post('/compensate-trip',[
             'uses' => 'SudoController@postCompensateTrip',
             'as' => 'sudo.compensate-trip.post'
+            ])->middleware('can:show-import,App\User');
+        Route::post('/analize-card',[
+            'uses' => 'SudoController@postAnalizeCard',
+            'as' => 'sudo.analize-card.post'
             ])->middleware('can:show-import,App\User');
 
 
