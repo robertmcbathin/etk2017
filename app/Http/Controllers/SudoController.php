@@ -21,6 +21,24 @@ use Illuminate\Support\Facades\Storage;
 
 class SudoController extends Controller
 {
+  protected function getWriteoffsDelta($card_number){
+    $deposits = DB::table('ETK_T_DATA')
+              ->where('ID_ROUTE', NULL)
+              ->where('CARD_NUM',$card_number)
+              ->orWhere('CARD_NUM',substr($card_number,4,6))
+              ->where('DATE_OF','>','2017-07-01 00:00:00')
+              ->sum('AMOUNT');
+
+    $writeoffs = DB::table('ETK_T_DATA')
+                ->where('ID_ROUTE','!=',NULL)
+                ->where('CARD_NUM',$card_number)
+                ->where('DATE_OF','>','2017-07-01 00:00:00')
+                ->sum('AMOUNT');
+
+  $delta = $deposits - $writeoffs;
+  return $delta;
+  }
+
   public function getDashboard(){
    $questions = new Question;
    $questions_count = $questions->count();
@@ -1022,6 +1040,20 @@ public function postCompensateTransaction(Request $request){
  * STAT PAGE
  */
 public function showStatPage(){
+  $suspicious_cards = [];
+$cards = DB::table('ETK_CARDS')
+          ->where('series',23)
+          ->get();
+dd($cards);
+foreach ($cards as $card) {
+  if (($delta = $this->getWriteoffsDelta($card->num)) > 3000 ){
+    $suspicious_cards[$card->num] = $delta;
+  }
+}
+
+
+
+  dd($suspicious_cards);
   return view('sudo.pages.stat');
 }
 
@@ -1031,7 +1063,7 @@ public function postAnalizeCard(Request $request){
    * ПОПОЛНЕНИЯ ТЕРМИНАЛАМИ СИСТЕМЫ
    * @var [type]
    */
-  $inner_deposits = DB::table('ETK_T_DATA')
+ /* $inner_deposits = DB::table('ETK_T_DATA')
                       ->where('ID_ROUTE',NULL)
                       ->where('CARD_NUM',$card_number)
                       ->where('DATE_OF','>','2017-07-01 00:00:00')
@@ -1039,29 +1071,40 @@ public function postAnalizeCard(Request $request){
   /**
    * ПОПОЛНЕНИЯ СБЕРБАНК
    */
-  $sb_deposits = DB::table('SB_DEPOSIT_TRANSACTIONS')
+ /* $sb_deposits = DB::table('SB_DEPOSIT_TRANSACTIONS')
                     ->where('card_number',substr($card_number,4,6))
                     ->where('transaction_date','>','2017-07-01 00:00:00')
                     ->sum('value');
-  $deposits = $inner_deposits + $sb_deposits;
+ // $deposits = $inner_deposits + $sb_deposits;
   /**
    * СПИСАНИЯ
    */
-  $current_writeoffs = DB::table('ETK_T_DATA')
-                ->where('ID_ROUTE','!=',NULL)
+  //$current_writeoffs = DB::table('ETK_T_DATA')
+ /*               ->where('ID_ROUTE','!=',NULL)
                 ->where('CARD_NUM',$card_number)
                 ->sum('AMOUNT');
-  $archive_writeoffs = DB::table('ETK_T_DATA_ARCHIVE')
+ // $archive_writeoffs = DB::table('ETK_T_DATA_ARCHIVE')
                 ->where('ID_ROUTE','!=',NULL)
                 ->where('CARD_NUM',$card_number)
                 ->where('DATE_OF','>','2017-07-01 00:00:00')
                 ->sum('AMOUNT');
-  $writeoffs = $current_writeoffs + $archive_writeoffs;
+ // $writeoffs = $current_writeoffs + $archive_writeoffs;
   /**
    * РАЗНИЦА
    */
-  $delta = $deposits - $writeoffs;
-  dd($delta);
+$suspicious_cards = [];
+$cards = DB::table('ETK_CARDS')
+          ->where('series',23)
+          ->get();
+foreach ($cards as $card) {
+  if (($delta = $this->getWriteoffsDelta($card->num)) > 3000 ){
+    $suspicious_cards[$card->num] = $delta;
+  }
+}
+
+
+
+  dd($suspicious_cards);
 }
    /**
     * [ajaxCheckCardOperations description]
@@ -1198,9 +1241,10 @@ public function postAnalizeCard(Request $request){
     if ($semifullnumber){
       if ($trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-        ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
         ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
         ->orderBy('DATE_OF', 'DESC')
         ->limit(50)
         ->get()){
@@ -1217,11 +1261,15 @@ public function postAnalizeCard(Request $request){
             case 200013467:
             $trip->transport_type = 'T32';
             break;
+            case NULL:
+            $trip->transport_type = 'refill';
+            break;
             default:
             $trip->transport_type = NULL;
             break;
           }
-          if ($trip->name == NULL) $trip->name = 'Пополнение';
+          if (($trip->name == NULL) && (strlen($trip->CARD_NUM) == 6)) $trip->name = 'Пополнение в Сбербанке';
+         if (($trip->name == NULL) && (strlen($trip->CARD_NUM) > 6)) $trip->name = 'Пополнение в офисе';
         }
       } else $trips = null;
     } else $trips = null;

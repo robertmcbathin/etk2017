@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
                                     ->join('users','ETK_BLOCKLISTS.created_by', '=', 'users.id')
                                     ->select('ETK_BLOCKLISTS.card_number','users.id', '=', 'ETK_BLOCKLISTS.created_by')
                                     ->where('source',2)
+                                    ->where('ETK_BLOCKLISTS.is_loaded', 0)
                                     ->select('ETK_BLOCKLISTS.card_number','users.name')
                                     ->limit(10)
                                     ->get();

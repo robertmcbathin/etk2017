@@ -650,7 +650,7 @@
        * END REFILLS DATA
        */
       /**
-       * LOAD CARD DATA
+       * LOAD TRIPS DATA
        */
        htmlTrips = '<tbody id=\"trips-results\">';
        for (var i = 0; i <= msg['trips'].length - 1; i++) {

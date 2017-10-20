@@ -145,7 +145,32 @@
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <div class="card">
+                                              <div class="card">
+                        <div class="card-header card-header-icon" data-background-color="rose">
+                            <i class="material-icons">directions_bus</i>
+                        </div>
+                        <h4 class="card-title">Транзакции</h4>
+                        <div class="card-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Дата</th>
+                                            <th>Маршрут</th>
+                                            <th class="text-right">Сумма</th>
+                                            <th class="text-right">Остаток</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="trips-results">
+                                    </tbody>
+                                    <h3 id="trips-results-none">
+                                    </h3>
+                                </table>
+                            </div>
+                            <div id="trips-preloader"></div>
+                        </div>
+                    </div>
+                           <!-- <div class="card">
                                 <div class="card-header card-header-icon" data-background-color="rose">
                                     <i class="material-icons">assignment</i>
                                 </div>
@@ -171,40 +196,12 @@
                                     </div>
                                     <div id="refills-preloader"></div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-icon" data-background-color="rose">
-                            <i class="material-icons">directions_bus</i>
-                        </div>
-                        <h4 class="card-title">Поездки</h4>
-                        <div class="card-content">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Дата</th>
-                                            <th>Маршрут</th>
-                                            <th class="text-right">Сумма</th>
-                                            <th class="text-right">Остаток</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="trips-results">
-                                    </tbody>
-                                    <h3 id="trips-results-none">
-                                    </h3>
-                                </table>
-                            </div>
-                            <div id="trips-preloader"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <footer class="footer">
