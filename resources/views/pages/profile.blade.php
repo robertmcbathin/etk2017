@@ -115,10 +115,13 @@
                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                       </div>
                       <div class="col-xs-12 col-md-6">
+                        @if (Session::get('current_card_number') == $card->number)
+                          <span class="label label-rose">Выбранная карта</span>
+                        @endif
                         <h6 class="category text-info">{{ $card->name}}</h6>
                         @if ($card->verified == 0)
                         <h5 class="card-title">
-                          <a href="">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
+                          <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
                         </h5>
                         <button class="btn btn-simple btn-github" data-toggle="modal" data-target="#verify-card-number-{{$card->number}}">
                          <i class="material-icons">lock</i> Подтвердить
@@ -126,7 +129,7 @@
                        </button>
                        @else
                        <h5 class="card-title">
-                        <a href="">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Карта успешно подтверждена. Вы можете просмотреть статистику по карте и заказать детализацию">lock_open</i>
+                        <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Карта успешно подтверждена. Вы можете просмотреть статистику по карте и заказать детализацию">lock_open</i>
                       </h5>
                       @endif
                     </div>
@@ -204,7 +207,8 @@
             <i class="material-icons">clear</i>
           </button>
           <h4 class="modal-title">Подтверждение карты № {{ $card->number }}</h4>
-          <small class="description">Для подтверждения владения картой Вам необходимо ввести <strong>первые 8 символов</strong> чипа карты (чип карты Вы можете найти на чеке, который выдает устройство самоослуживания при пополнении карты или на экране данного устройства при прикладывании карты к считывателю).</small>
+          <h6>Для подтверждения владения картой Вам необходимо ввести <strong>первые 8 символов</strong> чипа карты</h6>
+          <small class="description"><b>Узнать номер чипа Вы можете при пополнении на устройстве самообслуживания Сбербанка.</b> Номер чип карты Вы можете найти на чеке, который выдает устройство самоослуживания при пополнении карты или на экране данного устройства при прикладывании карты к считывателю.</small>
         </div>
         <div class="modal-body">
           <div class="row">

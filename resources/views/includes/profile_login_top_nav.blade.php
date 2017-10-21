@@ -27,7 +27,7 @@
 						<b class="caret"></b>
 						<div class="ripple-container"></div></a>
 						<ul class="dropdown-menu dropdown-menu-right">
-							<li class="dropdown-header">Выберите основную карту</li>
+							<li class="dropdown-header">Выберите активную карту</li>
 							@foreach ($cards as $card)
 							<li>
 								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" class="link-profile">
@@ -57,7 +57,7 @@
 							</li>
 							<li>
 								<a href="{{route('profile.payment_history')}}" class="link-menu">
-									<i class="material-icons">list</i> История пополнения
+									<i class="material-icons">list</i> Архив пополнений (Сбербанк)
 								</a>
 							</li>
 						</ul>

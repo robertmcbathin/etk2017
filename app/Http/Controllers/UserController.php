@@ -379,8 +379,9 @@ public function showDetailsReport(){
         $full_card_number = $this->modifyToFullNumber(session()->get('current_card_number'));
         if ($trips = DB::table('ETK_T_DATA')
           ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-          ->select('ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+          ->select('ETK_T_DATA.CARD_NUM','ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
           ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->orWhere('ETK_T_DATA.CARD_NUM', substr($full_card_number,4,6))
           ->orderBy('DATE_OF', 'DESC')
           ->paginate(15)){
           foreach ($trips as $trip){
@@ -396,11 +397,15 @@ public function showDetailsReport(){
               case 200013467:
               $trip->transport_type = 'T32';
               break;
+              case NULL:
+              $trip->transport_type = 'refill32';
+              break;
               default:
               $trip->transport_type = NULL;
               break;
             }
-            if ($trip->name == NULL) {$trip->name = 'Пополнение'; $trip->transport_type = 'refill32';};
+          if (($trip->name == NULL) && (strlen($trip->CARD_NUM) == 6)) $trip->name = 'Пополнение в Сбербанке';
+         if (($trip->name == NULL) && (strlen($trip->CARD_NUM) > 6)) $trip->name = 'Пополнение в офисе';
           }
         } else $trips = null;
       } else {
