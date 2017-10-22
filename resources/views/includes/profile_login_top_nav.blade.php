@@ -101,9 +101,6 @@
 								<li>
 									<a href="{{ route('profile') }}" class="link-menu">Моя страница</a>
 								</li>
-								<li>
-									<a href="{{ route('profile.settings') }}" class="link-menu">Настройки</a>
-								</li>
 								<li class="divider"></li>
 								<li><a href="{{ route('logout') }}" class="btn btn-danger">
 									<i class="material-icons">account_box</i> Выйти
@@ -111,6 +108,12 @@
 								</li>
 								</ul>
 							</li>
+
+						<li>
+						<a href="{{ route('profile.settings') }}">
+							<i class="material-icons">settings</i> Настройки
+						<div class="ripple-container"></div></a>
+					</li>
 						</ul>
 					</div>
 				</div>

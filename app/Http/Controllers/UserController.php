@@ -173,6 +173,12 @@ class UserController extends Controller
        * GET ARTICLES
        * @var [type]
        */
+      
+      /**
+       * NEWS
+       * 
+       * @var [type]
+       */
       $articles = DB::table('ETK_ARTICLES')
       ->orderBy('created_at', 'desc')
       ->take(3)
@@ -234,7 +240,7 @@ class UserController extends Controller
         'requests' => $requests,
         'cards' => $cards,
         'current_card' => $current_card,
-        'articles' => $articles,
+        'articles' => $articles
        // 'trips' => $trips
      //   'card_count' => $card_count
         ]);
@@ -413,6 +419,11 @@ public function showDetailsReport(){
         Session::flash('error','Вы не выбрали основную карту');
         return redirect()->back();
       }
+      $last_update = DB::table('ETK_T_DATA')
+                        ->orderBy('DATE_OF','desc')
+                        ->first();
+      $format_date = new \DateTime($last_update->DATE_OF);
+      $last_update = $format_date->format('d.m.Y H:i:s');
       /**
        * [$cards description]
        * @var [type]
@@ -465,7 +476,8 @@ public function showDetailsReport(){
         'cards' => $cards,
         'current_card' => $current_card,
         'vehicle_chart' => $vehicle_chart,
-        'trip_count' => $trip_count
+        'trip_count' => $trip_count,
+        'last_update' => $last_update
         ]);
     }
     /**

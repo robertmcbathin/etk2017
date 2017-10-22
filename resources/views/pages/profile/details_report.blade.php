@@ -20,7 +20,8 @@
       @if (Session::get('current_card_verified') == 1)
             <div class="row">
         <div class="col-md-6">
-                  <small class="description">Показываются поездки за прошедший месяц. Если Вас интересует подробный отчет за 2 недели, сформируйте запрос в разделе <a href="{{ route('profile.details_request') }}"> создать запрос</a>.</small>
+          <small class="description">Информация актуальна на {{ $last_update }}</small>
+                  
           @if ($trips)
           <div class="table-responsive">
             <table class="table table-striped">
@@ -47,7 +48,7 @@
 
             </table>
           </div>
-          <small class="description">По техническим причинам, пополнения через терминалы Сбербанка не отображаются</small>
+          <small class="description">Показываются поездки за прошедший месяц. Если Вас интересует подробный отчет за 2 недели, сформируйте запрос в разделе <a href="{{ route('profile.details_request') }}"> создать запрос</a>.</small>
           @else
           <h4>К сожалению, данных по карте нет</h4>
           @endif
