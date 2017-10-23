@@ -1248,7 +1248,7 @@ foreach ($cards as $card) {
         ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber)
         ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', substr($semifullnumber,4,6))
-        ->orderBy('DATE_OF', 'DESC');
+        ->orderBy('DATE_OF', 'ASC');
 
         $trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
@@ -1256,8 +1256,8 @@ foreach ($cards as $card) {
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
         ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
-        ->orderBy('DATE_OF', 'DESC')
         ->union($archive_trips)
+        ->orderBy('DATE_OF', 'DESC')
         ->get();
 
 
