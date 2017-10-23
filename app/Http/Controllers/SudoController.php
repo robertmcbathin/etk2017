@@ -1114,6 +1114,7 @@ foreach ($cards as $card) {
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
+    $archive_search = $request['archiveSearch'];
     $zero_serie = '00';
     /**initiate data
     **/
@@ -1239,16 +1240,59 @@ foreach ($cards as $card) {
      * @var [type]
      */
     if ($semifullnumber){
-      if ($trips = DB::table('ETK_T_DATA')
+      if ($archive_search){
+
+          $archive_trips = DB::table('ETK_T_DATA_ARCHIVE')
+        ->leftJoin('ETK_ROUTES','ETK_T_DATA_ARCHIVE.ID_ROUTE','=','ETK_ROUTES.id')
+        ->select('ETK_T_DATA_ARCHIVE.CARD_NUM', 'ETK_T_DATA_ARCHIVE.DATE_OF', 'ETK_T_DATA_ARCHIVE.EP_BALANCE', 'ETK_T_DATA_ARCHIVE.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber)
+        ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', substr($semifullnumber,4,6))
+        ->orderBy('DATE_OF', 'DESC');
+
+        $trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
         ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
         ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
         ->orderBy('DATE_OF', 'DESC')
-        ->limit(50)
-        ->get()){
+        ->union($archive_trips)
+        ->get();
+
+
         foreach ($trips as $trip){
+          $trip->DATE_OF = new \Datetime($trip->DATE_OF);
+          $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
+          switch ($trip->transport_type) {
+            case 600013467:
+            $trip->transport_type = 'M32';
+            break;
+            case 400013467:
+            $trip->transport_type = 'A32';
+            break;
+            case 200013467:
+            $trip->transport_type = 'T32';
+            break;
+            case NULL:
+            $trip->transport_type = 'refill';
+            break;
+            default:
+            $trip->transport_type = NULL;
+            break;
+          }
+          if (($trip->name == NULL) && (strlen($trip->CARD_NUM) == 6)) $trip->name = 'Пополнение в Сбербанке';
+         if (($trip->name == NULL) && (strlen($trip->CARD_NUM) > 6)) $trip->name = 'Пополнение в офисе';
+        }
+      } else if ($trips = DB::table('ETK_T_DATA')
+        ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+        ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
+        ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
+        ->orderBy('DATE_OF', 'DESC')
+        ->get()){
+          foreach ($trips as $trip){
           $trip->DATE_OF = new \Datetime($trip->DATE_OF);
           $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
           switch ($trip->transport_type) {

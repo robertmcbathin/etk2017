@@ -94,7 +94,7 @@
                         <i class="material-icons">credit_card</i>
                     </div>                
                     <h4 class="card-title">Операции по картам -
-                        <small class="category">Введите номер карты</small>
+                        <small class="category">Введите номер карты. Последняя выгрузка: {{$last_import->created_at}}</small>
                     </h4>
                     <div class="card-content">
                         <div class="row">
@@ -113,7 +113,11 @@
                                     <span class="material-input">Последние 6 цифр</span></div>
                                 </div>
                                 <label class="col-sm-2 label-on-right">
-                                    <code>Последняя выгрузка: {{$last_import->created_at}}. Данные по балансу могут быть неактуальны</code>
+                                    <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="terms" class="operations-handler" id="archive-search-check"> Искать в архиве
+                                            </label>
+                                        </div>
                                 </label>
                             </div>
                         </div>

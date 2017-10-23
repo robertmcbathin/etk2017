@@ -494,6 +494,11 @@
   $('#refills-preloader').replaceWith(preloaderRefills);
   $('#info-preloader').replaceWith(preloaderInfo);
   $('#trips-preloader').replaceWith(preloaderTrips);
+
+  var isArchiveSearching;
+  if ($('#archive-search-check').is(':checked')) {
+    isArchiveSearching = true;
+  }
   /**
    * GET DATA
    */
@@ -502,7 +507,8 @@
     url: url,
     data: { 
       num: $('#card_number').val(),
-      serie: $('#card_serie').val(), 
+      serie: $('#card_serie').val(),
+      archiveSearch: isArchiveSearching, 
       _token: token}
     })
    .done(function(msg){
