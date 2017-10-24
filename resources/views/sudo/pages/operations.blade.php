@@ -132,7 +132,8 @@
                                     <p>Баланс: <b id="current-balance"></b></p>
                                     <p>Состояние: <b id="current-state"></b><b id="cur-is-double"></b></p>
                                     <p>Последняя операция по карте: <b id="current-last-operation"></b></p>
-                                    <p>Владелец: <b id="current-cardholder"></b></p>
+                                    <p>Владелец (из ЛК): <b id="current-cardholder"></b></p>
+                                    <p>Владелец (если карта ученика или студента): <b id="current-owner"></b></p>
                                     <p>Данные о блокировке <b id="card-block-info"></b></p>
                                     <p>Дубликаты <b id="card-double-info"></b></p>
                                     <div id="block-action"></div>

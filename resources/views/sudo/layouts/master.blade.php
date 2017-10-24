@@ -534,6 +534,12 @@
         }
        cardholderHtml += '</b>';
        /**
+        * OWNER INFO
+        */
+       ownerHtml = '<b id=\"current-owner\">';
+            ownerHtml += msg.owner + '<br>';
+       ownerHtml += '</b>';
+       /**
         * [lastOperationHtml description]
         * @type {String}
         */
@@ -546,6 +552,7 @@
        } doublicates += '</b>';
        } else doublicates = '<b id=\"card-double-info\">Повторных карт нет</b>';
        $('#current-cardholder').replaceWith(cardholderHtml);
+       $('#current-owner').replaceWith(ownerHtml);
        $('#current-balance').replaceWith(balanceHtml);
        $('#current-state').replaceWith(stateHtml);
        $('#current-last-operation').replaceWith(lastOperationHtml);

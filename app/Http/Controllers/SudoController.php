@@ -1154,7 +1154,7 @@ foreach ($cards as $card) {
                           ->where('is_confirmed',0)
                           ->first()) == NULL){$compensation = NULL;} 
   /**
-   * 
+   * ЕСЛИ КАРТА НЕ НАЙДЕНА
    */
   if (($card = DB::table('ETK_CARDS')
    ->where('num', $semifullnumber)
@@ -1176,6 +1176,7 @@ foreach ($cards as $card) {
                   ->where('verified',1)
                   ->select('users.name','users.email')
                   ->get();
+  $owner = $card->F . ' ' . $card->I . ' ' . $card->O; 
   /**
    * 
    */
@@ -1320,7 +1321,7 @@ foreach ($cards as $card) {
     if ($operations == NULL)
       return response()->json(['message' => 'error'],200);
     if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips, 'cardholders' => $cardholders],200);
+      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips, 'cardholders' => $cardholders, 'owner' => $owner ],200);
 
   }
 
