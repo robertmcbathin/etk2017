@@ -383,13 +383,15 @@ public function showDetailsReport(){
        */
       if (Session::has('current_card_number')){
         $full_card_number = $this->modifyToFullNumber(session()->get('current_card_number'));
+        $full_card_number_zero = '0100' . substr($full_card_number,4,6);
         if ($trips = DB::table('ETK_T_DATA')
           ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
           ->select('ETK_T_DATA.CARD_NUM','ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
           ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->orWhere('ETK_T_DATA.CARD_NUM', $full_card_number_zero)
           ->orWhere('ETK_T_DATA.CARD_NUM', substr($full_card_number,4,6))
           ->orderBy('DATE_OF', 'DESC')
-          ->paginate(15)){
+          ->get()){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');

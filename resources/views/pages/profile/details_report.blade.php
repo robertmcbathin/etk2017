@@ -52,11 +52,6 @@
           @else
           <h4>К сожалению, данных по карте нет</h4>
           @endif
-          <div class="row">
-            <div class="card-content text-center">
-              <?php echo $trips->render(); ?>
-            </div>
-          </div>
         </div>
         <div class="col-md-6">
           <div class="card">
