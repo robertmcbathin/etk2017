@@ -471,6 +471,11 @@ var simpleBarChart = Chartist.Bar('#simpleBarChart', dataSimpleBarChart, options
       charts.initCharts();
     });
   </script>
+  <script>
+      $('.away-link').on('click',function(){
+        $('#top-progress').replaceWith('<div class=\"progress\" id=\"top-progress\"><div class=\"indeterminate\"></div></div>');
+      });
+  </script>
   <script type="text/javascript">
     (function (d, w, c) {
       (w[c] = w[c] || []).push(function() {

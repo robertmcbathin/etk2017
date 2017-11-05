@@ -1329,6 +1329,7 @@ public function showDetailsReport(){
             ->where('user_id', $user_id)
             ->where('number', $card_number)
             ->update(['verified' => 1]);
+            $this->setCurrentCard($card_number,$user_id);
             Session::flash('verified-ok', 'Карта успешно подтверждена!');
             return redirect()->back();
           } else {
@@ -1340,19 +1341,6 @@ public function showDetailsReport(){
         Session::flash('verified-card-search-fail', 'Такая карта не найдена!');
         return redirect()->back();
       }
-      if ($chip_from_db = substr($card->chip,0,8)){
-        if ($chip == $chip_from_db) {
-          DB::table('ETK_CARD_USERS')
-          ->where('user_id', $user_id)
-          ->where('number', $card_number)
-          ->update(['verified' => 1]);
-          Session::flash('verified-ok', 'Карта успешно подтверждена!');
-          return redirect()->back();
-        } else {
-          Session::flash('verified-fail', 'Коды не совпадают!');
-          return redirect()->back();
-        }
-      } else return redirect()->back();
     }
     /**
      * CHECK IF THE REQUESTED CARD WAS ALREADY ACTIVATED

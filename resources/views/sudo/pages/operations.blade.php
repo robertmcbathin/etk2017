@@ -94,7 +94,7 @@
                         <i class="material-icons">credit_card</i>
                     </div>                
                     <h4 class="card-title">Операции по картам -
-                        <small class="category">Введите номер карты. Последняя выгрузка: {{$last_import->created_at}}</small>
+                        <small class="category">Введите номер карты</small>
                     </h4>
                     <div class="card-content">
                         <div class="row">

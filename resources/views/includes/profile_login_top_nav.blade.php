@@ -1,3 +1,4 @@
+<div class="progress" id="top-progress"></div>
 <nav class="navbar navbar-default navbar-transparent navbar-fixed-top navbar-color-on-scroll" id="sectionsNav">
 	<div class="container">
 		<div class="navbar-header">
@@ -7,7 +8,9 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{{ route('index') }}"><img src="/images/logo.png" height="45px" alt=""></a>
+			<a class="navbar-brand away-link" href="{{ route('index') }}" id="main-logo">
+				<img src="/images/logo.png" height="45px" alt="">
+			</a>
 		</div>
 
 		<div class="collapse navbar-collapse" id="navigation-example">
@@ -20,7 +23,7 @@
 					@endif
 				</li>
 				<li class="dropdown">
-					<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<a href="" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<div class="profile-photo-small">
 							<img class="img-responsive" src="{{ session()->get('current_card_image_type', '/pictures/cards/thumbnails/160/888.png') }}" width="40px">
 						</div>
@@ -30,7 +33,7 @@
 							<li class="dropdown-header">Выберите активную карту</li>
 							@foreach ($cards as $card)
 							<li>
-								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" class="link-profile">
+								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" class="link-profile away-link">
 									<div class="media">
 										<div class="profile-photo-small">
 											<img class="img-responsive" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png" width="40px">
@@ -51,15 +54,15 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.payment')}}" class="link-menu">
+								<a href="{{route('profile.payment')}}" class="link-menu away-link">
 									<i class="material-icons">account_balance_wallet</i> Пополнить счет
 								</a>
 							</li>
-							<li>
-								<a href="{{route('profile.payment_history')}}" class="link-menu">
+						<!--	<li>
+								<a href="{{route('profile.payment_history')}}" class="link-menu away-link">
 									<i class="material-icons">list</i> Архив пополнений (Сбербанк)
 								</a>
-							</li>
+							</li> -->
 						</ul>
 					</li>
 
@@ -70,17 +73,17 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.details_report')}}" class="link-menu">
+								<a href="{{route('profile.details_report')}}" class="link-menu away-link">
 									<i class="material-icons">insert_chart</i> Поездки и списания
 								</a>
 							</li>
 							<li>
-								<a href="{{route('profile.details_request')}}" class="link-menu">
+								<a href="{{route('profile.details_request')}}" class="link-menu away-link">
 									<i class="material-icons">insert_comment</i> Создать запрос
 								</a>
 							</li>
 							<li>
-								<a href="{{route('profile.details_history')}}" class="link-menu">
+								<a href="{{route('profile.details_history')}}" class="link-menu away-link">
 									<i class="material-icons">library_books</i> История запросов
 								</a>
 							</li>
@@ -88,7 +91,7 @@
 					</li>
 					<li class="dropdown">
 
-						<a href="#pablo" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<a href="" class="profile-photo dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 							<div class="profile-photo-small">
 								<img src="{{ Auth::user()->profile_image }}" alt="Circle Image" class="img-rounded img-responsive">
 							</div>
@@ -99,10 +102,10 @@
 									{{ Auth::user()->name }}
 								</li>
 								<li>
-									<a href="{{ route('profile') }}" class="link-menu">Моя страница</a>
+									<a href="{{ route('profile') }}" class="link-menu away-link">Моя страница</a>
 								</li>
 								<li class="divider"></li>
-								<li><a href="{{ route('logout') }}" class="btn btn-danger">
+								<li><a href="{{ route('logout') }}" class="btn btn-danger away-link">
 									<i class="material-icons">account_box</i> Выйти
 									<div class="ripple-container"></div></a>
 								</li>
@@ -110,7 +113,7 @@
 							</li>
 
 						<li>
-						<a href="{{ route('profile.settings') }}">
+						<a href="{{ route('profile.settings') }}" class="away-link">
 							<i class="material-icons">settings</i> Настройки
 						<div class="ripple-container"></div></a>
 					</li>

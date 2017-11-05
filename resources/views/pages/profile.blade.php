@@ -121,7 +121,7 @@
                         <h6 class="category text-info">{{ $card->name}}</h6>
                         @if ($card->verified == 0)
                         <h5 class="card-title">
-                          <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
+                          <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной" class="away-link">{{ $card->number }}</a> <i class="material-icons" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
                         </h5>
                         <button class="btn btn-simple btn-github" data-toggle="modal" data-target="#verify-card-number-{{$card->number}}">
                          <i class="material-icons">lock</i> Подтвердить
@@ -162,7 +162,8 @@
              @endif
            </ul>
            <hr>
-
+            <h4 class="title">Кэшбэк</h4>
+            <small class="description">Пока недоступно</small>
          </div>
        </div>
      </div>
@@ -456,7 +457,7 @@
              infowindow.open(map, marker);
              console.log(contentString);
            });*/
-         }
+  /*       }
         } //End setMarkers
 /*
         function showNearestPoints(pos,map){

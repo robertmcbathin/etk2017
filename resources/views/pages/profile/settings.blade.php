@@ -593,7 +593,7 @@
                                           <input type="hidden" name="current_card" value="{{ $card->number }}">
                                           <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                           {{ csrf_field()}}
-                                          <button type="submit" class="btn btn-simple btn-youtube">
+                                          <button type="submit" class="btn btn-simple btn-youtube  away-link">
                                            <i class="fa fa-trash-o"></i> Удалить
                                            <div class="ripple-container"></div>
                                          </button>
