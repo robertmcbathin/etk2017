@@ -709,7 +709,8 @@ if ($('#card_serie').val().length == 2){
     data: { 
       num: $('#card_number').val(),
       serie: $('#card_serie').val(), 
-      _token: token}
+      _token: token
+    }
     })
    .done(function(msg){
     console.log(JSON.stringify(msg));
