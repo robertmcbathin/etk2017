@@ -2757,3 +2757,9 @@ gallery-feed-right{
 .progress .indeterminate {
     background-color: #fdf031;
 }
+.green-icon{
+  color: green;
+}
+.red-icon{
+  color: red;
+}
