@@ -523,6 +523,26 @@ public function showDetailsReport(){
        return redirect()->back();
      }
    }
+
+      /**
+     * LASTNAME CHANGING
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function postChangeLastName(Request $request){
+      $new_name = $request['lastname'];
+      $user_id = $request['user_id'];
+      $user = \App\User::find($user_id);
+      $user->lastname = $new_name;
+      if ($user->save()){
+        Session::flash('success', 'Фамилия успешно изменена');
+        return redirect()->back();
+      } else {
+       Session::flash('error', 'Изменить фамилию не удалось');
+       return redirect()->back();
+     }
+   }
+
     /**
      * CHANGE PASSWORD
      * @param  Request $request [description]

@@ -465,11 +465,24 @@
                               <div class="col-md-6 col-md-offset-3">
                                 <div class="form-group is-empty">
                                   <form action="{{ route('profile.change_name.post') }}" method="POST">
-                                    <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Фамилия" class="form-control" name="name">
+                                    <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Отчество" class="form-control" name="name">
                                     <span class="material-input"></span>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     {{ csrf_field()}}
-                                    <button type="submit" class="btn btn-profile">Сменить имя</button>
+                                    <button type="submit" class="btn btn-profile">Изменить имя</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group is-empty">
+                                  <form action="{{ route('profile.change_lastname.post') }}" method="POST">
+                                    <input type="text" value="{{ Auth::user()->lastname }}" placeholder="Фамилия" class="form-control" name="lastname">
+                                    <span class="material-input"></span>
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    {{ csrf_field()}}
+                                    <button type="submit" class="btn btn-profile">Изменить фамилию</button>
                                   </form>
                                 </div>
                               </div>

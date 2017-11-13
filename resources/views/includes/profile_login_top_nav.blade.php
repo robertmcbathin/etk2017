@@ -99,7 +99,7 @@
 							<div class="ripple-container"><div class="ripple ripple-on" style="left: 23px; top: 23.7031px; background-color: rgb(255, 255, 255); transform: scale(5);"></div></div></a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-header">
-									{{ Auth::user()->name }}
+									{{ Auth::user()->name }} {{ Auth::user()->lastname }}
 								</li>
 								<li>
 									<a href="{{ route('profile') }}" class="link-menu away-link">Моя страница</a>

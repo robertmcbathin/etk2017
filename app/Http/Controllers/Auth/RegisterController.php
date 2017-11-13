@@ -84,6 +84,7 @@ class RegisterController extends Controller
     {
         $this->validate($request,[
             'name' => 'required|min:1|max:255',
+            'lastname' => 'required|min:1|max:255',
             'email' => 'required|max:255',
             'password' => 'required|min:6|max:150',
             'password_repeat' => 'required|min:6|max:150'
@@ -92,6 +93,7 @@ class RegisterController extends Controller
          * INITIALIZE VARIABLES
          */
         $name            = $request['name'];
+        $lastname        = $request['lastname'];
         $email           = $request['email'];
         $password        = $request['password'];
         $password_repeat = $request['password_repeat'];
@@ -123,6 +125,7 @@ class RegisterController extends Controller
              $user = new \App\User;
              $user->username = $email;
              $user->name = $name;
+             $user->lastname = $lastname;
              $user->email = $email;
              $user->role_id = 31;
              $user->profile_image = '/images/account_circle.png';

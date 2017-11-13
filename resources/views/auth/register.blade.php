@@ -19,6 +19,35 @@
                 <div class="card card-signup mobile-padding">
                     <h2 class="card-title text-center">Регистрация</h2>
                     <div class="row">
+
+                        @if (Session::has('error'))
+                        <div class="alert alert-warning">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">warning</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('error')}}</strong>
+                            </div>
+                        </div>
+                        @endif
+                        @if (Session::has('success'))
+                        <div class="alert alert-success">
+                            <div class="container register-alert">
+                                <div class="alert-icon">
+                                    <i class="material-icons">check</i>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                                </button>
+                                <strong>{{Session::pull('success')}}</strong>
+                            </div>
+                        </div>
+                        @endif
+
+
                         @if (Session::has('account-deleted'))
                         <div class="alert alert-info">
                             <div class="container register-alert">
@@ -145,15 +174,30 @@
                                 <div class="card-content"> 
                                     
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                        <label for="password" class="col-md-4 control-label">Как Вас зовут?</label>
+                                        <label for="name" class="col-md-4 control-label">Как Вас зовут?</label>
 
                                         <div class="col-md-6">
-                                            <input id="name" type="text" class="form-control" name="name" required placeholder='Фамилия Имя Отчество' value="{{ old('name') }}">
+                                            <input id="name" type="text" class="form-control" name="name" required placeholder='Имя Отчество' value="{{ old('name') }}">
                                             <span class="help-block" id="name-error-span">
                                             </span>
                                             @if ($errors->has('name'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
+                                        <label for="lastname" class="col-md-4 control-label"></label>
+
+                                        <div class="col-md-6">
+                                            <input id="name" type="text" class="form-control" name="lastname" required placeholder='Фамилия' value="{{ old('lastname') }}">
+                                            <span class="help-block" id="lastname-error-span">
+                                            </span>
+                                            @if ($errors->has('lastname'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('lastname') }}</strong>
                                             </span>
                                             @endif
                                         </div>
@@ -218,7 +262,7 @@
 
                                   <div class="form-group">
                                     <div class="col-md-8 col-md-offset-4">
-                                        <button type="submit" class="btn btn-profile">
+                                        <button type="submit" class="btn btn-profile btn-ultrawide">
                                             Зарегистрироваться
                                         </button>
                                     </div>
