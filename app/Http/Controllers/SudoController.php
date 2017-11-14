@@ -1120,6 +1120,8 @@ foreach ($cards as $card) {
     **/
     $double_cards = NULL;
     $cur_is_double = NULL;
+    $cardholders = NULL;
+    $owner = NULL;
     /**
      * [$operations description]
      * @var [type]
