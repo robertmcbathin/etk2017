@@ -376,6 +376,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@getOperationsPage',
             'as' => 'sudo.pages.operations'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/cashback',[
+            'uses' => 'SudoController@getCashbackPage',
+            'as' => 'sudo.pages.cashback'
+            ])->middleware('can:show-sudo,App\User');
         Route::get('/compensations',[
             'uses' => 'SudoController@getCompensationsPage',
             'as' => 'sudo.pages.compensations'
@@ -478,6 +482,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postAnalizeCard',
             'as' => 'sudo.analize-card.post'
             ])->middleware('can:show-import,App\User');
+        Route::post('/fill-cashback',[
+            'uses' => 'SudoController@postFillCashback',
+            'as' => 'sudo.fill-cashback.post'
+            ])->middleware('can:show-sudo,App\User');
 
 
         Route::get('/schools',[
@@ -503,6 +511,10 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/ajax/check_card_operations', [ 'uses' =>
         'SudoController@ajaxCheckCardOperations',
         'as' => 'ajax.check_card_operations'
+        ])->middleware('can:show-sudo,App\User');
+    Route::post('/ajax/check_cb_operations', [ 'uses' =>
+        'SudoController@ajaxCheckCBOperations',
+        'as' => 'ajax.check_cb_operations'
         ])->middleware('can:show-sudo,App\User');
     Route::post('/ajax/check_card_compensations', [ 'uses' =>
         'SudoController@ajaxCheckCardCompensations',

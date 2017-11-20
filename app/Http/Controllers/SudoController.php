@@ -1106,6 +1106,68 @@ foreach ($cards as $card) {
 
   dd($suspicious_cards);
 }
+
+/**
+ * CASHBACK
+ * @return [type] [description]
+ */
+public function getCashbackPage(){
+  return view('sudo.pages.cashback',[
+
+  ]);
+}
+
+public function postFillCashback(Request $request){
+  $num = $request->cb_card_number;
+  $serie = $request->cb_card_serie;
+  $zero_serie = '00';
+  $cashback_to_pay = $request->cashback_to_pay;
+  $created_by = Auth::user()->id;
+
+  $card = DB::table('ETK_CARDS')
+            ->where('num','01' . $serie . $num)
+            ->orWhere('num','01' . $zero_serie . $num)
+            ->first();
+  $new_cashback_to_pay_value = $card->cashback_to_pay - $cashback_to_pay;
+  $new_cashback_payed_value = $card->cashback_payed + $cashback_to_pay;
+  if ($new_cashback_to_pay_value < 0){
+    Session::flash('error','Нельзя начислить большее значение');
+    return redirect()->back();
+  }
+
+
+  try {
+    DB::table('ETK_CARDS')
+      ->where('num','01' . $serie . $num)
+      ->orWhere('num','01' . $zero_serie . $num)
+      ->update([
+        'cashback_to_pay' => $new_cashback_to_pay_value,
+        'cashback_payed' => $new_cashback_payed_value
+      ]);
+    DB::table('ETK_CASHBACK_HISTORY')
+      ->insert([
+        'card_number' => '01' . $serie . $num,
+        'card_serie' => $serie,
+        'value' => $cashback_to_pay,
+        'created_by' => $created_by
+      ]);
+    /*
+    * LOGGING CASHBACK FILLING
+    * 
+     */
+    $log = new \App\Log;
+    $log->action_type = 17;
+    $log->message = date('Y-m-d H:i:s') . " | Пользователь " . Auth::user()->username . " записал(а) на карту " . $serie . $num . ' ' . $cashback_to_pay . ' руб.';
+    $log->save();
+  } catch (Exception $e) {
+    Session::flash('error',$e);
+    return redirect()->back();    
+  }
+    Session::flash('success','Кэшбэк проведен');
+    return redirect()->back();
+}
+
+
    /**
     * [ajaxCheckCardOperations description]
     * @param  Request $request [description]
@@ -1328,6 +1390,7 @@ foreach ($cards as $card) {
   }
 
 
+
      public function ajaxCheckCardCompensations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];
@@ -1352,4 +1415,29 @@ foreach ($cards as $card) {
     if ($operations !== NULL)
       return response()->json(['message' => 'success', 'data' => $operations],200);
 }
+
+
+  public function ajaxCheckCBOperations(Request $request){
+    $num   = $request['num'];
+    $serie = $request['serie'];
+    $zero_serie = '00';
+
+    $cashback = DB::table('ETK_CARDS')
+                  ->where('num', '01' . $serie . $num)
+                  ->orWhere('num', '01' . $zero_serie . $num)
+                  ->first();
+    $cashback_to_pay = $cashback->cashback_to_pay;
+    $cashback_payed = $cashback->cashback_payed;
+
+    $cashback_history = DB::table('ETK_CASHBACK_HISTORY')
+                          ->where('card_number', '01' . $serie . $num)
+                          ->orWhere('card_number', '01' . $serie . $num)
+                          ->get();
+
+    if ($cashback == NULL)
+      return response()->json(['message' => 'error'],200);
+    if ($cashback !== NULL)
+      return response()->json(['message' => 'success', 'cashback_to_pay' => $cashback_to_pay, 'cashback_payed' => $cashback_payed, 'cashback_history' => $cashback_history],200);
+  }
+
 }

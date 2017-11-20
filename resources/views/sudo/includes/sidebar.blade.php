@@ -89,6 +89,9 @@ $username = Auth::user()->name;
                                     <a href="{{ route('sudo.pages.operations') }}">Операции по картам</a>
                                 </li>
                                 <li>
+                                    <a href="{{ route('sudo.pages.cashback') }}">Кэшбэк</a>
+                                </li>
+                                <li>
                                     <a href="{{ route('sudo.pages.compensations') }}">Возмещение</a>
                                 </li>
                                 <li>

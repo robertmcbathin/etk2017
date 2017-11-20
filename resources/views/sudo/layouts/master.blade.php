@@ -760,4 +760,67 @@ if ($('#card_serie').val().length == 2){
 };
 });
 </script>
+
+<script>
+  $('.cb-operations-handler').on('keyup',function(){
+    if ($('#cb-card_number').val().length > 5){
+      preloaderCB = '<div class=\"progress\" id=\"cb-info-preloader\"><div class=\"indeterminate\"></div></div>';
+      $('#cb-info-preloader').replaceWith(preloaderCB);
+
+      /**
+       * GET DATA
+       */
+       $.ajax({
+        method: 'POST',
+        url: url,
+        data: { 
+          num: $('#cb-card_number').val(),
+          serie: $('#cb-card_serie').val(), 
+          _token: token
+        }
+        })
+       .done(function(msg){
+        console.log(JSON.stringify(msg));
+        balanceHtml ='<b id=\"cb-balance\">' + msg.cashback_to_pay + '</b>';
+        balanceBeforeHtml ='<b id=\"cb-balance-before\">' + msg.cashback_payed + '</b>';
+        /**
+         * CARD INFO
+         */
+        $('#cb-balance').replaceWith(balanceHtml);
+        $('#cb-balance-before').replaceWith(balanceBeforeHtml);
+        preloaderCB = '<div class=\"progress\" id=\"cb-info-preloader\"></div>';
+        $('#cb-info-preloader').replaceWith(preloaderCB);
+        /**
+         * BUTTON
+         */
+        fillButtonHtml = '<div id=\"cb-fill\">' +
+        '<form method=\"POST\" action=\"{{ route('sudo.fill-cashback.post') }}\">' +
+        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#cb-card_serie').val() + '\" name=\"cb_card_serie\">' +
+        '<input type=\"hidden\" value=\"' + $('#cb-card_number').val() + '\" name=\"cb_card_number\">' +
+        '<input type=\"text\" value=\"' + msg.cashback_to_pay + '\" name=\"cashback_to_pay\" class=\"form-control\">' +
+        '{{ csrf_field() }}' + 
+        '<button type=\"submit\" class=\"btn btn-success\">Зачислить<div class=\"ripple-container\"></div></button>' +
+        '</form>' +
+        '</div>';
+        $('#cb-fill').replaceWith(fillButtonHtml);
+        /**
+         * CASHBACK HISTORY
+         */
+        if (msg['cashback_history'].length > 0){
+          cbhHtml = '<tbody id=\"cb-history-results\">';
+          for (var i = 0; i <= msg['cashback_history'].length - 1;  i++) {
+            cbhHtml += '<tr><td>' +  msg['cashback_history'][i].created_at + '</td><td>' + msg['cashback_history'][i].value + '</td><td>' + msg['cashback_history'][i].created_by + '</td></tr>';
+          }
+          cbhHtml +='</tbody>';
+          $('#cb-history-results').replaceWith(cbhHtml);
+
+        } else{
+
+        }
+       });
+    }
+  });
+</script>
+
+
 </html>

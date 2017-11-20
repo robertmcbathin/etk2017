@@ -15,7 +15,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-md-offset-2">
+            <div class="col-md-3 col-md-offset-2 hidden-xs">
                 <div class="iframe-container">
                     <img src="/images/online.png" alt="">
                 </div>
