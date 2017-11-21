@@ -1430,8 +1430,10 @@ public function postFillCashback(Request $request){
     $cashback_payed = $cashback->cashback_payed;
 
     $cashback_history = DB::table('ETK_CASHBACK_HISTORY')
+                          ->join('users','ETK_CASHBACK_HISTORY.created_by','=','users.id')
                           ->where('card_number', '01' . $serie . $num)
                           ->orWhere('card_number', '01' . $serie . $num)
+                          ->select('ETK_CASHBACK_HISTORY.*','users.name','users.lastname')
                           ->get();
 
     if ($cashback == NULL)

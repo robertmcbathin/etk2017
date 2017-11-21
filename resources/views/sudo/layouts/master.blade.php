@@ -809,7 +809,7 @@ if ($('#card_serie').val().length == 2){
         if (msg['cashback_history'].length > 0){
           cbhHtml = '<tbody id=\"cb-history-results\">';
           for (var i = 0; i <= msg['cashback_history'].length - 1;  i++) {
-            cbhHtml += '<tr><td>' +  msg['cashback_history'][i].created_at + '</td><td>' + msg['cashback_history'][i].value + '</td><td>' + msg['cashback_history'][i].created_by + '</td></tr>';
+            cbhHtml += '<tr><td>' +  msg['cashback_history'][i].created_at + '</td><td>' + msg['cashback_history'][i].value + '</td><td>' + msg['cashback_history'][i].name + ' ' + msg['cashback_history'][i].lastname + '</td></tr>';
           }
           cbhHtml +='</tbody>';
           $('#cb-history-results').replaceWith(cbhHtml);
