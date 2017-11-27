@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/check-card-recoding',[
+	'uses' => 'APIController@postCheckCardRecoding',
+	'as' => 'api.check-card-recoding.post'
+]);

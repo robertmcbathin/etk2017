@@ -637,6 +637,14 @@ public function postAddArticle(Request $request){
               } else {
                 $travel_doc_kind = $line[14];
               }
+              /**
+               * CHECK ON 97 SERIE
+               */
+              if($line[1] == 97){
+                $is_recoded = 0;
+              } else {
+                $is_recoded = 1;
+              }
               DB::table('ETK_CARDS')
               ->where('num',$line[2])
               ->update(['kind' => $line[0],
@@ -652,7 +660,10 @@ public function postAddArticle(Request $request){
                'state' => $line[11],
                'ep_balance_fact' => $ep_balance_fact,
                'date_of_travel_doc_kind_last' => $last_trip_date,
-               'travel_doc_kind' => $travel_doc_kind
+               'travel_doc_kind' => $travel_doc_kind,
+               /**
+                * 'is_recoded' => $is_recoded
+                */
                ]);
               $counter++;
             } catch (Exception $e) {
