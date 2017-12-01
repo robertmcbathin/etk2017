@@ -1249,7 +1249,7 @@ public function postFillCashback(Request $request){
                   ->leftJoin('users','ETK_CARD_USERS.user_id','=','users.id')
                   ->where('number','0' . $serie . $num)
                   ->where('verified',1)
-                  ->select('users.name','users.email')
+                  ->select('users.name','users.lastname','users.email')
                   ->get();
   $owner = $card->F . ' ' . $card->I . ' ' . $card->O; 
   /**

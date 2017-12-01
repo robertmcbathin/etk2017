@@ -529,7 +529,7 @@
        cardholderHtml = '<b id=\"current-cardholder\">';
         for (var i = 0; i <= msg['cardholders'].length - 1; i++){
           if (msg.cardholders[i].email !== null){
-            cardholderHtml += msg.cardholders[i].name +'(' + msg.cardholders[i].email + ')<br>';
+            cardholderHtml += msg.cardholders[i].name + ' ' + msg.cardholders[i].lastname + ' (' + msg.cardholders[i].email + ')<br>';
           }
         }
        cardholderHtml += '</b>';
