@@ -249,7 +249,7 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <label for="password_repeat" class="col-md-4 control-label">Повторите пароль</label>
+                                        <label for="password_repeat" class="col-md-4 control-label">Вы не робот?</label>
 
                                         <div class="col-md-6">
                                             {!! app('captcha')->display(); !!}
