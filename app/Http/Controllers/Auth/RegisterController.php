@@ -87,7 +87,8 @@ class RegisterController extends Controller
             'lastname' => 'required|min:1|max:255',
             'email' => 'required|max:255',
             'password' => 'required|min:6|max:150',
-            'password_repeat' => 'required|min:6|max:150'
+            'password_repeat' => 'required|min:6|max:150',
+            'g-recaptcha-response' => 'required|captcha'
             ]);
         /**
          * INITIALIZE VARIABLES
