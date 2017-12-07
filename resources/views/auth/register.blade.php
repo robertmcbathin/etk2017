@@ -246,8 +246,15 @@
                                             </span>
                                             @endif
                                         </div>
-                                    </div>
 
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password_repeat" class="col-md-4 control-label">Повторите пароль</label>
+
+                                        <div class="col-md-6">
+                                            {!! app('captcha')->display(); !!}
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-4">
                                             <div class="checkbox">
