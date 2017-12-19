@@ -1623,7 +1623,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
          * POST TRANSACTION
          */
         try {
-          $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
+          $client = new SoapClient('http://94.79.52.173:1880/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
           $params = array('agentId' => '7', 
             'salepointId' => '7', 
             'version' => '1', 
