@@ -1433,13 +1433,13 @@ public function showDetailsReport(){
               return redirect()->back();
             }
 
-            $client = new SoapClient('http://195.182.143.218:8888/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
-            $params = array('agentId' => '7', 
-              'salepointId' => '7', 
+            $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+            $params = array('agentId' => '1002', 
+              'salepointId' => '1', 
               'version' => '1', 
               'sysNum' => $current_card, 
-              'regionId' => 99, 
-              'deviceId' => 'B9900007');
+              'regionId' => 21, 
+              'deviceId' => 'B2100003');
 
             $username = 'admin';
             $password = '1';
@@ -1623,9 +1623,9 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
          * POST TRANSACTION
          */
         try {
-          $client = new SoapClient('http://94.79.52.173:1880/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://195.182.143.218:8888/SDPServer/SDPendpoints'));
-          $params = array('agentId' => '7', 
-            'salepointId' => '7', 
+          $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+          $params = array('agentId' => '1002', 
+            'salepointId' => '1', 
             'version' => '1', 
             'sessionId' => $order->session_id,
             'tariffId' => $order->tariff_id,
