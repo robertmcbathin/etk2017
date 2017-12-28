@@ -869,6 +869,29 @@ public function postAddArticle(Request $request){
         } else Session::flash('update-cards-fail', 'С файлом что-то не так');
         return redirect()->back();
       }
+
+      /**
+       * UPDATE RECODING BETA
+       */
+      public function postUpdateRecodingBeta(Request $request){
+
+
+        $recoded_cards = DB::table('ETK_T_DATA')
+                           ->selectRaw('DISTINCT CARD_NUM')
+                           ->where('DATE_OF', '>', '2017-12-07 00:00:00')
+                           ->whereNull('ID_ROUTE')
+                           ->get();
+
+        foreach ($recoded_cards as $recoded_card) {
+                         DB::table('ETK_CARDS')
+                         ->where('num',$recoded_card->CARD_NUM)
+                         ->update(['is_recoded' => 1]);
+                       }               
+        return redirect()->back();
+      }
+
+
+
       /**
        * ACCEPT DETALIZATION REQUEST
        * @param  Request $request [description]
