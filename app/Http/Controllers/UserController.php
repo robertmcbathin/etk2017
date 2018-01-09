@@ -1450,12 +1450,11 @@ public function showDetailsReport(){
             } catch (Exception $e) {
               return redirect()->back();
             }
-            /*  dd($cardInfo);*/
             if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
-              Session::flash('info', $cardInfo->CardInformation->warningMsg);
+              Session::flash('warning', $cardInfo->CardInformation->warningMsg);
               return redirect()->back();
             } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
-              Session::flash('info', $cardInfo->CardInformation->warningMsg);
+              Session::flash('warning', $cardInfo->CardInformation->warningMsg);
             }
       /**
        * CHECK CARD ON EXISTING
@@ -1562,8 +1561,8 @@ public function showDetailsReport(){
       $URL_RETURN_OK = 'https://etk21.ru/profile/payment/ok';
       $URL_RETURN_NO = 'https://etk21.ru/profile/payment/fail';
       $password = 'tusk1oAqfMc8NdYpybGvJFSnsx6UyGbYfIRTQ5m4ocIQjLaGBWYb9sZwf0wjsUHpk0LlT6g55L1iiIHN';
-      $EMoneyType = '';
-      $MeanType = '';
+      $EMoneyType = '0';
+      $MeanType = '0';
       $Card_IDP = '';
       $PT_Code = '';
 
