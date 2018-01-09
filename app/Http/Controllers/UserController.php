@@ -1561,8 +1561,8 @@ public function showDetailsReport(){
       $URL_RETURN_OK = 'https://etk21.ru/profile/payment/ok';
       $URL_RETURN_NO = 'https://etk21.ru/profile/payment/fail';
       $password = 'tusk1oAqfMc8NdYpybGvJFSnsx6UyGbYfIRTQ5m4ocIQjLaGBWYb9sZwf0wjsUHpk0LlT6g55L1iiIHN';
-      $EMoneyType = 0;
-      $MeanType = 0;
+      $EMoneyType = '';
+      $MeanType = '';
       $Card_IDP = '';
       $PT_Code = '';
 
