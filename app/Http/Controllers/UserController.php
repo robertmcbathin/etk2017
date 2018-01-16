@@ -1421,41 +1421,47 @@ public function showDetailsReport(){
       ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
       ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
       ->first();
-            /**
+
+      if (Session::has('current_card_number')){
+        $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
+
+      } else {
+        Session::flash('warning','Выберите карту для пополнения в меню');
+        return redirect()->back();
+      }
+
+      /**
+       * TEST RECODING
+       */
+      
+      
+      /**
        * PAYMENT SOAP CARDINFO
        * @var Payment
        */
-            if (Session::has('current_card_number')){
-              $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
+      $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+      $params = array('agentId' => '1002', 
+        'salepointId' => '1', 
+        'version' => '1', 
+        'sysNum' => $current_card, 
+        'regionId' => 21, 
+        'deviceId' => 'B2100003');
 
-            } else {
-              Session::flash('warning','Выберите карту для пополнения в меню');
-              return redirect()->back();
-            }
-
-            $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
-            $params = array('agentId' => '1002', 
-              'salepointId' => '1', 
-              'version' => '1', 
-              'sysNum' => $current_card, 
-              'regionId' => 21, 
-              'deviceId' => 'B2100003');
-
-            $username = 'admin';
-            $password = '1';
-            $wsse_header = new WsseAuthHeader($username, $password);
-            $client->__setSoapHeaders(array($wsse_header));
-            try {
-              $cardInfo = $client->__soapCall('CardInfo', array($params));
-            } catch (Exception $e) {
-              return redirect()->back();
-            }
-            if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
-              Session::flash('warning', $cardInfo->CardInformation->warningMsg);
-              return redirect()->back();
-            } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
-              Session::flash('warning', $cardInfo->CardInformation->warningMsg);
-            }
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      try {
+        $cardInfo = $client->__soapCall('CardInfo', array($params));
+      } catch (Exception $e) {
+        return redirect()->back();
+      }
+      if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
+        Session::flash('warning', $cardInfo->CardInformation->warningMsg);
+        return redirect()->back();
+      } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
+        Session::flash('warning', $cardInfo->CardInformation->warningMsg);
+      }
       /**
        * CHECK CARD ON EXISTING
        * @var [type]

@@ -79,25 +79,30 @@
         <div class="container">
 
 
-          <div class="col-md-6 col-md-offset-3">
-            <div class="card card-plain card-blog">
-              <div class="card-image">
-                <a href="{{ route('profile.test.bank_card_payment') }}">
-                  <img class="img img-raised" src="/images/uniteller.jpg">
-                </a>
-                <div class="colored-shadow" style="background-image: url(&quot;../assets/img/bg5.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
+          <div class="col-md-8 col-md-offset-2">
 
-                <div class="card-content">
-                  <h6 class="category text-info">Банковская карта</h6>
-                  <h4 class="card-title">
-                    <a href="{{ route('profile.test.bank_card_payment') }}">Пополнение с <b>любой</b> банковской карты (комиссия 3%)</a>
-                  </h4>
-                  <p class="card-description">
-                    
-                  </p>
+
+              <div class="card card-plain card-blog">
+                <div class="row">
+                  <div class="col-xs-4 col-md-4">
+                    <div class="card-image card-non-margin-image">
+                      <img class="img img-raised" src="/images/uniteller.jpg">
+                      <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
+                    </div>
+                    <div class="col-xs-8 col-md-8">
+                      <h6 class="category text-info">Банковская карта</h6>
+                      <h4 class="card-title">
+                        <p>Пополнение с <b>любой</b> банковской карты (комиссия 3%)</p>
+                        <button class="btn btn-profile"><a href="{{ route('profile.test.bank_card_payment') }}" class="white-text">Перейти к пополнению <div class="ripple-container"></div></a></button>
+                      </h4>
+
+                    </div>
+                  </div>
                 </div>
+
+
+
               </div>
-            </div>
          <!-- <div class="col-md-4">
             <div class="card card-plain card-blog">
               <div class="card-image">
@@ -117,14 +122,14 @@
                 </div>
               </div>
             </div> --> 
+          </div>
         </div>
-      </div>
-      <div class="row"></div>
+        <div class="row"></div>
 
+      </div>
     </div>
   </div>
-</div>
-@endsection
+  @endsection
 
 
 

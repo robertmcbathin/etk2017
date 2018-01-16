@@ -2766,3 +2766,10 @@ gallery-feed-right{
 .btn-ultrawide{
   width: 100%;
 }
+
+.card-non-margin-image{
+  margin-top:0px !important;
+}
+.white-text{
+  color:white;
+}

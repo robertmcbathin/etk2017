@@ -106,24 +106,25 @@
             <div class="row collections">
               @if (count($cards) !== 0)
               @foreach ($cards as $card)
-              <div class=" col-xs-6 col-md-6">
+              <div class=" col-xs-12 col-md-12">
                 <div class="card card-plain card-blog">
                   <div class="row">
-                    <div class="col-xs-12 col-md-8">
-                      <div class="card-image">
+                    <div class="col-xs-4 col-md-4">
+                      <div class="card-image card-non-margin-image">
                         <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                       </div>
-                      <div class="col-xs-12 col-md-12">
+                      <div class="col-xs-8 col-md-8">
                         @if (Session::get('current_card_number') == $card->number)
                         <br>
                           <span class="label label-rose">Выбранная карта</span>
                         @endif
-                        <h6 class="category text-info">{{ $card->name}}</h6>
-                        @if ($card->verified == 0)
+
+                      @if ($card->verified == 0)
                         <h5 class="card-title">
                           <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной" class="away-link">{{ $card->number }}</a> <i class="material-icons red-icon" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
                         </h5>
+                        <h6 class="category text-info">{{ $card->name}}</h6>
                         <button class="btn btn-simple btn-github" data-toggle="modal" data-target="#verify-card-number-{{$card->number}}">
                          <i class="material-icons">lock</i> Подтвердить
                          <div class="ripple-container"></div>
@@ -132,7 +133,10 @@
                        <h5 class="card-title">
                         <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной">{{ $card->number }}</a> <i class="material-icons green-icon" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Карта успешно подтверждена. Вы можете просмотреть статистику по карте и заказать детализацию">lock_open</i>
                       </h5>
+                      <h6 class="category text-info">{{ $card->name}}</h6>
                       @endif
+
+
                     </div>
                   </div>
                 </div>
@@ -148,7 +152,7 @@
             <h4 class="title">Информация по карте</h4>
             <ul class="list-unstyled">
               <li>Номер <b>{{ session()->get('current_card_number', 'неизвестно') }}</b></li>
-              <li>Баланс <b>{{ session()->get('current_card_balance', 'неизвестно') }} <i class="fa fa-ruble"></i></b></li>
+              <li>Баланс <b>{{ session()->get('current_card_balance', 'неизвестно') }} р.е. </b></li>
               <li>Последняя операция по карте <b>{{ session()->get('current_card_last_transaction', 'н/д') }}</b></li>
               <li>Тип <b>{{ session()->get('current_card_kind', 'неизвестно') }}</b></li>
               <li>Состояние <b>{{ session()->get('current_card_state', 'неизвестно') }}</b></li>
