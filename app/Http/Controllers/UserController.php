@@ -1434,7 +1434,7 @@ public function showDetailsReport(){
        * TEST RECODING
        */
       
-      
+
       /**
        * PAYMENT SOAP CARDINFO
        * @var Payment

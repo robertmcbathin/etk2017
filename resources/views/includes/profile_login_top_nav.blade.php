@@ -17,7 +17,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li>
 					@if (session()->has('current_card_balance'))
-					<h4><strong>{{ session()->get('current_card_balance') }}</strong> <i class="fa fa-ruble"></i> </h4> 
+					<h4><strong>{{ session()->get('current_card_balance') }}</strong> <b>р.е.</b> </h4> 
 					@else
 					<h4><strong>Выберите карту</strong>  </h4> 
 					@endif
@@ -109,14 +109,14 @@
 									<i class="material-icons">account_box</i> Выйти
 									<div class="ripple-container"></div></a>
 								</li>
-								</ul>
-							</li>
+							</ul>
+						</li>
 
 						<li>
-						<a href="{{ route('profile.settings') }}" class="away-link">
-							<i class="material-icons">settings</i> Настройки
-						<div class="ripple-container"></div></a>
-					</li>
+							<a href="{{ route('profile.settings') }}" class="away-link">
+								<i class="material-icons">settings</i> Настройки
+								<div class="ripple-container"></div></a>
+							</li>
 						</ul>
 					</div>
 				</div>

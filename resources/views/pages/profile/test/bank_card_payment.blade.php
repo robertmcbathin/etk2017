@@ -93,9 +93,10 @@
                     <a href=""><small>транспортная карта №</small>{{session()->get('current_card_number','не определено')}}</a>
                   </h3>
                   <p class="card-description">
-                    <small>информация по карте</small><p> {{$cardInfo->CardInformation->tariff->text}}</p>
-                    <small>минимальная сумма</small><p> {{$cardInfo->CardInformation->tariff->minSumInt}} р.</p>
-                    <small>максимальная сумма</small></p> {{$cardInfo->CardInformation->tariff->maxSumInt}} р.</p>
+                    <small>информация по тарифу</small><br><b> {{$cardInfo->CardInformation->tariff->text}}</b><br>
+                    <small>информация по карте</small><br><b> {{$cardInfo->CardInformation->info->text}}</b><br>
+                    <small>минимальная сумма</small><br><b> {{$cardInfo->CardInformation->tariff->minSumInt}} р.</b><br>
+                    <small>максимальная сумма</small><br><b> {{$cardInfo->CardInformation->tariff->maxSumInt}} р.</b><br>
 
                     @isset($cardInfo->CardInformation->tariff->unaccountedResidueInfo)
                     <p>{{$cardInfo->CardInformation->tariff->unaccountedResidueInfo}}</p>
@@ -103,7 +104,6 @@
                     
                     <hr>
                     @if ($cardInfo->CardInformation->info->otype == 5)
-                    <p><i class="material-icons text-danger">close</i> Это тестовое пополнение</p>
                     <form action="{{route('profile.test.pay')}}" method="POST">
                       <div class="form-group">
                         <input id="payment_value" type="text" value="" placeholder="Введите сумму платежа" minlength="1" name="payment_value" class="form-control">

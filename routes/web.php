@@ -173,6 +173,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/static_articles/mifare', function(){
             return view('pages.static_articles.mifare');
         });      
+    Route::get('/static_articles/deferred_payment', function(){
+            return view('pages.static_articles.deferred_payment');
+        });    
         /**
          * 
          */

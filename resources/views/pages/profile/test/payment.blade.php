@@ -93,7 +93,7 @@
                       <h6 class="category text-info">Банковская карта</h6>
                       <h4 class="card-title">
                         <p>Пополнение с <b>любой</b> банковской карты (комиссия 3%)</p>
-                        <button class="btn btn-profile"><a href="{{ route('profile.test.bank_card_payment') }}" class="white-text">Перейти к пополнению <div class="ripple-container"></div></a></button>
+                        <a href="{{ route('profile.test.bank_card_payment') }}" class="btn btn-primary btn-link away-link">Перейти к пополнению <div class="ripple-container"></div></a>
                       </h4>
 
                     </div>
