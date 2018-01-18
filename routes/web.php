@@ -459,7 +459,7 @@ Route::group(['middleware' => 'auth'], function()
             ])->middleware('can:show-sudo,App\User');
         Route::get('/import/recoding-update-beta',[
             'uses' => 'SudoController@postUpdateRecodingBeta',
-            'as' => 'sudo.update.recoding. beta.post'
+            'as' => 'sudo.update.recoding.beta.post'
             ])->middleware('can:show-sudo,App\User');        
         /**
          * 

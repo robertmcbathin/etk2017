@@ -297,13 +297,19 @@ public function postAddArticle(Request $request){
       ->orderBy('created_at', 'desc')
       ->limit(5)
       ->get();
+
+      $recoded_card_count = DB::table('ETK_CARDS')
+                              ->where('is_recoded',1)
+                              ->count();
+
       return view('sudo.pages.import', [
         'last_import' => $last_import,
         'last_card_update' => $last_card_update,
         'sb_imports_list' => $sb_imports_list,
         'card_updates_list' => $card_updates_list,
         'trip_imports_list' => $trip_imports_list,
-        'last_trip_date' => $last_trip_date->INS_DATE
+        'last_trip_date' => $last_trip_date->INS_DATE,
+        'recoded_card_count' => $recoded_card_count
         ]);
     }
       public function getOnlineOrders(){
@@ -881,12 +887,14 @@ public function postAddArticle(Request $request){
                            ->where('DATE_OF', '>', '2017-12-07 00:00:00')
                            ->whereNull('ID_ROUTE')
                            ->get();
-
+        $i = 0;
         foreach ($recoded_cards as $recoded_card) {
                          DB::table('ETK_CARDS')
                          ->where('num',$recoded_card->CARD_NUM)
                          ->update(['is_recoded' => 1]);
+                         $i++;
                        }               
+        Session::flash('success','Обновлено ' . $i . ' карт');
         return redirect()->back();
       }
 
@@ -1345,16 +1353,16 @@ public function postFillCashback(Request $request){
         ->leftJoin('ETK_ROUTES','ETK_T_DATA_ARCHIVE.ID_ROUTE','=','ETK_ROUTES.id')
         ->select('ETK_T_DATA_ARCHIVE.CARD_NUM', 'ETK_T_DATA_ARCHIVE.DATE_OF', 'ETK_T_DATA_ARCHIVE.EP_BALANCE', 'ETK_T_DATA_ARCHIVE.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber)
-        ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber_zero)
-        ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', substr($semifullnumber,4,6))
+      /**  ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', substr($semifullnumber,4,6)) **/
         ->orderBy('DATE_OF', 'ASC');
 
         $trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
         ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
-        ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
-        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
+     /**   ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6)) **/
         ->union($archive_trips)
         ->orderBy('DATE_OF', 'DESC')
         ->get();
@@ -1387,8 +1395,8 @@ public function postFillCashback(Request $request){
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
         ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
-        ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
-        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6))
+       /** ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
+        ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6)) **/
         ->orderBy('DATE_OF', 'DESC')
         ->get()){
           foreach ($trips as $trip){

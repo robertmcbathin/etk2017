@@ -388,8 +388,8 @@ public function showDetailsReport(){
           ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
           ->select('ETK_T_DATA.CARD_NUM','ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
           ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
-          ->orWhere('ETK_T_DATA.CARD_NUM', $full_card_number_zero)
-          ->orWhere('ETK_T_DATA.CARD_NUM', substr($full_card_number,4,6))
+     /**     ->orWhere('ETK_T_DATA.CARD_NUM', $full_card_number_zero)
+          ->orWhere('ETK_T_DATA.CARD_NUM', substr($full_card_number,4,6)) **/
           ->orderBy('DATE_OF', 'DESC')
           ->get()){
           foreach ($trips as $trip){

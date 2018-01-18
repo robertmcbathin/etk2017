@@ -76,6 +76,48 @@
         </div>
       </div>
       @endif
+
+      @if (Session::has('success'))
+      <div class="row">
+       <div class="alert alert-danger">
+        <button type="button" aria-hidden="true" class="close">
+          <i class="material-icons">close</i>
+        </button>
+        <span>
+          {{Session::pull('success')}}</span>
+        </div>
+      </div>
+      @endif
+
+    <div class="row">
+        <div class="col-md-12">
+                    <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+              <i class="material-icons">archive</i>
+            </div>                
+            <h4 class="card-title">Обновление списка перекодированных карт
+              <small class="category"> Карт перекодировано: {{$recoded_card_count}} </small>
+            </h4>
+            <div class="card-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="table-responsive">
+                 <form action="{{ route('sudo.update.recoding.beta.post')}}" method="GET">
+                  {{csrf_field()}}
+                  <button type="submit" class="btn btn-fill btn-rose">Обновить</button>
+                </form>
+                  </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        </div>
+
+      </div>
+
+
+
         <div class="row">
         <div class="col-md-12">
                     <div class="card">

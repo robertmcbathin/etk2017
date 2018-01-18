@@ -40,7 +40,7 @@
                                     <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div></div>
                                 </div>
                                 <div class="col-md-8">
-                                    <h6 class="category text-info">Именная</h6>
+                                    <h6 class="category text-info">На предъявителя</h6>
                                     <h3 class="card-title">
                                         <a href="{{route('card',['id' => $card->id])}}">{{ $card->name }}</a>
                                     </h3>
