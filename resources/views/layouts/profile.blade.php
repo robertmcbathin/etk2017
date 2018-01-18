@@ -215,13 +215,32 @@ var depositPoints = [
     }
   });
 </script>
-    <script>
-      $('#payment_value').on('keyup', function(){
-        var value = ($('#payment_value').val() * 1.03);
-        valueStr = value.toString();
-        $('#submit_payment').val('Перейти к заказу (' + valueStr + ' р.)');
-      });
-    </script>
+<!-- MODIFY BUTTON -->
+<script>
+  $('#payment_value').on('keyup', function(){
+    var value = ($('#payment_value').val() * 1.03);
+    value = (Math.floor(value*100)/100);
+    valueStr = value.toString();
+    $('#submit_payment').val('Перейти к заказу (' + valueStr + ' р.)');
+  });
+</script>
+<!-- MODIFY SUMMARY -->
+
+<script>
+  $('#payment_value').on('keyup', function(){
+    var toCard;
+    toCard = '<p id="bcp-to-card" class="pull-right">Будет зачислено: <b>' + $('#payment_value').val() + ' р.е. </b></p>';
+    $('#bcp-to-card').replaceWith(toCard);
+
+    var comission;
+    comission = '<p id="bcp-comission" class="pull-right">Комиссия: <b>' + (Math.floor($('#payment_value').val()*0.03 *100)/100) + ' р. </b></p>';
+    $('#bcp-comission').replaceWith(comission);
+
+    var total;
+    total = '<p id="bcp-total" class="pull-right">Итого к оплате: <b>' + (Math.floor($('#payment_value').val()*1.03 * 100)/100) + ' р. </b></p>';
+    $('#bcp-total').replaceWith(total);
+  });
+</script>
 <script src="/js/chartist.min.js"></script>
 <script src="/js/md.js"></script>
 

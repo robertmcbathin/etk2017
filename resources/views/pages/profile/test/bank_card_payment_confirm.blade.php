@@ -91,12 +91,24 @@
 
               <div class="col-md-8 col-sm-12">
                 <h2 class="title">Пополнение транспортной карты</h2>
-                <h4 class="main-price">номер транспортной карты: <b class="pull-right">{{ $current_card }}</b></h4>
-                <h4 class="main-price">E-mail: <b class="pull-right">{{ $email }}</b></h4>
-                <h4 class="main-price">к зачислению на карту: <b class="pull-right">{{$payment_to_card}} р.</b></h4>
-                <h4 class="main-price">к списанию: <b class="pull-right">{{$payment_to_acquirer}} р.</b></h4>
-                <h4 class="main-price">дата платежа: 
-                <b class="pull-right">
+                <div class="row">
+                  <p class="pull-right">номер транспортной карты: <b>{{ $current_card }}</b></p>
+                </div>
+                <div class="row">
+                  <p class="pull-right">E-mail: <b>{{ $email }}</b></p>
+                </div>
+                <div class="row">
+                  <p class="pull-right">к зачислению на карту: <b>{{$payment_to_card}} р.е.</b></p>
+                </div>
+                <div class="row">
+                  <p class="pull-right">комиссия: <b>{{$comission}} р.</b></p>
+                </div>
+                <div class="row">
+                  <p class="pull-right">к списанию: <b>{{$payment_to_acquirer}} р.</b></p>
+                </div>
+                <div class="row">
+                <p class="pull-right">дата платежа: 
+                <b>
                 <script>
                 var date = new Date();
                 var options = {
@@ -111,7 +123,9 @@
                 };
                 document.write(date.toLocaleString("ru",options))
                 </script>
-                </b></h4>
+                </b>
+              </p>
+                </div>
                 <div id="acordeon">
                   <div class="panel-group" id="accordion">
                     <div class="panel panel-border panel-default">
@@ -167,7 +181,7 @@
                <input type="hidden" name="URL_RETURN_OK" value="{{ $URL_RETURN_OK }}">
                <input type="hidden" name="URL_RETURN_NO" value="{{ $URL_RETURN_NO }}">
                <input type="hidden" name="email" value="{{ $email }}">
-                <input id="submit_payment" type="submit" class="btn btn-info btn-fullwidth" value="Подтвердить заказ">
+                <input id="submit_payment" type="submit" class="btn btn-success btn-fullwidth" value="Подтвердить заказ">
               </div>
               </form>
             </div>

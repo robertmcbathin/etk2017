@@ -77,6 +77,69 @@ class UserController extends Controller
    * @param  integer $length [description]
    * @return [type]          [description]
    */
+  
+    public function checkCardOnRecoding($card_number){
+      if($card_number){
+        /**
+         * PARSE ON SERIE AND NUM
+         */
+        $serie = substr($card_number,2,2);
+        $num   = substr($card_number,4,6);
+        /**
+         * CHECK ON UEK SERIE
+         */
+        if($serie == 99){
+            return response()->json([
+                  'status' => 'error',
+                  'errorCode' => '4',
+                  'errorText' => 'Карты УЭК не поддерживаются'
+              ],200);           
+        }
+        /**
+         * CHECK OLD SB CARDS
+         */
+        if (($serie == 97) && ($num <= 552331)){
+            return response()->json([
+                  'status' => 'error',
+                  'errorCode' => '5',
+                  'errorText' => 'Устаревший тип карты БТК'
+              ],200);           
+        }
+        /**
+         * CHECK CARD ON EXISTING
+         */
+        $card = DB::table('ETK_CARDS')
+              ->where('num',$card_number)
+              ->first();
+        if ($card){
+          if ($card->is_recoded == 0){
+               return response()->json([
+                     'status' => 'error',
+                     'errorCode' => '6',
+                     'errorText' => 'Данная карта пока недоступна для пополнения онлайн. Пополните её хотя бы один раз.'
+                 ],200);            
+          } else {
+            return response()->json([
+                     'status' => 'success'
+                 ],200);
+          }
+        } else {
+             return response()->json([
+                   'status' => 'error',
+                   'errorCode' => '7',
+                   'errorText' => 'Номер карты не существует. Проверьте правильность введенных данных'
+               ],200);
+        }
+
+      } else {
+        return response()->json([
+                'status' => 'error',
+                'errorCode' => '1',
+                'errorText' => 'Не задан номер карты'
+            ],200);
+      }
+    }
+
   public function generatePassword($length = 8)
   {
     $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
@@ -1434,7 +1497,12 @@ public function showDetailsReport(){
        * TEST RECODING
        */
       
-
+      $recoding_response = $this->checkCardOnRecoding($current_card);
+      $response = $recoding_response->getData();
+      if ($response->status == 'error'){
+        Session::flash('error',$response->errorText);
+        return redirect()->back();
+      }
       /**
        * PAYMENT SOAP CARDINFO
        * @var Payment
@@ -1514,6 +1582,7 @@ public function showDetailsReport(){
       $payment_max_sum     = $request->max_sum;
       $payment_min_sum     = $request->min_sum;
       $payment_to_acquirer = ($payment_value * 1.03);
+      $comission           = ($payment_value * 0.03);
       $user_id             = $request->user_id;
       $card_number         = $request->card_number;
 
@@ -1588,6 +1657,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
         'URL_RETURN_OK' => $URL_RETURN_OK,
         'URL_RETURN_NO' => $URL_RETURN_NO,
         'payment_to_card' => $payment_value,
+        'comission' => $comission,
         'payment_to_acquirer' => $payment_to_acquirer,
         'email' => $email,
         ]);

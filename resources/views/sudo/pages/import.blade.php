@@ -79,7 +79,7 @@
 
       @if (Session::has('success'))
       <div class="row">
-       <div class="alert alert-danger">
+       <div class="alert alert-success">
         <button type="button" aria-hidden="true" class="close">
           <i class="material-icons">close</i>
         </button>
@@ -93,7 +93,7 @@
         <div class="col-md-12">
                     <div class="card">
             <div class="card-header card-header-icon" data-background-color="rose">
-              <i class="material-icons">archive</i>
+              <i class="material-icons">refresh</i>
             </div>                
             <h4 class="card-title">Обновление списка перекодированных карт
               <small class="category"> Карт перекодировано: {{$recoded_card_count}} </small>
