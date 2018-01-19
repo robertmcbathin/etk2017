@@ -10,7 +10,7 @@
 Как пополнить карту ЕТК
 @endsection
 @section('content')
-<div class="page-header  simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_ewallet.jpg&quot;); transform: translate3d(0px, 0px, 0px);  ">
+<div class="page-header  simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg2018_6.jpg&quot;); transform: translate3d(0px, 0px, 0px);  ">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -162,7 +162,6 @@
                             </div>
                         </div>
                     </div></ul>
-                    <p class="description">Напоминаем, что онлайн-пополнение пока <b>недоступно</b></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-simple" data-dismiss="modal">Закрыть</button>

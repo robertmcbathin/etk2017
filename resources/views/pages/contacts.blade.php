@@ -10,7 +10,7 @@
 Контакты
 @endsection
 @section('content')
-<div class="page-header header-filter simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_temp3.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
+<div class="page-header header-filter simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg2018_1.jpg&quot;); transform: translate3d(0px, 0px, 0px);">
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">

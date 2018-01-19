@@ -10,7 +10,7 @@
 Электронный кошелек
 @endsection
 @section('content')
-<div class="page-header  simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg_ewallet.jpg&quot;); transform: translate3d(0px, 0px, 0px);  ">
+<div class="page-header  simple-page-bg" data-parallax="active" style="background-image: url(&quot;/images/bgs/bg2018_4.jpg&quot;); transform: translate3d(0px, 0px, 0px);  ">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
