@@ -1741,8 +1741,8 @@ public function showDetailsReport(){
       $Lifetime = 3600;
       $Subtotal_P = $payment_to_acquirer;
       $Customer_IDP = $user_id;
-      $URL_RETURN_OK = 'https://etk21.ru/profile/payment/ok';
-      $URL_RETURN_NO = 'https://etk21.ru/profile/payment/fail';
+      $URL_RETURN_OK = 'https://etk21.ru/profile/payment/ok/';
+      $URL_RETURN_NO = 'https://etk21.ru/profile/payment/fail/';
       $password = 'tusk1oAqfMc8NdYpybGvJFSnsx6UyGbYfIRTQ5m4ocIQjLaGBWYb9sZwf0wjsUHpk0LlT6g55L1iiIHN';
       $EMoneyType = '';
       $MeanType = '';
