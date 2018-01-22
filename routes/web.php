@@ -200,7 +200,7 @@ Route::group(['middleware' => 'auth'], function()
         'as' => 'profile'
         ]);
     Route::get('/profile/payment', [
-        'uses' => 'UserController@showPaymentPage',
+        'uses' => 'UserController@getPaymentPage',
         'as' => 'profile.payment'
         ]);
     Route::get('/profile/payment-history', [
@@ -307,6 +307,9 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeCardImage',
         'as' => 'profile.change_card_image'
         ]);
+    /**
+     * PAY TEST
+     */
     Route::get('/profile/test/payment',[
         'uses' => 'UserController@getTestPaymentPage',
         'as' => 'profile.test_payment_page.get'
@@ -323,13 +326,33 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@getPaymentFailPage',
         'as' => 'profile.test.payment_fail.get'
         ]);      
-    Route::post('/profile/test/pay',[
+
+    /**
+     * PAY PRODUCTION
+     */
+    Route::get('/profile/payment',[
+        'uses' => 'UserController@getPaymentPage',
+        'as' => 'profile.payment_page.get'
+        ]);
+    Route::get('/profile/payment/bank_card',[
+        'uses' => 'UserController@getBankCardPaymentPage',
+        'as' => 'profile.bank_card_payment'
+        ]);    
+    Route::get('/profile/payment/bank_card/confirm',[
+        'uses' => 'UserController@getBankCardPaymentConfirmPage',
+        'as' => 'profile.bank_card_payment_confirm'
+        ]);
+    Route::get('/profile/payment/fail',[
+        'uses' => 'UserController@getPaymentFailPage',
+        'as' => 'profile.payment_fail.get'
+        ]);      
+    Route::post('/profile/pay',[
         'uses' => 'UserController@postPayByBankCard',
-        'as' => 'profile.test.pay'
+        'as' => 'profile.pay'
         ]); 
     Route::get('/profile/payment/ok/{Order_ID}',[
         'uses' => 'UserController@getPaymentOkPage',
-        'as' => 'profile.test.payment_ok.get'
+        'as' => 'profile.payment_ok.get'
         ]);  
     Route::post('/profile/verify_card',[
         'uses' => 'UserController@postVerifyCard',

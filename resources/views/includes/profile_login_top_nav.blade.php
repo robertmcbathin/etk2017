@@ -54,7 +54,7 @@
 						</a>
 						<ul class="dropdown-menu dropdown-with-icons">
 							<li>
-								<a href="{{route('profile.payment')}}" class="link-menu away-link">
+								<a href="{{route('profile.payment_page.get')}}" class="link-menu away-link">
 									<i class="material-icons">account_balance_wallet</i> Пополнить счет
 								</a>
 							</li>

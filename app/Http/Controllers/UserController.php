@@ -1557,6 +1557,114 @@ public function showDetailsReport(){
      * @param  Request $request [description]
      * @return [type]           [description]
      */
+
+
+
+/**PAYMENT PRODUCTION
+**
+ * 
+ */
+
+ public function getPaymentPage(){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+      return view('pages.profile.payment',[
+        'cards' => $cards,
+        'current_card' => $current_card]);
+    }
+
+    public function getBankCardPaymentPage(){
+      $cards = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->get();
+      $current_card = DB::table('ETK_CARD_USERS')
+      ->join('ETK_CARD_TYPES', 'ETK_CARD_USERS.card_image_type', '=', 'ETK_CARD_TYPES.id')
+      ->where('ETK_CARD_USERS.user_id', Auth::user()->id)
+      ->select('ETK_CARD_USERS.*', 'ETK_CARD_TYPES.name as name')
+      ->first();
+
+      if (Session::has('current_card_number')){
+        $current_card = $this->modifyToFullNumber(Session::get('current_card_number'));
+
+      } else {
+        Session::flash('warning','Выберите карту для пополнения в меню');
+        return redirect()->back();
+      }
+
+      /**
+       * TEST RECODING
+       */
+      
+      $recoding_response = $this->checkCardOnRecoding($current_card);
+      $response = $recoding_response->getData();
+      if ($response->status == 'error'){
+        Session::flash('error',$response->errorText);
+        return redirect()->back();
+      }
+      /**
+       * PAYMENT SOAP CARDINFO
+       * @var Payment
+       */
+      $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+      $params = array('agentId' => '1002', 
+        'salepointId' => '1', 
+        'version' => '1', 
+        'sysNum' => $current_card, 
+        'regionId' => 21, 
+        'deviceId' => 'B2100003');
+
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      try {
+        $cardInfo = $client->__soapCall('CardInfo', array($params));
+      } catch (Exception $e) {
+        return redirect()->back();
+      }
+      if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
+        Session::flash('warning', $cardInfo->CardInformation->warningMsg);
+        return redirect()->back();
+      } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
+        Session::flash('warning', $cardInfo->CardInformation->warningMsg);
+      }
+      /**
+       * CHECK CARD ON EXISTING
+       * @var [type]
+       */
+      if ($cardInfo->Result->resultCode == 1000){
+        Session::flash('error', $cardInfo->Result->resultCodeText);
+        return redirect()->back();
+      }
+      /**
+       * PREPARE DATA TO OUTPUT
+       */
+      $cardInfo->CardInformation->tariff->minSumInt = floor($cardInfo->CardInformation->tariff->minSumInt / 100);
+      $cardInfo->CardInformation->tariff->maxSumInt = floor($cardInfo->CardInformation->tariff->maxSumInt / 100);
+      /**
+       * 
+       */
+      return view('pages.profile.bank_card_payment',[
+        'cards' => $cards,
+        'current_card' => $current_card,
+        'cardInfo' => $cardInfo
+        ]);
+    }
+    /**
+     * [postPayByBankCard description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
     public function postPayByBankCard(Request $request){
       $this->validate($request,[
 
@@ -1645,7 +1753,7 @@ public function showDetailsReport(){
 $Lifetime, $Customer_IDP, "", "", "", $password );
 
       
-      return view('pages.profile.test.bank_card_payment_confirm',[
+      return view('pages.profile.bank_card_payment_confirm',[
         'cards' => $cards,
         'current_card' => $card_number,
         'Order_IDP' => $Order_ID,
@@ -1663,7 +1771,6 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
         ]);
       
     }
-
     /**
      * [getPaymentOkPage description]
      * @return [type] [description]
