@@ -1812,7 +1812,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
             'sessionId' => $order->session_id,
             'tariffId' => $order->tariff_id,
             'paymentSum' => ($order->payment_to_card*100),
-            'paymentInfo' => 'Uniteller' 
+            'paymentInfo' => 'Uniteller'
           );
           $username = 'admin';
           $password = '1';
