@@ -1797,7 +1797,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
          */
         if ($order->rewrite_status == 1){ //ЕСЛИ КАРТА УЖЕ ПЕРЕЗАПИСАНА
           Session::flash('error','Отложенное пополнение по этому заказу уже создано');
-          return view('pages.profile.test.payment.payment_ok',[
+          return view('pages.profile.payment.payment_ok',[
         'cards' => $cards,
         'current_card' => $current_card]);
         } elseif ($order->rewrite_status == 0) { //КАРТА НЕ ПЕРЕЗАПИСАНА. МОЖНО СОЗДАВАТЬ ТРАНЗАКЦИЮ
@@ -1812,7 +1812,7 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
             'sessionId' => $order->session_id,
             'tariffId' => $order->tariff_id,
             'paymentSum' => ($order->payment_to_card*100),
-            'paymentInfo' => 'Тест'
+            'paymentInfo' => 'Uniteller' 
           );
           $username = 'admin';
           $password = '1';
@@ -1828,23 +1828,23 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
               'rewrite_status' => 1
               ]);
         } catch (Exception $e) {
-          return view('pages.profile.test.payment.payment_fail',[
+          return view('pages.profile.payment.payment_fail',[
         'cards' => $cards,
         'current_card' => $current_card]);
         }
         Session::flash('success','Операция прошла успешно!');
-        return view('pages.profile.test.payment.payment_ok',[
+        return view('pages.profile.payment.payment_ok',[
         'cards' => $cards,
         'current_card' => $current_card]);          
         }
         
       } else {
         Session::flash('error','Заказ с таким номером не существует');
-        return view('pages.profile.test.payment.payment_ok',[
+        return view('pages.profile.payment.payment_ok',[
         'cards' => $cards,
         'current_card' => $current_card]);
       }
-      return view('pages.profile.test.payment.payment_ok',[
+      return view('pages.profile.payment.payment_ok',[
         'cards' => $cards,
         'current_card' => $current_card]);
     }
