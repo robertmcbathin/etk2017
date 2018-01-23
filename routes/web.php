@@ -179,6 +179,19 @@ Route::group(['middleware' => 'web'], function () {
         /**
          * 
          */
+        
+
+ /**NOTIFICATIONS**/
+     Route::get('/payment/ok/{Order_ID}',[
+        'uses' => 'SiteController@getPaymentOkPage',
+        'as' => 'site.payment_ok.get'
+        ]); 
+
+     Route::get('/payment/fail/{Order_ID?}',[
+        'uses' => 'SiteController@getPaymentFailPage',
+        'as' => 'site.payment_fail.get'
+        ]); 
+
     });
 Route::group(['prefix' => 'sudo'], function () {
     Route::get('login', function ()    {

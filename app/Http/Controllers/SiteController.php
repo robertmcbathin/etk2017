@@ -288,4 +288,19 @@ public function getNewsPage(){
 
     }
 
+
+    /**
+     * NOTIFICATIONS
+     */
+    
+
+    public function getPaymentOkPage($Order_ID){
+      return view('pages.payment_ok',[
+        'Order_ID' => $Order_ID
+      ]);
+    }
+
+    public function getPaymentFailPage($Order_ID = null){
+      return view('pages.payment_fail');
+    }
 }

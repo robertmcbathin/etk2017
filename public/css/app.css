@@ -195,7 +195,7 @@ animation: Gradient 30s ease infinite;
     margin-bottom: 0px;
 }
 .header-filter::before {
-    background-color: rgba(5, 152, 72, 0.4) !important;
+    background-color: rgba(5, 152, 72, 0.4) !important
 }
 /** 
  * 
