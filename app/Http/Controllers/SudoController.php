@@ -219,10 +219,14 @@ public function postAddArticle(Request $request){
           'lk_email_count' => $lk_email_count
           ]); 
       }
+      
+
       /**
-       * [getEmailDistributionPage description]
-       * @return [type] [description]
+       * EMAIL DISTRIBUTIONS
        */
+      
+
+
       public function sendLKStartEmails(){
         $lk_emails = DB::table('ETK_QUESTIONS')
                     ->selectRaw('distinct email')
@@ -236,6 +240,11 @@ public function postAddArticle(Request $request){
 
         Session::flash('success', 'Рассылка отправлена.' . $sent_counter . ' сообщений отправлено');
         return redirect()->back(); 
+      }
+
+      public function ajaxSendOnlinePaymentEmailsTest(){
+        $recipients = ['alexander21-12@mail.ru','ivanov@etk21.ru','mercile55@yandex.ru'];
+
       }
 
       /**

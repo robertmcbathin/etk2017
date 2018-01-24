@@ -20,19 +20,25 @@
   <link href="/admin/css/bootstrap.min.css" rel="stylesheet" />
   <!--  Material Dashboard CSS    -->
   <link href="/admin/css/material-dashboard.css" rel="stylesheet" />
-  <link href="/admin/css/app.css" rel="stylesheet" />
   <!--  CSS for Demo Purpose, don't include it in your project     -->
   <link href="/admin/css/demo.css" rel="stylesheet" />
   <!-- For progress bars -->
   <link rel="stylesheet" href="/admin/css/materialize.css">
+
+    <link href="/admin/css/app.css" rel="stylesheet" />
   <!--     Fonts and icons     -->
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 </head>
 
 <body>
+
   <div class="wrapper">
+
     @include('sudo.includes.sidebar')
+<div class="progress" style="margin: 0px;" id="operation-preloader">
+  <div class="indeterminate"></div>
+</div>
     @yield('content')
   </div>
 </body>

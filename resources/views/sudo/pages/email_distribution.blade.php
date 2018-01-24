@@ -36,6 +36,7 @@
               <div class="card-header card-header-text" data-background-color="rose">
                 <h4 class="card-title">Список рассылок</h4>
               </div>
+
               <div class="col-md-3">
                 <div class="card card-stats">
                   <div class="card-header" data-background-color="orange">
@@ -55,7 +56,29 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3"></div>
+
+              <div class="col-md-3">
+                <div class="card card-stats">
+                  <div class="card-header" data-background-color="orange">
+                  <i class="material-icons">email</i>
+                  </div>
+                  <div class="card-content">
+                    <p class="category">Запуск онлайн-пополнения на сайте</p>
+                    <h3 class="card-title">{{ $lk_email_count }} адресов</h3>
+                  </div>
+                  <div class="card-footer">
+                    <div class="stats">
+                      <a href="{{ route('sudo.pages.email-distribution.online-payment.test') }}">Тестовая отправка</a>
+                    </div>
+                    <div class="stats pull-right">
+                      <a href="{{ route('sudo.pages.email-distribution.lk-start') }}">Отправить</a>
+                    </div>
+                  </div>
+                </div>                
+
+              </div>
+
+
               <div class="col-md-3"></div>
             </div>
 

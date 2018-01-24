@@ -446,6 +446,12 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@sendLKStartEmails',
             'as' => 'sudo.pages.email-distribution.lk-start'
             ])->middleware('can:show-sudo,App\User');
+
+        Route::get('/email-distribution/send-online-payment/ajax',[
+            'uses' => 'SudoController@ajaxSendOnlinePaymentEmailsTest',
+            'as' => 'sudo.pages.email-distribution.online-payment.test'
+            ])->middleware('can:show-sudo,App\User');
+
         /**
          * 
          */
