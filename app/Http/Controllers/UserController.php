@@ -102,7 +102,7 @@ class UserController extends Controller
             return response()->json([
                   'status' => 'error',
                   'errorCode' => '5',
-                  'errorText' => 'Устаревший тип карты БТК'
+                  'errorText' => 'Данный тип карт не поддерживает фугкцию отложенного пополнения'
               ],200);           
         }
         /**

@@ -1,4 +1,5 @@
 app = {
+  
    initFormExtendedDatetimepickers: function(){
         $('.datetimepicker').datetimepicker({
             icons: {

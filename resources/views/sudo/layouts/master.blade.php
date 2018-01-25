@@ -36,9 +36,9 @@
   <div class="wrapper">
 
     @include('sudo.includes.sidebar')
-<div class="progress" style="margin: 0px;" id="operation-preloader">
-  <div class="indeterminate"></div>
-</div>
+<div class="progress" style="margin: 0px;" id="main-preloader">
+ <!-- <div class="indeterminate"></div> --> 
+  </div>
     @yield('content')
   </div>
 </body>
@@ -83,6 +83,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 <script type="text/javascript">
   app = {
+
+  showStartDistributionNotification: function(from, align){
+        type = ['','info','success','warning','danger','rose','primary'];
+
+        color = Math.floor((Math.random() * 6) + 1);
+
+      $.notify({
+          icon: "notifications",
+          message: "Началась тестовая отправка рассылки."
+
+        },{
+            type: type['info'],
+            timer: 3000,
+            placement: {
+                from: from,
+                align: align
+            }
+        });
+  },
     initCharts: function(){
 
       /* ----------==========    Rounded Line Chart initialization    ==========---------- */
@@ -825,6 +844,34 @@ if ($('#card_serie').val().length == 2){
         }
        });
     }
+  });
+</script>
+
+<script>
+  $('#ed-send-online-test').on('click',function(){
+    preloader = '<div class=\"progress\" id=\"main-preloader\" style=\"margin: 0px;\"><div class=\"indeterminate\"></div></div>';
+    $('#main-preloader').replaceWith(preloader);
+
+    app.showStartDistributionNotification('bottom','right');
+    counterBlock = '<div class=\"alert alert-info\" id=\"ed-info\"><button type=\"button\" aria-hidden=\"true\" class=\"close\"><i class=\"material-icons\">close</i></button><span><b> Info - </b> This is a regular notification made with \".alert-info\"</span></div>';
+    $('#ed-info').replaceWith(counterBlock);
+
+
+    console.log(typeof(receivers));
+    console.log(receivers);
+    receivers.forEach(function(item, i, receivers){
+       $.ajax({
+        method: 'POST',
+        url: sendEmailsOnlineUrl,
+        data: { 
+          recipient: item,
+          _token: token
+        }
+        })
+       .done(function(msg){
+          console.log(msg['recipient']);
+       });
+    });
   });
 </script>
 

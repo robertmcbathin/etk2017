@@ -215,8 +215,22 @@ public function postAddArticle(Request $request){
         $lk_email_count = DB::table('users')
                     ->where('is_email_receiver',1)
                     ->count('email');
+        $distributions = DB::table('ETK_EMAIL_DISTRIBUTIONS')
+                            ->get();
+        $recipients = DB::table('users')
+                        ->where('is_email_receiver',1)
+                        ->whereNotNull('email')
+                        ->select('email')
+                        ->get();
+        $receivers = [];
+        foreach ($recipients as $recipient){
+          $receivers[] = $recipient->email;
+        }
+        $receivers = json_encode($receivers);
         return view('sudo.pages.email_distribution',[
-          'lk_email_count' => $lk_email_count
+          'lk_email_count' => $lk_email_count,
+          'distributions' => $distributions,
+          'receivers' => $receivers
           ]); 
       }
       
@@ -242,9 +256,8 @@ public function postAddArticle(Request $request){
         return redirect()->back(); 
       }
 
-      public function ajaxSendOnlinePaymentEmailsTest(){
-        $recipients = ['alexander21-12@mail.ru','ivanov@etk21.ru','mercile55@yandex.ru'];
-
+      public function ajaxSendOnlinePaymentEmailsTest(Request $request){
+        return response()->json(['message' => 'success', 'recipient' => $request->recipient],200);
       }
 
       /**
