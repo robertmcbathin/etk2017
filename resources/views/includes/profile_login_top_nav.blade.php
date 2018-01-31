@@ -117,7 +117,7 @@
 
 						<li>
 							<a href="{{ route('profile') }}" class="away-link">
-								<i class="material-icons">home</i>
+								<i class="material-icons">home</i> <span class="hidden-lg hidden-md">Моя страница</span>
 								<div class="ripple-container"></div></a>
 							</li>
 						</ul>

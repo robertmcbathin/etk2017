@@ -36,7 +36,6 @@
                         </blockquote>
                         @if ($links)
                          @foreach ($links as $link)
-                         <h4 class="title">Ссылки по теме</h4>
                         <a href="{{$link->link}}"><span class="label label-info">{{$link->name}}</span></a>
                         @endforeach
                         @endif
