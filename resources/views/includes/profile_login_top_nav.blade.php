@@ -101,9 +101,6 @@
 								<li class="dropdown-header">
 									{{ Auth::user()->name }} {{ Auth::user()->lastname }}
 								</li>
-								<li>
-									<a href="{{ route('profile') }}" class="link-menu away-link">Моя страница</a>
-								</li>
 								<li class="divider"></li>
 								<li><a href="{{ route('logout') }}" class="btn btn-danger away-link">
 									<i class="material-icons">account_box</i> Выйти
@@ -115,6 +112,12 @@
 						<li>
 							<a href="{{ route('profile.settings') }}" class="away-link">
 								<i class="material-icons">settings</i> Настройки
+								<div class="ripple-container"></div></a>
+							</li>
+
+						<li>
+							<a href="{{ route('profile') }}" class="away-link">
+								<i class="material-icons">home</i>
 								<div class="ripple-container"></div></a>
 							</li>
 						</ul>
