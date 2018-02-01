@@ -15,7 +15,6 @@
     <div class="container">
       <div class="row">
         @if (Session::has('warning'))
-        @foreach (Session::get('warning') as $warning)
         <div class="row">
           <div class="container">
             <div class="alert alert-warning">
@@ -26,12 +25,11 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true"><i class="material-icons">clear</i></span>
                 </button>
-                <strong>{{ $warning }}</strong>
+                <strong>{{Session::pull('warning')}}</strong>
               </div>
             </div>  
           </div>
         </div>
-        @endforeach
         @endif
         @if (Session::has('info'))
         <div class="row">

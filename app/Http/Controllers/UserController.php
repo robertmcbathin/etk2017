@@ -661,7 +661,7 @@ public function showDetailsReport(){
           ]);
         $card_type   = $request['card_type'];
         $user_id     = $request['user_id'];
-        $card_number = $request['card_number'];
+        $card_number = '0' . substr($request['card_number'],1,8);
         if (!is_numeric($card_number)){
           Session::flash('card_is_not_numeric', 'Введенный номер не является числом. Проверьте и попробуйте еще раз');
           return redirect()->back();
@@ -729,10 +729,10 @@ public function showDetailsReport(){
             case '041':
             $card_type = 7;
             break;
-            case '43':
+            case '043':
             $card_type = 5;
             break;
-            case '44':
+            case '044':
             $card_type = 8;
             break;
             case '069':
@@ -741,10 +741,51 @@ public function showDetailsReport(){
             case '097':
             $card_type = 4;
             break;
-            case '099':
-            $card_type = 12;
+            case '123':
+            $card_type = 1;
             break;
-
+            case '121':
+            $card_type = 7;
+            break;
+            case '125':
+            $card_type = 5;
+            break;
+            case '126':
+            $card_type = 8;
+            break;
+            case '129':
+            $card_type = 15;
+            break;
+            case '133':
+            $card_type = 9;
+            break;
+            case '134':
+            $card_type = 10;
+            break;
+            case '136':
+            $card_type = 9;
+            break;
+            case '137':
+            $card_type = 10;
+            break;
+            case '140':
+            $card_type = 7;
+            break;
+            case '141':
+            $card_type = 7;
+            break;
+            case '143':
+            $card_type = 5;
+            break;
+            case '144':
+            $card_type = 8;
+            break;
+            case '169':
+            $card_type = 16;
+            break;
+            case '197':
+            $card_type = 4;
+            break;
             default:
             Session::flash('error', 'Данную серию карт нельзя добавить!');
             return redirect()->back();

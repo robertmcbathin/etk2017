@@ -31,6 +31,7 @@
 						<div class="ripple-container"></div></a>
 						<ul class="dropdown-menu dropdown-menu-right">
 							<li class="dropdown-header">Выберите активную карту</li>
+							@isset($cards)
 							@foreach ($cards as $card)
 							<li>
 								<a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" class="link-profile away-link">
@@ -45,6 +46,7 @@
 								</a>
 							</li>
 							@endforeach
+							@endisset
 						</ul>
 					</li>
 					<li class="dropdown">
