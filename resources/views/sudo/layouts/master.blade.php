@@ -218,7 +218,7 @@
           var colouredRoundedLineChart = new Chartist.Line('#newUsersChart', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
 
           md.startAnimationForLineChart(colouredRoundedLineChart);
-          /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
+          /*  **************** Coloured Rounded Line Chart - Line Chart ******************** 
 
 
           dataColouredBarsChart = {
@@ -253,19 +253,20 @@
           /*  **************** Public Preferences - Pie Chart ******************** */
 
           var dataPreferences = {
-            labels: ['62%','32%','6%'],
-            series: [62, 32, 6]
+            labels: recodingCards,
+            series: recodingCards
           };
 
           var optionsPreferences = {
             height: '230px'
           };
 
-          Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
+          var chartRecodingPreferences  = new Chartist.Pie('#chartRecodingPreferences', dataPreferences, optionsPreferences);
+          md.startAnimationForPieChart(chartRecodingPreferences);
 
           /*  **************** Simple Bar Chart - barchart ******************** */
 
-          var dataSimpleBarChart = {
+      /*    var dataSimpleBarChart = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             series: [
             [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
@@ -326,7 +327,7 @@
         var multipleBarsChart = Chartist.Bar('#multipleBarsChart', dataMultipleBarsChart, optionsMultipleBarsChart, responsiveOptionsMultipleBarsChart);
 
         //start animation for the Emails Subscription Chart
-        md.startAnimationForBarChart(multipleBarsChart);
+        md.startAnimationForBarChart(multipleBarsChart);*/
       }
     }
   </script>

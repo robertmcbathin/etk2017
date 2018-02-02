@@ -90,18 +90,23 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header card-header-icon" data-background-color="green">
-                            <i class="material-icons">timeline</i>
-                        </div>
-                        <div class="card-content">
-                            <h4 class="card-title">Пополнение по дням
-                                <small> - Сбербанк</small>
-                            </h4>
-                        </div>
-                        <div id="sbDepositChart" class="ct-chart"></div>
-                    </div>
+                                <div class="card-header card-header-icon" data-background-color="red">
+                                    <i class="material-icons">pie_chart</i>
+                                </div>
+                                <div class="card-content">
+                                    <h4 class="card-title">Перекодированные карты</h4>
+                                </div>
+                                <div id="chartRecodingPreferences" class="ct-chart"></div>
+                                <div class="card-footer">
+                                    <h6>Описание</h6>
+                                    <i class="fa fa-circle text-info"></i> Формат В
+                                    <i class="fa fa-circle text-warning"></i> Формат А
+                                    <br>
+                                    Всего активных карт за 3 месяца: {{ $cards_count }}, из них перекодировано {{ $recoded_cards_count }}
+                                </div>
+                            </div>
                 </div>
                 <div class="col-md-12">
                     <div class="card">
@@ -189,5 +194,11 @@
    @endforeach
    ];
 
+   /*  **************** newUsersChart Line Chart - Line Chart ******************** */  
+
+   var recodingCards = 
+   [
+   {{ $recoded_cards_percent }}, {{ $non_recoded_cards_percent }}
+   ];
 </script>
 @endsection

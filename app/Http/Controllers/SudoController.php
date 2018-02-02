@@ -84,13 +84,31 @@ class SudoController extends Controller
    /**
     * 
     */
+   $three_months_ago = Carbon::now();
+   $three_months_ago->subMonths(1);
+
+   $cards_count = DB::table('ETK_CARDS')
+                      ->where('date_of_travel_doc_kind_last','>',$three_months_ago)
+                      ->count();
+   $recoded_cards_count = DB::table('ETK_CARDS')
+                      ->where('date_of_travel_doc_kind_last','>',$three_months_ago)
+                      ->where('is_recoded',1)
+                      ->count();   
+  /**IN PERCENTAGES */
+   $recoded_cards_percent = round(($recoded_cards_count/$cards_count)*100,2);
+   $non_recoded_cards_percent = 100 - $recoded_cards_percent;
+
    return view('sudo.pages.dashboard',[
     'questions_count' => $questions_count,
     'waiting_for_activation' => $waiting_for_activation,
     'users_count' => $users_count,
     'new_detailing_requests_count' => $new_detailing_requests_count,
     'sbDeposits' => $sbDeposits,
-    'newUsers' => $new_users
+    'newUsers' => $new_users,
+    'recoded_cards_count' => $recoded_cards_count,
+    'cards_count' => $cards_count,
+    'recoded_cards_percent' => $recoded_cards_percent,
+    'non_recoded_cards_percent' => $non_recoded_cards_percent
     ]);
  }
  public function getArticlesPage(){
