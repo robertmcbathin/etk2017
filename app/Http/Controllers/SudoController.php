@@ -85,7 +85,7 @@ class SudoController extends Controller
     * 
     */
    $three_months_ago = Carbon::now();
-   $three_months_ago->subMonths(1);
+   $three_months_ago->subMonths(3);
 
    $cards_count = DB::table('ETK_CARDS')
                       ->where('date_of_travel_doc_kind_last','>',$three_months_ago)
