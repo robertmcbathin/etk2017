@@ -563,19 +563,23 @@ public function showDetailsReport(){
       $card_types = DB::table('ETK_CARD_TYPES')
       ->get();
       switch (Auth::user()->sex) {
+        case 'U':
+          $sex = 'Не определен';
+          break;
         case 'u':
           $sex = 'Не определен';
           break;
-        case 'm':
+        case 'M':
           $sex = 'Мужской';
           break;
-        case 'f':
+        case 'F':
           $sex = 'Женский';
           break;        
         default:
           $sex = 'Не определен';
           break;
       }
+
       return view('pages.profile.settings',[
         'cards' => $cards,
         'current_card' => $current_card,
@@ -621,6 +625,32 @@ public function showDetailsReport(){
      }
    }
 
+
+   public function postChangePersonalData(Request $request){
+    $new_name      = $request['name'];
+    $new_lastname  = $request['lastname'];
+    $new_sex       = $request['sex'];
+    $new_birthdate = new \Datetime($request['birthdate']);
+    $user_id = Auth::user()->id;
+
+    $min_age = Carbon::now();
+    if (($new_birthdate > $min_age->subYear(13)) || ($new_birthdate > $min_age) ){
+      Session::flash('error','Вы не можете указать возраст менее 13 лет');
+      return redirect()->back();
+    }
+    $user = \App\User::find($user_id);
+    $user->name      = $new_name;
+    $user->lastname  = $new_lastname;
+    $user->sex       = $new_sex;
+    $user->birthdate = $new_birthdate;
+    if($user->save()){
+        Session::flash('success', 'Данные успешно изменены');
+        return redirect()->back(); 
+    }else {
+       Session::flash('error', 'Изменить данные не удалось');
+       return redirect()->back();
+     }
+   }
     /**
      * CHANGE PASSWORD
      * @param  Request $request [description]

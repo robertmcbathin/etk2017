@@ -468,7 +468,7 @@
                                 <form action="{{ route('profile.change_personal_data.post') }}" method="POST">
                                   <div class="form-group is-empty">
 
-                                    <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Отчество" class="form-control" name="name">
+                                    <input type="text" value="{{ Auth::user()->name }}" placeholder="Имя Отчество" class="form-control" name="name" required>
                                     <span class="material-input"></span>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     {{ csrf_field()}}
@@ -478,7 +478,7 @@
                               <div class="row">
                                 <div class="col-md-6 col-md-offset-3">
                                   <div class="form-group is-empty">
-                                    <input type="text" value="{{ Auth::user()->lastname }}" placeholder="Фамилия" class="form-control" name="lastname">
+                                    <input type="text" value="{{ Auth::user()->lastname }}" placeholder="Фамилия" class="form-control" name="lastname" required="">
                                     <span class="material-input"></span>
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                   </div>
@@ -501,6 +501,22 @@
                                     </div>
                                   </div>
 
+                            
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+
+                                  <div class="input-group">
+                                    <span class="input-group-addon">
+                                      <i class="material-icons">perm_contact_calendar</i>
+                                    </span>
+                                    <div class="form-group is-empty">
+                                      <input type="text" class="form-control datepicker" name="birthdate" value="{{ Auth::user()->birthdate }}" required>
+                                      <span class="material-input"></span>
+                                      <span>Пол и дата рождения необходимы для точной идентификации Вас как пользователя в случаях обращения к нам в офис лично</span>
+                                    </div>
+                                  </div>
 
                                 </div>
                               </div>

@@ -112,7 +112,7 @@
 						</li>
 
 						<li>
-							<a href="{{ route('profile.settings') }}" class="away-link">
+							<a href="{{ route('profile.settings') }}" class="away-link" data-toggle="tooltip" data-placement="bottom" data-original-title="Не забудьте указать пол и дату рождения">
 								<i class="material-icons">settings</i> Настройки
 								<div class="ripple-container"></div></a>
 							</li>
