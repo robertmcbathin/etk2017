@@ -562,10 +562,25 @@ public function showDetailsReport(){
       ->first();
       $card_types = DB::table('ETK_CARD_TYPES')
       ->get();
+      switch (Auth::user()->sex) {
+        case 'u':
+          $sex = 'Не определен';
+          break;
+        case 'm':
+          $sex = 'Мужской';
+          break;
+        case 'f':
+          $sex = 'Женский';
+          break;        
+        default:
+          $sex = 'Не определен';
+          break;
+      }
       return view('pages.profile.settings',[
         'cards' => $cards,
         'current_card' => $current_card,
-        'card_types' => $card_types
+        'card_types' => $card_types,
+        'sex' => $sex
         ]);
     }
     /**

@@ -236,9 +236,9 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showSettings',
         'as' => 'profile.settings'
         ]);
-    Route::post('/profile/change_name',[
-        'uses' => 'UserController@postChangeName',
-        'as' => 'profile.change_name.post'
+    Route::post('/profile/change_personal_data',[
+        'uses' => 'UserController@postChangePersonalData',
+        'as' => 'profile.change_personal_data.post'
         ]);
     Route::post('/profile/change_lastname',[
         'uses' => 'UserController@postChangeLastName',
