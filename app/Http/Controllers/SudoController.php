@@ -790,7 +790,7 @@ public function postAddArticle(Request $request){
               /**
                * [$ins_date description]
                */
-              if (($ins_date = date_create_from_format('d.m.Y H:i:s', $line[8])) == 0){
+              if (($ins_date = date_create_from_format('d.m.Y H:i:s', $line[8])) == null){
                 $ins_date = date_create_from_format('d.m.Y', $line[8]);
               }
               
