@@ -750,7 +750,9 @@ public function postAddArticle(Request $request){
           $counter = 0;
           while (($line = $reader->readLine()) !== false) {
             try {
-              $trip_date = date_create_from_format('d.m.Y H:i:s', $line[1]);
+              if (($trip_date = date_create_from_format('d.m.Y H:i:s', $line[1])) == null){
+                $trip_date = date_create_from_format('d.m.Y', $line[1]);
+              }
               /**
                * CHECK FOR RIGHT FLOAT VALUE
                */
