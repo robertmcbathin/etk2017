@@ -33,22 +33,15 @@
 
            <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h1 class="title">Отложенное пополнение</h1>
-                        <h4>Теперь карту можно пополнить онлайн при помощи любой банковской карты на нашем сайте в личном кабинете. Пока не все карты доступны для такого способа пополнения. Комиссия за такой способ пополнения составит 3%.</h4>
-                        <br>
-                        <a href="/static_articles/deferred_payment" target="_blank" class="btn btn-info btn-lg">
-                            <i class="fa fa-external-link"></i> Что такое отложенное пополнение
-                        </a>
-                        <a href="/profile/payment" class="btn btn-success btn-lg">
-                            <i class="fa fa-link"></i> Перейти к пополнению 
-                        </a>
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="title">Отложенное пополнение через Сбербанк Онлайн</h1>
+                        <h4>С 14 февраля 2018 года Вы можете пополнить свой электронный кошелек или продлить проездной через популярный сервис Сбербанк Онлайн без комиссии! Напоминаем, что пока не все карты доступны для такого способа пополнения. </h4>
                     </div>
-                    <div class="col-md-5 col-md-offset-1">
+<!--                    <div class="col-md-5 col-md-offset-1">
                         <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
