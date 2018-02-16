@@ -183,6 +183,9 @@ public function getNewsPage(){
     public function getAboutOnlinePage(){
         return view('pages.about_online');
     }
+    public function getSbolInstructionPage(){
+        return view('pages.instructions.sbol');
+    }
     public function postQuestion(Request $request){
         $this->validate($request,[
             'name' => 'required|min:1|max:100',

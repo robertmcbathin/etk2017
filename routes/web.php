@@ -98,6 +98,11 @@ Route::group(['middleware' => 'web'], function () {
         'uses' => 'SiteController@getAboutOnlinePage',
         'as' => 'about-online'
         ]);
+
+    Route::get('/instructions/sbol',[
+        'uses' => 'SiteController@getSbolInstructionPage',
+        'as' => 'instructions.sbol'
+        ]);
     /**
      * CARDS
      */

@@ -39,7 +39,7 @@
                         <a href="/about_online" class="btn btn-success">
                             Подробнее
                         </a>
-                        <a href="/about_online" class="btn btn-success">
+                        <a href="/instructions/sbol" class="btn btn-success">
                             Инструкция
                         </a>
                     </div>
