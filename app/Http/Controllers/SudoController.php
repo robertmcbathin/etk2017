@@ -85,7 +85,7 @@ class SudoController extends Controller
     * 
     */
    $three_months_ago = Carbon::now();
-   $three_months_ago->subMonths(1);
+   $three_months_ago->subMonths(3);
 
    $cards_count = DB::table('ETK_CARDS')
                       ->where('date_of_travel_doc_kind_last','>',$three_months_ago)
@@ -1399,7 +1399,7 @@ public function postFillCashback(Request $request){
 
           $archive_trips = DB::table('ETK_T_DATA_ARCHIVE')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA_ARCHIVE.ID_ROUTE','=','ETK_ROUTES.id')
-        ->select('ETK_T_DATA_ARCHIVE.CARD_NUM', 'ETK_T_DATA_ARCHIVE.DATE_OF', 'ETK_T_DATA_ARCHIVE.EP_BALANCE', 'ETK_T_DATA_ARCHIVE.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->select('ETK_T_DATA_ARCHIVE.KIND','ETK_T_DATA_ARCHIVE.CARD_NUM', 'ETK_T_DATA_ARCHIVE.DATE_OF', 'ETK_T_DATA_ARCHIVE.EP_BALANCE', 'ETK_T_DATA_ARCHIVE.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber)
       /**  ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA_ARCHIVE.CARD_NUM', substr($semifullnumber,4,6)) **/
@@ -1407,7 +1407,7 @@ public function postFillCashback(Request $request){
 
         $trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-        ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->select('ETK_T_DATA.KIND','ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
      /**   ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6)) **/
@@ -1436,12 +1436,26 @@ public function postFillCashback(Request $request){
             $trip->transport_type = NULL;
             break;
           }
-          if (($trip->name == NULL) && (strlen($trip->CARD_NUM) == 6)) $trip->name = 'Пополнение в Сбербанке';
-         if (($trip->name == NULL) && (strlen($trip->CARD_NUM) > 6)) $trip->name = 'Пополнение в офисе';
+          /**
+           * OPERATION KIND
+           * 
+           */
+          switch ($trip->KIND) {
+            case 36:
+              $trip->transport_type = 'refill';
+              break;
+            case 10:
+              $trip->transport_type = 'refill';
+            default:
+              # code...
+              break;
+          }
+          if ($trip->KIND == 10) $trip->name = 'Пополнение';
+         if ($trip->KIND == 36) $trip->name = 'Отложенное пополнение';
         }
       } else if ($trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-        ->select('ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+        ->select('ETK_T_DATA.KIND','ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
         ->where('ETK_T_DATA.CARD_NUM', $semifullnumber)
        /** ->orWhere('ETK_T_DATA.CARD_NUM', $semifullnumber_zero)
         ->orWhere('ETK_T_DATA.CARD_NUM', substr($semifullnumber,4,6)) **/
@@ -1467,8 +1481,20 @@ public function postFillCashback(Request $request){
             $trip->transport_type = NULL;
             break;
           }
-          if (($trip->name == NULL) && (strlen($trip->CARD_NUM) == 6)) $trip->name = 'Пополнение в Сбербанке';
-         if (($trip->name == NULL) && (strlen($trip->CARD_NUM) > 6)) $trip->name = 'Пополнение в офисе';
+
+          switch ($trip->KIND) {
+            case 36:
+              $trip->transport_type = 'refill';
+              break;
+            case 10:
+              $trip->transport_type = 'refill';
+            default:
+              # code...
+              break;
+          }
+
+          if ($trip->KIND == 10) $trip->name = 'Пополнение';
+         if ($trip->KIND == 36) $trip->name = 'Отложенное пополнение';
         }
       } else $trips = null;
     } else $trips = null;
