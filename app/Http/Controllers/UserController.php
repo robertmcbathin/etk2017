@@ -481,12 +481,17 @@ public function showDetailsReport(){
               break;
             case 10:
               $trip->transport_type = 'refill32';
+              break;
+            case 39:
+              $trip->transport_type = 'refill32';
+              break;
             default:
               # code...
               break;
           }
           if ($trip->KIND == 10) $trip->name = 'Пополнение';
          if ($trip->KIND == 36) $trip->name = 'Отложенное пополнение';
+         if ($trip->KIND == 39) $trip->name = 'Создано отложенное пополнение';
           }
         } else $trips = null;
       } else {

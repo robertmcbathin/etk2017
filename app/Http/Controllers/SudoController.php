@@ -1446,12 +1446,17 @@ public function postFillCashback(Request $request){
               break;
             case 10:
               $trip->transport_type = 'refill';
+              break;
+            case 39:
+              $trip->transport_type = 'refill';
+              break;
             default:
               # code...
               break;
           }
           if ($trip->KIND == 10) $trip->name = 'Пополнение';
          if ($trip->KIND == 36) $trip->name = 'Отложенное пополнение';
+         if ($trip->KIND == 39) $trip->name = 'Создано отложенное пополнение';
         }
       } else if ($trips = DB::table('ETK_T_DATA')
         ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
@@ -1488,6 +1493,10 @@ public function postFillCashback(Request $request){
               break;
             case 10:
               $trip->transport_type = 'refill';
+              break;
+            case 39:
+              $trip->transport_type = 'refill';
+              break;
             default:
               # code...
               break;
@@ -1495,6 +1504,7 @@ public function postFillCashback(Request $request){
 
           if ($trip->KIND == 10) $trip->name = 'Пополнение';
          if ($trip->KIND == 36) $trip->name = 'Отложенное пополнение';
+         if ($trip->KIND == 39) $trip->name = 'Создано отложенное пополнение';
         }
       } else $trips = null;
     } else $trips = null;
