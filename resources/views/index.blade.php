@@ -34,17 +34,14 @@
            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="title">Отложенное пополнение через Сбербанк Онлайн</h4>
-                        <h5>С 14 февраля 2018 года Вы можете пополнить свой электронный кошелек или продлить проездной через популярный сервис Сбербанк Онлайн без комиссии. Напоминаем, что пока не все карты доступны для такого способа пополнения. </h5>
-                        <a href="/about_online" class="btn btn-success">
+                        <h4 class="title">О запуске отложенного пополнения через Сбербанк Онлайн</h4>
+                        <h5>С 14 февраля 2018 года был запущен сервис отложенного пополнения и продления карт через Сбербанк Онлайн. О проблемах и путях решения читайте в статье. </h5>
+                        <a href="/static_articles/about_deferred_payment" class="btn btn-success">
                             Подробнее
-                        </a>
-                        <a href="/instructions/sbol" class="btn btn-success">
-                            Инструкция
                         </a>
                     </div>
                     <div class="col-md-5 col-md-offset-1">
-                        <img src="/images/sbol.png" alt="">
+                        <img src="/images/sbol_fail.png" alt="">
                        <!-- <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
                         </div> -->

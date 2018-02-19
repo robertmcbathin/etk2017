@@ -40,14 +40,34 @@
                         <div class="card card-blog">
                             <div class="card-image">
                                 <a href="">
+                                    <img class="img" src="/images/sbol.jpg">
+                                </a>
+                                <div class="ripple-container"></div></div>
+                                <div class="content">
+                                    <h4 class="card-title">
+                                        <a href=>Пополнение через сервис Сбербанк Онлайн</a>
+                                    </h4>
+                                    <small>Пополнение через сервис Сбербанк Онлайн</small>
+                                    <div class="footer">
+                                        <div>
+                                           <a class="btn btn-simple" href="/instructions/sbol">Подробнее</a>
+                                       </div>
+                                   </div>
+                               </div>
+
+                           </div>
+
+                                                   <div class="card card-blog">
+                            <div class="card-image">
+                                <a href="">
                                     <img class="img" src="/images/uniteller.jpg">
                                 </a>
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href=>Онлайн-пополнение</a>
+                                        <a href=>В личном кабинете</a>
                                     </h4>
-                                    <small>Пополнение при помощи банковской карты на сайте в личном кабинете станет доступно в ближайшее время</small>
+                                    <small>Пополнение при помощи банковской карты на сайте в личном кабинете (с комиссией) </small>
                                     <div class="footer">
                                         <div>
                                            <button class="btn btn-simple" data-toggle="modal" data-target="#aboutModal">Подробнее</button>
@@ -56,7 +76,10 @@
                                </div>
 
                            </div>
+
+                           
                        </div>
+
                        <div class="col-md-4">
                         <div class="card card-blog">
                             <div class="card-image">
