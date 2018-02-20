@@ -44,7 +44,7 @@
               Мини-офис НЮР <strong>г. Чебоксары, пр-кт Тракторостроителей, 35а</strong>
             </p>
             <p>
-              Мини-офис Нчк <strong>г. Новочебоксарск, ул. Винокурова, 51</strong>
+              Мини-офис Нчк <strong>г. Новочебоксарск, ул. Винокурова, 20</strong>
             </p>
             <h4 class="info-title">Пункты обслуживания юридических лиц</h4>
             <p>
@@ -185,7 +185,7 @@
         var contentString4th = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h4 id="firstHeading" class="firstHeading">город Новочебоксарск, улица Винокурова, 51</h4>'+
+        '<h4 id="firstHeading" class="firstHeading">город Новочебоксарск, улица Винокурова, 20</h4>'+
         '<div id="bodyContent">'+
         '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
         'transkarta@bk.ru</a> </p>'+
@@ -193,7 +193,7 @@
         '</div>';
 
         var infowindow4th = new google.maps.InfoWindow({
-          position: {lat: 56.140717, lng: 47.199408},
+          position: {lat: 56.119665, lng: 47.493020},
           content: contentString4th
         });
         infowindow4th.open(map,marker4th);
