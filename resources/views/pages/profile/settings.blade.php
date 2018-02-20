@@ -624,19 +624,19 @@
                             <div class="tab-pane" id="my-cards">
                               <div class="row">
                                 @foreach ($cards as $card)
-                                <div class="col-md-6 col-md-offset-3 col-xs-6">
-                                  <div class="card card-plain card-blog">
+                                <div class="col-md-12 col-xs-12">
+                                  <div class="card  card-blog">
                                     <div class="row">
-                                      <div class="col-md-4 col-xs-12">
+                                      <div class="col-md-3 col-xs-12">
                                         <div class="card-image">
                                           <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                                           <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                                         </div>
-                                        <div class="col-md-8 col-xs-12">
+                                        <div class="col-md-9 col-xs-12 left-margined">
                                           <h6 class="category text-info">{{ $card->name}}</h6>
-                                          <h3 class="card-title">
+                                          <h5 class="card-title">
                                             <a href="">{{ $card->number }}</a>
-                                          </h3>
+                                          </h5>
                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
                                            <i class="fa fa-picture-o"></i> Сменить изображение
                                            <div class="ripple-container"></div>
@@ -646,7 +646,7 @@
                                           <input type="hidden" name="current_card" value="{{ $card->number }}">
                                           <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                           {{ csrf_field()}}
-                                          <button type="submit" class="btn btn-simple btn-youtube  away-link">
+                                          <button type="submit" class="btn btn-simple btn-youtube away-link">
                                            <i class="fa fa-trash-o"></i> Удалить
                                            <div class="ripple-container"></div>
                                          </button>

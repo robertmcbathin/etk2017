@@ -211,7 +211,7 @@
         '<h4 id="firstHeading" class="firstHeading">проспект Тракторостроителей, 35а</h4>'+
         '<div id="bodyContent">'+
         '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
-        'info@etk21.ru</a> </p>'+
+        'transkarta@bk.ru</a> </p>'+
         '</div>'+
         '</div>';
 

@@ -107,10 +107,10 @@
               @if (count($cards) !== 0)
               @foreach ($cards as $card)
               <div class=" col-xs-12 col-md-12">
-                <div class="card card-plain card-blog">
+                <div class="card card-blog">
                   <div class="row">
                     <div class="col-xs-4 col-md-4">
-                      <div class="card-image card-non-margin-image">
+                      <div class="card-image ">
                         <img class="img img-raised" src="/pictures/cards/thumbnails/160/{{$card->card_image_type}}.png">
                         <div class="colored-shadow" style="background-image: url(&quot;assets/img/examples/card-blog4.jpg&quot;); opacity: 1;"></div><div class="ripple-container"></div></div>
                       </div>
