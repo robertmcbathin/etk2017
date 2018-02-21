@@ -641,6 +641,17 @@
                                            <i class="fa fa-picture-o"></i> Сменить изображение
                                            <div class="ripple-container"></div>
                                          </button>
+                                         @if ($card->specified_name)
+                                         <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-name-{{$card->number}}">
+                                           <i class="fa fa-hashtag"></i> Сменить название
+                                           <div class="ripple-container"></div>
+                                         </button>
+                                         @else
+                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-add-name-{{$card->number}}">
+                                           <i class="fa fa-hashtag"></i> Добавить название
+                                           <div class="ripple-container"></div>
+                                         </button>
+                                         @endif
 
                                          <form action="{{ route('profile.delete_card.post') }}" method="POST">
                                           <input type="hidden" name="current_card" value="{{ $card->number }}">
