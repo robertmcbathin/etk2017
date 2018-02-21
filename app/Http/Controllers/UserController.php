@@ -1493,6 +1493,32 @@ public function showDetailsReport(){
       return redirect()->back();
     }
   }
+
+  public function postAddCardName(Request $request){
+    $card_name = $request->card_name;
+    $user_id = $request->user_id;
+    $card_number = $request->card_number;
+
+    DB::table('ETK_CARD_USERS')
+       ->where('user_id', $user_id)
+       ->where('number', $card_number)
+       ->update(['specified_name' => $card_name]);
+    Session::flash('success','Название карты успешно добавлено');
+    return redirect()->back();
+  }
+
+  public function postChangeCardName(Request $request){
+    $card_name = $request->card_name;
+    $user_id = $request->user_id;
+    $card_number = $request->card_number;
+
+    DB::table('ETK_CARD_USERS')
+       ->where('user_id', $user_id)
+       ->where('number', $card_number)
+       ->update(['specified_name' => $card_name]);
+    Session::flash('success','Название карты успешно изменено');
+    return redirect()->back();
+  }
     /**
      * [postVerifyCard description]
      * @param  Request $request [description]
@@ -1953,4 +1979,8 @@ $Lifetime, $Customer_IDP, "", "", "", $password );
     public function getPaymentFailPage(){
 
     }
+
+
+
+
   }

@@ -637,6 +637,9 @@
                                           <h5 class="card-title">
                                             <a href="">{{ $card->number }}</a>
                                           </h5>
+                                                                  @isset($card->specified_name)
+                        <h6 class="">{{ $card->specified_name }}</h6>
+                        @endisset
                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
                                            <i class="fa fa-picture-o"></i> Сменить изображение
                                            <div class="ripple-container"></div>
@@ -647,7 +650,7 @@
                                            <div class="ripple-container"></div>
                                          </button>
                                          @else
-                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-add-name-{{$card->number}}">
+                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#add-card-name-{{$card->number}}">
                                            <i class="fa fa-hashtag"></i> Добавить название
                                            <div class="ripple-container"></div>
                                          </button>
@@ -771,38 +774,46 @@
     </div>
 
     @foreach ($cards as $card)
-    <div class="modal fade" id="change-card-image-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="change-card-name-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
      <div class="modal-dialog">
        <div class="modal-content">
          <div class="modal-header">
            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
              <i class="material-icons">clear</i>
            </button>
-           <h4 class="modal-title">Изменение изображения карты</h4>
+           <h4 class="modal-title">Изменение названия карты</h4>
          </div>
          <div class="modal-body">
-           <form action="{{ route('profile.change_card_image') }}" method="POST">
-             @foreach ($card_types as $card_type)
-             <div class="row">
-               <div class="col-md-10 col-md-offset-1">
-                 @if ($card->category == $card_type->category)
-                 <div class="radio">
-                  <label>
-                    <input type="radio" name="card_image_type" value="{{ $card_type->id }}"><span class="circle"></span><span class="check"></span>
-                    <img src="{{$card_type->image}}" class="img img-raised img-rounded" alt="" height="60px">
-                    {{$card_type->name}}
-                  </label>
-                </div>
-                @else
-                <label>
-                  <input type="radio" name="card_image_type" disabled><span class="circle"></span><span class="check"></span>
-                  <img src="{{$card_type->image}}" class="img img-raised img-rounded" alt="" height="60px">
-                  {{$card_type->name}}
-                </label>
-                @endif
-              </div>
-            </div>
-            @endforeach
+           <form action="{{ route('profile.change_card_name.post') }}" method="POST">
+            <input type="text" name="card_name" maxlength="45" minlength="1" placeholder="Введите имя" class="form-control" value="{{ $card->specified_name }}">
+            <input type="hidden" name="card_number" value="{{ $card->number }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            {{ csrf_field()}}
+            <button type="submit" class="btn btn-profile" >Изменить</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+         <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
+       </div>
+     </div>
+   </div>
+ </div>
+ @endforeach
+
+
+    @foreach ($cards as $card)
+    <div class="modal fade" id="add-card-name-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+             <i class="material-icons">clear</i>
+           </button>
+           <h4 class="modal-title">Добавление названия карты</h4>
+         </div>
+         <div class="modal-body">
+           <form action="{{ route('profile.add_card_name.post') }}" method="POST">
+            <input type="text" name="card_name" maxlength="45" minlength="1" placeholder="Введите имя" class="form-control">
             <input type="hidden" name="card_number" value="{{ $card->number }}">
             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
             {{ csrf_field()}}
@@ -816,6 +827,8 @@
    </div>
  </div>
  @endforeach
+
+
 
  @endsection
 

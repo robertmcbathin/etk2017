@@ -101,6 +101,19 @@
         </div>
         @endif
         <div class="row">
+
+
+          <div class="alert alert-info">
+              <div class="container">
+          <div class="alert-icon">
+            <i class="material-icons">info_outline</i>
+          </div>
+
+                <b>Новая функция:</b> Вы можете добавить название карты в разделе настройки
+              </div>
+          </div>
+
+
           <div class="col-md-6 col-md-offset-1 col-sm-6">
             <h4 class="title">Мои карты</h4>
             <div class="row collections">
@@ -179,6 +192,7 @@
            <h4 class="title">Оповещения</h4>
 
 
+          <!--
           @if(Auth::user()->birthdate == null)
            <div class="card">
             <div class="card-content content-info">
@@ -188,7 +202,7 @@
 
             </div>
           </div>
-          @endif
+          @endif  -->
 
 
 

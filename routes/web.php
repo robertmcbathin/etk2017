@@ -268,6 +268,14 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeAvatar',
         'as' => 'profile.change_avatar.post'
         ]);
+    Route::post('/profile/add_card_name',[
+        'uses' => 'UserController@postAddCardName',
+        'as' => 'profile.add_card_name.post'
+        ]);
+    Route::post('/profile/change_card_name',[
+        'uses' => 'UserController@postChangeCardName',
+        'as' => 'profile.change_card_name.post'
+        ]);
     Route::post('/profile/delete_card',[
         'uses' => 'UserController@postDeleteCard',
         'as' => 'profile.delete_card.post'
