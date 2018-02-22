@@ -1232,6 +1232,7 @@ public function showDetailsReport(){
       session()->forget('current_card_last_transaction');
       session()->forget('current_card_kind');
       session()->forget('current_card_state');
+      session()->forget('current_card_name');
       session()->forget('verified');
       session()->forget('block_state');
       $card = DB::table('ETK_CARD_USERS')
@@ -1257,6 +1258,7 @@ public function showDetailsReport(){
       $last_transaction = $non_formatted_date->format('d.m.Y H:i:s');
       session()->put('current_card_last_transaction', $last_transaction);
       session()->put('current_card_verified', $card->verified);
+      session()->put('current_card_name', $card->specified_name);
       session()->put('current_card_block_state', $card->block_state);
         /**
          * CARD KIND : персональная или на предъявителя

@@ -74,6 +74,8 @@ public function getNewsPage(){
        * INCREASE VIEWS COUNT
        * @var [type]
        */
+      
+
       DB::table('ETK_ARTICLES')
         ->where('id',$id)
         ->update(['views' => ++$article->views]);
@@ -84,9 +86,18 @@ public function getNewsPage(){
        $non_formatted_date = new Carbon($article->created_at);
        $date = $non_formatted_date->format('j/m/Y');
        $article->created_at = $date;
+
+
+       $comments = DB::table('ETK_COMMENTS')
+                    ->join('users','users.id','=','ETK_COMMENTS.author_id')
+                    ->select('ETK_COMMENTS.*','users.profile_image','users.name','users.lastname','users.post')
+                    ->where('ETK_COMMENTS.article_id',$article->id)
+                    ->get();
+
        return view('pages.article',[
           'article' => $article,
-          'links' => $links
+          'links' => $links,
+          'comments' => $comments
           ]);
    }
    public function getDepositPointsPage(){

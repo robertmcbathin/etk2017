@@ -138,7 +138,7 @@
                           <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной" class="away-link">{{ $card->number }}</a> <i class="material-icons red-icon" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Данная карта не подтверждена. Чтобы иметь возможность заблокировать карту или просмотреть информацию по поездкам, Вам необходимо подтвердить карту">lock</i>
                         </h5>
                         @isset($card->specified_name)
-                        <h6 class="">{{ $card->specified_name }}</h6>
+                        <h4 class="title">{{ $card->specified_name }}</h4>
                         @endisset
                         <h6 class="category text-info">{{ $card->name}}</h6>
                         <button class="btn btn-simple btn-github" data-toggle="modal" data-target="#verify-card-number-{{$card->number}}">
@@ -150,7 +150,7 @@
                         <a href="{{ route('profile.set_current_card.set', ['current_card' => $card->number, 'user_id' => Auth::user()->id]) }}" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Выбрать карту в качестве активной">{{ $card->number }}</a> <i class="material-icons green-icon" data-toggle="tooltip" data-placement="right" data-container="body" data-original-title="Карта успешно подтверждена. Вы можете просмотреть статистику по карте и заказать детализацию">lock_open</i>
                       </h5>
                       @isset($card->specified_name)
-                        <h6 class="">{{ $card->specified_name }}</h6>
+                        <h4 class="title">{{ $card->specified_name }}</h4>
                         @endisset
                       <h6 class="category text-info">{{ $card->name}}</h6>
                       @endif
@@ -170,6 +170,9 @@
           <div class="col-md-3 col-md-offset-1 stats col-sm-3">
             <h4 class="title">Информация по карте</h4>
             <ul class="list-unstyled">
+              @if(session()->get('current_card_name') !== null)
+              <li>Название <b>{{ session()->get('current_card_name') }}</b></li>
+              @endisset
               <li>Номер <b>{{ session()->get('current_card_number', 'неизвестно') }}</b></li>
               <li>Баланс <b>{{ session()->get('current_card_balance', 'неизвестно') }} р.е. </b></li>
               <li>Последняя операция по карте <b>{{ session()->get('current_card_last_transaction', 'н/д') }}</b></li>

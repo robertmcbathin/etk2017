@@ -637,9 +637,9 @@
                                           <h5 class="card-title">
                                             <a href="">{{ $card->number }}</a>
                                           </h5>
-                                                                  @isset($card->specified_name)
-                        <h6 class="">{{ $card->specified_name }}</h6>
-                        @endisset
+                                          @isset($card->specified_name)
+                                            <h4 class="title">{{ $card->specified_name }}</h4>
+                                          @endisset
                                           <button class="btn btn-simple btn-linkedin" data-toggle="modal" data-target="#change-card-image-{{$card->number}}">
                                            <i class="fa fa-picture-o"></i> Сменить изображение
                                            <div class="ripple-container"></div>
