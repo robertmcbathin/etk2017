@@ -122,6 +122,12 @@
 								<i class="material-icons">home</i> <span class="hidden-lg hidden-md">Моя страница</span>
 								<div class="ripple-container"></div></a>
 							</li>
+
+						<li>
+							<a href="{{ route('profile.messages') }}" class="away-link">
+								<i class="material-icons">forum</i> <span class="hidden-lg hidden-md">Сообщения</span>
+								<div class="ripple-container"></div></a>
+							</li>
 						</ul>
 					</div>
 				</div>

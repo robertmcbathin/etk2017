@@ -220,6 +220,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showProfile',
         'as' => 'profile'
         ]);
+    Route::get('/profile/messages', [
+        'uses' => 'UserController@showMessages',
+        'as' => 'profile.messages'
+        ]);
     Route::get('/profile/payment', [
         'uses' => 'UserController@getPaymentPage',
         'as' => 'profile.payment'
@@ -386,6 +390,19 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/profile/verify_card',[
         'uses' => 'UserController@postVerifyCard',
         'as' => 'profile.verify_card'
+        ]);
+
+
+    /**
+     * COMMENTS
+     */
+    Route::post('/article/write-comment',[
+        'uses' => 'SiteController@postWriteComment',
+        'as' => 'site.write-comment.post'
+        ]);
+    Route::post('/article/reply',[
+        'uses' => 'SiteController@postReplyArticle',
+        'as' => 'site.reply_article.post'
         ]);
     /**
      * END OF PROFILE ROUTES

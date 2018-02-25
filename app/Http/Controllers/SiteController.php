@@ -93,7 +93,14 @@ public function getNewsPage(){
                     ->select('ETK_COMMENTS.*','users.profile_image','users.name','users.lastname','users.post')
                     ->where('ETK_COMMENTS.article_id',$article->id)
                     ->get();
-
+      /**
+       * Make a human-readable date
+       */
+      foreach ($comments as $comment) {
+        $non_formatted_date = new Carbon($comment->created_at);
+        $date = $non_formatted_date->diffForHumans();
+        $comment->created_at = $date;
+      }
        return view('pages.article',[
           'article' => $article,
           'links' => $links,
@@ -316,5 +323,52 @@ public function getNewsPage(){
 
     public function getPaymentFailPage($Order_ID = null){
       return view('pages.payment_fail');
+    }
+
+    /**
+     * COMMENTS
+     */
+    
+    public function postWriteComment(Request $request){
+      $comment    = $request->comment;
+      $author_id  = $request->author_id;
+      $article_id = $request->article_id;
+
+      if ($comment = DB::table('ETK_COMMENTS')
+                    ->insert([
+                      'author_id' => $author_id,
+                      'text' => $comment,
+                      'article_id' => $article_id
+
+                    ])){
+        Session::flash('success','Ваш комментарий принят. Он будет опубликован после проверки модератором');
+        return redirect()->back();
+      } else {
+        Session::flash('error','Что-то пошло не так, попробуйте повторить позже');
+        return redirect()->back();
+      }
+    }
+
+
+    public function postReplyArticle(Request $request){
+      $reply      = $request->reply;
+      $author_id  = $request->author_id;
+      $reply_to   = $request->reply_to;
+      $article_id = $request->article_id;
+
+      if ($comment = DB::table('ETK_COMMENTS')
+                    ->insert([
+                      'author_id' => $author_id,
+                      'text' => $reply,
+                      'reply_to' => $reply_to,
+                      'article_id' => $article_id
+
+                    ])){
+        Session::flash('success','Ваш ответ принят. Он будет опубликован после проверки модератором');
+        return redirect()->back();
+      } else {
+        Session::flash('error','Что-то пошло не так, попробуйте повторить позже');
+        return redirect()->back();
+      }
     }
 }

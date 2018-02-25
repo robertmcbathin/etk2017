@@ -308,6 +308,21 @@ class UserController extends Controller
      //   'card_count' => $card_count
         ]);
      }
+
+     /**
+      * MESSAGES
+      */
+     
+     public function showMessages(){
+      $messages = DB::table('ETK_COMMENTS')
+                          ->join('users','users.id','=','ETK_COMMENTS.author_id')
+                    ->select('ETK_COMMENTS.*','users.profile_image','users.name','users.lastname','users.post')
+                    ->where('ETK_COMMENTS.author_id',Auth::user()->id)
+                    ->get();
+      return view('pages.profile.messages',[
+        'messages' => $messages
+      ]);
+     }
     /**
      * [showDepositPage description]
      * @return [type] [description]
