@@ -184,6 +184,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/static_articles/about_deferred_payment', function(){
             return view('pages.static_articles.about_deferred_payment');
         });  
+    Route::get('/static_articles/deferred_payment_test', function(){
+            return view('pages.static_articles.deferred_payment_test');
+        });  
         /**
          * 
          */

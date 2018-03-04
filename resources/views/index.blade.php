@@ -34,14 +34,14 @@
            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="title">О запуске отложенного пополнения через Сбербанк Онлайн</h4>
-                        <h5>С 14 февраля 2018 года был запущен сервис отложенного пополнения и продления карт через Сбербанк Онлайн. О проблемах и путях решения читайте в статье. </h5>
-                        <a href="/static_articles/about_deferred_payment" class="btn btn-success">
+                        <h4 class="title">Окончание тестирования отложенного пополнения</h4>
+                        <h5>По результатам тестирования, сервис отложенного пополнения карт типа "Электронный кошелек" будет временно приостановлен. Пополнение проездных будет работать в штатном порядке.</h5>
+                        <a href="/static_articles/deferred_payment_test" class="btn btn-success">
                             Подробнее
                         </a>
                     </div>
                     <div class="col-md-5 col-md-offset-1">
-                        <img src="/images/sbol_fail.png" alt="">
+                        <img src="/images/clock.png" alt="">
                        <!-- <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
                         </div> -->

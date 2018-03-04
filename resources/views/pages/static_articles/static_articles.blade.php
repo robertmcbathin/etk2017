@@ -25,7 +25,16 @@
             <br>
             <div class="row">
                 <div class="col-md-4">
-
+                <div class="card">
+                    <div class="card-content content-info" style="padding:10px;">
+                        <h5 class="category-social">
+                            Окончание тестирования отложенного пополнения
+                        </h5>
+                        <h4 class="card-title">
+                            <a href="/static_articles/deferred_payment_test">Результаты тестирования</a>
+                        </h4>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-content content-danger" style="padding:10px;">
                         <h5 class="category-social">

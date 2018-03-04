@@ -45,7 +45,7 @@
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href=>Пополнение через сервис Сбербанк Онлайн</a>
+                                        <a href="/instructions/sbol">Пополнение через сервис Сбербанк Онлайн</a>
                                     </h4>
                                     <small>Пополнение через сервис Сбербанк Онлайн</small>
                                     <div class="footer">
@@ -65,7 +65,7 @@
                                 <div class="ripple-container"></div></div>
                                 <div class="content">
                                     <h4 class="card-title">
-                                        <a href=>В личном кабинете</a>
+                                        <a href="{{ route('profile') }}">В личном кабинете</a>
                                     </h4>
                                     <small>Пополнение при помощи банковской карты на сайте в личном кабинете (с комиссией) </small>
                                     <div class="footer">
