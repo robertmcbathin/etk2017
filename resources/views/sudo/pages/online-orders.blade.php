@@ -1,5 +1,5 @@
 @section('title')
-Онлайн-заказы на пополнение
+Отложенное пополнение
 @endsection
 @extends('sudo.layouts.master')
 @section('content')
@@ -27,13 +27,52 @@
       </div>
   </div>
   @endif
+            @if (Session::has('error'))
+          <div class="row">
+              <div class="container">
+                <div class="alert alert-danger">
+                  <div class="container">
+                    <div class="alert-icon">
+                      <i class="material-icons">error_outline</i>
+                  </div>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                  </button>
+                  <strong>{{Session::pull('error')}}</strong>
+              </div>
+          </div>  
+      </div>
+  </div>
+  @endif
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+                <i class="material-icons">credit_card</i>
+            </div>                
+            <h4 class="card-title"> Восстановление платежей
+            </h4>
+              <div class="card-content">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group label-floating is-empty">
+                          <p>Восстановить платежи (массив номеров карт задается в исходном коде)</p>
+                            <a href="{{ route('sudo.reestablish-payments.get') }}" class="btn btn-danger btn-lg" >БОЛЬШАЯ КРАСНАЯ КНОПКА</a>
+                           
+                        </div>
+                    </div>
+                    </div>
+                </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header card-header-icon" data-background-color="rose">
                 <i class="material-icons">credit_card</i>
             </div>                
-            <h4 class="card-title">Онлайн-заказы на пополнение -
+            <h4 class="card-title">Онлайн-заказы на пополнение
             </h4>
             <div class="card-content">
                 <div class="row">

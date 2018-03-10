@@ -444,6 +444,10 @@ Route::group(['middleware' => 'auth'], function()
             'uses' => 'SudoController@postDeleteArticle',
             'as' => 'sudo.articles.delete'
             ])->middleware('can:show-sudo,App\User');
+        Route::get('/reestablish_payments',[
+            'uses' => 'SudoController@getReestablishPayments',
+            'as' => 'sudo.reestablish-payments.get'
+            ])->middleware('can:show-settings,App\User');
         /**
          * SIDEBAR
          */

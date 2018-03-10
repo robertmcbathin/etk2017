@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use \SoapClient;
+use \SoapServer;
+use \SoapHeader;
+use \SimpleXML;
+use \SimpleXMLElement;
+use \App\WsseAuthHeader;
 use Auth;
 use Session;
 use CsvReader;
@@ -1515,7 +1521,69 @@ public function postFillCashback(Request $request){
 
   }
 
+  public function getReestablishPayments(){
+    $numbers = [123605265,123552328];
+    $info_errors = 0;
+    $payments_success = 0;
+    $payments_error = 0;
+    foreach ($numbers as $number) {
+      /**
+     * READ CARD
+     */
+      $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+      $params = array('agentId' => '1004', 
+        'salepointId' => '1', 
+        'version' => '1', 
+        'sysNum' => $number, 
+        'regionId' => 21, 
+        'deviceId' => 'B2100009');
 
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      try {
+        $cardInfo = $client->__soapCall('CardInfo', array($params));
+      } catch (Exception $e) {
+        return redirect()->back();
+      }
+      if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
+        $info_errors++;
+      } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
+        $info_errors++;
+      }
+      if ($cardInfo->Result->resultCode == 1000){
+        $info_errors++;
+        break;
+      }
+
+      /**
+       * WRITE CARD
+       */
+        try {
+          $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+          $params = array('agentId' => '1004', 
+            'salepointId' => '1', 
+            'version' => '1', 
+            'sessionId' => $cardInfo->CardInformation->sessionId,
+            'tariffId' => 23,
+            'paymentSum' => 102,
+            'paymentInfo' => 'Восстановление'
+          );
+          $username = 'admin';
+          $password = '1';
+          $wsse_header = new WsseAuthHeader($username, $password);
+          $client->__setSoapHeaders(array($wsse_header));
+          $paymentInfo = $client->__soapCall('CardPayment', array($params)); 
+          $payments_success++;
+        } catch (Exception $e) {
+          continue;
+        }
+      Session::flash('success', 'Восстановлено ' . $payments_success . ' карт, ошибок при чтении: ' . $info_errors);
+      return redirect()->back();
+    }
+
+  }
 
      public function ajaxCheckCardCompensations(Request $request){
     $num   = $request['num'];

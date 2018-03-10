@@ -94,9 +94,11 @@ $username = Auth::user()->name;
                                 <li>
                                     <a href="{{ route('sudo.pages.compensations') }}">Возмещение</a>
                                 </li>
+                                @can('show-settings', App\User::class)
                                 <li>
-                                    <a href="{{ route('sudo.pages.online-orders') }}">Онлайн-пополнение</a>
+                                    <a href="{{ route('sudo.pages.online-orders') }}">Отоложенное пополнение</a>
                                 </li>
+                                @endcan
                                 @can('show-import', App\User::class)
                                 <li>
                                     <a href="{{ route('sudo.pages.card-blocking') }}">Блокировка</a>
