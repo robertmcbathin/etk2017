@@ -1549,14 +1549,14 @@ public function postFillCashback(Request $request){
       }
       if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
         $info_errors++;
-        break;
+        continue;
       } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
         $info_errors++;
-        break;
+        continue;
       }
       if ($cardInfo->Result->resultCode == 1000){
         $info_errors++;
-        break;
+        continue;
       }
 
       /**
