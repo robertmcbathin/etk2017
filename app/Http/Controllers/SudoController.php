@@ -1527,6 +1527,7 @@ public function postFillCashback(Request $request){
     $payments_success = 0;
     $payments_error = 0;
     foreach ($numbers as $number) {
+      $can_write = false;
       /**
      * READ CARD
      */
@@ -1549,19 +1550,18 @@ public function postFillCashback(Request $request){
       }
       if ((isset($cardInfo->CardInformation->warningMsg)) && (!isset($cardInfo->CardInformation->tariff))){
         $info_errors++;
-        continue;
       } elseif ((isset($cardInfo->CardInformation->warningMsg)) && (isset($cardInfo->CardInformation->tariff))){
-        $info_errors++;
-        continue;
+        $can_write = true;
       }
       if ($cardInfo->Result->resultCode == 1000){
         $info_errors++;
-        continue;
+        $can_write = false;
       }
 
       /**
        * WRITE CARD
        */
+      if ($can_write){
         try {
           $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location'   => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
           $params = array('agentId' => '1004', 
@@ -1581,6 +1581,7 @@ public function postFillCashback(Request $request){
         } catch (Exception $e) {
           continue;
         }
+      }
       Session::flash('success', 'Восстановлено ' . $payments_success . ' карт, ошибок при чтении: ' . $info_errors);
       return redirect()->back();
     }
