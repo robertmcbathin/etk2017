@@ -1526,6 +1526,7 @@ public function postFillCashback(Request $request){
     $info_errors = 0;
     $payments_success = 0;
     $payments_error = 0;
+    $cards = '';
     foreach ($numbers as $number) {
       $can_write = false;
       /**
@@ -1582,10 +1583,9 @@ public function postFillCashback(Request $request){
           continue;
         }
       }
+    }
       Session::flash('success', 'Восстановлено ' . $payments_success . ' карт, ошибок при чтении: ' . $info_errors);
       return redirect()->back();
-    }
-
   }
 
      public function ajaxCheckCardCompensations(Request $request){
