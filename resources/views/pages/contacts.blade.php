@@ -46,9 +46,9 @@
             <p>
               Мини-офис Нчк <strong>г. Новочебоксарск, ул. Винокурова, 20</strong>
             </p>
-            <h4 class="info-title">Пункты обслуживания юридических лиц</h4>
+            <h4 class="info-title">Центральный офис (для физ. и юр. лиц)</h4>
             <p>
-              Центральный офис <strong>г. Чебоксары, пр-кт Тракторостроителей, 6б</strong>
+              Центральный офис <strong>г. Чебоксары, ул. 50 лет Октября, 17а</strong>
             </p>
             <p><i class="material-icons">call</i> (8352) 36-03-30, 36-33-30</p>
           </div>
@@ -61,13 +61,13 @@
             <div class="description">
               <h4 class="info-title">Режим работы</h4>
               <p>Мини-офисы: Пн-Пт <strong>c 9:00 до 18:00</strong>, обед с 13 до 14</p>
-              <p>Офис по обслуживанию юридических лиц: Пн-Пт <strong>c 8:00 до 17:00</strong>, обед с 12 до 13</p>
+              <p>Центральный офис: Пн-Пт <strong>c 8:00 до 17:00</strong>, обед с 12 до 13</p>
             </div>
             <div class="description">
               <h4 class="info-title">Реквизиты</h4>
               <p>ИНН/КПП: <strong>2130080498/213001001</strong></p>
               <p>ОГРН: <strong>1102130012764</strong></p>
-              <p>Юридический и фактический адрес: <strong>428028, г. Чебоксары, пр-кт Тракторостроителей, 6б</strong></p>
+              <p>Юридический и фактический адрес: <strong>428022, г. Чебоксары, ул. 50 лет Октября, 17а</strong></p>
             </div>
           </div>
         </div>
@@ -144,7 +144,6 @@
         'transkarta@bk.ru</a> </p>'+
         '</div>'+
         '</div>';
-
         var infowindowTwo = new google.maps.InfoWindow({
           position: {lat: 56.140717, lng: 47.199408},
           content: contentStringTwo
@@ -153,16 +152,17 @@
         markerTwo.addListener('click', function() {
           infowindowTwo.open(map, markerTwo);
         }); 
-        //Third Marker
+        //Third Marker 56.126792, 47.277061
+
         var markerThird = new google.maps.Marker({
-          position: {lat: 56.096485, lng: 47.295166},
+          position: {lat: 56.126792, lng: 47.277061},
           map: map
         });
         var contentStringThird = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h4 id="firstHeading" class="firstHeading">проспект Тракторостроителей, 6б</h4>'+
-        '<h5 id="firstHeading" class="firstHeading"><strong>(только для юридических лиц)</strong></h5>'+
+        '<h4 id="firstHeading" class="firstHeading">улица 50 лет Октября, 17а</h4>'+
+        '<h5 id="firstHeading" class="firstHeading"><strong>(для физических и юридических лиц)</strong></h5>'+
         '<div id="bodyContent">'+
         '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
         'transkarta@bk.ru</a> </p>'+
@@ -170,7 +170,7 @@
         '</div>';
 
         var infowindowThird = new google.maps.InfoWindow({
-          position: {lat: 56.140717, lng: 47.199408},
+          position: {lat: 56.126792, lng: 47.277061},
           content: contentStringThird
         });
         infowindowThird.open(map,markerThird);
