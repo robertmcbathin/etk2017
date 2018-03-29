@@ -1271,7 +1271,6 @@ public function postFillCashback(Request $request){
     */
    public function ajaxCheckCardOperations(Request $request){
     $num   = $request['num'];
-    $serie = $request['serie'];
     $archive_search = $request['archiveSearch'];
     $zero_serie = '00';
     /**initiate data
@@ -1280,21 +1279,11 @@ public function postFillCashback(Request $request){
     $cur_is_double = NULL;
     $cardholders = NULL;
     $owner = NULL;
-    /**
-     * [$operations description]
-     * @var [type]
-     */
-    $blockedBy = null;
-    $blockDate = null;
-    $operations = DB::table('SB_DEPOSIT_TRANSACTIONS')
-    ->where('card_number',  $num)
-    ->orderBy('transaction_date', 'DESC')
-    ->get();
-    foreach ($operations as $operation) {
-      $format_date = new \DateTime($operation->transaction_date);
-      $operation->transaction_date = $format_date->format('d.m.Y');
-    }
-    if ($serie !== null){
+    $blockedBy = NULL;
+    $blockDate = NULL;
+
+
+  /*  if ($serie !== NULL){
      if ($serie == '99'){
       $semifullnumber = '02' . $serie . $num;
       $semifullnumber_zero = '02' . $zero_serie . $num;
@@ -1306,6 +1295,15 @@ public function postFillCashback(Request $request){
     $semifullnumber = '0123' . $num;
     $semifullnumber_zero = '01' . $zero_serie . $num;
   }
+  /**
+    CREATE CARD NUMBER
+  **/  
+    if (substr($num,1,1) !== '0'){
+      $semifullnumber = '01' . substr($num,1,2) . substr($num,3,6);
+    } else {
+      $semifullnumber = '0' . $num;
+    }
+
   /**
    * CHECK FOR COMPENSATIONS
    */
@@ -1322,17 +1320,17 @@ public function postFillCashback(Request $request){
     $card_digit_state = 0;
     $cur_balance = "Карта не найдена";
     $cur_state = 'Состояние не определено';
-    $cur_last_operation = null;
+    $cur_last_operation = NULL;
   } else {
   $card_digit_state = $card->state;
   $cur_balance = $card->ep_balance_fact;
     /**
    * CHECK CARDHOLDER
    */
-  $nine_s_card = '0' . $serie . $num;
+  $nine_s_card = $num;
   $cardholders = DB::table('ETK_CARD_USERS')
                   ->leftJoin('users','ETK_CARD_USERS.user_id','=','users.id')
-                  ->where('number','0' . $serie . $num)
+                  ->where('number',$num)
                   ->where('verified',1)
                   ->select('users.name','users.lastname','users.email')
                   ->get();
@@ -1341,9 +1339,6 @@ public function postFillCashback(Request $request){
    * 
    */
   /**CHECK ON DOUBLE CARDS
-  *
-  **
-  *
   *
   ***/
   if($card->is_double == 1){
@@ -1396,6 +1391,7 @@ public function postFillCashback(Request $request){
   }
   $cur_last_operation = $card->date_of_travel_doc_kind_last;
 }
+
     /**
      * GET TRIPS
      * @var [type]
@@ -1514,10 +1510,11 @@ public function postFillCashback(Request $request){
         }
       } else $trips = null;
     } else $trips = null;
-    if ($operations == NULL)
+
+    if ($card == NULL)
       return response()->json(['message' => 'error'],200);
-    if ($operations !== NULL)
-      return response()->json(['message' => 'success', 'data' => $operations, 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips, 'cardholders' => $cardholders, 'owner' => $owner ],200);
+    if ($card !== NULL)
+      return response()->json(['message' => 'success', 'double_cards'=> $double_cards, 'compensation' => $compensation, 'balance' => $cur_balance, 'blockedBy' => $blockedBy, 'blockDate' => $blockDate, 'cur_is_double' => $cur_is_double, 'state' => $cur_state, 'card_state'=> $card_digit_state,'last_operation' => $cur_last_operation, 'trips' => $trips, 'cardholders' => $cardholders, 'owner' => $owner ],200);
 
   }
 

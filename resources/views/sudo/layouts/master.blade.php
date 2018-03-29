@@ -510,7 +510,7 @@
 
 <script>
   $('.operations-handler').on('keyup', function(){
-    if ($('#card_number').val().length > 5) { 
+    if ($('#card_number').val().length > 8) { 
   /**
   * SHOW PRELOADERS
   */
@@ -533,7 +533,6 @@
     url: url,
     data: { 
       num: $('#card_number').val(),
-      serie: $('#card_serie').val(),
       archiveSearch: isArchiveSearching, 
       _token: token}
     })
@@ -661,7 +660,7 @@
       /**
        * LOAD REFILLS DATA
        */
-       if (msg['data'].length > 0){
+      /* if (msg['data'].length > 0){
         html = '<tbody id=\"operations-results\">';
         htmlNull = '<h3 id=\"operations-results-none\"></h3>';
         for (var i = 0; i <= msg['data'].length - 1; i++) {
@@ -704,10 +703,10 @@
        */
      };
    });
-if ($('#card_serie').val().length == 2){
+/*if ($('#card_serie').val().length == 2){
   $('#block-button').removeAttr('disabled');
   $('#serie').val($('#card_serie').val());
-} else $('#block-button').attr('disabled','disabled');
+} else $('#block-button').attr('disabled','disabled');*/
 };
 });
 </script>
