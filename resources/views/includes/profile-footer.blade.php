@@ -18,7 +18,10 @@
 							<div class="ripple-container"></div></a>
 						</li>
 						<li>
-							Личный кабинет (версия 1.0.1)
+														<a href="https://vk.com/etk21" target="_blank" class="btn btn-just-icon btn-simple btn-twitter">
+								<i class="fa fa-vk"></i>
+								<div class="ripple-container"></div>
+							</a>
 						</li>
 					</ul>
 	            </nav>
@@ -28,7 +31,9 @@
 						<img src="/images/mir-logo.png" alt="Мир" class="img">
 						<img src="/images/uniteller-logo.jpg" alt="Uniteller" class="img">
 					</div>
+					Личный кабинет (версия 1.0.1)
 	            <div class="copyright pull-right">
+
 	                © <script>document.write(new Date().getFullYear())</script> Все права защищены. <a href="https://etk21.ru" target="_blank">ООО "ЕТК"</a>
 	            </div>
 	        </div>

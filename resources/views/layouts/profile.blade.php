@@ -135,6 +135,10 @@ var depositPoints = [
     if ($('#card_number').val().length >= 3) {
       serie = $('#card_number').val().toString().substring(0,3);
       switch(serie){
+        case '001':
+        serie = null;
+        type = '';
+        break;
         case '023':
         serie = '023';
         type = 'Электронный кошелек';
@@ -191,9 +195,13 @@ var depositPoints = [
         serie = '069';
         type = 'Клубная карта Агломерация (ККУМТА)';
         break;
+        case '094':
+        serie = '094';
+        type = 'Банковская транспортная карта (Газпромбанк)';
+        break;
         case '097':
         serie = '097';
-        type = 'Банковская транспортная карта';
+        type = 'Банковская транспортная карта (Сбербанк)';
         break;
         case '123':
         serie = '123';
@@ -251,9 +259,13 @@ var depositPoints = [
         serie = '169';
         type = 'Клубная карта Агломерация (ККУМТА)';
         break;
+        case '194':
+        serie = '194';
+        type = 'Банковская транспортная карта (Газпромбанк)';
+        break;
         case '197':
         serie = '197';
-        type = 'Банковская транспортная карта';
+        type = 'Банковская транспортная карта (Сбербанк)';
         break;
         default :
         serie = '999';

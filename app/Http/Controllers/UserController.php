@@ -68,9 +68,17 @@ class UserController extends Controller
   public function modifyToFullNumber($number){
     $card_num_part2 = substr($number,1,2);
     $card_num_part3  = substr($number,3,6);
-    if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}
-    $full_card_number = $prefix . $card_num_part2 . $card_num_part3;
-    return $full_card_number;
+   /* if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}*/
+
+    if (substr($number,1,1) !== '0'){
+      $fullnumber = '01' . substr($number,1,2) . substr($number,3,6);
+    } else {
+      $fullnumber = '0' . $number;
+    }
+
+
+   /* $full_card_number = $prefix . $card_num_part2 . $card_num_part3;*/
+    return $fullnumber;
   }
   /**
    * [generatePassword description]
@@ -102,7 +110,7 @@ class UserController extends Controller
             return response()->json([
                   'status' => 'error',
                   'errorCode' => '5',
-                  'errorText' => 'Данный тип карт не поддерживает фугкцию отложенного пополнения'
+                  'errorText' => 'Данный тип карт не поддерживает функцию отложенного пополнения'
               ],200);           
         }
         /**
@@ -767,6 +775,16 @@ public function showDetailsReport(){
            * [$card description]
            * @var [type]
            */
+          if (substr($card_number,1,1) !== '0'){
+            $fullnumber = '01' . substr($card_number,1,2) . substr($card_number,3,6);
+          } else {
+            $fullnumber = '0' . $card_number;
+            $card_fullnumber = DB::table('ETK_CARDS')
+                      ->where('num',$fullnumber)
+                      ->first();
+            $card_type = '0' . $card_fullnumber->series;
+          }
+
           $card = new \App\Usercard;
           $card->number = $card_number;
           $card->serie  = $num;
@@ -870,9 +888,8 @@ public function showDetailsReport(){
           /**
            * CHECK CARD ON EXISTING
            */
-          $full_card_number = $this->modifyToFullNumber($card_number);
 
-          if (($requested_card = \App\Card::where('num', $full_card_number)->first()) == NULL ){
+          if (($requested_card = \App\Card::where('num', $fullnumber)->first()) == NULL ){
             Session::flash('error', 'Данной карты не существует. Если Вы уверены в обратном, свяжитесь с нами.');
             return redirect()->back();            
           }
