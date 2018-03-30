@@ -940,10 +940,7 @@ public function showDetailsReport(){
       $source = 2;
       $to_state = $request['to_state'];
 
-      $serie = substr($current_card,1,2);
-      $number = substr($current_card,3,6);
-      if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
-      $fullcard_number = $prefix . $serie . $number;
+      $fullcard_number = $this->modifyToFullNumber($current_card);
       $card = DB::table('ETK_CARDS')
       ->where('num', $fullcard_number)
       ->first();
@@ -1004,10 +1001,7 @@ public function showDetailsReport(){
       $user_id = $request['user_id'];
       $source = 2;
 
-      $serie = substr($current_card,1,2);
-      $number = substr($current_card,3,6);
-      if ($serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
-      $fullcard_number = $prefix . $serie . $number;
+      $fullcard_number = $this->modifyToFullNumber($current_card);
 
 
       if (($last_block_request = DB::table('ETK_BLOCKLISTS')

@@ -102,8 +102,7 @@
         @endif
         <div class="row">
 
-
-          <div class="alert alert-info">
+<!--           <div class="alert alert-info">
               <div class="container">
           <div class="alert-icon">
             <i class="material-icons">info_outline</i>
@@ -112,6 +111,8 @@
                 <b>Новая функция:</b> Вы можете добавить название карты в разделе настройки
               </div>
           </div>
+
+           -->
 
 
           <div class="col-md-6 col-md-offset-1 col-sm-6">
