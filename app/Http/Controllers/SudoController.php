@@ -27,6 +27,23 @@ use Illuminate\Support\Facades\Storage;
 
 class SudoController extends Controller
 {
+
+  public function modifyToFullNumber($number){
+    $card_num_part2 = substr($number,1,2);
+    $card_num_part3  = substr($number,3,6);
+   /* if ($card_num_part2 !== 99){ $prefix = '01'; } else {$prefix = '02';}*/
+
+    if (substr($number,1,1) !== '0'){
+      $fullnumber = '01' . substr($number,1,2) . substr($number,3,6);
+    } else {
+      $fullnumber = '0' . $number;
+    }
+
+
+   /* $full_card_number = $prefix . $card_num_part2 . $card_num_part3;*/
+    return $fullnumber;
+  }
+
   protected function getWriteoffsDelta($card_number){
     $deposits = DB::table('ETK_T_DATA')
               ->where('ID_ROUTE', NULL)
@@ -1008,21 +1025,15 @@ public function postAddArticle(Request $request){
        } 
        }
 
-       public function postBlockCard(Request $request){
+  public function postBlockCard(Request $request){
         $card_number = $request['card_number'];
-        $card_serie = $request['card_serie'];
         $to_state = $request['to_state'];
         $user_id = Session::get('user_id');
-    /**
-     * [$prefix description]
-     * @var string
-     */
-    if ($card_serie !== 99){ $prefix = '01'; } else {$prefix = '02';}
     /**
      * [$fullcard_number description]
      * @var [type]
      */
-    $fullcard_number = $prefix . $card_serie . $card_number;
+    $fullcard_number = $this->modifyToFullNumber($card_number);
     $card = DB::table('ETK_CARDS')
     ->where('num', $fullcard_number)
     ->first();

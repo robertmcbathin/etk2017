@@ -587,7 +587,6 @@
         case 1:
         blockButtonHtml = '<div id=\"block-action\">' +
         '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
         '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
         '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
         '{{ csrf_field() }}' + 
@@ -600,7 +599,6 @@
         case 2:
         blockButtonHtml = '<div id=\"block-action\">' +
         '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
         '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
         '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
         '{{ csrf_field() }}' + 
@@ -613,7 +611,6 @@
         case 3 :                
         blockButtonHtml = '<div id=\"block-action\">' +
         '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
         '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
         '<input type=\"hidden\" value=\"04\" name=\"to_state\">' +
         '{{ csrf_field() }}' + 
@@ -626,7 +623,6 @@
         case 4:
         blockButtonHtml = '<div id=\"block-action\">' +
         '<form method=\"POST\" action=\"{{ route('sudo.block-card.post') }}\">' +
-        '<input type=\"hidden\" id=\"serie\" value=\"' + $('#card_serie').val() + '\" name=\"card_serie\">' +
         '<input type=\"hidden\" value=\"' + $('#card_number').val() + '\" name=\"card_number\">' +
         '<input type=\"hidden\" value=\"02\" name=\"to_state\">' +
         '{{ csrf_field() }}' + 
