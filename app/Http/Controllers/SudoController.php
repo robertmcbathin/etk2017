@@ -1375,7 +1375,7 @@ public function postFillCashback(Request $request){
       $blockDate = 'Неизвестно';
     } else {
       $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
-      $blockedBy = $blockedByName->name;
+      $blockedBy =$blockedByName->name . ' ' . $blockedByName->lastname . ' ';
       $blockDate = $blockedById->created_at;
     }
     break;
@@ -1386,7 +1386,7 @@ public function postFillCashback(Request $request){
       $blockDate = 'Неизвестно';
     } else {
       $blockedByName = DB::table('users')->where('id', $blockedById->created_by)->first();
-      $blockedBy = $blockedByName->name;
+      $blockedBy = $blockedByName->name . ' ' . $blockedByName->lastname . ' ';
       $blockDate = $blockedById->created_at;
     }
     break;
