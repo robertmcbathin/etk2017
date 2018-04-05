@@ -228,7 +228,7 @@
           <div class="card-header card-header-icon" data-background-color="rose">
             <i class="material-icons">directions_bus</i>
           </div>                
-          <h4 class="card-title">Импорт файла поездок <small class="category"> Последняя транзакция: <b>{{ $last_trip_date }}</b> </small>
+          <h4 class="card-title">Импорт файла поездок <small class="category"> Последняя транзакция: #{{ $last_trip_id }} в <b>{{ $last_trip_date }}</b> </small>
             
           </h4>
           <div class="card-content">
