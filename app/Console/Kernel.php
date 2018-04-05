@@ -103,7 +103,7 @@ class Kernel extends ConsoleKernel
                 'CARD_SERIES' => $transaction->CARD_SERIES,
                 'CARD_NUM' => $transaction->CARD_NUM,
                 'INS_DATE' => $transaction->INS_DATE,
-             //   'CPTT_ID' => $transaction->CPTT_ID
+                'CPTT_ID' => $transaction->CPTT_ID
               ]);
           $transaction_count++;
         }
