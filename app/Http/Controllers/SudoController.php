@@ -832,7 +832,8 @@ public function postAddArticle(Request $request){
                'ID_ROUTE' => $id_route,
                'CARD_SERIES' => $line[6],
                'CARD_NUM' => $line[7],
-               'INS_DATE' => $ins_date
+               'INS_DATE' => $ins_date,
+               'CPTT_ID' => $line[9]
                ]);
               $counter++;
             } catch (Exception $e) {
