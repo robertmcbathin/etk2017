@@ -833,7 +833,11 @@ public function postAddArticle(Request $request){
                'CARD_SERIES' => $line[6],
                'CARD_NUM' => $line[7],
                'INS_DATE' => $ins_date,
-               'CPTT_ID' => $line[9]
+               'CPTT_ID' => $line[9],
+               'CARD_SERIES_SEC' => $line[10],
+               'CARD_NUM_SEC' => $line[11],
+               'ID_DIVISION' => $line[12],
+               'ID_TERM' => $line[13]
                ]);
               $counter++;
             } catch (Exception $e) {
