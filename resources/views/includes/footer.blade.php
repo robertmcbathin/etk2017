@@ -138,7 +138,7 @@
 							</p>
 							<h5>Пункт обслуживания юридических лиц</h5>
 							<p>
-								Центральный офис <strong>г. Чебоксары, пр-кт Тракторостроителей, 6б</strong>
+								Центральный офис <strong>г. Чебоксары, ул. 50 лет Октября, 17а</strong>
 							</p>
 							<p><i class="material-icons">call</i> (8352) 36-03-30, 36-33-30</p>
 							<a href="https://vk.com/etk21" target="_blank" class="btn btn-just-icon btn-simple btn-twitter">
