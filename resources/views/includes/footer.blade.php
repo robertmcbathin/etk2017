@@ -145,6 +145,10 @@
 								<i class="fa fa-vk"></i>
 								<div class="ripple-container"></div>
 							</a>
+							<a href="https://www.youtube.com/channel/UCTs5hMPiVOPjActagePmNtg" target="_blank" class="btn btn-just-icon btn-simple btn-youtube">
+								<i class="fa fa-youtube-square"></i>
+								<div class="ripple-container"></div>
+							</a>
 						</div>
 
 					</div>
