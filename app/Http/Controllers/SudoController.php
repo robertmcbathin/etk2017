@@ -733,6 +733,7 @@ public function postAddArticle(Request $request){
                'ep_balance_fact' => $ep_balance_fact,
                'date_of_travel_doc_kind_last' => $last_trip_date,
                'travel_doc_kind' => $travel_doc_kind,
+               'CPTT_ID' => $line[15]
                /**
                 * 'is_recoded' => $is_recoded
                 */
