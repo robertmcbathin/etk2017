@@ -243,7 +243,7 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@showDetailsHistory',
         'as' => 'profile.details_history'
         ]);
-    Route::get('/profile/details-report', [
+    Route::get('/profile/details-report/{archive?}', [
         'uses' => 'UserController@showDetailsReport',
         'as' => 'profile.details_report'
         ]);

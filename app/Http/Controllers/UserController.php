@@ -461,7 +461,7 @@ public function showDetailsHistory(){
  * [showDetailsHistory description]
  * @return [type] [description]
  */
-public function showDetailsReport(){
+public function showDetailsReport($archive = null){
 
       /**
        * GET DETAILING REQUESTS
@@ -470,14 +470,33 @@ public function showDetailsReport(){
       if (Session::has('current_card_number')){
         $full_card_number = $this->modifyToFullNumber(session()->get('current_card_number'));
         $full_card_number_zero = '0100' . substr($full_card_number,4,6);
-        if ($trips = DB::table('ETK_T_DATA')
+
+        if ($archive){
+          $archive_trips = DB::table('ETK_T_DATA_ARCHIVE')
+            ->leftJoin('ETK_ROUTES','ETK_T_DATA_ARCHIVE.ID_ROUTE','=','ETK_ROUTES.id')
+            ->select('ETK_T_DATA_ARCHIVE.KIND','ETK_T_DATA_ARCHIVE.CARD_NUM', 'ETK_T_DATA_ARCHIVE.DATE_OF', 'ETK_T_DATA_ARCHIVE.EP_BALANCE', 'ETK_T_DATA_ARCHIVE.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+            ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $full_card_number) 
+            ->orderBy('DATE_OF', 'ASC');
+
+          $trips = DB::table('ETK_T_DATA')
+            ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+            ->select('ETK_T_DATA.KIND','ETK_T_DATA.CARD_NUM', 'ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
+            ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+            ->union($archive_trips)
+            ->orderBy('DATE_OF', 'DESC')
+            ->get();
+            $is_archive = true;
+        } else {
+          $trips = DB::table('ETK_T_DATA')
           ->leftJoin('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
           ->select('ETK_T_DATA.KIND','ETK_T_DATA.CARD_NUM','ETK_T_DATA.DATE_OF', 'ETK_T_DATA.EP_BALANCE', 'ETK_T_DATA.AMOUNT', 'ETK_ROUTES.name', 'ETK_ROUTES.id_transport_mode as transport_type')
           ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
-     /**     ->orWhere('ETK_T_DATA.CARD_NUM', $full_card_number_zero)
-          ->orWhere('ETK_T_DATA.CARD_NUM', substr($full_card_number,4,6)) **/
           ->orderBy('DATE_OF', 'DESC')
-          ->get()){
+          ->get();
+          $is_archive = false;
+        }
+
+        if ($trips){
           foreach ($trips as $trip){
             $trip->DATE_OF = new \Datetime($trip->DATE_OF);
             $trip->DATE_OF = date_format($trip->DATE_OF,'d.m.Y H:i:s');
@@ -531,13 +550,21 @@ public function showDetailsReport(){
        * [$cards description]
        * @var [type]
        */
-
-      $vehicle_chart = DB::table('ETK_T_DATA')
-      ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-      ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
-      ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
-      ->groupBy('ETK_ROUTES.id_transport_mode')
-      ->get();
+      if($archive){
+        $vehicle_chart = DB::table('ETK_T_DATA')
+          ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
+          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->groupBy('ETK_ROUTES.id_transport_mode')
+          ->get();
+      } else {
+        $vehicle_chart = DB::table('ETK_T_DATA')
+          ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
+          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
+          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+          ->groupBy('ETK_ROUTES.id_transport_mode')
+          ->get();
+      }
       $trip_count = 0;
       foreach ($vehicle_chart as $certain_vehicle) {
         $trip_count += $certain_vehicle->transport_type;
@@ -580,7 +607,8 @@ public function showDetailsReport(){
         'current_card' => $current_card,
         'vehicle_chart' => $vehicle_chart,
         'trip_count' => $trip_count,
-        'last_update' => $last_update
+        'last_update' => $last_update,
+        'is_archive' => $archive
         ]);
     }
     /**

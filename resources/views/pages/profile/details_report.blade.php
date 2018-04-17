@@ -48,7 +48,12 @@
 
             </table>
           </div>
-          <small class="description">Показываются поездки за прошедший месяц. Если Вас интересует подробный отчет за 2 недели, сформируйте запрос в разделе <a href="{{ route('profile.details_request') }}"> создать запрос</a>.</small>
+               @if($is_archive)
+               <small class="description">Данные архива актуальны на 1 января 2018 года. Более ранние данные могут отличаться</small>
+               @else
+                   <small class="description">Показываются поездки за прошедший месяц. Для просмотра более ранних данных воспользуйтесь функцией просмотра архива. Составление отчета по всей     истории может занять продолжительное время.</small>
+               <p><a href="{{ route('profile.details_report',['archive' => 'archive']) }}" class="btn btn-profile away-link">Просмотр архива</a></p>
+               @endif
           @else
           <h4>К сожалению, данных по карте нет</h4>
           @endif
