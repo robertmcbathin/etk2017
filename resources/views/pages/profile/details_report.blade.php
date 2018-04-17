@@ -71,7 +71,11 @@
           <div class="card">
           <div class="card-header card-header-text" data-background-color="red">
               <h4 class="card-title">Статистика</h4>
+              @if($is_archive)
+              <p class="category">За прошлые периоды</p>
+              @else
               <p class="category">За последний месяц</p>
+              @endif
             </div>
             <div class="card-content table-responsive">
               <table class="table table-hover">

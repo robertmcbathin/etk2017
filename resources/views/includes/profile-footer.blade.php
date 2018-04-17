@@ -18,7 +18,7 @@
 							<div class="ripple-container"></div></a>
 						</li>
 						<li>
-														<a href="https://vk.com/etk21" target="_blank" class="btn btn-just-icon btn-simple btn-twitter">
+							<a href="https://vk.com/etk21" target="_blank" class="btn btn-just-icon btn-simple btn-twitter">
 								<i class="fa fa-vk"></i>
 								<div class="ripple-container"></div>
 							</a>

@@ -551,12 +551,13 @@ public function showDetailsReport($archive = null){
        * @var [type]
        */
       if($archive){
-        $vehicle_chart = DB::table('ETK_T_DATA')
-          ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')
-          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
-          ->where('ETK_T_DATA.CARD_NUM', $full_card_number)
+        $vehicle_chart = DB::table('ETK_T_DATA_ARCHIVE')
+          ->join('ETK_ROUTES','ETK_T_DATA_ARCHIVE.ID_ROUTE','=','ETK_ROUTES.id')
+          ->selectRaw('count(ETK_ROUTES.id_transport_mode) as transport_type, sum(ETK_T_DATA_ARCHIVE.AMOUNT) as amount, ETK_ROUTES.id_transport_mode')
+          ->where('ETK_T_DATA_ARCHIVE.CARD_NUM', $full_card_number)
           ->groupBy('ETK_ROUTES.id_transport_mode')
           ->get();
+
       } else {
         $vehicle_chart = DB::table('ETK_T_DATA')
           ->join('ETK_ROUTES','ETK_T_DATA.ID_ROUTE','=','ETK_ROUTES.id')

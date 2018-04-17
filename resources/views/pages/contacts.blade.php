@@ -38,6 +38,9 @@
               Мини-офис СЗР <strong>г. Чебоксары, ул. Гузовского, 17</strong>
             </p>
             <p>
+                Мини-офис ЮЗР <strong>г. Чебоксары, ул. Мате Залка, 11</strong>
+              </p>
+            <p>
               Мини-офис Центр <strong>г. Чебоксары, ул. Карла Маркса, 22</strong>
             </p>
             <p>
@@ -223,6 +226,32 @@
         marker5th.addListener('click', function() {
           infowindow5th.open(map, marker5th);
         }); 
+
+        //6th Marker
+        var marker6th = new google.maps.Marker({
+          position: {lat: 56.117122, lng: 47.181201},
+          map: map
+        });
+        var contentString6th = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h4 id="firstHeading" class="firstHeading">улица Мате Залка, 11</h4>'+
+        '<div id="bodyContent">'+
+        '<p>Телефоны: <strong>(8352) 36-03-30, 36-33-30</strong></p>'+
+        'transkarta@bk.ru</a> </p>'+
+        '</div>'+
+        '</div>';
+
+        var infowindow6th = new google.maps.InfoWindow({
+          position: {lat: 56.140717, lng: 47.199408},
+          content: contentString6th
+        });
+        infowindow6th.open(map,marker6th);
+        marker6th.addListener('click', function() {
+          infowindow6th.open(map, marker6th);
+        }); 
+
+
       }
       
     </script>
