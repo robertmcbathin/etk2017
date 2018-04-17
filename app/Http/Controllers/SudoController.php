@@ -342,6 +342,8 @@ public function postAddArticle(Request $request){
       $last_trip_date = DB::table('ETK_T_DATA')
       ->orderBy('INS_DATE', 'DESC')
       ->first();
+      $last_trip_id = DB::table('ETK_T_DATA')
+                        ->max('CPTT_ID');
       $sb_imports_list = DB::table('SB_DEPOSIT_IMPORTS')
       ->join('users', 'SB_DEPOSIT_IMPORTS.created_by', '=', 'users.id')
       ->select('SB_DEPOSIT_IMPORTS.id', 'SB_DEPOSIT_IMPORTS.created_at', 'SB_DEPOSIT_IMPORTS.transaction_count','users.name as created_by')
@@ -372,7 +374,8 @@ public function postAddArticle(Request $request){
         'card_updates_list' => $card_updates_list,
         'trip_imports_list' => $trip_imports_list,
         'last_trip_date' => $last_trip_date->INS_DATE,
-        'recoded_card_count' => $recoded_card_count
+        'recoded_card_count' => $recoded_card_count,
+        'last_trip_id' => $last_trip_id
         ]);
     }
       public function getOnlineOrders(){
@@ -730,6 +733,7 @@ public function postAddArticle(Request $request){
                'ep_balance_fact' => $ep_balance_fact,
                'date_of_travel_doc_kind_last' => $last_trip_date,
                'travel_doc_kind' => $travel_doc_kind,
+               'CPTT_ID' => $line[15]
                /**
                 * 'is_recoded' => $is_recoded
                 */
