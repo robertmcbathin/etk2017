@@ -103,6 +103,9 @@ animation: Gradient 30s ease infinite;
 .simple-page-bg{
 	height: 50vh !important;
 }
+.map-page-bg{
+  height: 30vh !important;
+}
 .article-page-bg{
 	height: 37vh !important;
 }
