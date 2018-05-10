@@ -37,8 +37,8 @@
 								</li>
 								<li>
 									<b>
-										<a href="/static_articles/etkplus-card">
-											ЕТКплюс
+										<a href="https://etkplus.ru" target="_blank">
+											система лояльности ЕТКплюс
 										</a>
 									</b>
 								</li>
