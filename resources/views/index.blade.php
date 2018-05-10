@@ -34,15 +34,14 @@
            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="title">ООО «ЕТК» и ПАО Сбербанк предлагают пользователям «оживить» транспортную карту ЕТК и пройти онлайн-опрос</h4>
-                        <h5>Транспортный оператор ООО «ЕТК» и Чувашское отделение ПАО Сбербанк предлагают пользователям «оживить» транспортные карты, а также сообщить какой способ пополнения является наиболее удобным и востребованным.</h5>
-                        <h5>Отложенное пополнение будет полностью доступно в рабочем режиме ориентировочно 10 мая.</h5>
-                        <a href="/static_articles/argin" class="btn btn-success">
+                        <h4 class="title">Восстановление отложенного пополнения</h4>
+                        <h5>После устранения ряда проблем отложенное пополнение функционирует корректно. Подробнее читайте в статье.</h5>
+                        <a href="/static_articles/deferred_payment_test" class="btn btn-success">
                             Подробнее
                         </a>
                     </div>
                     <div class="col-md-5 col-md-offset-1">
-                        <img src="/images/argin.svg" alt="">
+                        <img src="/images/sbol.png" alt="">
                    <!-- <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
                         </div> -->
