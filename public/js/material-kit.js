@@ -41,7 +41,7 @@ $(document).ready(function(){
 
     // Active Carousel
 	$('.carousel').carousel({
-      interval: 1000
+      interval: 5000
     });
 
     //Activate tags

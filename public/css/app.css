@@ -2785,6 +2785,7 @@ gallery-feed-right{
 }
 @media (min-width: 1200px){
 .container-slider{
-  width:   1600px;
+  width:   1400px;
+  padding-top: 10vh !important;
 }
 }

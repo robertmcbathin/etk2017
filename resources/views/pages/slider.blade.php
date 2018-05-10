@@ -25,13 +25,21 @@
                                     <!-- Wrapper for slides -->
                                     <div class="carousel-inner">
                                         @foreach($sliders as $slider)
-                                        
-                                        <div class="item active">
-                                            <img src="{{ $slider->image_path }}" alt="">
-                                            <div class="carousel-caption">
-                                            </div>
-                                        </div>
+                                        @if($slider->order == 1)
+                                          <div class="item active">
+                                              <img src="{{ $slider->image_path }}" alt="">
+                                              <div class="carousel-caption">
+                                              </div>
+                                          </div>
+                                        @else
+                                          <div class="item">
+                                              <img src="{{ $slider->image_path }}" alt="">
+                                              <div class="carousel-caption">
+                                              </div>
+                                          </div>
+                                        @endif
                                         @endforeach
+
                                     </div>
 
                                     <!-- Controls -->
