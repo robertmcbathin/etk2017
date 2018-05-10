@@ -2780,3 +2780,11 @@ gallery-feed-right{
   margin-left: 1em;
   margin-right: 1em;
 }
+.fullscreen-header{
+  height: 100vh !important;
+}
+@media (min-width: 1200px){
+.container-slider{
+  width:   1600px;
+}
+}

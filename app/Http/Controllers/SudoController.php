@@ -1613,6 +1613,15 @@ public function postFillCashback(Request $request){
       return redirect()->back();
   }
 
+
+    public function getAdvertSliderPage(){
+      $sliders = DB::table('ETK_SLIDERS')
+                    ->get();
+      return view('pages.slider',[
+        'sliders' => $sliders
+      ]);
+    }
+
      public function ajaxCheckCardCompensations(Request $request){
     $num   = $request['num'];
     $serie = $request['serie'];

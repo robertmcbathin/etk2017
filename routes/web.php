@@ -410,6 +410,15 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'SiteController@postReplyArticle',
         'as' => 'site.reply_article.post'
         ]);
+
+
+    /**
+     * SLIDER
+     */
+    Route::get('/advert/slider',[
+        'uses' => 'SudoController@getAdvertSliderPage',
+        'as' => 'sudo.advert-slider.get'
+        ])->middleware('can:show-sudo,App\User');
     /**
      * END OF PROFILE ROUTES
      */

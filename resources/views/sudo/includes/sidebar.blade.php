@@ -50,15 +50,21 @@ $username = Auth::user()->name;
                         <b class="caret"></b>
                     </p>
                 </a>
-                @can('show-import', App\User::class)
                 <div class="collapse" id="pagesExamples">
                     <ul class="nav">
+                        @can('show-import', App\User::class)
                         <li>
                             <a href="{{route('sudo.pages.articles')}}">Новости</a>
                         </li>
                         <li>
                             <a href="{{ route('sudo.pages.questions') }}">Вопросы</a>
                         </li>
+                        @endcan
+                        @can('show-sudo',App\User::class)
+                        <li>
+                            <a href="{{route('sudo.advert-slider.get')}}" target="_blank">Слайдер</a>
+                        </li>
+                        @endcan
                              <!--   <li>
                                     <a href="#">Пункты продаж</a>
                                 </li>
@@ -73,8 +79,8 @@ $username = Auth::user()->name;
                                 </li>-->
                             </ul>
                         </div>
-                        @endcan
-
+                        
+                        
                     </li>
                     <li>
                         <a data-toggle="collapse" href="dashboard.html#service">
