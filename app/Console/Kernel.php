@@ -181,7 +181,7 @@ class Kernel extends ConsoleKernel
           Mail::to($receiver)->send(new CheckRefillment());
         }   
       }
-    })->cron(*/10 * * * *);
+    })->everyFiveMinutes();
     }
 
     /**
