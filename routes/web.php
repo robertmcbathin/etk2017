@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/phpinfo',function(){
+    return view('php_info');
+});
 Route::post('/uniteller/notify',[
         'uses' => 'SiteController@postNotifyAboutPayment',
         'as' => 'profile.pay.notify.post'

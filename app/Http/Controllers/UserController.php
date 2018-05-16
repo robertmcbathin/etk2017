@@ -1809,7 +1809,7 @@ public function showDetailsReport($archive = null){
 
       $username = 'admin';
       $password = '1';
-      $wsse_header = new \WsseAuthHeader($username, $password);
+      $wsse_header = new WsseAuthHeader($username, $password);
       $client->__setSoapHeaders(array($wsse_header));
       try {
         $cardInfo = $client->__soapCall('CardInfo', array($params));

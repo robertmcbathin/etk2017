@@ -166,6 +166,7 @@ return [
         Wilgucki\Csv\CsvServiceProvider::class,
 
 
+
         /*
          * Package Service Providers...
          */
@@ -230,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'CsvReader' => Wilgucki\Csv\Facades\Reader::class,
         'CsvWriter' => Wilgucki\Csv\Facades\Writer::class,
+        'SoapClient' => SoapClient::class,
 
     ],
 
