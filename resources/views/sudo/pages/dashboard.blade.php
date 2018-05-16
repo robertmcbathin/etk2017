@@ -108,6 +108,25 @@
                                 </div>
                             </div>
                 </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+
+                        <div class="card-header" data-background-color="green">
+                            <i class="material-icons"></i>
+                        </div>
+                        
+                        <div class="card-content">
+                            <p class="category">Статус системы пополнения</p>
+                            <h3 class="card-title">{{$new_detailing_requests_count}}</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-icon" data-background-color="green">

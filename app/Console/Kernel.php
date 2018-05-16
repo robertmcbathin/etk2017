@@ -7,7 +7,14 @@ use DB;
 use Storage;
 use Log;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use \SoapClient;
+use \SoapServer;
+use \SoapHeader;
+use \SimpleXML;
+use \SimpleXMLElement;
+use \App\WsseAuthHeader;
+use Mail;
+use App\Mail\CheckRefillment;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -126,6 +133,55 @@ class Kernel extends ConsoleKernel
          */
   })->cron('0 3 * * *'); 
 
+
+
+/**
+ * SOAP REQUEST FOR TEST SERVICES
+ */
+    $schedule->call(function(){
+      $receivers = ['ivanov@etk21.ru', 'mercile55@yandex.ru', 'transkarta@bk.ru', 'edinaya.karta@mail.ru','transkarta21@yandex.ru'];
+      $client = new SoapClient('http://94.79.52.173:2180/SDPServer/SDPendpoints/SdpService.wsdl', array('soap_version'   => SOAP_1_1, 'trace' => true, 'location' => 'http://94.79.52.173:2180/SDPServer/SDPendpoints'));
+      $params = array('agentId' => '1004', 
+        'salepointId' => '1', 
+        'version' => '1', 
+        'sysNum' => '123612691', 
+        'regionId' => 21, 
+        'deviceId' => 'B2100009');
+      $username = 'admin';
+      $password = '1';
+      $wsse_header = new WsseAuthHeader($username, $password);
+      $client->__setSoapHeaders(array($wsse_header));
+      try {
+        $cardInfo = $client->__soapCall('CardInfo', array($params));
+      } catch (Exception $e) {
+        $log = new \App\Log;
+        $log->action_type = 24;
+        $log->message = date('Y-m-d H:i:s') . " | Непредвиденное исключение " . $e;
+        $log->description = 1;
+        $log->save();
+
+        foreach ($receivers as $receiver) {
+          Mail::to($receiver)->send(new CheckRefillment());
+        }
+        return redirect()->back();
+      }
+      if ($cardInfo->Result->resultCode == 0){
+        $log = new \App\Log;
+        $log->action_type = 24;
+        $log->message = date('Y-m-d H:i:s') . " | Система работает в штатном режиме";
+        $log->description = 0;
+        $log->save();        
+      } else {
+        $log = new \App\Log;
+        $log->action_type = 24;
+        $log->message = date('Y-m-d H:i:s') . " | Некорректная работа системы";
+        $log->description = 1;
+        $log->save();    
+        foreach ($receivers as $receiver) {
+          Mail::to($receiver)->send(new CheckRefillment());
+        }   
+      }
+    })->everyFiveMinutes();
     }
 
     /**
