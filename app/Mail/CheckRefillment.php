@@ -28,6 +28,7 @@ class CheckRefillment extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.services.check_refillment');
+        return $this->markdown('emails.services.check_refillment')
+        ->subject('Ошибка работы системы');
     }
 }

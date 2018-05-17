@@ -28,6 +28,7 @@ class OnlinePaymentDistribution extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.distributions.online');
+        return $this->markdown('emails.distributions.online')
+                    >subject('Ошибка работы системы');
     }
 }
