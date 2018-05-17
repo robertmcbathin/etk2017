@@ -1379,7 +1379,7 @@ public function postFillCashback(Request $request){
     break;
     case 2:
     $cur_state = 'В блокировочном списке';
-    if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->first()) == NULL)){
+    if ((($blockedById = DB::table('ETK_BLOCKLISTS')->where('card_number', $semifullnumber)->whereNotNull('created_by')->first()) == NULL)){
       $blockedBy = 'Неизвестно';
       $blockDate = 'Неизвестно';
     } else {
