@@ -40,7 +40,7 @@
                             Подробнее
                         </a>
                     </div>
-                    <div class="col-md-5 col-md-offset-1">
+                    <div class="col-md-5 col-md-offset-1 hidden-xs hidden-sm hidden-md">
                         <img src="/images/sbol.png" alt="">
                    <!-- <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
