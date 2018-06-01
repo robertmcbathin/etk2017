@@ -1539,6 +1539,11 @@ public function showDetailsReport($archive = null){
       $card_image_type = $request['card_image_type'];
       $card_number     = $request['card_number'];
       $user_id         = $request['user_id'];
+      dd($request);
+      if($card_image_type == null){
+      Session::flash('change_card_image_fail', 'Упс... Изображение карты изменить не удалось');
+      return redirect()->back();
+      }
       if (DB::table('ETK_CARD_USERS')
         ->where('user_id', $user_id)
         ->where('number',$card_number)

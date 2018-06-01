@@ -2789,3 +2789,28 @@ gallery-feed-right{
   padding-top: 10vh !important;
 }
 }
+
+.input-hidden {
+    position: absolute;
+    right: 50px;
+}
+
+.radio-selected {
+    background-color: #403a91;
+}
+
+.card-types{
+  display: inline-block;
+}
+.card-types label {
+    display: inline-block;
+    cursor: pointer;
+}
+.card-types label:hover {
+    background-color: #403a91;
+}
+
+.card-types label img {
+    padding: 10px;
+    
+}

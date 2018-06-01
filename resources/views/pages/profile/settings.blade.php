@@ -801,6 +801,42 @@
  @endforeach
 
 
+     @foreach ($cards as $card)
+    <div class="modal fade" id="change-card-image-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+             <i class="material-icons">clear</i>
+           </button>
+           <h4 class="modal-title">Изменение обложки карты</h4>
+         </div>
+         <div class="modal-body">
+           <form action="{{ route('profile.change_card_image') }}" method="POST">
+            <div class="card-types">
+            @foreach($card_types as $card_type)
+                <label for="{{$card_type->id}}"><img class="img img-raised" width="120px" src="https://etk21.ru/{{$card_type->image}}" alt="" /></label>
+            @endforeach
+            </div>
+            <input type="hidden" name="card_image_type" id="card_image_type" value="">
+            <input type="hidden" name="card_number" value="{{ $card->number }}">
+            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+            {{ csrf_field()}}
+            <br><hr>
+            <button type="submit" class="btn btn-profile" >Изменить</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+         <button type="button" class="btn btn-profile btn-simple" data-dismiss="modal">Отмена</button>
+       </div>
+     </div>
+   </div>
+ </div>
+ @endforeach
+
+
+
+
     @foreach ($cards as $card)
     <div class="modal fade" id="add-card-name-{{$card->number}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
      <div class="modal-dialog">

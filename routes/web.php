@@ -290,6 +290,10 @@ Route::group(['middleware' => 'auth'], function()
         'uses' => 'UserController@postChangeCardName',
         'as' => 'profile.change_card_name.post'
         ]);
+    Route::post('/profile/change_card_image',[
+        'uses' => 'UserController@postChangeCardImage',
+        'as' => 'profile.change_card_image'
+        ]);
     Route::post('/profile/delete_card',[
         'uses' => 'UserController@postDeleteCard',
         'as' => 'profile.delete_card.post'

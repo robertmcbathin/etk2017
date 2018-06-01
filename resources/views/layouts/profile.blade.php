@@ -308,6 +308,13 @@ var depositPoints = [
     $('#bcp-total').replaceWith(total);
   });
 </script>
+<script>
+    $('.card-types label').click(function() {
+        $('#card_image_type').attr('value','15');
+        $(this).addClass('radio-selected').siblings().removeClass('radio-selected');
+        console.log($(this).attr('for'));
+    });
+</script>
 <script src="/js/chartist.min.js"></script>
 <script src="/js/md.js"></script>
 
@@ -554,6 +561,7 @@ var simpleBarChart = Chartist.Bar('#simpleBarChart', dataSimpleBarChart, options
   </script>
   <script type="text/javascript">
     $(document).ready(function() {
+    $('.card-types input:radio').addClass('input-hidden');
       charts.initCharts();
     });
   </script>
