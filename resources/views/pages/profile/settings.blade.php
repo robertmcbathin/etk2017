@@ -813,16 +813,17 @@
          </div>
          <div class="modal-body">
            <form action="{{ route('profile.change_card_image') }}" method="POST">
-            <div class="card-types">
+            <div class="gallery-feed">
             @foreach($card_types as $card_type)
-                <label for="{{$card_type->id}}"><img class="img img-raised" width="120px" src="https://etk21.ru/{{$card_type->image}}" alt="" /></label>
+              <img class="img img-raised img-card" width="120px" src="https://etk21.ru/{{$card_type->image}}" alt="{{ $card_type->id }}" data-id="{{ $card->number }}" />
             @endforeach
             </div>
-            <input type="hidden" name="card_image_type" id="card_image_type" value="">
+            <input type="hidden" name="card_image_type" id="card-image-type-{{ $card->number }}" value="" />
             <input type="hidden" name="card_number" value="{{ $card->number }}">
             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
             {{ csrf_field()}}
             <br><hr>
+            <img src="" width="150px" alt="" id="settings-card-image-{{ $card->number }}">
             <button type="submit" class="btn btn-profile" >Изменить</button>
           </form>
         </div>

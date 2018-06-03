@@ -309,10 +309,13 @@ var depositPoints = [
   });
 </script>
 <script>
-    $('.card-types label').click(function() {
-        $('#card_image_type').attr('value','15');
-        $(this).addClass('radio-selected').siblings().removeClass('radio-selected');
-        console.log($(this).attr('for'));
+    $('.img-card').on('click',function(){
+        var imgId = $(this).attr('alt');
+        var imgCardId = $(this).attr('data-id');
+        var imgSrc = $(this).attr('src');
+        console.log(imgId);
+        $('#card-image-type-' + imgCardId).val(imgId);
+        $('#settings-card-image-' + imgCardId).attr('src', imgSrc);
     });
 </script>
 <script src="/js/chartist.min.js"></script>
