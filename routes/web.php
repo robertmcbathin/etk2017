@@ -194,6 +194,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/static_articles/argin', function(){
             return view('pages.static_articles.argin');
         }); 
+    Route::get('/static_articles/btc_recoding', function(){
+            return view('pages.static_articles.btc_recoding');
+        }); 
         /**
          * 
          */

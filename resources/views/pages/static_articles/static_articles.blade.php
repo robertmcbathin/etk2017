@@ -75,6 +75,24 @@
             </div>
 
             <div class="col-md-4">
+
+                <div class="card card-blog">
+                    <div class="card-image">
+                        <a href="/static_articles/btc_recoding">
+                            <img class="img" src="/pictures/static_articles/btc_recoding/sberbank.png">
+                            <div class="card-title">
+                                Информация о пополнении банковских транспортных карт
+                            </div>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <p class="card-description">
+                           Как пополнить БТК
+                       </p>
+                   </div>
+               </div>
+
+
                 <div class="card card-blog">
                     <div class="card-image">
                         <a href="/static_articles/mifare">
