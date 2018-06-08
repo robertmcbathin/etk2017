@@ -34,14 +34,14 @@
            <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="title">Восстановление отложенного пополнения</h4>
-                        <h5>После устранения ряда проблем отложенное пополнение функционирует корректно. Подробнее читайте в статье.</h5>
-                        <a href="/static_articles/deferred_payment_test" class="btn btn-success">
-                            Подробнее
+                        <h4 class="title">Акция от Сбербанка!</h4>
+                        <h5>Примите участие в акции и получайте призы от ЕТК и Сбербанка!</h5>
+                        <a href="/static_articles/snatch" class="btn btn-success">
+                            Подробнее 
                         </a>
                     </div>
                     <div class="col-md-5 col-md-offset-1 hidden-xs hidden-sm hidden-md">
-                        <img src="/images/sbol.png" alt="">
+                        <img src="/images/snatch.png" alt="">
                    <!-- <div class="iframe-container">
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/kRkwzlgrKlk" frameborder="0" allow="autoplay; encrypted-media" height="300" allowfullscreen></iframe>
                         </div> -->
